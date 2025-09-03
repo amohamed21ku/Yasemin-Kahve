@@ -13,7 +13,7 @@
 .about-hero {
   background: linear-gradient(135deg, #8B4513 0%, #D2691E 100%);
   color: white;
-  padding: 8rem 0 6rem;
+  padding: 4rem 0 3rem;
   position: relative;
   overflow: hidden;
 }
@@ -43,7 +43,7 @@
 }
 
 .about-hero-text h1 {
-  font-size: 4rem;
+  font-size: 2.5rem;
   font-weight: 900;
   margin-bottom: 1rem;
   line-height: 1.1;
@@ -51,7 +51,7 @@
 }
 
 .about-subtitle {
-  font-size: 1.5rem;
+  font-size: 1.1rem;
   font-weight: 300;
   opacity: 0.9;
   margin-bottom: 0;
@@ -70,7 +70,7 @@
 
 /* Story Section */
 .about-story {
-  padding: 6rem 0;
+  padding: 3rem 0;
   background: white;
 }
 
@@ -82,9 +82,9 @@
 }
 
 .story-text h2 {
-  font-size: 3rem;
+  font-size: 2rem;
   color: #8B4513;
-  margin-bottom: 2rem;
+  margin-bottom: 1.5rem;
   font-weight: 700;
 }
 
@@ -109,13 +109,13 @@
 
 /* Quality Section */
 .about-quality {
-  padding: 6rem 0;
+  padding: 3rem 0;
   background: linear-gradient(135deg, #FFF8E1 0%, #FFECB3 100%);
 }
 
 .about-quality h2 {
   text-align: center;
-  font-size: 3rem;
+  font-size: 2rem;
   color: #8B4513;
   margin-bottom: 1rem;
   font-weight: 700;
@@ -175,15 +175,15 @@
 
 /* Mission Section */
 .about-mission {
-  padding: 6rem 0;
+  padding: 3rem 0;
   background: #8B4513;
   color: white;
   text-align: center;
 }
 
 .mission-content h2 {
-  font-size: 3rem;
-  margin-bottom: 2rem;
+  font-size: 2rem;
+  margin-bottom: 1.5rem;
   font-weight: 700;
 }
 
@@ -197,15 +197,15 @@
 
 /* Locations Section */
 .about-locations {
-  padding: 6rem 0;
+  padding: 3rem 0;
   background: white;
 }
 
 .about-locations h2 {
   text-align: center;
-  font-size: 3rem;
+  font-size: 2rem;
   color: #8B4513;
-  margin-bottom: 4rem;
+  margin-bottom: 2rem;
   font-weight: 700;
 }
 
@@ -287,34 +287,48 @@
 
 @media (max-width: 768px) {
   .about-hero {
-    padding: 6rem 0 4rem;
+    padding: 3rem 0 2rem;
   }
   
   .about-hero-text h1 {
-    font-size: 2.5rem;
+    font-size: 1.8rem;
   }
   
   .about-subtitle {
-    font-size: 1.2rem;
+    font-size: 1rem;
   }
   
   .story-text h2,
   .about-quality h2,
   .about-locations h2,
   .mission-content h2 {
-    font-size: 2.5rem;
+    font-size: 1.5rem;
+  }
+  
+  .about-story,
+  .about-quality,
+  .about-mission,
+  .about-locations {
+    padding: 2rem 0;
   }
   
   .quality-features {
     grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+  
+  .quality-card {
+    padding: 1.5rem 1rem;
   }
   
   .locations-grid {
     grid-template-columns: 1fr;
+    gap: 1.5rem;
   }
   
   .location-card {
     min-width: auto;
+    padding: 1.5rem;
   }
 }
 
@@ -323,19 +337,45 @@
     padding: 0 1rem;
   }
   
+  .about-hero {
+    padding: 2rem 0 1.5rem;
+  }
+  
   .about-hero-text h1 {
-    font-size: 2rem;
+    font-size: 1.5rem;
   }
   
   .about-subtitle {
-    font-size: 1rem;
+    font-size: 0.9rem;
+  }
+  
+  .story-text h2,
+  .about-quality h2,
+  .about-locations h2,
+  .mission-content h2 {
+    font-size: 1.3rem;
+  }
+  
+  .about-story,
+  .about-quality,
+  .about-mission,
+  .about-locations {
+    padding: 1.5rem 0;
   }
   
   .quality-card {
-    padding: 2rem 1.5rem;
+    padding: 1.5rem 1rem;
   }
   
   .location-card {
-    padding: 1.5rem;
+    padding: 1rem;
+  }
+  
+  .story-content {
+    gap: 1.5rem;
+  }
+  
+  .quality-features {
+    gap: 1rem;
   }
 }
