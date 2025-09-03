@@ -12,133 +12,133 @@ const ProductsPreview = ({ onNavigate }) => {
       name: "COLOMBIAN 18",
       origin: "Colombia",
       description: "Premium Colombian coffee with rich, smooth taste and balanced acidity",
-      image: "/public/assets/Products/Colombia/Colombiapng.png",
+      image: "/public/static/images/assets/Products/Colombia/Colombiapng.png",
       category: "Colombian"
     },
     {
       name: "COLOMBIAN 19",
       origin: "Colombia", 
       description: "High-grade Colombian coffee with exceptional cup quality",
-      image: "/public/assets/Products/Colombia/Colombiapng.png",
+      image: "/public/static/images/assets/Products/Colombia/Colombiapng.png",
       category: "Colombian"
     },
     {
       name: "Indian PLANTATION A",
       origin: "India",
       description: "Premium plantation coffee with rich body and aromatic profile",
-      image: "/public/assets/Products/Indian/Indian_A.png",
+      image: "/public/static/images/assets/Products/Indian/Indian_A.png",
       category: "Indian"
     },
     {
       name: "Indian PLANTATION AA",
       origin: "India",
       description: "Top-grade Indian plantation coffee with superior bean quality",
-      image: "/public/assets/Products/Indian/Indian_AA.png",
+      image: "/public/static/images/assets/Products/Indian/Indian_AA.png",
       category: "Indian"
     },
     {
       name: "TUCANO BRAZILIAN",
       origin: "Brazil",
       description: "Washed 17/18 - Full-bodied with chocolate notes",
-      image: "/public/assets/Products/Brazilian/Tucano_brazilian.png",
+      image: "/public/static/images/assets/Products/Brazilian/Tucano_brazilian.png",
       category: "Brazilian"
     },
     {
       name: "TUCANO SUPER",
       origin: "Brazil",
       description: "Fully Washed Extra Fine Cup 17/18 - Premium quality",
-      image: "/public/assets/Products/Brazilian/Tucano_Super.png",
+      image: "/public/static/images/assets/Products/Brazilian/Tucano_Super.png",
       category: "Brazilian"
     },
     {
       name: "TUCANO",
       origin: "Brazil",
       description: "Rio Minas 17/18 - Classic Brazilian profile",
-      image: "/public/assets/Products/Brazilian/Tucano.png",
+      image: "/public/static/images/assets/Products/Brazilian/Tucano.png",
       category: "Brazilian"
     },
     {
       name: "FERAZ EFENDI",
       origin: "Brazil",
       description: "Extra Soft Rio Minas 17/18 - Smooth and balanced",
-      image: "/public/assets/Products/Brazilian/Feraz Efendi.png",
+      image: "/public/static/images/assets/Products/Brazilian/Feraz Efendi.png",
       category: "Brazilian"
     },
     {
       name: "Kenya FAQ AA",
       origin: "Kenya",
       description: "Bright acidity with wine-like characteristics and complex flavors",
-      image: "/public/assets/Products/Kenya/Kenya.png",
+      image: "/public/static/images/assets/Products/Kenya/Kenya.png",
       category: "Kenya"
     },
     {
       name: "Nicaragua SHG 19",
       origin: "Nicaragua",
       description: "Strictly High Grown coffee with excellent cup quality",
-      image: "/public/assets/Products/Nicaragua/Nicaraguapng.png",
+      image: "/public/static/images/assets/Products/Nicaragua/Nicaraguapng.png",
       category: "Nicaragua"
     },
     {
       name: "Guatemala Washed Arabica",
       origin: "Guatemala",
       description: "Washed Arabica Guatemala - Complex and well-balanced",
-      image: "/public/assets/Products/Guatemala/Guatemala.png",
+      image: "/public/static/images/assets/Products/Guatemala/Guatemala.png",
       category: "Guatemala"
     },
     {
       name: "Third Quality MYQ",
       origin: "Turkey",
       description: "High-quality cardamom with exceptional aroma and flavor",
-      image: "/public/assets/Products/Cardamom/Cardamom.png",
+      image: "/public/static/images/assets/Products/Cardamom/Cardamom.png",
       category: "Cardamom"
     },
     {
       name: "Trips",
       origin: "Turkey",
       description: "Premium grade trips cardamom for culinary excellence",
-      image: "/public/assets/Products/Cardamom/Cardamom.png",
+      image: "/public/static/images/assets/Products/Cardamom/Cardamom.png",
       category: "Cardamom"
     },
     {
       name: "Small Pale Green, Ambar Green 3",
       origin: "Turkey",
       description: "Small pale green cardamom pods with amber green coloring",
-      image: "/public/assets/Products/Cardamom/Cardamom.png",
+      image: "/public/static/images/assets/Products/Cardamom/Cardamom.png",
       category: "Cardamom"
     },
     {
       name: "Extra Jade",
       origin: "Turkey",
       description: "Premium extra jade cardamom with superior quality",
-      image: "/public/assets/Products/Cardamom/Cardamom.png",
+      image: "/public/static/images/assets/Products/Cardamom/Cardamom.png",
       category: "Cardamom"
     },
     {
       name: "Pale Green, Ambar Green 2",
       origin: "Turkey",
       description: "Pale green cardamom with amber green grade 2 classification",
-      image: "/public/assets/Products/Cardamom/Cardamom.png",
+      image: "/public/static/images/assets/Products/Cardamom/Cardamom.png",
       category: "Cardamom"
     },
     {
       name: "Medium Dark Green",
       origin: "Turkey",
       description: "Medium dark green cardamom pods with rich flavor profile",
-      image: "/public/assets/Products/Cardamom/Cardamom.png",
+      image: "/public/static/images/assets/Products/Cardamom/Cardamom.png",
       category: "Cardamom"
     },
     {
       name: "Cardamom Seeds Delux",
       origin: "Turkey",
       description: "Deluxe cardamom seeds for premium culinary applications",
-      image: "/public/assets/Products/Cardamom/Cardamom.png",
+      image: "/public/static/images/assets/Products/Cardamom/Cardamom.png",
       category: "Cardamom"
     },
     {
       name: "Super Trips",
       origin: "Turkey",
       description: "Super quality trips cardamom - our finest grade",
-      image: "/public/assets/Products/Cardamom/Cardamom.png",
+      image: "/public/static/images/assets/Products/Cardamom/Cardamom.png",
       category: "Cardamom"
     }
   ];
