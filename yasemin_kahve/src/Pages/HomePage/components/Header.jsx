@@ -67,7 +67,7 @@ const Header = ({ activeSection = "home", onNavigate }) => {
           <div className="logo-section glow-effect floating">
             <div className="logo-container animated-border patterned">
               <img
-                src="/src/assets/yasemin.png"
+                src="/public/assets/yasemin.png"
                 alt="Yasemin Kahve Logo"
                 className="logo-img high-contrast extra-large"
                 onError={(e) => {
