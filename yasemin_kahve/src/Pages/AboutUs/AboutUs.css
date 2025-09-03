@@ -1,0 +1,11 @@
+.about-us-page {
+  min-height: 100vh;
+  background: #f8f5f0;
+}
+
+.about-content {
+  padding: 5rem 2rem;
+  max-width: 1200px;
+  margin: 0 auto;
+  text-align: center;
+}
