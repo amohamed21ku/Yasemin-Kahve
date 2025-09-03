@@ -2,7 +2,6 @@
 import React from "react";
 import Header from "/src/Pages/HomePage/components/Header";
 import Hero from "/src/Pages/HomePage/components/Hero";
-import StatsSection from "/src/Pages/HomePage/components/StatsSection";
 import CompanyOverview from "/src/Pages/HomePage/components/CompanyOverview";
 import ProductsPreview from "/src/Pages/HomePage/components/ProductsPreview";
 import ContactSection from "/src/Pages/HomePage/components/ContactSection";
