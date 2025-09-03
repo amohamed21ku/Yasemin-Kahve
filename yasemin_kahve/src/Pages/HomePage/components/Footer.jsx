@@ -26,7 +26,7 @@ const Footer = () => {
           <div className="footer-company">
             <div className="footer-logo">
               <img 
-                src="/public/static/images/assets/yasemin.png"
+                src="/static/images/assets/yasemin.png"
                 alt="Yasemin Kahve Logo" 
                 className="footer-logo-img" 
                 onError={(e) => {

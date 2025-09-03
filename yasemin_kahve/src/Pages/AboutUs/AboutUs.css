@@ -3,9 +3,339 @@
   background: #f8f5f0;
 }
 
-.about-content {
-  padding: 5rem 2rem;
+.container {
   max-width: 1200px;
   margin: 0 auto;
+  padding: 0 2rem;
+}
+
+/* Hero Section */
+.about-hero {
+  background: linear-gradient(135deg, #8B4513 0%, #D2691E 100%);
+  color: white;
+  padding: 8rem 0 6rem;
+  position: relative;
+  overflow: hidden;
+}
+
+.about-hero::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: url('/static/images/assets/bean.png') center/cover;
+  opacity: 0.1;
+  z-index: 1;
+}
+
+.about-hero-content {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 2rem;
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: 4rem;
+  align-items: center;
+  position: relative;
+  z-index: 2;
+}
+
+.about-hero-text h1 {
+  font-size: 4rem;
+  font-weight: 900;
+  margin-bottom: 1rem;
+  line-height: 1.1;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.about-subtitle {
+  font-size: 1.5rem;
+  font-weight: 300;
+  opacity: 0.9;
+  margin-bottom: 0;
+}
+
+.about-hero-image {
   text-align: center;
+}
+
+.about-hero-image img {
+  width: 100%;
+  max-width: 300px;
+  height: auto;
+  filter: brightness(1.2) drop-shadow(0 10px 30px rgba(0, 0, 0, 0.3));
+}
+
+/* Story Section */
+.about-story {
+  padding: 6rem 0;
+  background: white;
+}
+
+.story-content {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 4rem;
+  align-items: center;
+}
+
+.story-text h2 {
+  font-size: 3rem;
+  color: #8B4513;
+  margin-bottom: 2rem;
+  font-weight: 700;
+}
+
+.story-text p {
+  font-size: 1.1rem;
+  line-height: 1.8;
+  color: #5D4037;
+  margin-bottom: 1.5rem;
+}
+
+.story-image {
+  text-align: center;
+}
+
+.story-image img {
+  width: 100%;
+  max-width: 400px;
+  height: auto;
+  border-radius: 20px;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.1);
+}
+
+/* Quality Section */
+.about-quality {
+  padding: 6rem 0;
+  background: linear-gradient(135deg, #FFF8E1 0%, #FFECB3 100%);
+}
+
+.about-quality h2 {
+  text-align: center;
+  font-size: 3rem;
+  color: #8B4513;
+  margin-bottom: 1rem;
+  font-weight: 700;
+}
+
+.quality-intro {
+  text-align: center;
+  font-size: 1.2rem;
+  color: #5D4037;
+  margin-bottom: 4rem;
+  max-width: 800px;
+  margin-left: auto;
+  margin-right: auto;
+  line-height: 1.6;
+}
+
+.quality-features {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 2rem;
+  margin-top: 3rem;
+}
+
+.quality-card {
+  background: white;
+  padding: 3rem 2rem;
+  border-radius: 20px;
+  text-align: center;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.08);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.quality-card:hover {
+  transform: translateY(-10px);
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15);
+}
+
+.quality-icon {
+  width: 4rem;
+  height: 4rem;
+  color: #D2691E;
+  margin-bottom: 1.5rem;
+}
+
+.quality-card h3 {
+  font-size: 1.5rem;
+  color: #8B4513;
+  margin-bottom: 1rem;
+  font-weight: 600;
+}
+
+.quality-card p {
+  color: #5D4037;
+  line-height: 1.6;
+  font-size: 1rem;
+}
+
+/* Mission Section */
+.about-mission {
+  padding: 6rem 0;
+  background: #8B4513;
+  color: white;
+  text-align: center;
+}
+
+.mission-content h2 {
+  font-size: 3rem;
+  margin-bottom: 2rem;
+  font-weight: 700;
+}
+
+.mission-content p {
+  font-size: 1.3rem;
+  line-height: 1.8;
+  max-width: 900px;
+  margin: 0 auto;
+  opacity: 0.95;
+}
+
+/* Locations Section */
+.about-locations {
+  padding: 6rem 0;
+  background: white;
+}
+
+.about-locations h2 {
+  text-align: center;
+  font-size: 3rem;
+  color: #8B4513;
+  margin-bottom: 4rem;
+  font-weight: 700;
+}
+
+.locations-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(500px, 1fr));
+  gap: 3rem;
+}
+
+.location-card {
+  background: #FFF8E1;
+  border-radius: 20px;
+  padding: 2rem;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.08);
+}
+
+.location-card h3 {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: #8B4513;
+  font-size: 1.5rem;
+  margin-bottom: 1.5rem;
+  font-weight: 600;
+}
+
+.location-icon {
+  width: 1.5rem;
+  height: 1.5rem;
+  color: #D2691E;
+}
+
+.location-info p {
+  margin-bottom: 0.5rem;
+  color: #5D4037;
+}
+
+.contact-info {
+  margin: 1.5rem 0;
+}
+
+.contact-info p {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.9rem;
+  margin-bottom: 0.5rem;
+  color: #8D6E63;
+}
+
+.map-container {
+  margin-top: 1.5rem;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+}
+
+/* Responsive Design */
+@media (max-width: 1024px) {
+  .about-hero-content {
+    grid-template-columns: 1fr;
+    text-align: center;
+    gap: 2rem;
+  }
+  
+  .about-hero-text h1 {
+    font-size: 3rem;
+  }
+  
+  .story-content {
+    grid-template-columns: 1fr;
+    gap: 3rem;
+  }
+  
+  .locations-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 768px) {
+  .about-hero {
+    padding: 6rem 0 4rem;
+  }
+  
+  .about-hero-text h1 {
+    font-size: 2.5rem;
+  }
+  
+  .about-subtitle {
+    font-size: 1.2rem;
+  }
+  
+  .story-text h2,
+  .about-quality h2,
+  .about-locations h2,
+  .mission-content h2 {
+    font-size: 2.5rem;
+  }
+  
+  .quality-features {
+    grid-template-columns: 1fr;
+  }
+  
+  .locations-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .location-card {
+    min-width: auto;
+  }
+}
+
+@media (max-width: 480px) {
+  .container {
+    padding: 0 1rem;
+  }
+  
+  .about-hero-text h1 {
+    font-size: 2rem;
+  }
+  
+  .about-subtitle {
+    font-size: 1rem;
+  }
+  
+  .quality-card {
+    padding: 2rem 1.5rem;
+  }
+  
+  .location-card {
+    padding: 1.5rem;
+  }
 }

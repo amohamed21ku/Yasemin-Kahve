@@ -80,7 +80,7 @@ const Hero = ({ onNavigate }) => {  // Add onNavigate as a prop
       <div className="hero-content">
         <div className="hero-text">
           <h1 className="hero-title">
-            <img src="/public/static/images/assets/yaso2.png" alt="Yasemin Kahve" className="hero-logo-image" />
+            <img src="/static/images/assets/yaso2.png" alt="Yasemin Kahve" className="hero-logo-image" />
             <span className="title-highlight">{slide.subtitle}</span>
           </h1>
 
