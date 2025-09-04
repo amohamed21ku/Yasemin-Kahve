@@ -1,9 +1,11 @@
 import React from 'react'
 import ProductCard from './ProductCard'
+import CategoryTabs from './CategoryTabs'
 import { useTranslation } from '../../../useTranslation'
 
-const ProductsGrid = ({ products, selectedCategory, onProductClick }) => {
+const ProductsGrid = ({ products, selectedCategory, onProductClick, onCategoryChange }) => {
   const { t } = useTranslation();
+
 
   return (
     <section className="products-section">
@@ -19,6 +21,14 @@ const ProductsGrid = ({ products, selectedCategory, onProductClick }) => {
             {products.length} {products.length === 1 ? 'product' : 'products'} found
           </p>
         </div>
+        
+        <div className="category-section">
+          <CategoryTabs 
+            selectedCategory={selectedCategory}
+            onCategoryChange={onCategoryChange}
+          />
+        </div>
+        
         <div className="products-grid">
           {products.map((product) => (
             <ProductCard 

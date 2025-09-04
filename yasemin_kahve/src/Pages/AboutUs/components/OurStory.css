@@ -26,7 +26,7 @@
 .story-text p {
   font-size: 1.125rem;
   line-height: 1.8;
-  color: #6B5B73;
+  color: #5d4037;
   margin-bottom: 1.5rem;
 }
 
@@ -64,6 +64,6 @@
   }
 
   .story-text p {
-    font-size: 1rem;
+    font-size: 0.9rem;
   }
 }

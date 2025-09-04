@@ -239,7 +239,7 @@ const Products = ({ onNavigate }) => {
   const handleCategoryChange = (category) => {
     setSelectedCategory(category);
   };
-
+ 
   const handleProductClick = (product) => {
     // Navigate to product detail page with the selected product
     onNavigate('product-detail', null, product);
@@ -252,19 +252,13 @@ const Products = ({ onNavigate }) => {
       <ProductsHero />
 
       {/* Category Tabs */}
-      <section className="category-section">
-        <div className="container">
-          <CategoryTabs 
-            selectedCategory={selectedCategory}
-            onCategoryChange={handleCategoryChange}
-          />
-        </div>
-      </section>
+   
 
       <ProductsGrid 
         products={filteredProducts}
         selectedCategory={selectedCategory}
         onProductClick={handleProductClick}
+        onCategoryChange={handleCategoryChange}
       />
 
       <FeaturesSection />

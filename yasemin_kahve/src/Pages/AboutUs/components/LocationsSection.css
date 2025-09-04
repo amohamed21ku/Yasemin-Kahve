@@ -113,6 +113,14 @@
     font-size: 1.25rem;
   }
 
+  .location-info p {
+    font-size: 0.85rem;
+  }
+
+  .contact-info p {
+    font-size: 0.8rem;
+  }
+
   .map-container iframe {
     height: 200px;
   }

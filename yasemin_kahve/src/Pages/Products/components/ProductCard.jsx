@@ -53,11 +53,6 @@ const ProductCard = ({ product, onClick }) => {
           </div>
         )}
         
-        <div className="product-footer">
-          {product.price && (
-            <span className="product-price">{product.price}</span>
-          )}
-        </div>
       </div>
     </div>
   )
