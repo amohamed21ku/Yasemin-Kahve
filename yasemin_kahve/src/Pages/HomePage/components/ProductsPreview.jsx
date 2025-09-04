@@ -360,17 +360,6 @@ const ProductsPreview = ({ onNavigate }) => {
                 </div>
                 <p className="product-description">{product.description}</p>
                 
-                <div className="product-actions">
-                  <button 
-                    className="product-btn"
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      onNavigate('product-detail', null, product);
-                    }}
-                  >
-                    <span>{t("learnMore") || "Learn More"}</span>
-                  </button>
-                </div>
               </div>
             </div>
           ))}

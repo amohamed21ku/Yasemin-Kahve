@@ -3,7 +3,14 @@
     "allow": [
       "Bash(mkdir:*)",
       "Bash(npm run dev:*)",
-      "Bash(find:*)"
+      "Bash(find:*)",
+      "Read(/C:\\Users\\bodys\\Desktop\\Work\\Yasemin Kahve\\yasemin_kahve\\src\\Pages\\HomePage\\components/**)",
+      "Read(/C:\\Users\\bodys\\Desktop\\Work\\Yasemin Kahve\\yasemin_kahve\\src\\Pages\\HomePage/**)",
+      "Read(/C:\\Users\\bodys\\Desktop\\Work\\Yasemin Kahve\\yasemin_kahve\\src\\Pages\\HomePage\\components/**)",
+      "Read(/C:\\Users\\bodys\\Desktop\\Work\\Yasemin Kahve\\yasemin_kahve\\src\\Pages\\HomePage\\components/**)",
+      "Read(/C:\\Users\\bodys\\Desktop\\Work\\Yasemin Kahve\\yasemin_kahve\\src/**)",
+      "Read(/C:\\Users\\bodys\\Desktop\\Work\\Yasemin Kahve\\yasemin_kahve\\src/**)",
+      "Read(/C:\\Users\\bodys\\Desktop\\Work\\Yasemin Kahve\\yasemin_kahve\\src\\Pages\\HomePage/**)"
     ],
     "deny": [],
     "ask": []
