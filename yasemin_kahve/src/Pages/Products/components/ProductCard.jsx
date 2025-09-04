@@ -36,9 +36,6 @@ const ProductCard = ({ product, onClick }) => {
         <div className="product-overlay">
           <div className="product-flag">{getCountryFlag(product.origin)}</div>
         </div>
-        {product.badge && (
-          <div className="product-badge">{product.badge}</div>
-        )}
       </div>
 
       <div className="product-info">

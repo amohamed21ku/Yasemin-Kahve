@@ -299,7 +299,10 @@ const ProductsPreview = ({ onNavigate }) => {
           <h2 className="section-title">
             {t("createNewStory") || "Discover our premium coffee collection from around the world"}
           </h2>
-          
+        </div>
+
+        {/* Category Tabs Section - moved after title */}
+        <section className="category-section">
           <div className="category-tabs">
             {categories.map((category) => (
               <button
@@ -311,7 +314,7 @@ const ProductsPreview = ({ onNavigate }) => {
               </button>
             ))}
           </div>
-        </div>
+        </section>
 
         <div className="products-carousel">
           <div className="carousel-controls">
