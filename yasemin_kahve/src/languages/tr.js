@@ -4,6 +4,8 @@ export const tr = {
   "home": "Ana Sayfa",
   "courses": "Kurslar",
   "about": "Hakkımızda",
+  "products": "Ürünler",
+
   "academy":"Akademi",
   "instructors": "Eğitmenler",
   "register": "Kayıt",
@@ -44,6 +46,20 @@ export const tr = {
   
   // ProductPreview
   "createNewStory":"Yasemin Kahve'nin en iyi yeşil kahve çekirdekleriyle yeni bir hikaye yaratın…",
+  "allProducts": "Tüm Ürünler",
+  "ourProducts": "Ürünlerimiz",
+
+  // Product Categories
+  "all": "Tümü",
+  "colombian": "Kolombiyalı",
+  "indian": "Hint",
+  "brazilian": "Brezilyalı",
+  "kenya": "Kenya",
+  "nicaragua": "Nikaragua",
+  "guatemala": "Guatemala",
+  "ethiopian": "Etiyopyalı",
+  "cardamom": "Kakule",
+
 
 
   // Contact Section
@@ -66,22 +82,13 @@ export const tr = {
 "yourMessage": "Mesajınız",
 "emailUs": "Bize E-posta Gönderin",
 "callUs": "Bizi Arayın",
-"contactUsDescription": "Dayanılmaz yeşil kahveyi birlikte deneyelim… Gelin iş birliği yapalım ve başarıyı birlikte yaşayalım…",
   
   // Footer
-  "coffeeAcademy": "Kahve Akademisi",
-  "footerDescription": "Kapsamlı barista eğitimi, demleme teknikleri ve işletme yönetimi kursları sunan önde gelen kahve eğitimi kurumu. Kahve tutkunuzu sertifikalı programlarımızla profesyonel uzmanlığa dönüştürün.",
-  "premiumCoffee": "Premium Kahve",
-  "followUs": "Bizi Takip Edin",
-  "products": "Ürünler",
-  "espressoBlends": "Espresso Karışımları",
-  "singleOrigin": "Tek Köken",
-  "specialtyBlends": "Özel Karışımlar",
-  "coffeeBeans": "Kahve Çekirdekleri",
-  "coffeeAccessories": "Kahve Aksesuarları",
-  "contactInfo": "İletişim Bilgileri",
-  "allRightsReserved": "Tüm hakları saklıdır",
-  "scaCertified": "SCA Sertifikalı Eğitim Sağlayıcı",
+"headOffice": "Merkez Ofis",
+"wholesale2": "Toptan Satış",
+"allRightsReserved": "Tüm hakları saklıdır",
+"footerDescription": "Türk kahvesi ihracatçısı ve premium yeşil kahve çekirdeği tedarikçisi. Guatemala’dan Türkiye’ye, otantik Türk kahvesi ve yüksek kaliteli kakule ile dünya çapında distribütörlere ve kahve dükkânlarına hizmet veriyoruz.",
+
   
 
   // Authentication

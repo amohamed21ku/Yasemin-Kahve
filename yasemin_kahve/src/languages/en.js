@@ -4,6 +4,7 @@ export const en = {
   "home": "Home",
   "courses": "Courses",
   "about": "About",
+  "products":"Products",
   "academy":"Academy",
   "instructors": "Instructors",
   "register": "Register",
@@ -50,6 +51,19 @@ export const en = {
   
   // ProductPreview
 "createNewStory":"Create a new story with best green coffee beans from Yasemin Kahve…",
+"allProducts":"All Products",
+"ourProducts":"Our Products",
+
+  // Product Categories
+  "all": "All",
+  "colombian": "Colombian",
+  "indian": "Indian",
+  "brazilian": "Brazilian",
+  "kenya": "Kenya",
+  "nicaragua": "Nicaragua",
+  "guatemala": "Guatemala",
+  "ethiopian": "Ethiopian",
+  "cardamom": "Cardamom",
   // Contact Section
 "contactUsDescription":"Let's try out the irresistible green coffee… Let's partner and experience the success together…",
 
@@ -72,19 +86,11 @@ export const en = {
 
   
   // Footer
-  "coffeeAcademy": "Coffee Academy",
-  "footerDescription": "Premier coffee education institution offering comprehensive barista training, brewing techniques, and business management courses. Transform your passion for coffee into professional expertise with our certified programs.",
-  "premiumCoffee": "Premium Coffee",
-  "followUs": "Follow Us",
-  "products": "Products",
-  "espressoBlends": "Espresso Blends",
-  "singleOrigin": "Single Origin",
-  "specialtyBlends": "Specialty Blends",
-  "coffeeBeans": "Coffee Beans",
-  "coffeeAccessories": "Coffee Accessories",
-  "contactInfo": "Contact Info",
-  "allRightsReserved": "All rights reserved",
-  "scaCertified": "SCA Certified Training Provider",
+ "headOffice":"Head Office",
+ "wholesale2":"Wholesale",
+ "allRightsReserved":"All rights reserved",
+ "footerDescription":"Turkish coffee exporter and premium green coffee bean supplier. From Guatemala to Turkey, serving distributors and coffee shops worldwide with authentic Turkish coffee and high-quality cardamom.",
+
   
  
   

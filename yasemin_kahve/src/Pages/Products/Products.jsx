@@ -1,86 +1,258 @@
-import React from 'react'
-import { Star, Award, Truck, Shield } from 'lucide-react'
+import React, { useState } from 'react'
+import { Award, Truck, Shield } from 'lucide-react'
 import Header from '../HomePage/components/Header'
 import Footer from '../HomePage/components/Footer'
+import ProductCard from './components/ProductCard'
+import CategoryTabs from './components/CategoryTabs'
 import { useTranslation } from '../../useTranslation'
 import './Products.css'
 
 const Products = ({ onNavigate }) => {
   const { t } = useTranslation();
+  const [selectedCategory, setSelectedCategory] = useState('All');
 
-  const products = [
+  // All products from ProductsPreview plus Ethiopian coffee
+  const allProducts = [
     {
       id: 1,
-      name: "Premium Arabica Blend",
-      description: "Our signature blend featuring premium Arabica beans from high-altitude regions. Rich, smooth, and full-bodied with notes of chocolate and caramel.",
-      image: "/images/coffee-beans-1.jpg", // Placeholder - you can add actual images
-      price: "₺45.00",
+      name: "COLOMBIAN 18",
+      origin: "Colombia",
+      description: "Premium Colombian coffee with rich, smooth taste and balanced acidity. Sourced from high-altitude regions for exceptional quality.",
+      image: "/static/images/assets/Products/Colombia/Colombiapng.png",
+      category: "Colombian",
+      price: "₺85.00",
       rating: 4.8,
-      badge: "Best Seller",
-      roastLevel: "Medium"
+      badge: "Premium"
     },
     {
       id: 2,
-      name: "Turkish Traditional Coffee",
-      description: "Authentic Turkish coffee blend, finely ground and perfect for traditional Turkish coffee preparation. Rich heritage taste since 1921.",
-      image: "/images/turkish-coffee.jpg",
-      price: "₺35.00",
+      name: "COLOMBIAN 19",
+      origin: "Colombia", 
+      description: "High-grade Colombian coffee with exceptional cup quality. Perfect balance of sweetness and acidity with chocolate undertones.",
+      image: "/static/images/assets/Products/Colombia/Colombiapng.png",
+      category: "Colombian",
+      price: "₺90.00",
       rating: 4.9,
-      badge: "Traditional",
-      roastLevel: "Dark"
+      badge: "Best Seller"
     },
     {
       id: 3,
-      name: "Ethiopian Single Origin",
-      description: "Single origin beans from Ethiopian highlands. Floral and fruity notes with bright acidity and complex flavor profile.",
-      image: "/images/ethiopian-coffee.jpg",
-      price: "₺55.00",
+      name: "Indian PLANTATION A",
+      origin: "India",
+      description: "Premium plantation coffee with rich body and aromatic profile. Grown in the Western Ghats with traditional methods.",
+      image: "/static/images/assets/Products/Indian/Indian_A.png",
+      category: "Indian",
+      price: "₺75.00",
       rating: 4.7,
-      badge: "Single Origin",
-      roastLevel: "Light"
+      badge: "Plantation"
     },
     {
       id: 4,
-      name: "Espresso Roma",
-      description: "Perfect for espresso brewing with intense flavor and rich crema. Blend of South American and African beans.",
-      image: "/images/espresso-beans.jpg",
-      price: "₺48.00",
-      rating: 4.6,
-      badge: "Espresso",
-      roastLevel: "Dark"
+      name: "Indian PLANTATION AA",
+      origin: "India",
+      description: "Top-grade Indian plantation coffee with superior bean quality. Full-bodied with spicy notes and excellent aroma.",
+      image: "/static/images/assets/Products/Indian/Indian_AA.png",
+      category: "Indian",
+      price: "₺82.00",
+      rating: 4.8,
+      badge: "AA Grade"
     },
     {
       id: 5,
-      name: "Cold Brew Blend",
-      description: "Specially crafted for cold brewing methods. Smooth, sweet, and low acidity. Perfect for summer refreshment.",
-      image: "/images/cold-brew.jpg",
-      price: "₺42.00",
-      rating: 4.5,
-      badge: "Cold Brew",
-      roastLevel: "Medium"
+      name: "TUCANO BRAZILIAN",
+      origin: "Brazil",
+      description: "Washed 17/18 - Full-bodied with chocolate notes and nutty finish. Classic Brazilian profile with low acidity.",
+      image: "/static/images/assets/Products/Brazilian/Tucano_brazilian.png",
+      category: "Brazilian",
+      price: "₺70.00",
+      rating: 4.6,
+      badge: "Washed"
     },
     {
       id: 6,
-      name: "Decaf House Blend",
-      description: "Full flavor without the caffeine. Swiss water processed to maintain all the taste while removing caffeine naturally.",
-      image: "/images/decaf-coffee.jpg",
-      price: "₺40.00",
-      rating: 4.4,
-      badge: "Decaf",
-      roastLevel: "Medium"
+      name: "TUCANO SUPER",
+      origin: "Brazil",
+      description: "Fully Washed Extra Fine Cup 17/18 - Premium quality Brazilian coffee with exceptional clarity and sweetness.",
+      image: "/static/images/assets/Products/Brazilian/Tucano_Super.png",
+      category: "Brazilian",
+      price: "₺78.00",
+      rating: 4.7,
+      badge: "Super Grade"
+    },
+    {
+      id: 7,
+      name: "TUCANO",
+      origin: "Brazil",
+      description: "Rio Minas 17/18 - Classic Brazilian profile with earthy notes and full body. Traditional processing method.",
+      image: "/static/images/assets/Products/Brazilian/Tucano.png",
+      category: "Brazilian",
+      price: "₺65.00",
+      rating: 4.5
+    },
+    {
+      id: 8,
+      name: "FERAZ EFENDI",
+      origin: "Brazil",
+      description: "Extra Soft Rio Minas 17/18 - Smooth and balanced Brazilian coffee with gentle processing for refined taste.",
+      image: "/static/images/assets/Products/Brazilian/Feraz Efendi.png",
+      category: "Brazilian",
+      price: "₺72.00",
+      rating: 4.6,
+      badge: "Extra Soft"
+    },
+    {
+      id: 9,
+      name: "Kenya FAQ AA",
+      origin: "Kenya",
+      description: "Bright acidity with wine-like characteristics and complex flavors. Black currant notes with full body and clean finish.",
+      image: "/static/images/assets/Products/Kenya/Kenya.png",
+      category: "Kenya",
+      price: "₺95.00",
+      rating: 4.9,
+      badge: "AA Grade"
+    },
+    {
+      id: 10,
+      name: "Nicaragua SHG 19",
+      origin: "Nicaragua",
+      description: "Strictly High Grown coffee with excellent cup quality. Balanced acidity with chocolate and caramel notes.",
+      image: "/static/images/assets/Products/Nicaragua/Nicaraguapng.png",
+      category: "Nicaragua",
+      price: "₺88.00",
+      rating: 4.8,
+      badge: "SHG"
+    },
+    {
+      id: 11,
+      name: "Guatemala Washed Arabica",
+      origin: "Guatemala",
+      description: "Washed Arabica Guatemala - Complex and well-balanced with bright acidity and fruity undertones.",
+      image: "/static/images/assets/Products/Guatemala/Guatemala.png",
+      category: "Guatemala",
+      price: "₺92.00",
+      rating: 4.8,
+      badge: "Washed"
+    },
+    {
+      id: 12,
+      name: "Ethiopian Arabica",
+      origin: "Ethiopia",
+      description: "Single origin beans from Ethiopian highlands. Floral and fruity notes with bright acidity and complex flavor profile.",
+      image: "/static/images/assets/Products/Ethiopian/Ethiopian_Arabica.png",
+      category: "Ethiopian",
+      price: "₺98.00",
+      rating: 4.9,
+      badge: "Single Origin"
+    },
+    {
+      id: 13,
+      name: "Third Quality MYQ",
+      origin: "Turkey",
+      description: "High-quality cardamom with exceptional aroma and flavor. Perfect for traditional Turkish coffee and culinary uses.",
+      image: "/static/images/assets/Products/Cardamom/Cardamom.png",
+      category: "Cardamom",
+      price: "₺120.00",
+      rating: 4.7
+    },
+    {
+      id: 14,
+      name: "Trips",
+      origin: "Turkey",
+      description: "Premium grade trips cardamom for culinary excellence. Intense aroma with sweet and spicy flavor profile.",
+      image: "/static/images/assets/Products/Cardamom/Cardamom.png",
+      category: "Cardamom",
+      price: "₺110.00",
+      rating: 4.6
+    },
+    {
+      id: 15,
+      name: "Small Pale Green, Ambar Green 3",
+      origin: "Turkey",
+      description: "Small pale green cardamom pods with amber green coloring. Delicate flavor perfect for light seasoning.",
+      image: "/static/images/assets/Products/Cardamom/Cardamom.png",
+      category: "Cardamom",
+      price: "₺105.00",
+      rating: 4.5
+    },
+    {
+      id: 16,
+      name: "Extra Jade",
+      origin: "Turkey",
+      description: "Premium extra jade cardamom with superior quality. Exceptional aroma and intense flavor for gourmet applications.",
+      image: "/static/images/assets/Products/Cardamom/Cardamom.png",
+      category: "Cardamom",
+      price: "₺135.00",
+      rating: 4.8,
+      badge: "Premium"
+    },
+    {
+      id: 17,
+      name: "Pale Green, Ambar Green 2",
+      origin: "Turkey",
+      description: "Pale green cardamom with amber green grade 2 classification. Balanced flavor with sweet and aromatic notes.",
+      image: "/static/images/assets/Products/Cardamom/Cardamom.png",
+      category: "Cardamom",
+      price: "₺115.00",
+      rating: 4.6
+    },
+    {
+      id: 18,
+      name: "Medium Dark Green",
+      origin: "Turkey",
+      description: "Medium dark green cardamom pods with rich flavor profile. Full-bodied aroma with complex spicy notes.",
+      image: "/static/images/assets/Products/Cardamom/Cardamom.png",
+      category: "Cardamom",
+      price: "₺125.00",
+      rating: 4.7
+    },
+    {
+      id: 19,
+      name: "Cardamom Seeds Delux",
+      origin: "Turkey",
+      description: "Deluxe cardamom seeds for premium culinary applications. Concentrated flavor and aroma for professional use.",
+      image: "/static/images/assets/Products/Cardamom/Cardamom.png",
+      category: "Cardamom",
+      price: "₺140.00",
+      rating: 4.8,
+      badge: "Deluxe"
+    },
+    {
+      id: 20,
+      name: "Super Trips",
+      origin: "Turkey",
+      description: "Super quality trips cardamom - our finest grade. Exceptional aroma and flavor intensity for the most demanding applications.",
+      image: "/static/images/assets/Products/Cardamom/Cardamom.png",
+      category: "Cardamom",
+      price: "₺150.00",
+      rating: 4.9,
+      badge: "Super Grade"
     }
   ];
+
+  // Filter products based on selected category
+  const filteredProducts = selectedCategory === 'All' 
+    ? allProducts 
+    : allProducts.filter(product => product.category === selectedCategory);
+
+  const handleCategoryChange = (category) => {
+    setSelectedCategory(category);
+  };
+
+  const handleProductClick = (product) => {
+    // Navigate to product detail page with the selected product
+    onNavigate('product-detail', null, product);
+  };
 
   const features = [
     {
       icon: <Award />,
-      title: "Premium Quality",
-      description: "Hand-selected beans from the world's finest coffee regions"
+      title: t("premiumBeans") || "Premium Quality",
+      description: t("premiumBeansDesc") || "Hand-selected beans from the world's finest coffee regions"
     },
     {
       icon: <Truck />,
       title: "Fresh Delivery",
-      description: "Roasted to order and delivered fresh to your doorstep"
+      description: "Direct from our farms and trusted suppliers to your doorstep"
     },
     {
       icon: <Shield />,
@@ -91,16 +263,51 @@ const Products = ({ onNavigate }) => {
 
   return (
     <div className="products-page">
-      <Header onNavigate={onNavigate} />
+      <Header activeSection="products" onNavigate={onNavigate} />
       
       {/* Hero Section */}
       <section className="products-hero">
         <div className="container">
-          <h1 className="hero-title">Our Premium Coffee Collection</h1>
+          <h1 className="hero-title">{t("ourProducts") || "Our Premium Coffee Collection"}</h1>
           <p className="hero-subtitle">
-            Discover exceptional coffee beans carefully sourced from around the world. 
-            Each blend tells a story of tradition, craftsmanship, and passion for the perfect cup.
+            {t("createNewStory") || "Discover exceptional coffee beans carefully sourced from around the world. Each blend tells a story of tradition, craftsmanship, and passion for the perfect cup."}
           </p>
+        </div>
+      </section>
+
+      {/* Category Tabs */}
+      <section className="category-section">
+        <div className="container">
+          <CategoryTabs 
+            selectedCategory={selectedCategory}
+            onCategoryChange={handleCategoryChange}
+          />
+        </div>
+      </section>
+
+      {/* Products Grid */}
+      <section className="products-section">
+        <div className="container">
+          <div className="section-header">
+            <h2 className="section-title">
+              {selectedCategory === 'All' 
+                ? (t("allProducts") || "All Products")
+                : `${selectedCategory} ${t("ourProducts") || "Products"}`
+              }
+            </h2>
+            <p className="products-count">
+              {filteredProducts.length} {filteredProducts.length === 1 ? 'product' : 'products'} found
+            </p>
+          </div>
+          <div className="products-grid">
+            {filteredProducts.map((product) => (
+              <ProductCard 
+                key={product.id} 
+                product={product} 
+                onClick={handleProductClick}
+              />
+            ))}
+          </div>
         </div>
       </section>
 
@@ -115,52 +322,6 @@ const Products = ({ onNavigate }) => {
                 </div>
                 <h3>{feature.title}</h3>
                 <p>{feature.description}</p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Products Grid */}
-      <section className="products-section">
-        <div className="container">
-          <h2 className="section-title">Our Coffee Selection</h2>
-          <div className="products-grid">
-            {products.map((product) => (
-              <div key={product.id} className="product-card">
-                <div className="product-image">
-                  <img 
-                    src={product.image} 
-                    alt={product.name}
-                    onError={(e) => {
-                      // Show placeholder if image fails to load
-                      e.target.src = 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMzAwIiBoZWlnaHQ9IjMwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KICA8cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSIjZjVmM2YwIi8+CiAgPGNpcmNsZSBjeD0iMTUwIiBjeT0iMTUwIiByPSI1MCIgZmlsbD0iIzNjMmUyNiIvPgogIDx0ZXh0IHg9IjE1MCIgeT0iMjIwIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmb250LWZhbWlseT0iQXJpYWwiIGZvbnQtc2l6ZT0iMTQiIGZpbGw9IiM1ZDQwMzciPkNvZmZlZSBJbWFnZTwvdGV4dD4KPC9zdmc+';
-                    }}
-                  />
-                  <div className="product-badge">{product.badge}</div>
-                </div>
-                <div className="product-info">
-                  <h3 className="product-name">{product.name}</h3>
-                  <div className="product-rating">
-                    {[...Array(5)].map((_, i) => (
-                      <Star 
-                        key={i} 
-                        size={16} 
-                        fill={i < Math.floor(product.rating) ? "#e6b555" : "none"}
-                        color="#e6b555"
-                      />
-                    ))}
-                    <span className="rating-number">({product.rating})</span>
-                  </div>
-                  <p className="product-description">{product.description}</p>
-                  <div className="product-details">
-                    <span className="roast-level">Roast: {product.roastLevel}</span>
-                  </div>
-                  <div className="product-footer">
-                    <span className="product-price">{product.price}</span>
-                    <button className="add-to-cart-btn">Add to Cart</button>
-                  </div>
-                </div>
               </div>
             ))}
           </div>

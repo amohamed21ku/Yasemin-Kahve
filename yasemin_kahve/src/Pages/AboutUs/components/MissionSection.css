@@ -1,0 +1,41 @@
+.about-mission {
+  padding: 6rem 2rem;
+  background: linear-gradient(135deg, #3c2e26 0%, #5d4037 100%);
+  color: white;
+  text-align: center;
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.mission-content h2 {
+  font-size: 2.5rem;
+  font-weight: 700;
+  margin-bottom: 2rem;
+  line-height: 1.2;
+}
+
+.mission-content p {
+  font-size: 1.25rem;
+  line-height: 1.8;
+  color: #d4c5a9;
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+  .about-mission {
+    padding: 4rem 1rem;
+  }
+
+  .mission-content h2 {
+    font-size: 2rem;
+  }
+
+  .mission-content p {
+    font-size: 1.125rem;
+  }
+}

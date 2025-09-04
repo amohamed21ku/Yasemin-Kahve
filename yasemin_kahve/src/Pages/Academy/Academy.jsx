@@ -6,7 +6,7 @@ import './Academy.css'
 const Academy = ({ onNavigate }) => {
   return (
     <div className="academy-page">
-      <Header onNavigate={onNavigate} />
+      <Header activeSection="academy" onNavigate={onNavigate} />
       <div className="academy-content">
         <h1>Yasemin Kahve Academy</h1>
         <p>Content coming soon...</p>

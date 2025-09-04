@@ -1,6 +1,6 @@
 // Footer.jsx with updated social media links and branding
 import React from "react";
-import { Phone, Mail, MapPin, Clock, Instagram, Facebook, Linkedin } from "lucide-react";
+import { Phone, Mail, MapPin, Clock, Instagram, Facebook, Linkedin, Twitter } from "lucide-react";
 import { useTranslation } from "/src/useTranslation";
 
 // TikTok icon component since it's not in Lucide React
@@ -45,7 +45,7 @@ const Footer = () => {
 
             <div className="social-links">
               <a 
-                href="https://www.facebook.com/yaseminkahve" 
+                href="https://www.facebook.com/Yasemin.Kahve" 
                 target="_blank"
                 rel="noopener noreferrer nofollow"
                 className="social-link facebook"
@@ -54,7 +54,16 @@ const Footer = () => {
                 <Facebook size={20} />
               </a>
               <a 
-                href="https://instagram.com/Yasemin_Kahve" 
+                href="https://twitter.com/i/flow/login?redirect_after_login=%2FYasemin_Kahve" 
+                target="_blank"
+                rel="noopener noreferrer nofollow"
+                className="social-link twitter"
+                aria-label="X (Twitter) social link"
+              >
+                <Twitter size={20} />
+              </a>
+              <a 
+                href="https://www.instagram.com/yasemin.kahve.tr/" 
                 target="_blank"
                 rel="noopener noreferrer nofollow"
                 className="social-link instagram"
@@ -70,15 +79,6 @@ const Footer = () => {
                 aria-label="LinkedIn social link"
               >
                 <Linkedin size={20} />
-              </a>
-              <a 
-                href="https://www.tiktok.com/@yasemin.kahve.tr" 
-                target="_blank"
-                rel="noopener noreferrer nofollow"
-                className="social-link tiktok"
-                aria-label="TikTok social link"
-              >
-                <TikTokIcon />
               </a>
             </div>
           </div>
@@ -98,7 +98,7 @@ const Footer = () => {
           </div>
 
           <div>
-            <h4 className="footer-title">{t("wholesale") || "Wholesale"}</h4>
+            <h4 className="footer-title">{t("wholesale2") || "Wholesale"}</h4>
             <div className="footer-location">
               <div className="footer-contact-item">
                 <MapPin size={16} />

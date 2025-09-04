@@ -736,6 +736,76 @@ html {
   }
 }
 
+/* Mobile optimizations for CompanyOverview */
+@media (max-width: 768px) {
+  .section-title {
+    font-size: 1.4rem;
+  }
+  
+  .section-description {
+    font-size: 0.9rem;
+  }
+  
+  .section-badge {
+    font-size: 0.65rem;
+    padding: 0.4rem 0.8rem;
+  }
+  
+  .feature-title {
+    font-size: 0.8rem;
+  }
+  
+  .feature-description {
+    font-size: 0.7rem;
+    line-height: 1.3;
+  }
+  
+  .features-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.6rem;
+  }
+  
+  .feature-icon {
+    transform: scale(0.7);
+  }
+  
+  .feature-item {
+    padding: 0.6rem;
+  }
+  
+  /* Values card mobile optimization */
+  .values-card {
+    padding: 1.2rem;
+    transform: rotate(1deg);
+  }
+  
+  .values-content {
+    padding: 1rem;
+  }
+  
+  .values-header h3 {
+    font-size: 1.2rem;
+    margin-bottom: 0.3rem;
+  }
+  
+  .values-header p {
+    font-size: 0.7rem;
+  }
+  
+  .value-item {
+    padding: 0.6rem;
+  }
+  
+  .value-name {
+    font-size: 0.75rem;
+  }
+  
+  .value-bar {
+    width: 3rem;
+    height: 0.3rem;
+  }
+}
+
 .feature-item {
   display: flex;
   align-items: flex-start;
@@ -1139,6 +1209,43 @@ html {
   gap: 2rem;
 }
 
+/* Mobile contact optimizations */
+@media (max-width: 768px) {
+  .contact-items {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.5rem;
+  }
+  
+  .contact-item {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 1rem;
+  }
+  
+  .contact-icon {
+    width: 3rem;
+    height: 3rem;
+  }
+  
+  .contact-label {
+    font-size: 1rem;
+  }
+  
+  .contact-value {
+    font-size: 0.9rem;
+  }
+  
+  .contact-title {
+    font-size: 2rem;
+  }
+  
+  .contact-description {
+    font-size: 1rem;
+  }
+}
+
 .contact-item {
   display: flex;
   align-items: center;
@@ -1311,7 +1418,7 @@ html {
   .footer-content {
     grid-template-columns: 1fr;
     gap: 1.5rem;
-    text-align: center;
+    text-align: left;
   }
   
   .footer {
@@ -1328,7 +1435,7 @@ html {
 @media (max-width: 767px) {
   .footer-company {
     gap: 1rem;
-    align-items: center;
+    align-items: flex-start;
   }
 }
 
@@ -1336,14 +1443,14 @@ html {
   display: flex;
   align-items: center;
   gap: 1rem;
-  justify-content: center;
 }
 
 @media (max-width: 767px) {
   .footer-logo {
-    flex-direction: column;
+    flex-direction: row;
     gap: 0.75rem;
-    text-align: center;
+    text-align: left;
+    align-items: center;
   }
 }
 
@@ -1394,8 +1501,7 @@ html {
   .footer-description {
     font-size: 0.85rem;
     line-height: 1.5;
-    max-width: 300px;
-    margin: 0 auto;
+    text-align: left;
   }
 }
 
@@ -1403,13 +1509,12 @@ html {
   display: flex;
   gap: 0.75rem;
   flex-wrap: wrap;
-  justify-content: center;
 }
 
 @media (max-width: 767px) {
   .social-links {
     gap: 0.6rem;
-    justify-content: center;
+    justify-content: flex-start;
   }
 }
 
@@ -1439,6 +1544,12 @@ html {
   box-shadow: 0 15px 30px rgba(24, 119, 242, 0.4);
 }
 
+/* Twitter/X specific styling */
+.social-link.twitter:hover {
+  background: linear-gradient(135deg, #000000, #1DA1F2);
+  box-shadow: 0 15px 30px rgba(29, 161, 242, 0.4);
+}
+
 /* Instagram specific styling */
 .social-link.instagram:hover {
   background: linear-gradient(135deg, #E91E63, #F56040, #FCAF45);
@@ -1449,12 +1560,6 @@ html {
 .social-link.linkedin:hover {
   background: linear-gradient(135deg, #0A66C2, #378FE9);
   box-shadow: 0 15px 30px rgba(10, 102, 194, 0.4);
-}
-
-/* TikTok specific styling */
-.social-link.tiktok:hover {
-  background: linear-gradient(135deg, #000000, #FF0050, #00F2EA);
-  box-shadow: 0 15px 30px rgba(255, 0, 80, 0.4);
 }
 
 
@@ -1493,7 +1598,7 @@ html {
 @media (max-width: 767px) {
   .footer-list {
     gap: 0.6rem;
-    align-items: center;
+    align-items: flex-start;
   }
 }
 
@@ -1527,7 +1632,7 @@ html {
 @media (max-width: 767px) {
   .footer-contact-items {
     gap: 0.6rem;
-    align-items: center;
+    align-items: flex-start;
   }
 }
 
@@ -1544,7 +1649,7 @@ html {
   .footer-contact-item {
     font-size: 0.85rem;
     gap: 0.6rem;
-    justify-content: center;
+    justify-content: flex-start;
   }
 }
 
@@ -1581,7 +1686,7 @@ html {
   }
   
   .section-padding {
-    padding: 2.5rem 0;
+    padding: 2rem 0;
   }
   
   .hero {
@@ -1593,12 +1698,12 @@ html {
   }
   
   .hero-title {
-    font-size: 2rem;
+    font-size: 1.8rem;
     margin-bottom: 1rem;
   }
   
   .hero-description {
-    font-size: 1rem;
+    font-size: 0.9rem;
     margin-bottom: 2rem;
   }
   
@@ -1613,11 +1718,11 @@ html {
   }
   
   .section-title {
-    font-size: 1.8rem;
+    font-size: 1.4rem;
   }
   
   .contact-title {
-    font-size: 1.8rem;
+    font-size: 1.4rem;
   }
 }
 
@@ -2433,8 +2538,8 @@ html {
 
 .products-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
-  gap: 2rem;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 1.5rem;
   margin-top: 3rem;
   max-width: 100%;
 }
@@ -2442,7 +2547,7 @@ html {
 /* Ensure consistent card sizing */
 .products-grid .product-card {
   width: 100%;
-  max-width: 380px;
+  max-width: 320px;
   margin: 0 auto;
 }
 
@@ -2500,7 +2605,7 @@ html {
 
 .product-image {
   position: relative;
-  height: 200px;
+  height: 160px;
   overflow: hidden;
 }
 
@@ -2537,15 +2642,15 @@ html {
 }
 
 .product-info {
-  padding: 1.5rem;
+  padding: 1.2rem;
 }
 
 .product-name {
   font-family: var(--font-primary);
-  font-size: 1.25rem;
+  font-size: 1.1rem;
   font-weight: 700;
   color: var(--almost-black);
-  margin-bottom: 0.5rem;
+  margin-bottom: 0.4rem;
 }
 
 .product-origin {
@@ -2564,9 +2669,13 @@ html {
 
 .product-description {
   color: var(--dark-brown);
-  line-height: 1.6;
-  margin-bottom: 1.5rem;
-  font-size: 0.875rem;
+  line-height: 1.5;
+  margin-bottom: 1.2rem;
+  font-size: 0.8rem;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
 }
 
 .product-actions {
@@ -2579,10 +2688,10 @@ html {
   background: linear-gradient(135deg, var(--golden-yellow), var(--dark-brown));
   color: var(--white);
   border: none;
-  padding: 0.75rem 1.5rem;
+  padding: 0.6rem 1.2rem;
   border-radius: 2rem;
   font-weight: 600;
-  font-size: 0.875rem;
+  font-size: 0.8rem;
   cursor: pointer;
   transition: all 0.3s ease;
   font-family: var(--font-primary);

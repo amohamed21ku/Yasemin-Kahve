@@ -1,0 +1,91 @@
+.about-quality {
+  padding: 6rem 2rem;
+  background: #f8f6f3;
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.about-quality h2 {
+  font-size: 2.5rem;
+  font-weight: 700;
+  color: #3c2e26;
+  margin-bottom: 1.5rem;
+  line-height: 1.2;
+}
+
+.quality-intro {
+  font-size: 1.25rem;
+  line-height: 1.8;
+  color: #6B5B73;
+  max-width: 800px;
+  margin: 0 auto 4rem;
+}
+
+.quality-features {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 2rem;
+}
+
+.quality-card {
+  background: white;
+  padding: 3rem 2rem;
+  border-radius: 1rem;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
+  text-align: center;
+}
+
+.quality-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.15);
+}
+
+.quality-icon {
+  width: 3rem;
+  height: 3rem;
+  color: #e6b555;
+  margin-bottom: 1.5rem;
+}
+
+.quality-card h3 {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: #3c2e26;
+  margin-bottom: 1rem;
+}
+
+.quality-card p {
+  font-size: 1rem;
+  line-height: 1.6;
+  color: #6B5B73;
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+  .about-quality {
+    padding: 4rem 1rem;
+  }
+
+  .about-quality h2 {
+    font-size: 2rem;
+  }
+
+  .quality-intro {
+    font-size: 1.125rem;
+    margin-bottom: 3rem;
+  }
+
+  .quality-features {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+
+  .quality-card {
+    padding: 2rem 1.5rem;
+  }
+}
