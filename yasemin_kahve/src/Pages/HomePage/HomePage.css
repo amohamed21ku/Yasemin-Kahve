@@ -1239,7 +1239,7 @@ html {
   }
   
   .contact-value {
-    font-size: 0.9rem;
+    font-size: 0.8rem;
   }
   
   .contact-title {
@@ -1248,6 +1248,25 @@ html {
   
   .contact-description {
     font-size: 1rem;
+  }
+  
+  .form-title {
+    font-size: 1.4rem;
+  }
+  
+  .form-input,
+  .form-textarea {
+    font-size: 0.9rem;
+    padding: 0.9rem 1.2rem;
+  }
+  
+  .form-submit {
+    font-size: 1rem;
+    padding: 1rem 1.5rem;
+  }
+  
+  .form-submit span {
+    font-size: 0.9rem;
   }
 }
 
@@ -2790,7 +2809,46 @@ html {
 /* Mobile carousel adjustments */
 @media (max-width: 768px) {
   .carousel-controls {
-    display: none;
+    display: flex;
+    top: 50%;
+    left: 0;
+    right: 0;
+    transform: translateY(-50%);
+    justify-content: space-between;
+    pointer-events: none;
+    z-index: 10;
+    padding: 0 0.5rem;
+  }
+  
+  .carousel-btn {
+    width: 40px;
+    height: 40px;
+    background: rgba(255, 255, 255, 0.95);
+    border: 2px solid var(--golden-yellow);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    pointer-events: all;
+    color: var(--golden-yellow);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  }
+  
+  .carousel-btn:hover {
+    background: var(--golden-yellow);
+    color: var(--white);
+    transform: scale(1.1);
+    box-shadow: 0 5px 20px rgba(230, 181, 85, 0.4);
+  }
+  
+  .carousel-prev {
+    transform: translateX(-5px);
+  }
+
+  .carousel-next {
+    transform: translateX(5px);
   }
   
   .pagination-dots {

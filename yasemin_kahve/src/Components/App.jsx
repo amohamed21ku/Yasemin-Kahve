@@ -301,7 +301,10 @@ function App() {
         window.scrollTo({ top: productsScrollPosition, behavior: 'smooth' });
       }, 100);
     } else {
-      window.scrollTo({ top: 0, behavior: 'smooth' });
+      // Scroll to top for all other page navigations, especially product-detail
+      setTimeout(() => {
+        window.scrollTo({ top: 0, behavior: 'auto' });
+      }, 50);
     }
   };
 

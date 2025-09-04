@@ -66,46 +66,9 @@ const CompanyOverview = ({ onNavigate }) => {
               </div>
             </div>
 
-            <button 
-              className="btn-primary"
-              onClick={() => onNavigate('products')}
-            >
-              <span>{t("exploreProducts") || "Explore Our Products"}</span>
-              <ArrowRight />
-            </button>
           </div>
 
           <div className="overview-visual">
-            <div className="values-card">
-              <div className="values-content">
-                <div className="values-header">
-                  <h3>{t("ourValues") || "Our Values"}</h3>
-                  <p>{t("builtOnQuality") || "Built on quality and tradition since 1921"}</p>
-                </div>
-
-                <div className="values-list">
-                  <div className="value-item quality">
-                    <span className="value-name">{t("quality") || "Quality"}</span>
-                    <div className="value-bar quality">
-                      <div className="value-progress quality" style={{width: '100%'}}></div>
-                    </div>
-                  </div>
-                  <div className="value-item tradition">
-                    <span className="value-name">{t("tradition") || "Tradition"}</span>
-                    <div className="value-bar tradition">
-                      <div className="value-progress tradition" style={{width: '100%'}}></div>
-                    </div>
-                  </div>
-                  <div className="value-item authenticity">
-                    <span className="value-name">{t("authenticity") || "Authenticity"}</span>
-                    <div className="value-bar authenticity">
-                      <div className="value-progress authenticity" style={{width: '98%'}}></div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-
             <div className="floating-element floating-1"></div>
             <div className="floating-element floating-2"></div>
           </div>
