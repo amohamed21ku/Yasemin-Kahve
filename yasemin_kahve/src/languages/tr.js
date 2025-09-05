@@ -18,7 +18,8 @@ export const tr = {
   "yaseminHeroDescription":"YASEMİN KAHVE, 1921 YILINDAN BU YANA TÜRK KAHVESİ SEVERLERİNİN FİNCANLARINI DOLDURUYOR",
   "since1921":"1921'den beri",
   "exploreProducts":"Ürünleri Keşfedin",
-  "learnMore":"Hakkımızda",
+  "PriceList":"Fiyat Listesi",
+  "whatsAppPriceListMessage":"Merhaba! Kahve ürünleriniz için fiyat listesi talep etmek istiyorum. Teşekkürler!",
 
   
   // Company Overview

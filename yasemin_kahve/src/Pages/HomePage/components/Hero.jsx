@@ -55,6 +55,13 @@ const Hero = ({ onNavigate }) => {  // Add onNavigate as a prop
     }
   };
 
+  const handlePriceListClick = () => {
+    const phoneNumber = "+90 539 500 44 44";
+    const message = t("whatsAppPriceListMessage");
+    const whatsAppUrl = `https://wa.me/${phoneNumber.replace(/\s/g, '')}?text=${encodeURIComponent(message)}`;
+    window.open(whatsAppUrl, '_blank');
+  };
+
   return (
     <section className="hero">
       <div className="hero-background">
@@ -69,7 +76,7 @@ const Hero = ({ onNavigate }) => {  // Add onNavigate as a prop
             preload="auto"
             poster="data:image/gif,AAAA" // Tiny transparent GIF as placeholder
           >
-            <source src="https://caffedelbello.com/video/caffedelbello.mp4" type="video/mp4" />
+            <source src="/public/static/images/assets/broll.mp4" type="video/mp4" />
           </video>
           <div className="video-overlay"></div>
         </div>
@@ -95,9 +102,9 @@ const Hero = ({ onNavigate }) => {  // Add onNavigate as a prop
             </button>
             <button 
               className="btn-secondary"
-              onClick={() => onNavigate('about')}
+              onClick={handlePriceListClick}
             >
-              <span>{t("learnMore") || "Learn More"}</span>
+              <span>{t("PriceList") || "Price List"}</span>
             </button>
           </div>
         </div>

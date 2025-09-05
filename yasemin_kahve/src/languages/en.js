@@ -17,7 +17,8 @@ export const en = {
  "yaseminHeroDescription":"Since 1921, Yasemin Kahve has filled the cups of Turkish coffee lovers and beyond",
  "since1921":"Since 1921",
  "exploreProducts":"Explore Products",
- "learnMore":"Learn More",
+ "PriceList":"Price List",
+ "whatsAppPriceListMessage":"Hello! I would like to request the price list for your coffee products. Thank you!",
   
   // Company Overview
 "yaseminKahveStory" : "ROASTED TO PERFECTION…",
