@@ -1,13 +1,45 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Coffee, Star, ChevronLeft, ChevronRight } from "lucide-react";
 import { useTranslation } from "/src/useTranslation";
+import { productService, categoryService } from "../../../services/productService";
 const ProductsPreview = ({ onNavigate }) => {
   const { t } = useTranslation();
   const [currentPage, setCurrentPage] = useState(0);
   const [selectedCategory, setSelectedCategory] = useState('All');
+  const [products, setProducts] = useState([]);
+  const [categories, setCategories] = useState([]);
+  const [loading, setLoading] = useState(true);
   const productsPerPage = 6;
 
-  const allProducts = [
+  // Fetch products and categories from Firebase on component mount
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        setLoading(true);
+        // Fetch both products and categories in parallel
+        const [fetchedProducts, fetchedCategories] = await Promise.all([
+          productService.getAllProducts(),
+          categoryService.getAllCategories()
+        ]);
+        
+        // Only show visible products
+        const visibleProducts = fetchedProducts.filter(product => product.isVisible !== false);
+        setProducts(visibleProducts);
+        setCategories(fetchedCategories);
+      } catch (error) {
+        console.error('Error fetching data:', error);
+        setProducts([]); // Fallback to empty array
+        setCategories([]); // Fallback to empty array
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchData();
+  }, []);
+
+  // Fallback products for development/demo (will be removed once Firebase products are available)
+  const fallbackProducts = [
     {
       id: 1,
       name: "COLOMBIAN 18",
@@ -234,39 +266,63 @@ const ProductsPreview = ({ onNavigate }) => {
     return shuffled;
   };
 
-  const [randomizedProducts] = useState(() => shuffleArray(allProducts));
+  // Use fetched products or fallback products if no products available
+  const allProducts = products.length > 0 ? products : fallbackProducts;
+  const [randomizedProducts] = useState(() => []);
   
-  // Categories for filtering with translations
-  const categories = [
+  // Update randomized products when products change
+  useEffect(() => {
+    if (allProducts.length > 0) {
+      setCurrentPage(0); // Reset to first page when products change
+    }
+  }, [allProducts]);
+  
+  // Create categories list with All option - use Firebase categories
+  const categoriesToShow = [
     { key: 'All', label: t("all") || "All" },
-    { key: 'Colombian', label: t("colombian") || "Colombian" },
-    { key: 'Indian', label: t("indian") || "Indian" },
-    { key: 'Brazilian', label: t("brazilian") || "Brazilian" },
-    { key: 'Ethiopian', label: t("ethiopian") || "Ethiopian" },
-    { key: 'Kenya', label: t("kenya") || "Kenya" },
-    { key: 'Nicaragua', label: t("nicaragua") || "Nicaragua" },
-    { key: 'Guatemala', label: t("guatemala") || "Guatemala" },
-    { key: 'Cardamom', label: t("cardamom") || "Cardamom" }
+    ...categories.map(cat => ({ 
+      key: cat.id, 
+      label: cat.name?.en || cat.name?.tr || cat.name || 'Unknown Category'
+    }))
   ];
   
-  // Filter products based on selected category
+  // Filter products based on selected category  
   const filteredProducts = selectedCategory === 'All' 
-    ? randomizedProducts 
-    : randomizedProducts.filter(product => product.category === selectedCategory);
+    ? allProducts 
+    : allProducts.filter(product => {
+        // For Firebase products, use categoryId
+        if (product._firebaseData?.categoryId) {
+          return product._firebaseData.categoryId === selectedCategory;
+        }
+        // For fallback products, match category name with Firebase category name
+        if (product.category && categories.length > 0) {
+          const matchingCategory = categories.find(cat => 
+            cat.name?.en?.toLowerCase().includes(product.category.toLowerCase()) ||
+            cat.name?.tr?.toLowerCase().includes(product.category.toLowerCase())
+          );
+          return matchingCategory?.id === selectedCategory;
+        }
+        return false;
+      });
 
-  // Country flag mapping
+  // Country flag mapping using flag-icons
   const getCountryFlag = (origin) => {
-    const flagMap = {
-      'Colombia': '🇨🇴',
-      'India': '🇮🇳', 
-      'Brazil': '🇧🇷',
-      'Kenya': '🇰🇪',
-      'Nicaragua': '🇳🇮',
-      'Guatemala': '🇬🇹',
-      'Turkey': '🇹🇷',
-      'Ethiopia': '🇪🇹'
+    const flagCodeMap = {
+      'Colombia': 'co',
+      'India': 'in', 
+      'Brazil': 'br',
+      'Kenya': 'ke',
+      'Nicaragua': 'ni',
+      'Guatemala': 'gt',
+      'Turkey': 'tr',
+      'Ethiopia': 'et'
     };
-    return flagMap[origin] || '🌍';
+    const flagCode = flagCodeMap[origin];
+    
+    if (flagCode) {
+      return <span className={`fi fi-${flagCode}`} style={{ fontSize: '1.2em' }}></span>;
+    }
+    return <span style={{ fontSize: '1.2em' }}>🌍</span>;
   };
 
   const totalPages = Math.ceil(filteredProducts.length / productsPerPage);
@@ -291,6 +347,29 @@ const ProductsPreview = ({ onNavigate }) => {
     setCurrentPage(0); // Reset to first page when changing category
   };
 
+  // Show loading state
+  if (loading) {
+    return (
+      <section className="products-preview">
+        <div className="container">
+          <div className="products-header">
+            <div className="section-badge">{t("ourProducts") || "Our Products"}</div>
+            <h2 className="section-title">
+              {t("createNewStory") || "Discover our premium coffee collection from around the world"}
+            </h2>
+          </div>
+          
+          <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', minHeight: '300px' }}>
+            <div style={{ textAlign: 'center' }}>
+              <Coffee size={48} color="#e6b555" style={{ marginBottom: '1rem', animation: 'pulse 2s infinite' }} />
+              <p>{t('loadingProducts') || 'Loading products...'}</p>
+            </div>
+          </div>
+        </div>
+      </section>
+    );
+  }
+
   return (
     <section className="products-preview">
       <div className="container">
@@ -304,7 +383,7 @@ const ProductsPreview = ({ onNavigate }) => {
         {/* Category Tabs Section - moved after title */}
         <section className="category-section">
           <div className="category-tabs">
-            {categories.map((category) => (
+            {categoriesToShow.map((category) => (
               <button
                 key={category.key}
                 className={`category-tab ${selectedCategory === category.key ? 'active' : ''}`}

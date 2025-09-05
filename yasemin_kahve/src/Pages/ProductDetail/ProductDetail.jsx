@@ -34,20 +34,51 @@ const ProductDetail = ({ onNavigate, product, previousPage }) => {
     tastingNotes: ["Chocolate", "Citrus", "Caramel", "Nutty"]
   };
 
-  const displayProduct = product || defaultProduct;
+  // Get detailed data from Firebase data or fallback to transformed data
+  const getProductDetail = (product) => {
+    if (!product) return defaultProduct;
+    
+    // If product has _firebaseData, use that for detailed information
+    const firebaseData = product._firebaseData;
+    if (firebaseData) {
+      const currentLang = localStorage.getItem('language') || 'en';
+      return {
+        ...product, // Use the transformed frontend data as base
+        detailedDescription: firebaseData.detailedDescription?.[currentLang] || 
+                           firebaseData.detailedDescription?.en || 
+                           firebaseData.detailedDescription?.tr || 
+                           product.description,
+        roastLevel: firebaseData.roastLevel,
+        processingMethod: firebaseData.processingMethod,
+        altitude: firebaseData.altitude,
+        harvestSeason: firebaseData.harvestSeason,
+        cupping: firebaseData.cupping,
+        tastingNotes: firebaseData.tastingNotes || []
+      };
+    }
+    
+    return product;
+  };
+
+  const displayProduct = getProductDetail(product);
 
   const getCountryFlag = (origin) => {
-    const flagMap = {
-      'Colombia': '🇨🇴',
-      'India': '🇮🇳', 
-      'Brazil': '🇧🇷',
-      'Kenya': '🇰🇪',
-      'Nicaragua': '🇳🇮',
-      'Guatemala': '🇬🇹',
-      'Turkey': '🇹🇷',
-      'Ethiopia': '🇪🇹'
+    const flagCodeMap = {
+      'Colombia': 'co',
+      'India': 'in', 
+      'Brazil': 'br',
+      'Kenya': 'ke',
+      'Nicaragua': 'ni',
+      'Guatemala': 'gt',
+      'Turkey': 'tr',
+      'Ethiopia': 'et'
     };
-    return flagMap[origin] || '🌍';
+    const flagCode = flagCodeMap[origin];
+    
+    if (flagCode) {
+      return <span className={`fi fi-${flagCode}`} style={{ fontSize: '1.2em' }}></span>;
+    }
+    return <span style={{ fontSize: '1.2em' }}>🌍</span>;
   };
 
   const handleBackClick = () => {
@@ -65,7 +96,7 @@ const ProductDetail = ({ onNavigate, product, previousPage }) => {
       
       {/* Hero Section */}
       <section className="product-detail-hero">
-        <div className="container">
+        <div className="productdetail-container">
           <button className="back-button" onClick={handleBackClick}>
             <ArrowLeft size={20} />
             <span>{previousPage === 'home' ? 'Back to Home' : 'Back to Products'}</span>
@@ -82,7 +113,7 @@ const ProductDetail = ({ onNavigate, product, previousPage }) => {
                   }}
                 />
                 {displayProduct.badge && (
-                  <div className="product-badge">{displayProduct.badge}</div>
+                  <div className="productdetail-product-badge">{displayProduct.badge}</div>
                 )}
               </div>
             </div>
@@ -93,7 +124,6 @@ const ProductDetail = ({ onNavigate, product, previousPage }) => {
                   <span className="country-flag">{getCountryFlag(displayProduct.origin)}</span>
                   <span>{displayProduct.origin}</span>
                 </div>
-                <h1 className="product-title">{displayProduct.name}</h1>
                 
                 {displayProduct.rating && (
                   <div className="product-rating">
@@ -111,6 +141,8 @@ const ProductDetail = ({ onNavigate, product, previousPage }) => {
                   </div>
                 )}
               </div>
+                              <h1 className="product-title">{displayProduct.name}</h1>
+
               
               <div className="product-description">
                 <p>{displayProduct.detailedDescription || displayProduct.description}</p>
@@ -190,7 +222,7 @@ const ProductDetail = ({ onNavigate, product, previousPage }) => {
 
       {displayProduct.cupping && (
         <section className="cupping-scores">
-          <div className="container">
+          <div className="productdetail-container">
             <h2>Cupping Scores</h2>
             <div className="scores-grid">
               <div className="score-item">

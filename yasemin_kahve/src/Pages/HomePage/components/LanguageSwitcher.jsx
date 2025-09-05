@@ -1,7 +1,7 @@
 // LanguageSwitcher.jsx - Language toggle component
 import React from 'react';
 import { Globe } from 'lucide-react';
-import { useLanguage } from '/src/LanguageContext';
+import { useLanguage } from '../../../LanguageContext';
 
 const LanguageSwitcher = () => {
   const { language, toggleLanguage } = useLanguage();

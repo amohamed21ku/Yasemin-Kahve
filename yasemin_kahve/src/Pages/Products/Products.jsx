@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import Header from '../HomePage/components/Header'
 import Footer from '../HomePage/components/Footer'
 import ProductsHero from './components/ProductsHero'
@@ -7,14 +7,45 @@ import ProductsGrid from './components/ProductsGrid'
 import FeaturesSection from './components/FeaturesSection'
 import EducationCTA from './components/EducationCTA'
 import { useTranslation } from '../../useTranslation'
+import { productService, categoryService } from '../../services/productService'
 import './Products.css'
 
 const Products = ({ onNavigate }) => {
   const { t } = useTranslation();
   const [selectedCategory, setSelectedCategory] = useState('All');
+  const [products, setProducts] = useState([]);
+  const [categories, setCategories] = useState([]);
+  const [loading, setLoading] = useState(true);
 
-  // All products from ProductsPreview plus Ethiopian coffee
-  const allProducts = [
+  // Fetch products and categories from Firebase on component mount
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        setLoading(true);
+        // Fetch both products and categories in parallel
+        const [fetchedProducts, fetchedCategories] = await Promise.all([
+          productService.getAllProducts(),
+          categoryService.getAllCategories()
+        ]);
+        
+        // Only show visible products
+        const visibleProducts = fetchedProducts.filter(product => product.isVisible !== false);
+        setProducts(visibleProducts);
+        setCategories(fetchedCategories);
+      } catch (error) {
+        console.error('Error fetching data:', error);
+        setProducts([]); // Fallback to empty array
+        setCategories([]); // Fallback to empty array
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchData();
+  }, []);
+
+  // Fallback products (for development/demo purposes)
+  const fallbackProducts = [
     {
       id: 1,
       name: "COLOMBIAN 18",
@@ -231,10 +262,27 @@ const Products = ({ onNavigate }) => {
     }
   ];
 
+  // Use fetched products or fallback products if no products available
+  const allProducts = products.length > 0 ? products : fallbackProducts;
+
   // Filter products based on selected category
   const filteredProducts = selectedCategory === 'All' 
     ? allProducts 
-    : allProducts.filter(product => product.category === selectedCategory);
+    : allProducts.filter(product => {
+        // For Firebase products, use categoryId
+        if (product._firebaseData?.categoryId) {
+          return product._firebaseData.categoryId === selectedCategory;
+        }
+        // For fallback products, match category name with Firebase category name
+        if (product.category && categories.length > 0) {
+          const matchingCategory = categories.find(cat => 
+            cat.name?.en?.toLowerCase().includes(product.category.toLowerCase()) ||
+            cat.name?.tr?.toLowerCase().includes(product.category.toLowerCase())
+          );
+          return matchingCategory?.id === selectedCategory;
+        }
+        return false;
+      });
 
   const handleCategoryChange = (category) => {
     setSelectedCategory(category);
@@ -256,9 +304,11 @@ const Products = ({ onNavigate }) => {
 
       <ProductsGrid 
         products={filteredProducts}
+        categories={categories}
         selectedCategory={selectedCategory}
         onProductClick={handleProductClick}
         onCategoryChange={handleCategoryChange}
+        loading={loading}
       />
 
       <FeaturesSection />

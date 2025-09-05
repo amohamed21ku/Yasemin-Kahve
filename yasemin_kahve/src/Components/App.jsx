@@ -4,11 +4,16 @@ import AboutUsPage from '../Pages/AboutUs/AboutUs'
 import ProductsPage from '../Pages/Products/Products'
 import ProductDetailPage from '../Pages/ProductDetail/ProductDetail'
 import AcademyPage from '../Pages/Academy/Academy'
+import AdminPanel from '../Pages/Admin/AdminPanel'
+import Auth from '../Pages/Auth/Auth'
 
-import { AuthProvider } from '/src/AuthContext'
-import { LanguageProvider } from '/src/LanguageContext'
-import { useAuth } from '/src/AuthContext'
-import { useTranslation } from '/src/useTranslation'
+import { AuthProvider } from '../AuthContext'
+import { LanguageProvider } from '../LanguageContext'
+import { useAuth } from '../AuthContext'
+import { useTranslation } from '../useTranslation'
+
+import 'flag-icons/css/flag-icons.min.css'
+
 
 // Placeholder components
 const RegisterPage = ({ onNavigate }) => (
@@ -234,7 +239,7 @@ const ProtectedAdminRoute = ({ children, currentPage, onNavigate }) => {
             margin: '0 auto 2rem',
             fontSize: '2rem'
           }}>
-            🚫
+            ðŸš«
           </div>
           <h2 style={{ marginBottom: '1rem', color: '#EF4444' }}>
             {t("adminAccessRequired") || "Admin Access Required"}
@@ -327,50 +332,13 @@ function App() {
         return <ProductDetailPage onNavigate={handleNavigate} product={selectedProduct} previousPage={previousPage} />;
       case 'academy':
         return <AcademyPage onNavigate={handleNavigate} />;
-      // case 'instructors':
-      //   return (
-      //     <div style={{ 
-      //       minHeight: '100vh', 
-      //       display: 'flex', 
-      //       alignItems: 'center', 
-      //       justifyContent: 'center',
-      //       background: 'linear-gradient(135deg, #FFF8E1 0%, #FFECB3 100%)',
-      //       color: '#8B4513',
-      //       fontSize: '1.5rem',
-      //       fontWeight: '600',
-      //       textAlign: 'center',
-      //       padding: '2rem'
-      //     }}>
-      //       <div style={{
-      //         background: 'white',
-      //         padding: '3rem',
-      //         borderRadius: '2rem',
-      //         boxShadow: '0 10px 40px rgba(0, 0, 0, 0.1)'
-      //       }}>
-      //         <div style={{
-      //           fontSize: '4rem',
-      //           marginBottom: '1rem'
-      //         }}>
-      //           👨‍🏫
-      //         </div>
-      //         Instructors Page - Coming Soon
-      //         <div style={{
-      //           marginTop: '1rem',
-      //           fontSize: '1rem',
-      //           color: '#8D6E63',
-      //           fontWeight: '400'
-      //         }}>
-      //           We're preparing detailed instructor profiles for you
-      //         </div>
-      //       </div>
-      //     </div>
-      //   );
-      case 'register':
-        return <RegisterPage onNavigate={handleNavigate} />;
+ 
+        case 'register':
+        return <Auth onNavigate={handleNavigate} />;
       case 'admin':
         return (
           <ProtectedAdminRoute currentPage={currentPage} onNavigate={handleNavigate}>
-            <AdminConsole onNavigate={handleNavigate} />
+            <AdminPanel onNavigate={handleNavigate} />
           </ProtectedAdminRoute>
         );
       case 'contact':
@@ -397,7 +365,7 @@ function App() {
                 fontSize: '4rem',
                 marginBottom: '1rem'
               }}>
-                📞
+                ðŸ“ž
               </div>
               Contact Page - Coming Soon
               <div style={{

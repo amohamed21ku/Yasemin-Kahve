@@ -1,25 +1,18 @@
 import React from 'react'
-import { useTranslation } from '/src/useTranslation'
+import { useTranslation } from '../../../useTranslation'
 import './CategoryTabs.css'
 
-const CategoryTabs = ({ categories, selectedCategory, onCategoryChange }) => {
+const CategoryTabs = ({ categories = [], selectedCategory, onCategoryChange }) => {
   const { t } = useTranslation();
 
-  // Default categories with translations
-  const defaultCategories = [
+  // Create categories list with All option - always use Firebase categories
+  const categoriesToShow = [
     { key: 'All', label: t("all") || "All" },
-    { key: 'Colombian', label: t("colombian") || "Colombian" },
-    { key: 'Indian', label: t("indian") || "Indian" },
-    { key: 'Brazilian', label: t("brazilian") || "Brazilian" },
-    { key: 'Ethiopian', label: t("ethiopian") || "Ethiopian" },
-    { key: 'Kenya', label: t("kenya") || "Kenya" },
-    { key: 'Nicaragua', label: t("nicaragua") || "Nicaragua" },
-    { key: 'Guatemala', label: t("guatemala") || "Guatemala" },
-    { key: 'Cardamom', label: t("cardamom") || "Cardamom" }
+    ...categories.map(cat => ({ 
+      key: cat.id, 
+      label: cat.name?.en || cat.name?.tr || cat.name || 'Unknown Category'
+    }))
   ];
-
-  // Use provided categories or default ones
-  const categoriesToShow = categories || defaultCategories;
 
   return (
     <div className="category-tabs">

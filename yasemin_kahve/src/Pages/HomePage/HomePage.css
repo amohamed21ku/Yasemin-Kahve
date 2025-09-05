@@ -2666,11 +2666,16 @@ html {
   padding: 0.5rem;
   border-radius: 50%;
   font-size: 1.5rem;
+  font-family: "Apple Color Emoji", "Segoe UI Emoji", "Noto Color Emoji", "Android Emoji", "EmojiSymbols", "EmojiOne Mozilla", "Twemoji Mozilla", "Segoe UI Symbol", "Noto Emoji", system-ui, sans-serif;
   display: flex;
   align-items: center;
   justify-content: center;
   width: 3rem;
   height: 3rem;
+  text-rendering: optimizeQuality;
+  -webkit-font-feature-settings: "liga" on, "calt" on;
+  -moz-font-feature-settings: "liga" on, "calt" on;
+  font-feature-settings: "liga" on, "calt" on;
   box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
   border: 2px solid rgba(230, 181, 85, 0.3);
 }

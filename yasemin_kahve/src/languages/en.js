@@ -123,83 +123,160 @@ export const en = {
   "confirmPassword": "Confirm Password",
   "continueWithGoogle": "Continue with Google",
   
-  // Admin Dashboard
-  "adminWelcome": "Welcome to your coffee academy management dashboard",
-  "totalCourses": "Total Courses",
-  "totalUsers": "Total Users",
-  "totalEnrollments": "Total Enrollments",
-  "monthlyRevenue": "Monthly Revenue",
-  "addNewCourse": "Add New Course",
-  "createNewCourseDesc": "Create a new course offering",
-  "manageUsers": "Manage Users",
-  "manageUsersDesc": "View and manage user accounts",
-  "viewReports": "View Reports",
-  "viewReportsDesc": "Access detailed analytics",
-  "reviewEnrollments": "Review Enrollments",
-  "reviewEnrollmentsDesc": "Manage course enrollments",
-  "recentActivity": "Recent Activity",
+  // Admin Panel
+  "dashboard":"Dashboard",
+  "dashboardDesc":"Overview and analytics",
+  "productsDesc":"Manage coffee products",
+  "dataMigration":"Data Migration",
+  "migrationDesc":"Import sample data",
+  "users":"Users",
+  "usersDesc":"Manage users accounts",
+  "academyDesc":"Manage courses (Coming Soon)",
+  "adminPanel":"Admin Panel",
+  "backToWebsite":"Back to Website",
+
+
+  // CategoryManager
+  "categoryNameRequired": "Category name is required in both languages",
+  "confirmDeleteCategory":"Are you sure you want to delete this category? This action cannot be undone.",
+  "loadingCategories":"Loading categories...",
+  "backToProducts":"Back to Products",
+  "categoryManagement":"Category Management",
+  "manageCategoriesDesc":"Add, edit, and organize product categories",
+  "addNewCategory":"Add New Category",
+  "editCategory":"Edit Category",
+  "categoryNameEn":"Category Name (English)",
+  "categoryNameTr":"Category Name (Turkish)",
+  "categoryDescEn":"Description (English)",
+  "categoryDescTr":"Description (Turkish)",
+  "cancel":"Cancel",
+  "saving":"Saving...",
+  "updateCategory":"Update Category",
+  "addCategory":"Update Category",
+  "noCategoriesYet":"No categories yet",
+  "addFirstCategory":"Add your first category to get started",
+  "addFirstCategory2":"Add First Category",
+  "deleteCategory":"Delete Category",
+
+  //DashBoard
+  "totalProducts":"Total Products",
+  "totalUsers":"Total Users",
+  "recentSignUps":"Recent Sign-ups",
+  "activeProducts":"Active Products",
+  "addNewProduct":"Add New Product",
+  "addProductDesc":"Create a new coffee product listing",
+  "manageProducts":"Manage Products",
+  "manageProductsDesc":"Edit existing product information",
+  "viewUsers":"View Users",
+  "viewUsersDesc":"See all registered users",
+  "siteSettings":"Site Settings",
+  "siteSettingsDesc":"Configure website settings",
+  "loadingDashboard":"Loading dashboard...",
+  "dashboard":"Dashboard",
+  "dashboardWelcome":"Welcome to your admin control panel",
+  "quickActions":"Quick Actions",
+  "recentActivity":"Recent Activity",
+
+  //Product Mangement
+  "confirmDeleteProduct":"Are you sure you want to delete this product?",
+  "loadingProducts":"Loading Products...",
+  "productManagement":"Product Management",
+  "manageProductsDesc2":"Add, edit, and manage your coffee products",
+  "manageCategories":"Manage Categories",
+ 
+  "visibleProducts":"Visible Products",
+  "hiddenProducts":"Hidden Products",
+  "searchProducts":"Search products...",
+  "noProductsFound":"No products found",
+  "noProductsYet":"No products yet",
+  "tryDifferentSearch":"Try adjusting your search or filters",
+  "addFirstProduct":"Add your first product to get started",
+  "addFirstProduct2":"Add First Product",
+  "editProduct":"Edit Product",
+  "deleteProduct":"Delete Product",
+  "hideProduct":"Hide Product",
+  "showProduct":"Show Product",
+  "visible":"Visible",
+  "hidden":"Hidden",
+
+  //Product Form
+  "imageTooLarge":"Image file is too large (max 5MB)",
+  "invalidImageType":"Please select a valid image file",
+  "productNameRequired":"Product name is required in at least one language",
+  "productDescriptionRequired":"Product description is required in at least one language",
+  "categoryRequired":"Category is required",
+  "priceRequired":"Valid price is required",
+  "productImage":"Product Image",
+  "changeImage":"Change Image",
+  "removeImage":"Remove",
+  "clickToUploadImage":"Click to upload product image",
+  "supportedFormats":"JPG, PNG, GIF up to 5MB",
+  "productName":"Product Name",
+  "english":"English",
+  "enterNameEnglish":"Enter product name in English",
+  "turkish":"Türkçe",
+  "enterNameTurkish":"Ürün adını Türkçe girin",
+  "categoryAndOrigin":"Category & Origin",
+  "category":"Category",
+  "selectCategory":"Select Category",
+  "origin":"Origin Country",
+  "enterOrigin":"e.g., Brazil, Colombia",
+  "badge":"Product Badge",
+  "enterBadge":"e.g., Premium, Best Seller, New (optional)",
+  "badgeOptional":"Optional badge to highlight special features",
+  "pricing":"Pricing",
+  "price":"Price",
+  "enterPrice":"Enter price",
+  "productDescription":"Product Description",
+  "enenterDescriptionEnglish":"Enter product description in English",
+  "enterDescriptionTurkish":"Ürün açıklamasını Türkçe girin",
+  "visibility":"Visibility",
+  "productVisible":"Product is visible to customers",
+  "productHidden":"Product is hidden from customers",
+  "updateProduct":"Update Product",
+  "createProduct":"Create Product",
+  
+  // Product Detail
+  "productSpecifications": "Product Specifications",
+  "roastLevel": "Roast Level",
+  "processing": "Processing",
+  "altitude": "Altitude",
+  "harvestSeason": "Harvest Season",
+  "tastingNotes": "Tasting Notes",
+  "contactForWholesale": "Contact for Wholesale",
+  "cuppingScores": "Cupping Scores",
+  "aroma": "Aroma",
+  "flavor": "Flavor",
+  "acidity": "Acidity",
+  "body": "Body",
+  "balance": "Balance",
+
+
+
+
+
+  
+
+
+
+ 
+
+
+
+
+
+
+
+
   
   // Course Management
-  "courseManagement": "Course Management",
-  "courseManagementDesc": "Create, edit, and manage your coffee courses",
-  "searchCourses": "Search courses...",
-  "allCourses": "All Courses",
-  "activeCourses": "Active",
-  "inactiveCourses": "Inactive",
-  "editCourse": "Edit Course",
-  "active": "Active",
-  "completed": "Completed",
-  "pending": "Pending",
-  "cancelled": "Cancelled",
+
   
   // User Management
-  "userManagement": "User Management",
-  "userManagementDesc": "Manage user accounts, roles, and permissions",
-  "searchUsers": "Search users...",
-  "allUsers": "All Users",
-  "adminUsers": "Admins",
-  "studentUsers": "Students",
-  "admins": "Admins",
-  "enrolled": "Enrolled",
-  "user": "User",
-  "email": "Email",
-  "role": "Role",
-  "enrollments": "Enrollments",
-  "joined": "Joined",
-  "actions": "Actions",
-  "student": "Student",
-  "userDetails": "User Details",
-  "phone": "Phone",
-  "joinedDate": "Joined",
-  "authProvider": "Auth Provider",
-  "enrolledCourses": "Enrolled Courses",
-  "noEnrollments": "No course enrollments yet",
-  "close": "Close",
-  "removeAdmin": "Remove Admin",
-  "makeAdmin": "Make Admin",
-  "name": "Name",
+ 
   
   // Enrollment Management
-  "enrollmentManagement": "Enrollment Management",
-  "enrollmentManagementDesc": "Track and manage course enrollments and payments",
-  "activeEnrollments": "Active",
-  "totalRevenue": "Total Revenue",
-  "pendingPayments": "Pending Payments",
-  "exportData": "Export Data",
-  "searchEnrollments": "Search enrollments...",
-  "allStatuses": "All Statuses",
-  "course": "Course",
-  "price": "Price",
-  "enrolledDate": "Enrolled",
-  "status": "Status",
-  "payment": "Payment",
-  "studentInfo": "Student Information",
-  "courseInfo": "Course Information",
-  "enrollmentInfo": "Enrollment Information",
-  "paymentInfo": "Payment Information",
-  "paymentStatus": "Payment Status",
-  "enrollmentDetails": "Enrollment Details",
-  "removeEnrollment": "Remove Enrollment",
+ 
   
   // General
 };

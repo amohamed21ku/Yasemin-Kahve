@@ -144,6 +144,31 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
+  // Check if user is admin
+  const isUserAdmin = async (uid) => {
+    try {
+      const userData = await getUserData(uid);
+      return userData?.isAdmin || false;
+    } catch (error) {
+      console.error('Error checking admin status:', error);
+      return false;
+    }
+  };
+
+  // Set user as admin (only for development/setup)
+  const setUserAsAdmin = async (uid, isAdmin = true) => {
+    try {
+      setError(null);
+      await setDoc(doc(db, 'users', uid), {
+        isAdmin: isAdmin,
+        updatedAt: new Date()
+      }, { merge: true });
+    } catch (error) {
+      setError(error.message);
+      throw error;
+    }
+  };
+
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
       setCurrentUser(user);
@@ -161,6 +186,8 @@ export const AuthProvider = ({ children }) => {
     logout,
     getUserData,
     updateUserProfile,
+    isUserAdmin,
+    setUserAsAdmin,
     error,
     setError
   };

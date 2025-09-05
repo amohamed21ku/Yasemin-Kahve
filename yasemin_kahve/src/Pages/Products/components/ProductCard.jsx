@@ -4,17 +4,22 @@ import './ProductCard.css'
 
 const ProductCard = ({ product, onClick }) => {
   const getCountryFlag = (origin) => {
-    const flagMap = {
-      'Colombia': '🇨🇴',
-      'India': '🇮🇳', 
-      'Brazil': '🇧🇷',
-      'Kenya': '🇰🇪',
-      'Nicaragua': '🇳🇮',
-      'Guatemala': '🇬🇹',
-      'Turkey': '🇹🇷',
-      'Ethiopia': '🇪🇹'
+    const flagCodeMap = {
+      'Colombia': 'co',
+      'India': 'in', 
+      'Brazil': 'br',
+      'Kenya': 'ke',
+      'Nicaragua': 'ni',
+      'Guatemala': 'gt',
+      'Turkey': 'tr',
+      'Ethiopia': 'et'
     };
-    return flagMap[origin] || '🌍';
+    const flagCode = flagCodeMap[origin];
+    
+    if (flagCode) {
+      return <span className={`fi fi-${flagCode}`} style={{ fontSize: '1.2em' }}></span>;
+    }
+    return <span style={{ fontSize: '1.2em' }}>🌍</span>;
   };
 
   const handleClick = () => {
