@@ -89,6 +89,14 @@
   margin-bottom: 2rem;
 }
 
+.product-origin-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  margin-bottom: 1rem;
+}
+
 .product-origin {
   display: flex;
   align-items: center;
@@ -96,7 +104,18 @@
   color: #8B4513;
   font-size: 1.125rem;
   font-weight: 600;
-  margin-bottom: 1rem;
+}
+
+.mobile-score-inline {
+  display: none;
+}
+
+.mobile-score-number {
+  font-size: 2rem;
+  color: #e6b555;
+  font-weight: 700;
+  line-height: 1;
+  text-shadow: 0 2px 4px rgba(139, 69, 19, 0.3);
 }
 
 /* Animated Score */
@@ -564,10 +583,11 @@
   }
 
   .product-score-animated {
-    position: static !important;
-    text-align: center;
-    margin-bottom: 2rem;
-    transform: none !important;
+    display: none !important;
+  }
+  
+  .mobile-score-inline {
+    display: block !important;
   }
 
   .product-score-animated .score-number {

@@ -172,9 +172,16 @@ const ProductDetail = ({ onNavigate, product, previousPage }) => {
             
             <div className="product-info-section">
               <div className="product-header">
-                <div className="product-origin">
-                  <span className="country-flag">{getCountryFlag(displayProduct.origin)}</span>
-                  <span>{displayProduct.origin}</span>
+                <div className="product-origin-row">
+                  <div className="product-origin">
+                    <span className="country-flag">{getCountryFlag(displayProduct.origin)}</span>
+                    <span>{displayProduct.origin}</span>
+                  </div>
+                  {displayProduct.score && (
+                    <div className="mobile-score-inline">
+                      <div className="mobile-score-number">{displayProduct.score}</div>
+                    </div>
+                  )}
                 </div>
               </div>
               <h1 className="product-title">{displayProduct.name}</h1>
