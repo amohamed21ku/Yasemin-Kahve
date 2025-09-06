@@ -1,16 +1,17 @@
 import React from 'react'
 import './MissionSection.css'
+import { useTranslation } from "/src/useTranslation";
 
 const MissionSection = () => {
+  const { t } = useTranslation();
+  
   return (
-    <section className="about-mission">
-      <div className="container">
-        <div className="mission-content">
-          <h2>Our Mission</h2>
+    <section className="about-mission-unique">
+      <div className="container-unique">
+        <div className="mission-content-unique">
+          <h2>{t('OurMission')}</h2>
           <p>
-            We are pleased to meet and continue to meet the needs of all coffee shops and roasteries, 
-            as well as the growing demand from customers for the best coffees, along with wide varieties 
-            of the best cardamom pods.
+        {t('MissionParagraph')}
           </p>
         </div>
       </div>

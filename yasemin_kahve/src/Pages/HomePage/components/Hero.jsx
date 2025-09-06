@@ -24,10 +24,10 @@ const Hero = ({ onNavigate }) => {  // Add onNavigate as a prop
   const slides = [
     {
       title: "Yasemin Kahve",
-      subtitle: t("since1921"),
       description: t("yaseminHeroDescription"),
       cta: t("exploreProducts") ,
-    }
+    },
+    
   ];
 
   const slide = slides[currentSlide];

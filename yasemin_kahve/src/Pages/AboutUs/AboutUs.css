@@ -11,7 +11,7 @@
 
 /* Hero Section */
 .about-hero {
-  background: linear-gradient(135deg, #8B4513 0%, #D2691E 100%);
+  background: linear-gradient(135deg, #3c2e26 0%, #5d4037 100%);
   color: white;
   padding: 4rem 0 3rem;
   position: relative;
@@ -114,7 +114,7 @@
 }
 
 .about-quality h2 {
-  text-align: center;
+  text-align: left;
   font-size: 2rem;
   color: #8B4513;
   margin-bottom: 1rem;
@@ -122,12 +122,12 @@
 }
 
 .quality-intro {
-  text-align: center;
+    text-align: center !important;
   font-size: 1.2rem;
   color: #5D4037;
   margin-bottom: 4rem;
   max-width: 800px;
-  margin-left: auto;
+  margin-left: 0;
   margin-right: auto;
   line-height: 1.6;
 }
@@ -178,7 +178,7 @@
   padding: 3rem 0;
   background: #8B4513;
   color: white;
-  text-align: center;
+  text-align: left;
 }
 
 .mission-content h2 {
@@ -191,7 +191,7 @@
   font-size: 1.3rem;
   line-height: 1.8;
   max-width: 900px;
-  margin: 0 auto;
+  margin: 0;
   opacity: 0.95;
 }
 
@@ -202,7 +202,7 @@
 }
 
 .about-locations h2 {
-  text-align: center;
+  text-align: left;
   font-size: 2rem;
   color: #8B4513;
   margin-bottom: 2rem;

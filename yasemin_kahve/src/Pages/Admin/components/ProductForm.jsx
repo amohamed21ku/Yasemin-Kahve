@@ -23,14 +23,16 @@ const ProductForm = ({ product, categories = [], onSave, onCancel }) => {
     badge: product?.badge || '',
     price: product?.price || '',
     currency: product?.currency || 'TRY',
-    rating: product?.rating || 4.5,
+    score: product?.score || 8.5,
     image: product?.image || '',
     isVisible: product?.isVisible !== false,
     // Additional product specifications
-    roastLevel: product?.roastLevel || '',
-    processingMethod: product?.processingMethod || '',
+    region: product?.region || '',
+    classification: product?.classification || '',
+    processing: product?.processing || '',
+    type: product?.type || '',
     altitude: product?.altitude || '',
-    harvestSeason: product?.harvestSeason || '',
+    bagType: product?.bagType || '',
     tastingNotes: product?.tastingNotes || [],
     cupping: {
       aroma: product?.cupping?.aroma || 8.0,
@@ -541,46 +543,71 @@ const ProductForm = ({ product, categories = [], onSave, onCancel }) => {
           
           <div className="specs-input-grid">
             <div className="productform-form-group">
-              <label>{t('rating') || 'Rating'}</label>
+              <label>{t('score') || 'Score'}</label>
               <input
                 type="number"
                 step="0.1"
                 min="0"
-                max="5"
-                value={formData.rating}
-                onChange={(e) => handleInputChange('rating', parseFloat(e.target.value) || 0)}
-                placeholder="4.5"
+                value={formData.score}
+                onChange={(e) => handleInputChange('score', parseFloat(e.target.value) || 0)}
+                placeholder="8.5"
               />
-              <small>{t('ratingHelp') || 'Rating out of 5 stars'}</small>
+              <small>{t('scoreHelp') || 'Coffee quality score (decimal values allowed)'}</small>
             </div>
             
             <div className="productform-form-group">
-              <label>{t('roastLevel') || 'Roast Level'}</label>
+              <label>{t('region') || 'Region'}</label>
+              <input
+                type="text"
+                value={formData.region}
+                onChange={(e) => handleInputChange('region', e.target.value)}
+                placeholder={t('regionPlaceholder') || 'e.g., Huila, Nariño, Cauca'}
+              />
+            </div>
+            
+            <div className="productform-form-group">
+              <label>{t('classification') || 'Classification'}</label>
               <select
-                value={formData.roastLevel}
-                onChange={(e) => handleInputChange('roastLevel', e.target.value)}
+                value={formData.classification}
+                onChange={(e) => handleInputChange('classification', e.target.value)}
               >
-                <option value="">{t('selectRoastLevel') || 'Select Roast Level'}</option>
-                <option value="Light">Light</option>
-                <option value="Medium-Light">Medium-Light</option>
-                <option value="Medium">Medium</option>
-                <option value="Medium-Dark">Medium-Dark</option>
-                <option value="Dark">Dark</option>
+                <option value="">{t('selectClassification') || 'Select Classification'}</option>
+                <option value="Specialty">Specialty</option>
+                <option value="Premium">Premium</option>
+                <option value="Commercial">Commercial</option>
+                <option value="Organic">Organic</option>
+                <option value="Fair Trade">Fair Trade</option>
               </select>
             </div>
             
             <div className="productform-form-group">
-              <label>{t('processingMethod') || 'Processing Method'}</label>
+              <label>{t('processing') || 'Processing'}</label>
               <select
-                value={formData.processingMethod}
-                onChange={(e) => handleInputChange('processingMethod', e.target.value)}
+                value={formData.processing}
+                onChange={(e) => handleInputChange('processing', e.target.value)}
               >
-                <option value="">{t('selectProcessingMethod') || 'Select Processing Method'}</option>
+                <option value="">{t('selectProcessing') || 'Select Processing Method'}</option>
                 <option value="Washed">Washed</option>
                 <option value="Natural">Natural</option>
                 <option value="Honey">Honey</option>
                 <option value="Pulped Natural">Pulped Natural</option>
                 <option value="Semi-Washed">Semi-Washed</option>
+                <option value="Wet Hulled">Wet Hulled</option>
+              </select>
+            </div>
+            
+            <div className="productform-form-group">
+              <label>{t('type') || 'Type'}</label>
+              <select
+                value={formData.type}
+                onChange={(e) => handleInputChange('type', e.target.value)}
+              >
+                <option value="">{t('selectType') || 'Select Coffee Type'}</option>
+                <option value="Arabica">Arabica</option>
+                <option value="Robusta">Robusta</option>
+                <option value="Liberica">Liberica</option>
+                <option value="Excelsa">Excelsa</option>
+                <option value="Blend">Blend</option>
               </select>
             </div>
             
@@ -595,13 +622,19 @@ const ProductForm = ({ product, categories = [], onSave, onCancel }) => {
             </div>
             
             <div className="productform-form-group">
-              <label>{t('harvestSeason') || 'Harvest Season'}</label>
-              <input
-                type="text"
-                value={formData.harvestSeason}
-                onChange={(e) => handleInputChange('harvestSeason', e.target.value)}
-                placeholder={t('harvestSeasonPlaceholder') || 'e.g., October - February'}
-              />
+              <label>{t('bagType') || 'Bag Type'}</label>
+              <select
+                value={formData.bagType}
+                onChange={(e) => handleInputChange('bagType', e.target.value)}
+              >
+                <option value="">{t('selectBagType') || 'Select Bag Type'}</option>
+                <option value="Jute">Jute</option>
+                <option value="Burlap">Burlap</option>
+                <option value="GrainPro">GrainPro</option>
+                <option value="Vacuum">Vacuum</option>
+                <option value="Ecotact">Ecotact</option>
+                <option value="Standard">Standard</option>
+              </select>
             </div>
           </div>
         </div>

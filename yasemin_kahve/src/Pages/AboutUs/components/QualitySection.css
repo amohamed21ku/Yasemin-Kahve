@@ -1,28 +1,30 @@
-.about-quality {
+.about-quality-unique {
   padding: 6rem 2rem;
   background: #f8f6f3;
 }
 
-.container {
+.container-quality-unique {
   max-width: 1200px;
   margin: 0 auto;
-  text-align: center;
+  text-align: center !important;
 }
 
-.about-quality h2 {
+.about-quality-unique h2 {
   font-size: 2.5rem;
   font-weight: 700;
   color: #3c2e26;
   margin-bottom: 1.5rem;
   line-height: 1.2;
+  text-align: center !important;
 }
 
-.quality-intro {
+.quality-about-intro{
   font-size: 1.25rem;
   line-height: 1.8;
   color: #6B5B73;
   max-width: 800px;
   margin: 0 auto 4rem;
+  text-align: center !important;
 }
 
 .quality-features {
@@ -67,17 +69,20 @@
 
 /* Responsive design */
 @media (max-width: 768px) {
-  .about-quality {
+  .about-quality-unique {
     padding: 4rem 1rem;
   }
 
-  .about-quality h2 {
+  .about-quality-unique h2 {
     font-size: 2rem;
   }
 
-  .quality-intro {
+  .quality-about-intro- {
+
     font-size: 1.125rem;
     margin-bottom: 3rem;
+    text-align: center !important;
+
   }
 
   .quality-features {

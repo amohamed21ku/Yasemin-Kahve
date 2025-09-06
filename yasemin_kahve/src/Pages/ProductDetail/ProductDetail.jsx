@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 import { Star, Coffee, ArrowLeft, Package, Globe, Award } from 'lucide-react'
 import Header from '../HomePage/components/Header'
 import Footer from '../HomePage/components/Footer'
@@ -7,6 +7,31 @@ import './ProductDetail.css'
 
 const ProductDetail = ({ onNavigate, product, previousPage }) => {
   const { t } = useTranslation();
+  const [scrollProgress, setScrollProgress] = useState(0);
+  const scoreRef = useRef(null);
+  const cuppingRef = useRef(null);
+  
+  useEffect(() => {
+    const handleScroll = () => {
+      if (!scoreRef.current || !cuppingRef.current) return;
+      
+      const scrollTop = window.pageYOffset;
+      const windowHeight = window.innerHeight;
+      const cuppingTop = cuppingRef.current.offsetTop;
+      
+      // Start animation immediately when scrolling, complete much earlier
+      const startPoint = 50; // Start after just 50px of scroll
+      const endPoint = cuppingTop - windowHeight * 0.8; // End when cupping section is still 80% away from viewport
+      
+      const progress = Math.min(Math.max((scrollTop - startPoint) / (endPoint - startPoint), 0), 1);
+      setScrollProgress(progress);
+    };
+    
+    window.addEventListener('scroll', handleScroll);
+    handleScroll();
+    
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
 
   // Default product data if none provided
   const defaultProduct = {
@@ -18,7 +43,7 @@ const ProductDetail = ({ onNavigate, product, previousPage }) => {
     image: "/static/images/assets/Products/Colombia/Colombiapng.png",
     category: "Colombian",
     price: "₺85.00",
-    rating: 4.8,
+    score: 88,
     badge: "Premium",
     roastLevel: "Medium",
     processingMethod: "Washed",
@@ -48,10 +73,13 @@ const ProductDetail = ({ onNavigate, product, previousPage }) => {
                            firebaseData.detailedDescription?.en || 
                            firebaseData.detailedDescription?.tr || 
                            product.description,
-        roastLevel: firebaseData.roastLevel,
-        processingMethod: firebaseData.processingMethod,
+        region: firebaseData.region,
+        classification: firebaseData.classification,
+        processing: firebaseData.processing,
+        type: firebaseData.type,
         altitude: firebaseData.altitude,
-        harvestSeason: firebaseData.harvestSeason,
+        bagType: firebaseData.bagType,
+        score: firebaseData.score,
         cupping: firebaseData.cupping,
         tastingNotes: firebaseData.tastingNotes || []
       };
@@ -96,6 +124,30 @@ const ProductDetail = ({ onNavigate, product, previousPage }) => {
       
       {/* Hero Section */}
       <section className="product-detail-hero">
+        {/* Score positioned absolutely on the right */}
+        {displayProduct.score && (
+          <div 
+            ref={scoreRef}
+            className="product-score-animated"
+            style={{
+              transform: `
+                translate3d(
+                  ${scrollProgress * -300}px,
+                  ${scrollProgress * 400}px,
+                  ${scrollProgress * 50}px
+                )
+                rotateY(${scrollProgress * 360}deg)
+                rotateX(${scrollProgress * 15}deg)
+                scale(${1 - scrollProgress * 0.3})
+              `,
+              opacity: scrollProgress > 0.75 ? 0 : 1,
+              transition: 'opacity 0.3s ease'
+            }}
+          >
+            <div className="score-number">{displayProduct.score}</div>
+          </div>
+        )}
+        
         <div className="productdetail-container">
           <button className="back-button" onClick={handleBackClick}>
             <ArrowLeft size={20} />
@@ -124,24 +176,8 @@ const ProductDetail = ({ onNavigate, product, previousPage }) => {
                   <span className="country-flag">{getCountryFlag(displayProduct.origin)}</span>
                   <span>{displayProduct.origin}</span>
                 </div>
-                
-                {displayProduct.rating && (
-                  <div className="product-rating">
-                    <div className="stars">
-                      {[...Array(5)].map((_, i) => (
-                        <Star 
-                          key={i} 
-                          size={20} 
-                          fill={i < Math.floor(displayProduct.rating) ? "#e6b555" : "none"}
-                          color="#e6b555"
-                        />
-                      ))}
-                    </div>
-                    <span className="rating-number">({displayProduct.rating})</span>
-                  </div>
-                )}
               </div>
-                              <h1 className="product-title">{displayProduct.name}</h1>
+              <h1 className="product-title">{displayProduct.name}</h1>
 
               
               <div className="product-description">
@@ -149,24 +185,44 @@ const ProductDetail = ({ onNavigate, product, previousPage }) => {
               </div>
               
               <div className="product-specifications">
-                <h3>Product Specifications</h3>
-                <div className="specs-grid">
-                  {displayProduct.roastLevel && (
+                <h3>{t('productSpecifications') || 'Product Specifications'}</h3>
+                <div className="specs-grid specs-grid-2x3">
+                  {displayProduct.region && (
                     <div className="spec-item">
                       <Coffee size={18} />
                       <div>
-                        <span className="spec-label">Roast Level</span>
-                        <span className="spec-value">{displayProduct.roastLevel}</span>
+                        <span className="spec-label">{t('region') || 'Region'}</span>
+                        <span className="spec-value">{displayProduct.region}</span>
                       </div>
                     </div>
                   )}
                   
-                  {displayProduct.processingMethod && (
+                  {displayProduct.classification && (
+                    <div className="spec-item">
+                      <Award size={18} />
+                      <div>
+                        <span className="spec-label">{t('classification') || 'Classification'}</span>
+                        <span className="spec-value">{displayProduct.classification}</span>
+                      </div>
+                    </div>
+                  )}
+                  
+                  {displayProduct.processing && (
                     <div className="spec-item">
                       <Package size={18} />
                       <div>
-                        <span className="spec-label">Processing</span>
-                        <span className="spec-value">{displayProduct.processingMethod}</span>
+                        <span className="spec-label">{t('processing') || 'Processing'}</span>
+                        <span className="spec-value">{displayProduct.processing}</span>
+                      </div>
+                    </div>
+                  )}
+                  
+                  {displayProduct.type && (
+                    <div className="spec-item">
+                      <Coffee size={18} />
+                      <div>
+                        <span className="spec-label">{t('type') || 'Type'}</span>
+                        <span className="spec-value">{displayProduct.type}</span>
                       </div>
                     </div>
                   )}
@@ -175,27 +231,27 @@ const ProductDetail = ({ onNavigate, product, previousPage }) => {
                     <div className="spec-item">
                       <Globe size={18} />
                       <div>
-                        <span className="spec-label">Altitude</span>
+                        <span className="spec-label">{t('altitude') || 'Altitude'}</span>
                         <span className="spec-value">{displayProduct.altitude}</span>
                       </div>
                     </div>
                   )}
                   
-                  {displayProduct.harvestSeason && (
+                  {displayProduct.bagType && (
                     <div className="spec-item">
-                      <Award size={18} />
+                      <Package size={18} />
                       <div>
-                        <span className="spec-label">Harvest Season</span>
-                        <span className="spec-value">{displayProduct.harvestSeason}</span>
+                        <span className="spec-label">{t('bagType') || 'Bag Type'}</span>
+                        <span className="spec-value">{displayProduct.bagType}</span>
                       </div>
                     </div>
                   )}
                 </div>
               </div>
               
-              {displayProduct.tastingNotes && (
+              {displayProduct.tastingNotes && displayProduct.tastingNotes.length > 0 && (
                 <div className="tasting-notes">
-                  <h3>Tasting Notes</h3>
+                  <h3>{t('tastingNotes') || 'Tasting Notes'}</h3>
                   <div className="notes-list">
                     {displayProduct.tastingNotes.map((note, index) => (
                       <span key={index} className="note-tag">{note}</span>
@@ -221,9 +277,17 @@ const ProductDetail = ({ onNavigate, product, previousPage }) => {
       </section>
 
       {displayProduct.cupping && (
-        <section className="cupping-scores">
+        <section className="cupping-scores" ref={cuppingRef}>
           <div className="productdetail-container">
-            <h2>Cupping Scores</h2>
+            <div className="cupping-header">
+              <h2>Cupping Scores</h2>
+              {displayProduct.score && scrollProgress > 0.75 && (
+                <div className="final-score-display">
+                  <span className="final-score-number">{displayProduct.score}</span>
+                  <span className="final-score-label">Overall Score</span>
+                </div>
+              )}
+            </div>
             <div className="scores-grid">
               <div className="score-item">
                 <span className="score-label">Aroma</span>

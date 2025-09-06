@@ -1841,10 +1841,9 @@ html {
 .video-overlay {
   position: absolute;
   inset: 0;
-  background: rgba(62, 39, 35, 0.7); /* Dark brown overlay to ensure text contrast */
+  background: rgba(93, 88, 71, 0.85); /* Changed from rgba(62, 39, 35, 0.7) */
   mix-blend-mode: multiply;
 }
-
 /* Adjust hero gradient to work with video */
 .hero-gradient {
   display: none; /* Hide the gradient since we're using video */
@@ -1864,8 +1863,8 @@ html {
     transform: translateX(-50%) translateY(-50%) scale(1.1);
   }
   
-  .video-overlay {
-    background: rgba(62, 39, 35, 0.8); /* Darker overlay on mobile */
+ .video-overlay {
+  background: rgba(93, 88, 71, 0.85); /* Changed from rgba(62, 39, 35, 0.7) */
   }
 }
 
@@ -2077,7 +2076,7 @@ html {
 
 .sign-in-btn {
   background: none;
-  color: #8B4513;
+  color: #8b8113;
   border-color: #8B4513;
 }
 
@@ -3083,3 +3082,5 @@ html {
     padding: 2rem 0;
   }
 }
+
+

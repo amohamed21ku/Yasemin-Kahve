@@ -10,9 +10,9 @@ const CompanyOverview = ({ onNavigate }) => {
       <div className="container">
         <div className="overview-grid">
           <div className="overview-content">
-            <div className="section-badge">{t("roastedToPerfection") || "ROASTED TO PERFECTION..."}</div>
+            <div className="section-badge">{t("OurStory") }</div>
             <h2 className="section-title">
-              {t("yaseminKahveStory") || "Located in beautiful Turkey, where the core Turkish coffee is"}
+              {t("HomePageTitle") }
             </h2>
             <p className="section-description">
               {t("yaseminKahveDescription") || "Yasemin Kahve was born in Guatemala to take the next step to Turkey. Nowadays, Yasemin Kahve is one of the biggest Turkish Coffee exporter for many distributors and perfect coffee shops in many countries around the world."}

@@ -4,10 +4,10 @@ import './QualitySection.css'
 
 const QualitySection = () => {
   return (
-    <section className="about-quality">
-      <div className="container">
+    <section className="about-quality-unique">
+      <div className="container-quality-unique">
         <h2>Farm to Cup Excellence</h2>
-        <p className="quality-intro">
+        <p className="quality-about-intro">
           Originating from our family-owned green coffee farms in Guatemala as well as globally 
           sourced coffee beans, we control every stage of production from farm to cup.
         </p>

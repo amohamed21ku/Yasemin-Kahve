@@ -54,7 +54,7 @@ const Products = ({ onNavigate }) => {
       image: "/static/images/assets/Products/Colombia/Colombiapng.png",
       category: "Colombian",
       price: "₺85.00",
-      rating: 4.8,
+      score: 88,
       badge: "Premium"
     },
     {
@@ -65,7 +65,7 @@ const Products = ({ onNavigate }) => {
       image: "/static/images/assets/Products/Colombia/Colombiapng.png",
       category: "Colombian",
       price: "₺90.00",
-      rating: 4.9,
+      score: 92,
       badge: "Best Seller"
     },
     {
@@ -76,7 +76,7 @@ const Products = ({ onNavigate }) => {
       image: "/static/images/assets/Products/Indian/Indian_A.png",
       category: "Indian",
       price: "₺75.00",
-      rating: 4.7,
+      score: 85,
       badge: "Plantation"
     },
     {
@@ -87,7 +87,7 @@ const Products = ({ onNavigate }) => {
       image: "/static/images/assets/Products/Indian/Indian_AA.png",
       category: "Indian",
       price: "₺82.00",
-      rating: 4.8,
+      score: 88,
       badge: "AA Grade"
     },
     {
@@ -98,7 +98,7 @@ const Products = ({ onNavigate }) => {
       image: "/static/images/assets/Products/Brazilian/Tucano_brazilian.png",
       category: "Brazilian",
       price: "₺70.00",
-      rating: 4.6,
+      score: 82,
       badge: "Washed"
     },
     {
@@ -109,7 +109,7 @@ const Products = ({ onNavigate }) => {
       image: "/static/images/assets/Products/Brazilian/Tucano_Super.png",
       category: "Brazilian",
       price: "₺78.00",
-      rating: 4.7,
+      score: 85,
       badge: "Super Grade"
     },
     {
@@ -120,7 +120,7 @@ const Products = ({ onNavigate }) => {
       image: "/static/images/assets/Products/Brazilian/Tucano.png",
       category: "Brazilian",
       price: "₺65.00",
-      rating: 4.5
+      score: 80
     },
     {
       id: 8,
@@ -130,7 +130,7 @@ const Products = ({ onNavigate }) => {
       image: "/static/images/assets/Products/Brazilian/Feraz Efendi.png",
       category: "Brazilian",
       price: "₺72.00",
-      rating: 4.6,
+      score: 82,
       badge: "Extra Soft"
     },
     {
@@ -141,7 +141,7 @@ const Products = ({ onNavigate }) => {
       image: "/static/images/assets/Products/Kenya/Kenya.png",
       category: "Kenya",
       price: "₺95.00",
-      rating: 4.9,
+      score: 92,
       badge: "AA Grade"
     },
     {
@@ -152,7 +152,7 @@ const Products = ({ onNavigate }) => {
       image: "/static/images/assets/Products/Nicaragua/Nicaraguapng.png",
       category: "Nicaragua",
       price: "₺88.00",
-      rating: 4.8,
+      score: 88,
       badge: "SHG"
     },
     {
@@ -163,7 +163,7 @@ const Products = ({ onNavigate }) => {
       image: "/static/images/assets/Products/Guatemala/Guatemala.png",
       category: "Guatemala",
       price: "₺92.00",
-      rating: 4.8,
+      score: 88,
       badge: "Washed"
     },
     {
@@ -174,7 +174,7 @@ const Products = ({ onNavigate }) => {
       image: "/static/images/assets/Products/Ethiopian/Ethiopian_Arabica.png",
       category: "Ethiopian",
       price: "₺98.00",
-      rating: 4.9,
+      score: 92,
       badge: "Single Origin"
     },
     {
@@ -185,7 +185,7 @@ const Products = ({ onNavigate }) => {
       image: "/static/images/assets/Products/Cardamom/Cardamom.png",
       category: "Cardamom",
       price: "₺120.00",
-      rating: 4.7
+      score: 85
     },
     {
       id: 14,
@@ -195,7 +195,7 @@ const Products = ({ onNavigate }) => {
       image: "/static/images/assets/Products/Cardamom/Cardamom.png",
       category: "Cardamom",
       price: "₺110.00",
-      rating: 4.6
+      score: 82
     },
     {
       id: 15,
@@ -205,7 +205,7 @@ const Products = ({ onNavigate }) => {
       image: "/static/images/assets/Products/Cardamom/Cardamom.png",
       category: "Cardamom",
       price: "₺105.00",
-      rating: 4.5
+      score: 80
     },
     {
       id: 16,
@@ -215,7 +215,7 @@ const Products = ({ onNavigate }) => {
       image: "/static/images/assets/Products/Cardamom/Cardamom.png",
       category: "Cardamom",
       price: "₺135.00",
-      rating: 4.8,
+      score: 88,
       badge: "Premium"
     },
     {
@@ -226,7 +226,7 @@ const Products = ({ onNavigate }) => {
       image: "/static/images/assets/Products/Cardamom/Cardamom.png",
       category: "Cardamom",
       price: "₺115.00",
-      rating: 4.6
+      score: 82
     },
     {
       id: 18,
@@ -236,7 +236,7 @@ const Products = ({ onNavigate }) => {
       image: "/static/images/assets/Products/Cardamom/Cardamom.png",
       category: "Cardamom",
       price: "₺125.00",
-      rating: 4.7
+      score: 85
     },
     {
       id: 19,
@@ -246,7 +246,7 @@ const Products = ({ onNavigate }) => {
       image: "/static/images/assets/Products/Cardamom/Cardamom.png",
       category: "Cardamom",
       price: "₺140.00",
-      rating: 4.8,
+      score: 88,
       badge: "Deluxe"
     },
     {
@@ -257,7 +257,7 @@ const Products = ({ onNavigate }) => {
       image: "/static/images/assets/Products/Cardamom/Cardamom.png",
       category: "Cardamom",
       price: "₺150.00",
-      rating: 4.9,
+      score: 92,
       badge: "Super Grade"
     }
   ];

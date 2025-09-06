@@ -15,16 +15,15 @@ export const tr = {
   "adminConsole": "Yönetici Paneli",
   
   // Hero
-  "yaseminHeroDescription":"YASEMİN KAHVE, 1921 YILINDAN BU YANA TÜRK KAHVESİ SEVERLERİNİN FİNCANLARINI DOLDURUYOR",
-  "since1921":"1921'den beri",
+"yaseminHeroDescription": "Yasemin Kahve, dünyanın en kaliteli yeşil kahvesini tutkulu kahve tutkunlarına sunar",
   "exploreProducts":"Ürünleri Keşfedin",
   "PriceList":"Fiyat Listesi",
   "whatsAppPriceListMessage":"Merhaba! Kahve ürünleriniz için fiyat listesi talep etmek istiyorum. Teşekkürler!",
 
   
   // Company Overview
-"yaseminKahveStory" : "MÜKEMMEL KAVRULMUŞLUK",
-"roastedToPerfection":"Bizim Hikayet",
+"HomePageTitle": "Mükemmellik Yeşilde Başlar...",
+"OurStory":"Bizim Hikayet",
 "yaseminKahveDescription":"Türk kahvesinin çekirdeğinin bulunduğu güzel Türkiye’de yer alan Yasemin Kahve, Türkiye’ye bir sonraki adımı atmak için Guatemala’da doğdu.  ",
 "yaseminKahveStory2": "Günümüzde Yasemin Kahve, dünyanın birçok ülkesindeki birçok distribütör ve mükemmel kahve dükkanları için en büyük Türk Kahvesi ihracatçılarından biridir. Yasemin Kahve’nin kuruluşundan bu yana, dünya çapındaki kahve çekirdeklerinin yanı sıra, kahve çekirdeklerimizi Guatemala’daki ailemizin sahip olduğu yeşil kahve çiftliklerinden alıyoruz.",
 "yaseminKahveStory3":"Kahve dükkanları ve restoranların değişen ihtiyaçlarının yanı sıra müşterilerin yüksek kaliteli kakuleli en iyi kahvelere olan artan ilgisini karşılamak için genişlettik.",
@@ -90,7 +89,15 @@ export const tr = {
 "allRightsReserved": "Tüm hakları saklıdır",
 "footerDescription": "Türk kahvesi ihracatçısı ve premium yeşil kahve çekirdeği tedarikçisi. Guatemala’dan Türkiye’ye, otantik Türk kahvesi ve yüksek kaliteli kakule ile dünya çapında distribütörlere ve kahve dükkânlarına hizmet veriyoruz.",
 
-  
+  //About
+  "AboutTitle": "Tarladan Fincana...",
+"AboutSubTitle": "Yasemin Kahve - 2021’de Kuruldu",
+"OurJourney": "Bizim Yolculuğumuz",
+"aboutParagraph1": "Yasemin Kahve, Türkiye’nin hızla büyüyen özel kahve sektörüne hizmet vermek için kurulmuş, ülkenin adanmış yeşil kahve markasıdır. Kavuruculara ve profesyonellere uygun fiyatlı, tutarlı ve premium kalitede yeşil kahveye doğrudan erişim sunuyoruz — hem yerel beklentileri hem de global standartları karşılayacak şekilde. Yasemin Kahve, kahve dünyasında 1951’den beri köklü bir aile şirketi olan Olabi Holding çatısı altında faaliyet göstermektedir. Dört kuşak boyunca 70 yılı aşkın tecrübeye sahip Olabi Holding, Guatemala’daki kendi çiftliklerimizden Latin Amerika, Afrika ve Asya’daki 15’ten fazla menşe ülkeyi kapsayan küresel bir tedarik ağına büyümüştür.",
+"aboutParagraph2": "Operasyonlarımız, sertifikalı Q Grader’lar ve tam donanımlı, Q Venue akredite kahve laboratuvarımız tarafından desteklenmektedir; bu sayede çekirdekleri hassasiyet, güvenilirlik ve izlenebilirlikle değerlendirebilmekte ve teslim edebilmekteyiz.",
+"aboutParagraph3": "Bugün Yasemin Kahve, bu küresel mirasın başarısını yansıtmaktadır ve Türkiye’nin kahve dünyasının en güçlü ve en hızlı büyüyen pazarlarından biri olmaya devam etmesini sağlama taahhüdündedir. Türkiye, dünyanın en dinamik ve hızla büyüyen kahve pazarlarından biri olarak ortaya çıkarken, Yasemin Kahve, global ağın uzmanlığını yerel bir markanın çevikliğiyle sunarak belirleyici bir rol oynamaya hazırdır.",
+"OurMission": "Misyonumuz",
+"MissionParagraph": "Biz sadece kahve tedarik etmek için burada değiliz. Türkiye’de kahvenin standartlarını belirlemek, büyümeyi desteklemek ve kahvenin geleceğini yükseltmek için buradayız." ,
 
   // Authentication
   "loading": "Yükleniyor",
@@ -248,6 +255,19 @@ export const tr = {
 "acidity": "Asidite",
 "body": "Gövde",
 "balance": "Denge",
+"region": "Bölge",
+"classification": "Sınıflandırma",
+"processing": "İşleme",
+"type": "Tür",
+"bagType": "Çuval Tipi",
+"regionPlaceholder": "ör. Huila, Nariño, Cauca",
+"selectClassification": "Sınıflandırma Seçin",
+"selectProcessing": "İşleme Yöntemi Seçin",
+"selectType": "Kahve Türünü Seçin",
+"selectBagType": "Çuval Tipi Seçin",
+"score": "Puan",
+"scoreHelp": "Kahve kalite puanı 100 üzerinden",
+"qualityScore": "Kalite Puanı",
 
 
 

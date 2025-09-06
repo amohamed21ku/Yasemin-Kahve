@@ -12,17 +12,18 @@ export const en = {
   "signOut": "Sign Out",
   "admin": "Admin",
   "adminConsole": "Admin Console",
+
+
   
   // Hero
- "yaseminHeroDescription":"Since 1921, Yasemin Kahve has filled the cups of Turkish coffee lovers and beyond",
- "since1921":"Since 1921",
+ "yaseminHeroDescription":"Yasemin Kahve brings the world’s finest green coffee to passionate brewers",
  "exploreProducts":"Explore Products",
  "PriceList":"Price List",
  "whatsAppPriceListMessage":"Hello! I would like to request the price list for your coffee products. Thank you!",
   
   // Company Overview
-"yaseminKahveStory" : "ROASTED TO PERFECTION…",
-"roastedToPerfection":"Our Story",
+"HomePageTitle" : "Perfection Starts Green...",
+"OurStory":"Our Story",
 "yaseminKahveDescription":"Located in beautiful Turkey, where the core Turkish coffee is, Yasemin Kahve was born in Guatemala to take the next step to Turkey.  ",
 "yaseminKahveStory2": "Nowadays, Yasemin Kahve is one of the biggest Turkish Coffee exporter for many distributors and perfect coffee shops in many countries around the world. Since Yasemin Kahve’s initiation, we’re getting our coffee beans from our family-owned green coffee farms in Guatemala, in addition to worldwide coffee beans.",
 "yaseminKahveStory3":"We have simply expanded to meet coffee shops and restaurants’ changing needs, as well as customer’s growing interest in the best coffees with high-quality cardamom.",
@@ -94,6 +95,18 @@ export const en = {
 
   
  
+ // About
+"AboutTitle":"From farm to cup...",
+"AboutSubTitle":"Yasemin Kahve - Established in 2021",
+"OurJourney":"Our Journey",
+"aboutParagraph1":"Yasemin Kahve is Türkiye’s dedicated green coffee brand, created to serve the country’s rapidly expanding specialty coffee sector. We offer roasters and professionals a direct path to affordable, consistent, and premium-quality green coffee — tailored to meet both local expectations and global standards. Yasemin Kahve operates under Olabi Holding, a family business rooted in the coffee world since 1951. With over 70 years of experience spanning four generations, Olabi Holding has grown from our own farms in Guatemala to a global sourcing network that includes more than 15 origins across Latin America, Africa, and Asia. ",
+"aboutParagraph2":"Our operations are backed by a team of certified Q Graders and a fully equipped Q Venue-accredited coffee laboratory, enabling us to evaluate and deliver beans with precision, reliability, and traceability. ",
+"aboutParagraph3":"Today, Yasemin Kahve reflects the success of this global heritage — and is committed to ensuring that Türkiye remains one of the strongest and fastest-growing markets in the coffee world. Would you like this version in Turkish or formatted for a website section or brochure? As Türkiye emerges as one of the most dynamic and fastest-growing coffee markets in the world, Yasemin Kahve is positioned to play a defining role — offering the expertise of a global network with the agility of a local brand.",
+
+"OurMission":"Our Mission",
+"MissionParagraph":"We are not just here to supply coffee. We are here to shape standards, fuel growth, and elevate the future of coffee in Türkiye.",
+
+
   
   // Authentication
   "loading": "Loading",
@@ -251,6 +264,19 @@ export const en = {
   "acidity": "Acidity",
   "body": "Body",
   "balance": "Balance",
+  "region": "Region",
+  "classification": "Classification",
+  "processing": "Processing",
+  "type": "Type",
+  "bagType": "Bag Type",
+  "regionPlaceholder": "e.g., Huila, Nariño, Cauca",
+  "selectClassification": "Select Classification",
+  "selectProcessing": "Select Processing Method",
+  "selectType": "Select Coffee Type",
+  "selectBagType": "Select Bag Type",
+  "score": "Score",
+  "scoreHelp": "Coffee quality score out of 100 points",
+  "qualityScore": "Quality Score",
 
 
 

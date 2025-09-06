@@ -56,7 +56,7 @@
   .story-content {
     grid-template-columns: 1fr;
     gap: 2rem;
-    text-align: center;
+    text-align: left;
   }
 
   .story-text h2 {
