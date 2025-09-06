@@ -4,8 +4,19 @@
 }
 
 .academy-content {
-  padding: 5rem 2rem;
-  max-width: 1200px;
-  margin: 0 auto;
-  text-align: center;
+  padding: 3rem 0;
+  background: #f8f5f0;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .academy-content {
+    padding: 2rem 0;
+  }
+}
+
+@media (max-width: 480px) {
+  .academy-content {
+    padding: 1.5rem 0;
+  }
 }

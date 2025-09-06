@@ -6,6 +6,7 @@ import ProductManagement from './components/ProductManagement';
 import Dashboard from './components/Dashboard';
 import UserManagement from './components/UserManagement';
 import DataMigration from './components/DataMigration';
+import AcademyManagement from './components/AcademyManagement';
 import './AdminPanel.css';
 
 const AdminPanel = ({ onNavigate }) => {
@@ -58,8 +59,8 @@ const AdminPanel = ({ onNavigate }) => {
       id: 'academy',
       label: t('academy') || 'Academy',
       icon: GraduationCap,
-      description: t('academyDesc') || 'Manage courses (Coming Soon)',
-      disabled: true
+      description: t('academyDesc') || 'Manage courses and enrollments',
+      disabled: false
     }
   ];
 
@@ -73,6 +74,8 @@ const AdminPanel = ({ onNavigate }) => {
         return <DataMigration />;
       case 'users':
         return <UserManagement />;
+      case 'academy':
+        return <AcademyManagement />;
       default:
         return <Dashboard />;
     }

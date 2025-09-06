@@ -1,0 +1,369 @@
+.enrollment-list {
+  padding: 2rem;
+}
+
+.enrollment-list.loading {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 300px;
+  color: #8B4513;
+}
+
+.enrollment-controls {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 2rem;
+}
+
+.search-filter {
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+}
+
+.search-box {
+  display: flex;
+  align-items: center;
+  background: #F9FAFB;
+  border: 2px solid #E5E7EB;
+  border-radius: 0.5rem;
+  padding: 0.5rem 1rem;
+  min-width: 350px;
+}
+
+.search-box svg {
+  color: #9CA3AF;
+  margin-right: 0.5rem;
+}
+
+.search-box input {
+  border: none;
+  background: none;
+  outline: none;
+  flex: 1;
+  font-size: 0.9rem;
+}
+
+.status-filter {
+  padding: 0.5rem 1rem;
+  border: 2px solid #E5E7EB;
+  border-radius: 0.5rem;
+  background: #F9FAFB;
+  font-size: 0.9rem;
+  cursor: pointer;
+}
+
+.export-btn {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: linear-gradient(135deg, #059669, #10B981);
+  color: white;
+  border: none;
+  padding: 0.75rem 1rem;
+  border-radius: 0.5rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.export-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 15px rgba(5, 150, 105, 0.3);
+}
+
+.enrollment-stats {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 1rem;
+  margin-bottom: 2rem;
+  padding: 1.5rem;
+  background: linear-gradient(135deg, #FFF8E1, #FFECB3);
+  border-radius: 0.75rem;
+  border: 1px solid rgba(139, 69, 19, 0.1);
+}
+
+.stat-item {
+  text-align: center;
+}
+
+.stat-number {
+  display: block;
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #8B4513;
+}
+
+.stat-label {
+  display: block;
+  font-size: 0.9rem;
+  color: #6B7280;
+  font-weight: 500;
+}
+
+.enrollment-table {
+  background: white;
+  border-radius: 0.75rem;
+  overflow: hidden;
+  border: 1px solid #E5E7EB;
+  box-shadow: 0 4px 15px rgba(139, 69, 19, 0.1);
+}
+
+.enrollment-table table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.enrollment-table th {
+  background: #F9FAFB;
+  padding: 1rem;
+  text-align: left;
+  font-weight: 600;
+  color: #374151;
+  border-bottom: 1px solid #E5E7EB;
+}
+
+.enrollment-table td {
+  padding: 1rem;
+  border-bottom: 1px solid #F3F4F6;
+}
+
+.student-info {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.student-avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: #E5E7EB;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.student-avatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.student-avatar svg {
+  color: #9CA3AF;
+}
+
+.student-details strong {
+  display: block;
+  color: #1F2937;
+  margin-bottom: 0.25rem;
+  font-size: 0.95rem;
+}
+
+.student-details p {
+  margin: 0;
+  font-size: 0.85rem;
+  color: #6B7280;
+}
+
+.course-info strong {
+  display: block;
+  color: #1F2937;
+  margin-bottom: 0.25rem;
+  font-size: 0.95rem;
+}
+
+.course-info p {
+  margin: 0;
+  font-size: 0.85rem;
+  color: #6B7280;
+}
+
+.unknown-course {
+  color: #DC2626;
+  font-style: italic;
+}
+
+.amount {
+  font-weight: 600;
+  color: #059669;
+}
+
+.test-badge {
+  display: inline-block;
+  background: #FEF3C7;
+  color: #D97706;
+  font-size: 0.7rem;
+  font-weight: 600;
+  padding: 0.2rem 0.4rem;
+  border-radius: 0.25rem;
+  margin-left: 0.5rem;
+}
+
+.status-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  padding: 0.375rem 0.75rem;
+  border-radius: 0.375rem;
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+}
+
+.status-badge.active {
+  background: #DCFCE7;
+  color: #166534;
+}
+
+.status-badge.cancelled {
+  background: #FEE2E2;
+  color: #DC2626;
+}
+
+.status-badge.completed {
+  background: #DBEAFE;
+  color: #1E40AF;
+}
+
+.progress-bar {
+  position: relative;
+  width: 100px;
+  height: 20px;
+  background: #E5E7EB;
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.progress-fill {
+  height: 100%;
+  background: linear-gradient(135deg, #059669, #10B981);
+  transition: width 0.3s ease;
+  border-radius: 10px;
+}
+
+.progress-text {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 0.7rem;
+  font-weight: 600;
+  color: white;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+}
+
+.action-buttons {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.action-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border: none;
+  border-radius: 0.375rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.action-btn.view {
+  background: #DBEAFE;
+  color: #1E40AF;
+}
+
+.action-btn.view:hover {
+  background: #3B82F6;
+  color: white;
+}
+
+.action-btn.cancel {
+  background: #FEE2E2;
+  color: #DC2626;
+}
+
+.action-btn.cancel:hover {
+  background: #EF4444;
+  color: white;
+}
+
+.no-enrollments {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 4rem;
+  color: #6B7280;
+}
+
+.no-enrollments svg {
+  color: #D1D5DB;
+  margin-bottom: 1rem;
+}
+
+.no-enrollments h3 {
+  color: #374151;
+  margin-bottom: 0.5rem;
+}
+
+/* Responsive Design */
+@media (max-width: 1024px) {
+  .enrollment-table {
+    overflow-x: auto;
+  }
+
+  .enrollment-table table {
+    min-width: 800px;
+  }
+}
+
+@media (max-width: 768px) {
+  .enrollment-list {
+    padding: 1rem;
+  }
+
+  .enrollment-controls {
+    flex-direction: column;
+    gap: 1rem;
+    align-items: stretch;
+  }
+
+  .search-filter {
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+
+  .search-box {
+    min-width: auto;
+  }
+
+  .enrollment-stats {
+    grid-template-columns: repeat(2, 1fr);
+    padding: 1rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .enrollment-stats {
+    grid-template-columns: 1fr;
+  }
+
+  .student-info {
+    flex-direction: column;
+    text-align: center;
+    gap: 0.5rem;
+  }
+
+  .action-buttons {
+    flex-direction: column;
+    gap: 0.25rem;
+  }
+}
