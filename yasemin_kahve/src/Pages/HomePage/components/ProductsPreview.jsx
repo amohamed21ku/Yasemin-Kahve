@@ -3,7 +3,7 @@ import { Coffee, Star, ChevronLeft, ChevronRight } from "lucide-react";
 import { useTranslation } from "/src/useTranslation";
 import { productService, categoryService } from "../../../services/productService";
 const ProductsPreview = ({ onNavigate }) => {
-  const { t } = useTranslation();
+  const { t, language } = useTranslation();
   const [currentPage, setCurrentPage] = useState(0);
   const [selectedCategory, setSelectedCategory] = useState('All');
   const [products, setProducts] = useState([]);
@@ -60,12 +60,36 @@ const ProductsPreview = ({ onNavigate }) => {
     }
   }, [allProducts]);
   
+  // Helper function to get localized category name
+  const getLocalizedCategoryName = (category) => {
+    if (category.name && typeof category.name === 'object') {
+      return category.name[language] || category.name.en || category.name.tr || 'Unknown Category';
+    }
+    return category.name || 'Unknown Category';
+  };
+
+  // Helper function to get localized product name
+  const getLocalizedProductName = (product) => {
+    if (product.name && typeof product.name === 'object') {
+      return product.name[language] || product.name.en || product.name.tr || 'Unknown Product';
+    }
+    return product.name || 'Unknown Product';
+  };
+
+  // Helper function to get localized product description
+  const getLocalizedProductDescription = (product) => {
+    if (product.description && typeof product.description === 'object') {
+      return product.description[language] || product.description.en || product.description.tr || '';
+    }
+    return product.description || '';
+  };
+
   // Create categories list with All option - use Firebase categories
   const categoriesToShow = [
     { key: 'All', label: t("all") || "All" },
     ...categories.map(cat => ({ 
       key: cat.id, 
-      label: cat.name?.en || cat.name?.tr || cat.name || 'Unknown Category'
+      label: getLocalizedCategoryName(cat)
     }))
   ];
   
@@ -199,7 +223,7 @@ const ProductsPreview = ({ onNavigate }) => {
               <div className="product-image">
                 <img
                   src={product.image}
-                  alt={product.name}
+                  alt={getLocalizedProductName(product)}
                   onError={(e) => {
                     e.target.src = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200' viewBox='0 0 200 200'%3E%3Crect width='200' height='200' fill='%23f8f3ed'/%3E%3Cg fill='%23e6b555'%3E%3Ccircle cx='100' cy='80' r='15'/%3E%3Cellipse cx='100' cy='120' rx='25' ry='15'/%3E%3C/g%3E%3Ctext x='100' y='160' text-anchor='middle' fill='%23503c2b' font-size='12'%3ECoffee%3C/text%3E%3C/svg%3E";
                   }}
@@ -210,12 +234,12 @@ const ProductsPreview = ({ onNavigate }) => {
               </div>
 
               <div className="product-info">
-                <h3 className="product-name">{product.name}</h3>
+                <h3 className="product-name">{getLocalizedProductName(product)}</h3>
                 <div className="product-origin">
                   <Coffee size={14} />
                   <span>{product.origin}</span>
                 </div>
-                <p className="product-description">{product.description}</p>
+                <p className="product-description">{getLocalizedProductDescription(product)}</p>
                 
               </div>
             </div>

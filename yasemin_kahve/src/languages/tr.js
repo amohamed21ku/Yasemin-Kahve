@@ -283,5 +283,73 @@ export const tr = {
   
   // Enrollment Management
 
+  // Academy
+  "academyTitle": "Yasemin Kahve Akademisi",
+  "contentComingSoon": "İçerik çok yakında...",
+
+  // Footer Additional
+  "since1921": "1921'den beri",
+  "headOfficeAddress1": "Kayabaşı Mah. Adnan Menders Blv.",
+  "headOfficeAddress2": "Kuzey Yakası Sit, B5, No. 5D, İç Kapı",
+  "headOfficeAddress3": "No. 44, Başakşehir / İstanbul – Türkiye",
+  "wholesaleAddress1": "Şahintepe Mah, Şehit Polis Fethi Sekin Cad,",
+  "wholesaleAddress2": "İstanbul Gıda Toptancılar Çarşısı,",
+  "wholesaleAddress3": "Dış Kapı: 1AE, İç Kapı: z15, NO. 12B15,",
+  "wholesaleAddress4": "Başakşehir / İstanbul – Türkiye",
+
+  // Quality Section
+  "farmToCupExcellence": "Tarladan Fincana Mükemmellik",
+  "qualityIntro": "Guatemala'daki aile çiftliklerimizden ve dünya çapında tedarik edilen kahve çekirdeklerinden kaynaklanan üretimimizin her aşamasını tarladan fincana kontrol ediyoruz.",
+  "centuryOfExpertise": "Yüzyıllık Uzmanlık",
+  "centuryOfExpertiseDesc": "100 yılı aşkın geleneksel Türk kahvesi bilgeliği modern tekniklerle birleştirildi",
+  "familyOwnedFarms": "Aile Çiftlikleri",
+  "familyOwnedFarmsDesc": "Guatemala'daki kendi kahve çiftliklerimizden doğrudan tedarik ile kalite kontrolü sağlama",
+  "globalDistributionTitle": "Küresel Dağıtım",
+  "globalDistributionDesc": "Dünya çapında müşterilere hizmet veren premium kahve ve kakule ihracatında lider",
+
+  // Locations Section
+  "ourLocations": "Lokasyonlarımız",
+  "headOfficeTitle": "Merkez Ofis",
+  "wholesaleCenterTitle": "Toptan Satış Merkezi",
+  "headOfficeBusinessName": "Yasemin Kahve Merkez",
+  "wholesaleBusinessName": "Yasemin Kahve Dağıtım",
+  "istanbulTurkey": "İstanbul, Türkiye",
+  "headOfficeHours": "Pzt-Cum: 09:00 - 18:00",
+  "wholesaleHours": "Pzt-Cum: 08:00 - 19:00",
+
+  // Product Components
+  "unknownProduct": "Bilinmeyen Ürün",
+  "roastLabel": "Kavurma",
+  "backToHome": "Ana Sayfaya Dön",
+  "backToProducts": "Ürünlere Dön",
+  "perKg": "kg başına",
+  "overallScore": "Genel Puan",
+
+  // Admin Dashboard
+  "last30Days": "Son 30 gün",
+  "allVisible": "Tümü görünür",
+  "comingSoon": "Çok Yakında",
+  "systemInitialized": "Sistem başlatıldı",
+  "productsUserManagementReady": "Ürün ve kullanıcı yönetimi hazır",
+  "adminPanelSetup": "Yönetici paneli kurulumu",
+  "dashboardToolsConfigured": "Kontrol paneli ve yönetim araçları yapılandırıldı",
+  "justNow": "Az önce",
+  "today": "Bugün",
+
+  // Auth Missing Keys
+  "emailInvalid": "E-posta formatı geçersiz",
+  "enterFirstName": "Adınızı girin",
+  "enterLastName": "Soyadınızı girin",
+  "enterEmail": "E-postanızı girin",
+  "enterPassword": "Şifrenizi girin",
+  "confirmPasswordPlaceholder": "Şifrenizi onaylayın",
+  "orContinueWith": "Veya şununla devam edin",
+  "signInWithGoogle": "Google ile giriş yap",
+  "noAccount": "Hesabınız yok mu?",
+  "hasAccount": "Zaten hesabınız var mı?",
+  "signUp": "Kayıt Ol",
+  "signInWelcome": "Hoş geldiniz! Hesabınıza giriş yapın",
+  "signUpWelcome": "Başlamak için hesabınızı oluşturun",
+  
   // General
 };

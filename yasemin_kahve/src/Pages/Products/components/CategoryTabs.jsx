@@ -3,14 +3,22 @@ import { useTranslation } from '../../../useTranslation'
 import './CategoryTabs.css'
 
 const CategoryTabs = ({ categories = [], selectedCategory, onCategoryChange }) => {
-  const { t } = useTranslation();
+  const { t, language } = useTranslation();
+
+  // Helper function to get localized category name
+  const getLocalizedCategoryName = (category) => {
+    if (category.name && typeof category.name === 'object') {
+      return category.name[language] || category.name.en || category.name.tr || 'Unknown Category';
+    }
+    return category.name || 'Unknown Category';
+  };
 
   // Create categories list with All option - always use Firebase categories
   const categoriesToShow = [
     { key: 'All', label: t("all") || "All" },
     ...categories.map(cat => ({ 
       key: cat.id, 
-      label: cat.name?.en || cat.name?.tr || cat.name || 'Unknown Category'
+      label: getLocalizedCategoryName(cat)
     }))
   ];
 

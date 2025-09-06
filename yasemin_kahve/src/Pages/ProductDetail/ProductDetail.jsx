@@ -6,7 +6,7 @@ import { useTranslation } from '../../useTranslation'
 import './ProductDetail.css'
 
 const ProductDetail = ({ onNavigate, product, previousPage }) => {
-  const { t } = useTranslation();
+  const { t, language } = useTranslation();
   const [scrollProgress, setScrollProgress] = useState(0);
   const scoreRef = useRef(null);
   const cuppingRef = useRef(null);
@@ -59,6 +59,22 @@ const ProductDetail = ({ onNavigate, product, previousPage }) => {
     tastingNotes: ["Chocolate", "Citrus", "Caramel", "Nutty"]
   };
 
+  // Helper function to get localized name
+  const getLocalizedName = (product) => {
+    if (product.name && typeof product.name === 'object') {
+      return product.name[language] || product.name.en || product.name.tr || 'Unknown Product';
+    }
+    return product.name || 'Unknown Product';
+  };
+
+  // Helper function to get localized description
+  const getLocalizedDescription = (product) => {
+    if (product.description && typeof product.description === 'object') {
+      return product.description[language] || product.description.en || product.description.tr || '';
+    }
+    return product.description || '';
+  };
+
   // Get detailed data from Firebase data or fallback to transformed data
   const getProductDetail = (product) => {
     if (!product) return defaultProduct;
@@ -66,13 +82,14 @@ const ProductDetail = ({ onNavigate, product, previousPage }) => {
     // If product has _firebaseData, use that for detailed information
     const firebaseData = product._firebaseData;
     if (firebaseData) {
-      const currentLang = localStorage.getItem('language') || 'en';
       return {
         ...product, // Use the transformed frontend data as base
-        detailedDescription: firebaseData.detailedDescription?.[currentLang] || 
+        name: getLocalizedName(product),
+        description: getLocalizedDescription(product),
+        detailedDescription: firebaseData.detailedDescription?.[language] || 
                            firebaseData.detailedDescription?.en || 
                            firebaseData.detailedDescription?.tr || 
-                           product.description,
+                           getLocalizedDescription(product),
         region: firebaseData.region,
         classification: firebaseData.classification,
         processing: firebaseData.processing,
@@ -85,7 +102,12 @@ const ProductDetail = ({ onNavigate, product, previousPage }) => {
       };
     }
     
-    return product;
+    // For fallback products, ensure name and description are strings
+    return {
+      ...product,
+      name: getLocalizedName(product),
+      description: getLocalizedDescription(product)
+    };
   };
 
   const displayProduct = getProductDetail(product);

@@ -5,14 +5,17 @@ import { Coffee } from 'lucide-react'
 import { useTranslation } from '../../../useTranslation'
 
 const ProductsGrid = ({ products, categories = [], selectedCategory, onProductClick, onCategoryChange, loading = false }) => {
-  const { t } = useTranslation();
+  const { t, language } = useTranslation();
 
-  // Get category name by ID
+  // Get category name by ID with localization
   const getCategoryDisplayName = (categoryId) => {
     if (categoryId === 'All') return t("allProducts") || "All Products";
     const category = categories.find(cat => cat.id === categoryId);
     if (category) {
-      return category.name?.en || category.name?.tr || category.name || categoryId;
+      if (category.name && typeof category.name === 'object') {
+        return category.name[language] || category.name.en || category.name.tr || categoryId;
+      }
+      return category.name || categoryId;
     }
     return categoryId;
   };

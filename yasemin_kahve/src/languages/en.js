@@ -304,6 +304,73 @@ export const en = {
   
   // Enrollment Management
  
+  // Academy
+  "academyTitle": "Yasemin Kahve Academy",
+  "contentComingSoon": "Content coming soon...",
+
+  // Footer Additional
+  "since1921": "Since 1921",
+  "headOfficeAddress1": "Kayabaşı Mah. Adnan Menders Blv.",
+  "headOfficeAddress2": "Kuzey Yakası Sit, B5, No. 5D, İç Kapı",
+  "headOfficeAddress3": "No. 44, Başakşehir / İstanbul – Türkiye",
+  "wholesaleAddress1": "Şahintepe Mah, Şehit Polis Fethi Sekin Cad,",
+  "wholesaleAddress2": "İstanbul Gıda Toptancılar Çarşısı,",
+  "wholesaleAddress3": "Dış Kapı: 1AE, İç Kapı: z15, NO. 12B15,",
+  "wholesaleAddress4": "Başakşehir / İstanbul – Türkiye",
+
+  // Quality Section
+  "farmToCupExcellence": "Farm to Cup Excellence",
+  "qualityIntro": "Originating from our family-owned green coffee farms in Guatemala as well as globally sourced coffee beans, we control every stage of production from farm to cup.",
+  "centuryOfExpertise": "Century of Expertise",
+  "centuryOfExpertiseDesc": "Over 100 years of traditional Turkish coffee wisdom combined with modern techniques",
+  "familyOwnedFarms": "Family-Owned Farms",
+  "familyOwnedFarmsDesc": "Direct sourcing from our own coffee farms in Guatemala ensuring quality control",
+  "globalDistributionTitle": "Global Distribution",
+  "globalDistributionDesc": "Leading exporter of premium coffee and cardamom serving customers worldwide",
+
+  // Locations Section
+  "ourLocations": "Our Locations",
+  "headOfficeTitle": "Head Office",
+  "wholesaleCenterTitle": "Wholesale Center",
+  "headOfficeBusinessName": "Yasemin Kahve Headquarters",
+  "wholesaleBusinessName": "Yasemin Kahve Distribution",
+  "istanbulTurkey": "Istanbul, Türkiye",
+  "headOfficeHours": "Mon-Fri: 9:00 AM - 6:00 PM",
+  "wholesaleHours": "Mon-Fri: 8:00 AM - 7:00 PM",
+
+  // Product Components
+  "unknownProduct": "Unknown Product",
+  "roastLabel": "Roast",
+  "backToHome": "Back to Home",
+  "backToProducts": "Back to Products",
+  "perKg": "per kg",
+  "overallScore": "Overall Score",
+
+  // Admin Dashboard
+  "last30Days": "Last 30 days",
+  "allVisible": "All visible",
+  "comingSoon": "Coming Soon",
+  "systemInitialized": "System initialized",
+  "productsUserManagementReady": "Products and user management ready",
+  "adminPanelSetup": "Admin panel setup",
+  "dashboardToolsConfigured": "Dashboard and management tools configured",
+  "justNow": "Just now",
+  "today": "Today",
+
+  // Auth Missing Keys
+  "emailInvalid": "Email format is invalid",
+  "enterFirstName": "Enter your first name",
+  "enterLastName": "Enter your last name",
+  "enterEmail": "Enter your email",
+  "enterPassword": "Enter your password",
+  "confirmPasswordPlaceholder": "Confirm your password",
+  "orContinueWith": "Or continue with",
+  "signInWithGoogle": "Sign in with Google",
+  "noAccount": "Don't have an account?",
+  "hasAccount": "Already have an account?",
+  "signUp": "Sign Up",
+  "signInWelcome": "Welcome back! Sign in to your account",
+  "signUpWelcome": "Create your account to get started",
   
   // General
 };
