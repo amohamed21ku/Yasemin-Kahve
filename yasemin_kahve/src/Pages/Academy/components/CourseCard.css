@@ -298,13 +298,13 @@
   }
 
   .course-title {
-    font-size: 1rem;
+    font-size: 1.1rem;
     margin-bottom: 0.5rem;
     line-height: 1.2;
   }
 
   .course-description {
-    font-size: 0.8rem;
+    font-size: 0.85rem;
     line-height: 1.4;
     margin-bottom: 0.75rem;
     -webkit-line-clamp: 2;
@@ -318,7 +318,7 @@
   }
 
   .course-meta-item {
-    font-size: 0.75rem;
+    font-size: 0.8rem;
     gap: 0.25rem;
   }
 
@@ -339,11 +339,11 @@
   }
 
   .instructor-name {
-    font-size: 0.8rem;
+    font-size: 0.85rem;
   }
 
   .instructor-title {
-    font-size: 0.7rem;
+    font-size: 0.75rem;
   }
 
   .course-footer {
@@ -351,16 +351,16 @@
   }
 
   .price-current {
-    font-size: 0.95rem;
+    font-size: 1.05rem;
   }
 
   .price-original {
-    font-size: 0.7rem;
+    font-size: 0.75rem;
   }
 
   .course-enroll-btn {
     padding: 0.6rem 1rem;
-    font-size: 0.8rem;
+    font-size: 0.85rem;
   }
 
   .course-level {
@@ -412,12 +412,12 @@
   }
 
   .course-title {
-    font-size: 0.9rem;
+    font-size: 1rem;
     margin-bottom: 0.4rem;
   }
 
   .course-description {
-    font-size: 0.75rem;
+    font-size: 0.8rem;
     margin-bottom: 0.6rem;
     -webkit-line-clamp: 2;
   }
@@ -429,7 +429,7 @@
   }
 
   .course-meta-item {
-    font-size: 0.7rem;
+    font-size: 0.75rem;
   }
 
   .course-meta-item svg {
@@ -449,11 +449,11 @@
   }
 
   .instructor-name {
-    font-size: 0.75rem;
+    font-size: 0.8rem;
   }
 
   .instructor-title {
-    font-size: 0.65rem;
+    font-size: 0.7rem;
   }
 
   .course-footer {
@@ -462,16 +462,16 @@
   }
 
   .price-current {
-    font-size: 0.85rem;
+    font-size: 0.95rem;
   }
 
   .price-original {
-    font-size: 0.65rem;
+    font-size: 0.7rem;
   }
 
   .course-enroll-btn {
     padding: 0.5rem 0.8rem;
-    font-size: 0.75rem;
+    font-size: 0.8rem;
     width: 100%;
   }
 
