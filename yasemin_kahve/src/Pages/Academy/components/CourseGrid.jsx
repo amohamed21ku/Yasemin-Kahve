@@ -3,6 +3,7 @@ import { Filter, Search, SlidersHorizontal, Loader } from 'lucide-react'
 import CourseCard from './CourseCard'
 import { useTranslation } from '../../../useTranslation'
 import { getAllCourses } from '../../../services/courseService'
+import { getAllInstructors } from '../../../services/instructorService'
 import { useAuth } from '../../../AuthContext'
 import './CourseGrid.css'
 
@@ -11,6 +12,7 @@ const CourseGrid = ({ onCourseClick, onEnroll, onAddNewCourse }) => {
   const { currentUser } = useAuth()
   const [courses, setCourses] = useState([])
   const [filteredCourses, setFilteredCourses] = useState([])
+  const [instructors, setInstructors] = useState([])
   const [searchTerm, setSearchTerm] = useState('')
   const [selectedLevel, setSelectedLevel] = useState('all')
   const [selectedCategory, setSelectedCategory] = useState('all')
@@ -28,11 +30,36 @@ const CourseGrid = ({ onCourseClick, onEnroll, onAddNewCourse }) => {
         
         // Try to get Firebase data first
         try {
-          const fetchedCourses = await getAllCourses()
+          const [fetchedCourses, fetchedInstructors] = await Promise.all([
+            getAllCourses(),
+            getAllInstructors()
+          ])
+          
+          setInstructors(fetchedInstructors)
+          
           if (fetchedCourses && fetchedCourses.length > 0) {
             console.log('Successfully fetched courses from Firebase:', fetchedCourses.length)
-            setCourses(fetchedCourses)
-            setFilteredCourses(fetchedCourses)
+            
+            // Populate instructor data for courses
+            const coursesWithInstructors = fetchedCourses.map(course => {
+              if (course.instructorId && fetchedInstructors.length > 0) {
+                const instructor = fetchedInstructors.find(inst => inst.id === course.instructorId)
+                if (instructor) {
+                  return {
+                    ...course,
+                    instructor: {
+                      name: instructor.name,
+                      avatar: instructor.avatar,
+                      title: instructor.title
+                    }
+                  }
+                }
+              }
+              return course
+            })
+            
+            setCourses(coursesWithInstructors)
+            setFilteredCourses(coursesWithInstructors)
           } else {
             console.log('No courses found in Firebase, using sample data')
             const { sampleCourses } = await import('../../../utils/sampleCourseData')

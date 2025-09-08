@@ -567,8 +567,8 @@ Academy Hero Component Styles
 
 @media (max-width: 768px) {
   .academy-hero {
-    padding: 7rem 0 2rem;
-    min-height: 90vh;
+    padding: 6rem 0 2rem;
+    min-height: 70vh;
   }
   
   .hero-Academy-content {
@@ -662,8 +662,8 @@ Academy Hero Component Styles
 
 @media (max-width: 480px) {
   .academy-hero {
-    padding: 6rem 0 1.5rem;
-    min-height: 85vh;
+    padding: 5rem 0 1.5rem;
+    min-height: 60vh;
   }
   
   .container {

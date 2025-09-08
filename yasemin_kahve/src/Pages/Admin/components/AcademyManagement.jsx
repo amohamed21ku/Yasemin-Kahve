@@ -26,6 +26,12 @@ import {
   getAllEnrollments,
   getCourseStats
 } from '../../../services/courseService'
+import {
+  getAllInstructors,
+  createInstructor,
+  updateInstructor,
+  deleteInstructor
+} from '../../../services/instructorService'
 import { addSampleCourses } from '../../../utils/sampleCourseData'
 import CourseForm from './CourseForm'
 import EnrollmentList from './EnrollmentList'
@@ -55,7 +61,7 @@ const AcademyManagement = () => {
 
   useEffect(() => {
     fetchData()
-    loadInstructors()
+    fetchInstructors()
   }, [])
 
   const fetchData = async () => {
@@ -128,33 +134,46 @@ const AcademyManagement = () => {
   }
 
   // Instructor Management Functions
-  const loadInstructors = () => {
-    const savedInstructors = localStorage.getItem('instructors')
-    if (savedInstructors) {
-      setInstructors(JSON.parse(savedInstructors))
+  const fetchInstructors = async () => {
+    try {
+      const instructorsData = await getAllInstructors()
+      setInstructors(instructorsData)
+    } catch (error) {
+      console.error('Error fetching instructors:', error)
     }
   }
 
-  const saveInstructors = (instructorsList) => {
-    localStorage.setItem('instructors', JSON.stringify(instructorsList))
-    setInstructors(instructorsList)
+  const handleCreateInstructor = async (instructorData) => {
+    try {
+      await createInstructor(instructorData)
+      await fetchInstructors()
+      alert(t('instructorCreatedSuccess') || 'Instructor created successfully!')
+    } catch (error) {
+      console.error('Error creating instructor:', error)
+      alert(t('instructorCreateError') || 'Error creating instructor. Please try again.')
+    }
   }
 
-  const handleCreateInstructor = (instructorData) => {
-    const newInstructors = [...instructors, instructorData]
-    saveInstructors(newInstructors)
+  const handleUpdateInstructor = async (instructorData) => {
+    try {
+      await updateInstructor(instructorData.id, instructorData)
+      await fetchInstructors()
+      alert(t('instructorUpdatedSuccess') || 'Instructor updated successfully!')
+    } catch (error) {
+      console.error('Error updating instructor:', error)
+      alert(t('instructorUpdateError') || 'Error updating instructor. Please try again.')
+    }
   }
 
-  const handleUpdateInstructor = (instructorData) => {
-    const updatedInstructors = instructors.map(instructor =>
-      instructor.id === instructorData.id ? instructorData : instructor
-    )
-    saveInstructors(updatedInstructors)
-  }
-
-  const handleDeleteInstructor = (instructorId) => {
-    const filteredInstructors = instructors.filter(instructor => instructor.id !== instructorId)
-    saveInstructors(filteredInstructors)
+  const handleDeleteInstructor = async (instructorId) => {
+    try {
+      await deleteInstructor(instructorId)
+      await fetchInstructors()
+      alert(t('instructorDeletedSuccess') || 'Instructor deleted successfully!')
+    } catch (error) {
+      console.error('Error deleting instructor:', error)
+      alert(t('instructorDeleteError') || 'Error deleting instructor. Please try again.')
+    }
   }
 
   const handleAddSampleData = async () => {
