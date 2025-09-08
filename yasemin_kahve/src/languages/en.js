@@ -280,20 +280,51 @@ export const en = {
 
   // Academy 
   //Academy Hero
-  "academyHeroTitle":"Master the Art of Coffee",
-  "academyHeroDescription":"Join Yasemin Kahve Academy and learn from industry experts. From bean to cup, discover the secrets of exceptional coffee through our comprehensive courses",
-  "students":"Students",
-  "certified":"Certified",
+  "coffeeMastery":"Coffee Mastery",
+  "yaseminCoffeeAcademy":"Yasemin Coffee Academy",
+  "masterTheArtOfCoffee":"Master the Art of Coffee",
+  "academyDescription":"Ask Saadetin what to write here",
+  "exploreCourses":"Explore Courses",
+  "watchIntro":"Watch Introduction",
+
+  // Course Card
 
 
-  // "":"",
-  // "":"",
-  // "":"",
-  // "":"",
-  // "":"",
-  // "":"",
-  // "":"",
-  // "":"",
+
+  //Course Grid
+  "availableCourses":"Available Courses",
+  "searchCourses":"Search courses...",
+  "filters":"Filters",
+  "level":"Level",
+  "allLevels":"All Levels",
+  "beginner":"Beginner",
+  "intermediate":"Intermediate",
+  "advanced":"Advanced",
+  "basics":"Basics",
+  "brewing":"Brewing",
+  "tasting":"Tasting",
+  "roasting":"Roasting",
+  "business":"Business",
+  "barista":"Barista Skills",
+  "allTypes":"All Types",
+  "online":"Online",
+  "onSite":"On Site",
+  "sortBy":"Sort By",
+  "popularity":"Popularity",
+  "priceLowToHigh":"Price: Low to High",
+  "priceHighToLow":"Price: High to Low",
+  "duration":"Duration",
+  "rating":"Rating",
+  "startDate":"Start Date",
+  "coursesFound":"courses found",
+  "loadingCourses":"Loading courses...",
+  "errorLoadingCourses":"Error loading courses",
+  "retry":"Try Again",
+  "noCoursesFound":"No courses found",
+  "tryDifferentFilters":"Try adjusting your search or filter criteria",
+  "checkBackLater":"Please check back later for new courses",
+
+
 
 
 

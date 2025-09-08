@@ -9,25 +9,21 @@ import {
   Upload, 
   FileText, 
   Video, 
-  Image as ImageIcon
+  Image as ImageIcon,
+  User
 } from 'lucide-react'
 import { useTranslation } from '../../../useTranslation'
 import { updateCourse } from '../../../services/courseService'
 import { uploadAdditionalImage, uploadCourseVideo, uploadCourseDocument } from '../../../services/courseStorageService'
 import './AdminCourseDetail.css'
 
-const AdminCourseDetail = ({ course, onBack, onUpdate }) => {
+const AdminCourseDetail = ({ course, instructors = [], onBack, onUpdate }) => {
   const { t, language } = useTranslation()
   const [isEditing, setIsEditing] = useState(true)
   const [activeTab, setActiveTab] = useState('overview')
   const [courseData, setCourseData] = useState({
     ...course,
-    instructor: course.instructor || {
-      name: '',
-      avatar: '',
-      title: { en: '', tr: '' },
-      bio: { en: '', tr: '' }
-    },
+    instructorId: course.instructorId || course.instructor?.id || '',
     curriculum: course.curriculum || []
   })
   const [uploading, setUploading] = useState(false)
@@ -185,27 +181,11 @@ const AdminCourseDetail = ({ course, onBack, onUpdate }) => {
     }))
   }
 
-  const handleInstructorChange = (field, value, lang = null) => {
-    if (lang) {
-      setCourseData(prev => ({
-        ...prev,
-        instructor: {
-          ...prev.instructor,
-          [field]: {
-            ...prev.instructor?.[field],
-            [lang]: value
-          }
-        }
-      }))
-    } else {
-      setCourseData(prev => ({
-        ...prev,
-        instructor: {
-          ...prev.instructor,
-          [field]: value
-        }
-      }))
-    }
+  const handleInstructorSelection = (instructorId) => {
+    setCourseData(prev => ({
+      ...prev,
+      instructorId: instructorId
+    }))
   }
 
   const addOverviewSection = () => {
@@ -287,8 +267,8 @@ const AdminCourseDetail = ({ course, onBack, onUpdate }) => {
                     value={courseData.courseType}
                     onChange={(e) => handleInputChange('courseType', e.target.value)}
                   >
-                    <option value="In-site">{t('inSite') || 'In-site'}</option>
-                    <option value="Videos">{t('videos') || 'Videos'}</option>
+                    <option value="On Site">{t('onSite') || 'On Site'}</option>
+                    <option value="Online">{t('online') || 'Online'}</option>
                   </select>
                 ) : (
                   <span>{courseData.courseType}</span>
@@ -560,90 +540,64 @@ const AdminCourseDetail = ({ course, onBack, onUpdate }) => {
           <div className="instructor-section">
             <h3>{t('courseInstructor') || 'Course Instructor'}</h3>
             
-            <div className="instructor-form">
-              <div className="instructor-basic-info">
-                <div className="form-group">
-                  <label>{t('instructorName') || 'Instructor Name'}:</label>
-                  <input
-                    type="text"
-                    value={courseData.instructor?.name || ''}
-                    onChange={(e) => handleInstructorChange('name', e.target.value)}
-                    placeholder="Enter instructor name"
-                  />
-                </div>
-
-                <div className="form-group">
-                  <label>{t('instructorAvatar') || 'Avatar URL'}:</label>
-                  <input
-                    type="url"
-                    value={courseData.instructor?.avatar || ''}
-                    onChange={(e) => handleInstructorChange('avatar', e.target.value)}
-                    placeholder="Enter instructor avatar URL"
-                  />
-                </div>
+            <div className="instructor-selection">
+              <div className="form-group">
+                <label>{t('selectInstructor') || 'Select Instructor'}:</label>
+                <select
+                  value={courseData.instructorId}
+                  onChange={(e) => handleInstructorSelection(e.target.value)}
+                  className="instructor-select"
+                >
+                  <option value="">{t('chooseInstructor') || 'Choose an instructor...'}</option>
+                  {instructors.map(instructor => (
+                    <option key={instructor.id} value={instructor.id}>
+                      {instructor.name}
+                    </option>
+                  ))}
+                </select>
               </div>
 
-              <div className="instructor-title">
-                <div className="form-group">
-                  <label>{t('instructorTitleEn') || 'Title (English)'}:</label>
-                  <input
-                    type="text"
-                    value={courseData.instructor?.title?.en || ''}
-                    onChange={(e) => handleInstructorChange('title', e.target.value, 'en')}
-                    placeholder="Enter instructor title in English"
-                  />
-                </div>
-                <div className="form-group">
-                  <label>{t('instructorTitleTr') || 'Title (Turkish)'}:</label>
-                  <input
-                    type="text"
-                    value={courseData.instructor?.title?.tr || ''}
-                    onChange={(e) => handleInstructorChange('title', e.target.value, 'tr')}
-                    placeholder="Enter instructor title in Turkish"
-                  />
-                </div>
-              </div>
-
-              <div className="instructor-bio">
-                <div className="form-group">
-                  <label>{t('instructorBioEn') || 'Biography (English)'}:</label>
-                  <textarea
-                    value={courseData.instructor?.bio?.en || ''}
-                    onChange={(e) => handleInstructorChange('bio', e.target.value, 'en')}
-                    placeholder="Enter instructor biography in English"
-                    rows="4"
-                  />
-                </div>
-                <div className="form-group">
-                  <label>{t('instructorBioTr') || 'Biography (Turkish)'}:</label>
-                  <textarea
-                    value={courseData.instructor?.bio?.tr || ''}
-                    onChange={(e) => handleInstructorChange('bio', e.target.value, 'tr')}
-                    placeholder="Enter instructor biography in Turkish"
-                    rows="4"
-                  />
-                </div>
-              </div>
-
-              {courseData.instructor?.avatar && (
-                <div className="instructor-preview">
-                  <h4>{t('preview') || 'Preview'}</h4>
-                  <div className="instructor-card">
-                    <img 
-                      src={courseData.instructor.avatar} 
-                      alt={courseData.instructor.name || 'Instructor'}
-                      onError={(e) => {
-                        e.target.src = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120' viewBox='0 0 120 120'%3E%3Ccircle cx='60' cy='60' r='60' fill='%23D2691E'/%3E%3Ccircle cx='60' cy='45' r='18' fill='white'/%3E%3Cpath d='M24 96c0-19.882 16.118-36 36-36s36 16.118 36 36' fill='white'/%3E%3C/svg%3E"
-                      }}
-                    />
-                    <div className="instructor-info">
-                      <h3>{courseData.instructor.name || 'Instructor Name'}</h3>
-                      <p className="instructor-title">{getLocalizedText(courseData.instructor.title)}</p>
-                      <p className="instructor-bio">{getLocalizedText(courseData.instructor.bio)}</p>
-                    </div>
-                  </div>
+              {courseData.instructorId && (
+                <div className="selected-instructor-preview">
+                  {(() => {
+                    const selectedInstructor = instructors.find(i => i.id === courseData.instructorId)
+                    return selectedInstructor ? (
+                      <div className="instructor-card">
+                        <div className="instructor-avatar">
+                          {selectedInstructor.avatar ? (
+                            <img 
+                              src={selectedInstructor.avatar} 
+                              alt={selectedInstructor.name}
+                              onError={(e) => {
+                                e.target.src = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120' viewBox='0 0 120 120'%3E%3Ccircle cx='60' cy='60' r='60' fill='%23D2691E'/%3E%3Ccircle cx='60' cy='45' r='18' fill='white'/%3E%3Cpath d='M24 96c0-19.882 16.118-36 36-36s36 16.118 36 36' fill='white'/%3E%3C/svg%3E"
+                              }}
+                            />
+                          ) : (
+                            <div className="avatar-placeholder">
+                              <User size={40} />
+                            </div>
+                          )}
+                        </div>
+                        <div className="instructor-info">
+                          <h3>{selectedInstructor.name}</h3>
+                          <p className="instructor-title">{getLocalizedText(selectedInstructor.title)}</p>
+                          {selectedInstructor.bio && (
+                            <p className="instructor-bio">{getLocalizedText(selectedInstructor.bio)}</p>
+                          )}
+                        </div>
+                      </div>
+                    ) : (
+                      <p className="no-instructor-selected">{t('noInstructorSelected') || 'No instructor selected'}</p>
+                    )
+                  })()}
                 </div>
               )}
+
+              <div className="instructor-note">
+                <p>
+                  <strong>{t('note') || 'Note'}:</strong> {t('instructorEditNote') || 'To edit instructor details, use the Instructor Management section.'}
+                </p>
+              </div>
             </div>
           </div>
         )}

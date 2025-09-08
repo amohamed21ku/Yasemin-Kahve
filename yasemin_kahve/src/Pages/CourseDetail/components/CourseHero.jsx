@@ -4,7 +4,7 @@ import { useTranslate } from '../../../useTranslate'
 import './CourseHero.css'
 
 const CourseHero = ({ course, onNavigate, getLocalizedText, formatDate }) => {
-  const { t, language } = useTranslate()
+  const { t} = useTranslate()
   const [currentBgIndex, setCurrentBgIndex] = useState(0)
 
   // Use only the course thumbnail/image for background with fallback
@@ -20,10 +20,7 @@ const CourseHero = ({ course, onNavigate, getLocalizedText, formatDate }) => {
 
   const courseDetails = {
     ...course,
-    location: course.location || {
-      en: "Yasemin Kahve Academy, Istanbul",
-      tr: "Yasemin Kahve Akademisi, İstanbul"
-    }
+   
   }
 
   return (
@@ -33,7 +30,8 @@ const CourseHero = ({ course, onNavigate, getLocalizedText, formatDate }) => {
           className="background-image active"
           style={{
             backgroundImage: `url(${thumbnailImage})`,
-            opacity: 0.9
+            opacity: 0.3,
+            filter: 'brightness(0.4) contrast(1.2)'
           }}
         />
         <div className="course-detail-overlay"></div>
@@ -42,10 +40,15 @@ const CourseHero = ({ course, onNavigate, getLocalizedText, formatDate }) => {
       <div 
         className="course-detail-content"
         style={{
-          backgroundImage: `url(${thumbnailImage})`
+          backgroundImage: `url(${thumbnailImage})`,
+          backgroundSize: 'cover',
+          backgroundPosition: 'center',
+          backgroundRepeat: 'no-repeat'
         }}
       >
-        <button onClick={handleBackClick} className="back-btn">
+        <div className="course-detail-content-overlay"></div>
+        <div className="course-detail-content-inner">
+          <button onClick={handleBackClick} className="back-btn">
           <ArrowLeft size={20} />
           {t("backToAcademy") || "Back to Academy"}
         </button>
@@ -65,24 +68,25 @@ const CourseHero = ({ course, onNavigate, getLocalizedText, formatDate }) => {
             </div>
             
             <div className="course-meta-items">
-              <div className="course-meta-item">
+              <div className="course-detail-meta-item">
                 <Clock size={16} />
                 <span>{course.duration} {t("hours") || "hours"}</span>
               </div>
-              <div className="course-meta-item">
+              <div className="course-detail-meta-item">
                 <Calendar size={16} />
                 <span>{formatDate(course.startDate)}</span>
               </div>
-              <div className="course-meta-item">
+              <div className="course-detail-meta-item">
                 <Users size={16} />
                 <span>{course.enrolledStudents?.length || 0}/{course.maxStudents}</span>
               </div>
-              <div className="course-meta-item">
+              <div className="course-detail-meta-item">
                 <MapPin size={16} />
                 <span>{getLocalizedText(courseDetails.location)}</span>
               </div>
             </div>
           </div>
+        </div>
         </div>
       </div>
     </div>

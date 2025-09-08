@@ -14,7 +14,8 @@ import {
   Download,
   Eye,
   DollarSign,
-  Database
+  Database,
+  User
 } from 'lucide-react'
 import { useTranslation } from '../../../useTranslation'
 import { 
@@ -29,6 +30,7 @@ import { addSampleCourses } from '../../../utils/sampleCourseData'
 import CourseForm from './CourseForm'
 import EnrollmentList from './EnrollmentList'
 import AdminCourseDetail from './AdminCourseDetail'
+import InstructorManagement from './InstructorManagement'
 import './AcademyManagement.css'
 
 const AcademyManagement = () => {
@@ -36,6 +38,7 @@ const AcademyManagement = () => {
   const [activeTab, setActiveTab] = useState('overview')
   const [courses, setCourses] = useState([])
   const [enrollments, setEnrollments] = useState([])
+  const [instructors, setInstructors] = useState([])
   const [loading, setLoading] = useState(true)
   const [showCourseForm, setShowCourseForm] = useState(false)
   const [editingCourse, setEditingCourse] = useState(null)
@@ -52,6 +55,7 @@ const AcademyManagement = () => {
 
   useEffect(() => {
     fetchData()
+    loadInstructors()
   }, [])
 
   const fetchData = async () => {
@@ -123,6 +127,36 @@ const AcademyManagement = () => {
     }
   }
 
+  // Instructor Management Functions
+  const loadInstructors = () => {
+    const savedInstructors = localStorage.getItem('instructors')
+    if (savedInstructors) {
+      setInstructors(JSON.parse(savedInstructors))
+    }
+  }
+
+  const saveInstructors = (instructorsList) => {
+    localStorage.setItem('instructors', JSON.stringify(instructorsList))
+    setInstructors(instructorsList)
+  }
+
+  const handleCreateInstructor = (instructorData) => {
+    const newInstructors = [...instructors, instructorData]
+    saveInstructors(newInstructors)
+  }
+
+  const handleUpdateInstructor = (instructorData) => {
+    const updatedInstructors = instructors.map(instructor =>
+      instructor.id === instructorData.id ? instructorData : instructor
+    )
+    saveInstructors(updatedInstructors)
+  }
+
+  const handleDeleteInstructor = (instructorId) => {
+    const filteredInstructors = instructors.filter(instructor => instructor.id !== instructorId)
+    saveInstructors(filteredInstructors)
+  }
+
   const handleAddSampleData = async () => {
     if (window.confirm(t('confirmAddSampleData') || 'This will add 6 sample courses to the database. Continue?')) {
       try {
@@ -167,6 +201,7 @@ const AcademyManagement = () => {
   const tabs = [
     { id: 'overview', label: t('overview') || 'Overview', icon: TrendingUp },
     { id: 'courses', label: t('courses') || 'Courses', icon: BookOpen },
+    { id: 'instructors', label: t('instructors') || 'Instructors', icon: User },
     { id: 'enrollments', label: t('enrollments') || 'Enrollments', icon: Users },
   ]
 
@@ -183,6 +218,7 @@ const AcademyManagement = () => {
     return (
       <AdminCourseDetail
         course={selectedCourse}
+        instructors={instructors}
         onBack={() => {
           setShowCourseDetail(false)
           setSelectedCourse(null)
@@ -319,8 +355,8 @@ const AcademyManagement = () => {
                   className="type-filter"
                 >
                   <option value="all">{t('allTypes') || 'All Types'}</option>
-                  <option value="Videos">{t('videos') || 'Videos'}</option>
-                  <option value="In-site">{t('inSite') || 'In-site'}</option>
+                  <option value="Online">{t('online') || 'Online'}</option>
+                  <option value="On Site">{t('onSite') || 'On Site'}</option>
                 </select>
               </div>
             </div>
@@ -360,11 +396,11 @@ const AcademyManagement = () => {
                         </div>
                       </td>
                       <td>
-                        <span className={`type-badge ${course.courseType || 'In-site'}`}>
-                          {course.courseType === 'Videos' ? (
-                            <><Monitor size={14} /> {t('videos') || 'Videos'}</>
+                        <span className="type-badge" data-type={course.courseType || 'On Site'}>
+                          {course.courseType === 'Online' ? (
+                            <><Monitor size={14} /> {t('online') || 'Online'}</>
                           ) : (
-                            <><MapPin size={14} /> {t('inSite') || 'In-site'}</>
+                            <><MapPin size={14} /> {t('onSite') || 'On Site'}</>
                           )}
                         </span>
                       </td>
@@ -414,6 +450,15 @@ const AcademyManagement = () => {
           </div>
         )}
 
+        {activeTab === 'instructors' && (
+          <InstructorManagement
+            instructors={instructors}
+            onCreateInstructor={handleCreateInstructor}
+            onUpdateInstructor={handleUpdateInstructor}
+            onDeleteInstructor={handleDeleteInstructor}
+          />
+        )}
+
         {activeTab === 'enrollments' && (
           <EnrollmentList 
             enrollments={enrollments}
@@ -427,6 +472,7 @@ const AcademyManagement = () => {
       {showCourseForm && (
         <CourseForm
           course={editingCourse}
+          instructors={instructors}
           onSubmit={editingCourse ? handleUpdateCourse : handleCreateCourse}
           onCancel={() => {
             setShowCourseForm(false)

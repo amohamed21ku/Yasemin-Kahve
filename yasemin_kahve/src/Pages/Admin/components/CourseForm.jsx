@@ -1,39 +1,40 @@
 import React, { useState, useEffect, useRef } from 'react'
-import { X, Plus, Trash2, Upload, Image as ImageIcon } from 'lucide-react'
+import { X, Plus, Trash2, Upload, Image as ImageIcon, User, Camera, Globe } from 'lucide-react'
 import { useTranslation } from '../../../useTranslation'
 import { uploadCourseImage, uploadInstructorAvatar } from '../../../services/courseStorageService'
 import './CourseForm.css'
 
-const CourseForm = ({ course, onSubmit, onCancel }) => {
-  const { t } = useTranslation()
+const CourseForm = ({ course, instructors = [], onSubmit, onCancel }) => {
+  const { t, language } = useTranslation()
   const [formData, setFormData] = useState({
+    image: '',
     title: { en: '', tr: '' },
-    shortDescription: { en: '', tr: '' },
-    fullDescription: { en: '', tr: '' },
-    level: '',
     category: '',
-    courseType: 'In-site',
+    courseType: 'On Site',
+    level: '',
     duration: '',
+    maxStudents: '',
     startDate: '',
     endDate: '',
     price: '',
     originalPrice: '',
-    maxStudents: '',
-    image: '',
     location: { en: '', tr: '' },
+    instructorId: '',
+    shortDescription: { en: '', tr: '' },
+    fullDescription: { en: '', tr: '' },
     prerequisites: { en: '', tr: '' },
     materials: [],
     curriculum: [],
-    instructor: {
-      name: '',
-      avatar: '',
-      title: { en: '', tr: '' },
-      bio: { en: '', tr: '' }
-    },
     rating: 4.5,
     isActive: true
   })
   const [imageUploading, setImageUploading] = useState(false)
+  const [showCreateInstructor, setShowCreateInstructor] = useState(false)
+  const [newInstructor, setNewInstructor] = useState({
+    name: '',
+    avatar: '',
+    title: { en: '', tr: '' }
+  })
   const [instructorImageUploading, setInstructorImageUploading] = useState(false)
   const fileInputRef = useRef(null)
   const instructorFileInputRef = useRef(null)
@@ -41,22 +42,26 @@ const CourseForm = ({ course, onSubmit, onCancel }) => {
   useEffect(() => {
     if (course) {
       setFormData({
-        ...course,
-        // Ensure all required fields are present
+        image: course.image || '',
         title: course.title || { en: '', tr: '' },
+        category: course.category || '',
+        courseType: course.courseType || 'On Site',
+        level: course.level || '',
+        duration: course.duration || '',
+        maxStudents: course.maxStudents || '',
+        startDate: course.startDate || '',
+        endDate: course.endDate || '',
+        price: course.price || '',
+        originalPrice: course.originalPrice || '',
+        location: course.location || { en: '', tr: '' },
+        instructorId: course.instructorId || '',
         shortDescription: course.shortDescription || { en: '', tr: '' },
         fullDescription: course.fullDescription || { en: '', tr: '' },
-        level: course.level || '',
-        location: course.location || { en: '', tr: '' },
         prerequisites: course.prerequisites || { en: '', tr: '' },
         materials: course.materials || [],
         curriculum: course.curriculum || [],
-        instructor: {
-          name: course.instructor?.name || '',
-          avatar: course.instructor?.avatar || '',
-          title: course.instructor?.title || { en: '', tr: '' },
-          bio: course.instructor?.bio || { en: '', tr: '' }
-        }
+        rating: course.rating || 4.5,
+        isActive: course.isActive !== false
       })
     }
   }, [course])
@@ -78,27 +83,47 @@ const CourseForm = ({ course, onSubmit, onCancel }) => {
     }
   }
 
-  const handleInstructorChange = (field, value, lang = null) => {
+  const handleNewInstructorChange = (field, value, lang = null) => {
     if (lang) {
-      setFormData(prev => ({
+      setNewInstructor(prev => ({
         ...prev,
-        instructor: {
-          ...prev.instructor,
-          [field]: {
-            ...prev.instructor[field],
-            [lang]: value
-          }
+        [field]: {
+          ...prev[field],
+          [lang]: value
         }
       }))
     } else {
-      setFormData(prev => ({
+      setNewInstructor(prev => ({
         ...prev,
-        instructor: {
-          ...prev.instructor,
-          [field]: value
-        }
+        [field]: value
       }))
     }
+  }
+
+  const createNewInstructor = async () => {
+    if (!newInstructor.name.trim() || !newInstructor.title.en.trim() || !newInstructor.title.tr.trim()) {
+      alert(t('instructorDetailsRequired') || 'Please fill all instructor details')
+      return
+    }
+
+    const instructorData = {
+      ...newInstructor,
+      id: Date.now().toString()
+    }
+
+    // Set the new instructor as selected
+    handleInputChange('instructorId', instructorData.id)
+    
+    // Reset form and close modal
+    setNewInstructor({
+      name: '',
+      avatar: '',
+      title: { en: '', tr: '' }
+    })
+    setShowCreateInstructor(false)
+    
+    // Note: This would need to be handled by parent component in real implementation
+    alert(t('instructorCreatedNote') || 'Instructor will be created when you save the course.')
   }
 
   const handleImageUpload = async (event, type = 'course') => {
@@ -133,7 +158,7 @@ const CourseForm = ({ course, onSubmit, onCancel }) => {
         handleInputChange('image', imageUrl)
       } else {
         imageUrl = await uploadInstructorAvatar(courseId, file)
-        handleInstructorChange('avatar', imageUrl)
+        handleNewInstructorChange('avatar', imageUrl)
       }
     } catch (error) {
       console.error('Error uploading image:', error)
@@ -145,102 +170,6 @@ const CourseForm = ({ course, onSubmit, onCancel }) => {
         setInstructorImageUploading(false)
       }
     }
-  }
-
-  const addMaterial = () => {
-    setFormData(prev => ({
-      ...prev,
-      materials: [...prev.materials, { en: '', tr: '' }]
-    }))
-  }
-
-  const removeMaterial = (index) => {
-    setFormData(prev => ({
-      ...prev,
-      materials: prev.materials.filter((_, i) => i !== index)
-    }))
-  }
-
-  const updateMaterial = (index, lang, value) => {
-    setFormData(prev => ({
-      ...prev,
-      materials: prev.materials.map((material, i) => 
-        i === index 
-          ? { ...material, [lang]: value }
-          : material
-      )
-    }))
-  }
-
-  const addCurriculumModule = () => {
-    setFormData(prev => ({
-      ...prev,
-      curriculum: [...prev.curriculum, {
-        title: { en: '', tr: '' },
-        duration: 1,
-        lessons: [{ en: '', tr: '' }]
-      }]
-    }))
-  }
-
-  const removeCurriculumModule = (index) => {
-    setFormData(prev => ({
-      ...prev,
-      curriculum: prev.curriculum.filter((_, i) => i !== index)
-    }))
-  }
-
-  const updateCurriculumModule = (index, field, value, lang = null) => {
-    setFormData(prev => ({
-      ...prev,
-      curriculum: prev.curriculum.map((module, i) => 
-        i === index 
-          ? lang 
-            ? { ...module, [field]: { ...module[field], [lang]: value } }
-            : { ...module, [field]: value }
-          : module
-      )
-    }))
-  }
-
-  const addLesson = (moduleIndex) => {
-    setFormData(prev => ({
-      ...prev,
-      curriculum: prev.curriculum.map((module, i) => 
-        i === moduleIndex 
-          ? { ...module, lessons: [...module.lessons, { en: '', tr: '' }] }
-          : module
-      )
-    }))
-  }
-
-  const removeLesson = (moduleIndex, lessonIndex) => {
-    setFormData(prev => ({
-      ...prev,
-      curriculum: prev.curriculum.map((module, i) => 
-        i === moduleIndex 
-          ? { ...module, lessons: module.lessons.filter((_, j) => j !== lessonIndex) }
-          : module
-      )
-    }))
-  }
-
-  const updateLesson = (moduleIndex, lessonIndex, lang, value) => {
-    setFormData(prev => ({
-      ...prev,
-      curriculum: prev.curriculum.map((module, i) => 
-        i === moduleIndex 
-          ? {
-              ...module,
-              lessons: module.lessons.map((lesson, j) =>
-                j === lessonIndex 
-                  ? { ...lesson, [lang]: value }
-                  : lesson
-              )
-            }
-          : module
-      )
-    }))
   }
 
   const handleSubmit = (e) => {
@@ -257,56 +186,141 @@ const CourseForm = ({ course, onSubmit, onCancel }) => {
       return
     }
 
-    onSubmit({
+    if (!formData.instructorId) {
+      alert(t('instructorRequired') || 'Please select an instructor')
+      return
+    }
+
+    // If creating new instructor, add it to the course data
+    let courseData = {
       ...formData,
       price: parseFloat(formData.price),
       originalPrice: formData.originalPrice ? parseFloat(formData.originalPrice) : null,
       maxStudents: parseInt(formData.maxStudents),
       duration: parseInt(formData.duration)
-    })
+    }
+
+    // Add new instructor data if needed
+    const selectedInstructor = instructors.find(i => i.id === formData.instructorId)
+    if (!selectedInstructor && newInstructor.name) {
+      courseData.newInstructor = {
+        ...newInstructor,
+        id: formData.instructorId
+      }
+    }
+
+    onSubmit(courseData)
+  }
+
+  const getLocalizedText = (textObj, fallback = '') => {
+    if (textObj && typeof textObj === 'object') {
+      return textObj[language] || textObj.en || textObj.tr || fallback
+    }
+    return textObj || fallback
   }
 
   return (
-    <div className="course-form-overlay">
-      <div className="course-form-modal">
-        <div className="course-form-header">
-          <h2>
-            {course 
-              ? (t('editCourse') || 'Edit Course')
-              : (t('addNewCourse') || 'Add New Course')
-            }
-          </h2>
-          <button className="close-btn" onClick={onCancel}>
-            <X size={24} />
-          </button>
+    <div className="course-form-container">
+      <div className="course-form-header">
+        <h1>
+          {course 
+            ? (t('editCourse') || 'Edit Course')
+            : (t('addNewCourse') || 'Add New Course')
+          }
+        </h1>
+        <button 
+          className="course-close-btn"
+          onClick={onCancel}
+          type="button"
+        >
+          <X size={20} />
+        </button>
+      </div>
+
+      <form onSubmit={handleSubmit} className="course-form">
+        {/* Image Upload */}
+        <div className="course-form-section">
+          <h3>{t('courseImage') || 'Course Image'}</h3>
+          
+          <div className="course-image-upload-area">
+            <input
+              type="file"
+              ref={fileInputRef}
+              onChange={(e) => handleImageUpload(e, 'course')}
+              accept="image/*"
+              style={{ display: 'none' }}
+            />
+            
+            {formData.image ? (
+              <div className="course-image-preview">
+                <img src={formData.image} alt="Course preview" />
+                <div className="course-image-overlay">
+                  <button
+                    type="button"
+                    className="course-change-image-btn"
+                    onClick={() => fileInputRef.current?.click()}
+                  >
+                    <Camera size={16} />
+                    {t('changeImage') || 'Change Image'}
+                  </button>
+                  <button
+                    type="button"
+                    className="course-remove-image-btn"
+                    onClick={() => handleInputChange('image', '')}
+                  >
+                    <X size={16} />
+                    {t('removeImage') || 'Remove'}
+                  </button>
+                </div>
+              </div>
+            ) : (
+              <div className="course-upload-placeholder" onClick={() => fileInputRef.current?.click()}>
+                <div className="course-upload-icon">
+                  <Upload size={48} />
+                </div>
+                <p>{t('clickToUploadCourseImage') || 'Click to upload course image'}</p>
+                <span>{t('supportedFormats') || 'JPG, PNG, GIF up to 5MB'}</span>
+              </div>
+            )}
+          </div>
         </div>
 
-        <form className="course-form" onSubmit={handleSubmit}>
-          {/* Basic Information */}
-          <div className="form-section">
-            <h3>{t('basicInformation') || 'Basic Information'}</h3>
+        {/* Course Information */}
+        <div className="course-form-section">
+          <h3>{t('courseInformation') || 'Course Information'}</h3>
             
-            <div className="form-row">
-              <div className="form-group">
-                <label>{t('courseTitleEn') || 'Course Title (English)'} *</label>
-                <input
-                  type="text"
-                  value={formData.title.en}
-                  onChange={(e) => handleInputChange('title', e.target.value, 'en')}
-                  required
-                />
-              </div>
-              <div className="form-group">
-                <label>{t('courseTitleTr') || 'Course Title (Turkish)'} *</label>
-                <input
-                  type="text"
-                  value={formData.title.tr}
-                  onChange={(e) => handleInputChange('title', e.target.value, 'tr')}
-                  required
-                />
-              </div>
+          {/* Course Names */}
+          <div className="course-language-inputs">
+            <div className="course-language-input">
+              <label>
+                <Globe size={16} />
+                {t('english') || 'English'}
+              </label>
+              <input
+                type="text"
+                value={formData.title.en}
+                onChange={(e) => handleInputChange('title', e.target.value, 'en')}
+                placeholder={t('enterTitleEnglish') || 'Enter course title in English'}
+                required
+              />
             </div>
+            
+            <div className="course-language-input">
+              <label>
+                <Globe size={16} />
+                {t('turkish') || 'Türkçe'}
+              </label>
+              <input
+                type="text"
+                value={formData.title.tr}
+                onChange={(e) => handleInputChange('title', e.target.value, 'tr')}
+                placeholder={t('enterTitleTurkish') || 'Kurs başlığını Türkçe girin'}
+                required
+              />
+            </div>
+          </div>
 
+            {/* Category Dropdown */}
             <div className="form-row">
               <div className="form-group">
                 <label>{t('category') || 'Category'}</label>
@@ -323,18 +337,21 @@ const CourseForm = ({ course, onSubmit, onCancel }) => {
                   <option value="barista">Barista Skills</option>
                 </select>
               </div>
+              
+              {/* Course Type Dropdown */}
               <div className="form-group">
                 <label>{t('courseType') || 'Course Type'}</label>
                 <select
                   value={formData.courseType}
                   onChange={(e) => handleInputChange('courseType', e.target.value)}
                 >
-                  <option value="In-site">{t('inSite') || 'In-site'}</option>
-                  <option value="Videos">{t('videos') || 'Videos'}</option>
+                  <option value="On Site">{t('onSite') || 'On Site'}</option>
+                  <option value="Online">{t('online') || 'Online'}</option>
                 </select>
               </div>
             </div>
 
+            {/* Course Level Dropdown */}
             <div className="form-row">
               <div className="form-group">
                 <label>{t('courseLevel') || 'Course Level'}</label>
@@ -348,6 +365,8 @@ const CourseForm = ({ course, onSubmit, onCancel }) => {
                   <option value="Advanced">{t('advanced') || 'Advanced'}</option>
                 </select>
               </div>
+              
+              {/* Duration */}
               <div className="form-group">
                 <label>{t('duration') || 'Duration (days)'} *</label>
                 <input
@@ -360,6 +379,7 @@ const CourseForm = ({ course, onSubmit, onCancel }) => {
               </div>
             </div>
 
+            {/* Max Students */}
             <div className="form-row">
               <div className="form-group">
                 <label>{t('maxStudents') || 'Max Students'} *</label>
@@ -373,6 +393,7 @@ const CourseForm = ({ course, onSubmit, onCancel }) => {
               </div>
             </div>
 
+            {/* Start and End Date */}
             <div className="form-row">
               <div className="form-group">
                 <label>{t('startDate') || 'Start Date'}</label>
@@ -392,6 +413,7 @@ const CourseForm = ({ course, onSubmit, onCancel }) => {
               </div>
             </div>
 
+            {/* Price and Original Price */}
             <div className="form-row">
               <div className="form-group">
                 <label>{t('price') || 'Price (TRY)'} *</label>
@@ -416,63 +438,8 @@ const CourseForm = ({ course, onSubmit, onCancel }) => {
               </div>
             </div>
 
-            <div className="form-group image-upload-group">
-              <label>{t('courseImage') || 'Course Image'}</label>
-              <div className="image-upload-container">
-                <div className="image-preview">
-                  {formData.image ? (
-                    <img 
-                      src={formData.image} 
-                      alt="Course preview" 
-                      className="preview-image"
-                    />
-                  ) : (
-                    <div className="preview-placeholder">
-                      <ImageIcon size={48} />
-                      <span>{t('noImageSelected') || 'No image selected'}</span>
-                    </div>
-                  )}
-                </div>
-                <div className="image-upload-controls">
-                  <button 
-                    type="button" 
-                    className="upload-btn"
-                    onClick={() => fileInputRef.current?.click()}
-                    disabled={imageUploading}
-                  >
-                    <Upload size={16} />
-                    {imageUploading ? (t('uploading') || 'Uploading...') : (t('selectImage') || 'Select Image')}
-                  </button>
-                  {formData.image && (
-                    <button 
-                      type="button" 
-                      className="remove-image-btn"
-                      onClick={() => handleInputChange('image', '')}
-                    >
-                      <Trash2 size={16} />
-                      {t('removeImage') || 'Remove'}
-                    </button>
-                  )}
-                </div>
-                <input
-                  ref={fileInputRef}
-                  type="file"
-                  accept="image/*"
-                  onChange={(e) => handleImageUpload(e, 'course')}
-                  style={{ display: 'none' }}
-                />
-                <div className="image-url-input">
-                  <input
-                    type="url"
-                    value={formData.image}
-                    onChange={(e) => handleInputChange('image', e.target.value)}
-                    placeholder={t('orEnterImageUrl') || 'Or enter image URL...'}
-                  />
-                </div>
-              </div>
-            </div>
-
-            {formData.courseType !== 'Videos' && (
+            {/* Location */}
+            {formData.courseType !== 'Online' && (
               <div className="form-row">
                 <div className="form-group">
                   <label>{t('locationEn') || 'Location (English)'}</label>
@@ -494,52 +461,143 @@ const CourseForm = ({ course, onSubmit, onCancel }) => {
             )}
           </div>
 
-          {/* Instructor Information */}
-          <div className="form-section">
-            <h3>{t('instructorInformation') || 'Instructor Information'}</h3>
+        {/* Instructor Selection */}
+        <div className="course-form-section">
+          <h3>{t('instructorSelection') || 'Instructor Selection'}</h3>
             
-            <div className="form-row">
+            <div className="instructor-selector">
               <div className="form-group">
-                <label>{t('instructorName') || 'Instructor Name'}</label>
-                <input
-                  type="text"
-                  value={formData.instructor.name}
-                  onChange={(e) => handleInstructorChange('name', e.target.value)}
-                />
+                <label>{t('selectInstructor') || 'Select Instructor'} *</label>
+                <select
+                  value={formData.instructorId}
+                  onChange={(e) => handleInputChange('instructorId', e.target.value)}
+                  required
+                >
+                  <option value="">{t('chooseInstructor') || 'Choose an instructor...'}</option>
+                  {instructors.map(instructor => (
+                    <option key={instructor.id} value={instructor.id}>
+                      {instructor.name}
+                    </option>
+                  ))}
+                </select>
               </div>
-              <div className="form-group instructor-avatar-group">
-                <label>{t('instructorAvatar') || 'Instructor Avatar'}</label>
+              
+              <div className="instructor-actions">
+                <button 
+                  type="button" 
+                  className="create-instructor-btn"
+                  onClick={() => setShowCreateInstructor(true)}
+                >
+                  <Plus size={16} />
+                  {t('createNewInstructor') || 'Create New Instructor'}
+                </button>
+              </div>
+            </div>
+
+            {/* Selected Instructor Preview */}
+            {formData.instructorId && (
+              <div className="selected-instructor-preview">
+                {(() => {
+                  const selectedInstructor = instructors.find(i => i.id === formData.instructorId)
+                  return selectedInstructor ? (
+                    <div className="instructor-card-preview">
+                      <div className="instructor-avatar-small">
+                        {selectedInstructor.avatar ? (
+                          <img src={selectedInstructor.avatar} alt={selectedInstructor.name} />
+                        ) : (
+                          <div className="avatar-placeholder-small">
+                            <User size={24} />
+                          </div>
+                        )}
+                      </div>
+                      <div className="instructor-info-small">
+                        <h4>{selectedInstructor.name}</h4>
+                        <p>{getLocalizedText(selectedInstructor.title)}</p>
+                      </div>
+                    </div>
+                  ) : null
+                })()}
+              </div>
+            )}
+          </div>
+
+        {/* Form Actions */}
+        <div className="course-form-actions">
+          <button
+            type="button"
+            className="course-cancel-btn"
+            onClick={onCancel}
+            disabled={imageUploading}
+          >
+            {t('cancel') || 'Cancel'}
+          </button>
+          
+          <button
+            type="submit"
+            className="course-save-btn"
+            disabled={imageUploading}
+          >
+            {imageUploading ? (
+              <div className="course-loading-content">
+                <div className="course-spinner"></div>
+                {t('saving') || 'Saving...'}
+              </div>
+            ) : (
+              <>
+                {course 
+                  ? (t('updateCourse') || 'Update Course') 
+                  : (t('createCourse') || 'Create Course')
+                }
+              </>
+            )}
+          </button>
+        </div>
+      </form>
+
+      {/* Create New Instructor Modal */}
+      {showCreateInstructor && (
+        <div className="instructor-create-overlay">
+          <div className="instructor-create-modal">
+            <div className="instructor-create-header">
+              <h3>{t('createNewInstructor') || 'Create New Instructor'}</h3>
+              <button 
+                className="close-btn"
+                onClick={() => setShowCreateInstructor(false)}
+              >
+                <X size={20} />
+              </button>
+            </div>
+
+            <div className="instructor-create-form">
+              <div className="form-group avatar-group">
+                <label>{t('avatar') || 'Avatar'}</label>
                 <div className="avatar-upload-container">
                   <div className="avatar-preview">
-                    {formData.instructor.avatar ? (
-                      <img 
-                        src={formData.instructor.avatar} 
-                        alt="Instructor avatar" 
-                        className="avatar-image"
-                      />
+                    {newInstructor.avatar ? (
+                      <img src={newInstructor.avatar} alt="Preview" />
                     ) : (
                       <div className="avatar-placeholder">
-                        <ImageIcon size={24} />
+                        <ImageIcon size={32} />
                       </div>
                     )}
                   </div>
                   <div className="avatar-controls">
                     <button 
                       type="button" 
-                      className="upload-avatar-btn"
+                      className="upload-btn"
                       onClick={() => instructorFileInputRef.current?.click()}
                       disabled={instructorImageUploading}
                     >
-                      <Upload size={14} />
+                      <Upload size={16} />
                       {instructorImageUploading ? (t('uploading') || 'Uploading...') : (t('selectAvatar') || 'Select Avatar')}
                     </button>
-                    {formData.instructor.avatar && (
+                    {newInstructor.avatar && (
                       <button 
                         type="button" 
-                        className="remove-avatar-btn"
-                        onClick={() => handleInstructorChange('avatar', '')}
+                        className="remove-btn"
+                        onClick={() => handleNewInstructorChange('avatar', '')}
                       >
-                        <Trash2 size={14} />
+                        <Trash2 size={16} />
                       </button>
                     )}
                   </div>
@@ -550,50 +608,60 @@ const CourseForm = ({ course, onSubmit, onCancel }) => {
                     onChange={(e) => handleImageUpload(e, 'instructor')}
                     style={{ display: 'none' }}
                   />
+                </div>
+              </div>
+
+              <div className="form-group">
+                <label>{t('instructorName') || 'Instructor Name'} *</label>
+                <input
+                  type="text"
+                  value={newInstructor.name}
+                  onChange={(e) => handleNewInstructorChange('name', e.target.value)}
+                  required
+                />
+              </div>
+
+              <div className="form-row">
+                <div className="form-group">
+                  <label>{t('titleEn') || 'Title (English)'} *</label>
                   <input
-                    type="url"
-                    value={formData.instructor.avatar}
-                    onChange={(e) => handleInstructorChange('avatar', e.target.value)}
-                    placeholder={t('orEnterAvatarUrl') || 'Or enter avatar URL...'}
-                    className="avatar-url-input"
+                    type="text"
+                    value={newInstructor.title.en}
+                    onChange={(e) => handleNewInstructorChange('title', e.target.value, 'en')}
+                    required
+                  />
+                </div>
+                <div className="form-group">
+                  <label>{t('titleTr') || 'Title (Turkish)'} *</label>
+                  <input
+                    type="text"
+                    value={newInstructor.title.tr}
+                    onChange={(e) => handleNewInstructorChange('title', e.target.value, 'tr')}
+                    required
                   />
                 </div>
               </div>
-            </div>
 
-            <div className="form-row">
-              <div className="form-group">
-                <label>{t('instructorTitleEn') || 'Instructor Title (English)'}</label>
-                <input
-                  type="text"
-                  value={formData.instructor.title.en}
-                  onChange={(e) => handleInstructorChange('title', e.target.value, 'en')}
-                />
-              </div>
-              <div className="form-group">
-                <label>{t('instructorTitleTr') || 'Instructor Title (Turkish)'}</label>
-                <input
-                  type="text"
-                  value={formData.instructor.title.tr}
-                  onChange={(e) => handleInstructorChange('title', e.target.value, 'tr')}
-                />
+              <div className="form-actions">
+                <button 
+                  type="button" 
+                  className="cancel-btn"
+                  onClick={() => setShowCreateInstructor(false)}
+                >
+                  {t('cancel') || 'Cancel'}
+                </button>
+                <button 
+                  type="button" 
+                  className="submit-btn"
+                  onClick={createNewInstructor}
+                >
+                  {t('createInstructor') || 'Create Instructor'}
+                </button>
               </div>
             </div>
           </div>
-
-          <div className="form-actions">
-            <button type="button" className="cancel-btn" onClick={onCancel}>
-              {t('cancel') || 'Cancel'}
-            </button>
-            <button type="submit" className="submit-btn">
-              {course 
-                ? (t('updateCourse') || 'Update Course')
-                : (t('createCourse') || 'Create Course')
-              }
-            </button>
-          </div>
-        </form>
-      </div>
+        </div>
+      )}
     </div>
   )
 }

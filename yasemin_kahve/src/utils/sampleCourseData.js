@@ -3,6 +3,8 @@ import { createCourse } from '../services/courseService'
 
 export const sampleCourses = [
   {
+    id: "course_1",
+    enrolledStudents: [],
     title: {
       en: "Coffee Fundamentals",
       tr: "Kahve Temelleri"
@@ -20,7 +22,7 @@ export const sampleCourses = [
       tr: "Başlangıç"
     },
     category: "basics",
-    courseType: "face-to-face",
+    courseType: "On Site",
     duration: 8,
     startDate: "2024-02-15",
     endDate: "2024-02-16",
@@ -78,6 +80,8 @@ export const sampleCourses = [
     isActive: true
   },
   {
+    id: "course_2",
+    enrolledStudents: [],
     title: {
       en: "Advanced Brewing Techniques",
       tr: "İleri Demleme Teknikleri"
@@ -95,7 +99,7 @@ export const sampleCourses = [
       tr: "İleri"
     },
     category: "brewing",
-    courseType: "hybrid",
+    courseType: "Online",
     duration: 12,
     startDate: "2024-02-20",
     endDate: "2024-02-22",
@@ -123,6 +127,8 @@ export const sampleCourses = [
     isActive: true
   },
   {
+    id: "course_3",
+    enrolledStudents: [],
     title: {
       en: "Online Coffee Cupping & Tasting",
       tr: "Online Kahve Cupping ve Tadım"
@@ -140,7 +146,7 @@ export const sampleCourses = [
       tr: "Orta"
     },
     category: "tasting",
-    courseType: "online",
+    courseType: "Online",
     duration: 6,
     startDate: "2024-03-01",
     endDate: "2024-03-03",
@@ -163,6 +169,8 @@ export const sampleCourses = [
     isActive: true
   },
   {
+    id: "course_4",
+    enrolledStudents: [],
     title: {
       en: "Coffee Roasting Mastery",
       tr: "Kahve Kavurma Ustalığı"
@@ -180,7 +188,7 @@ export const sampleCourses = [
       tr: "İleri"
     },
     category: "roasting",
-    courseType: "face-to-face",
+    courseType: "On Site",
     duration: 16,
     startDate: "2024-03-10",
     endDate: "2024-03-12",
@@ -204,6 +212,8 @@ export const sampleCourses = [
     isActive: true
   },
   {
+    id: "course_5",
+    enrolledStudents: [],
     title: {
       en: "Coffee Business Management",
       tr: "Kahve İş Yönetimi"
@@ -221,7 +231,7 @@ export const sampleCourses = [
       tr: "Orta"
     },
     category: "business",
-    courseType: "online",
+    courseType: "Online",
     duration: 20,
     startDate: "2024-03-15",
     endDate: "2024-03-19",
@@ -240,6 +250,8 @@ export const sampleCourses = [
     isActive: true
   },
   {
+    id: "course_6",
+    enrolledStudents: [],
     title: {
       en: "Latte Art Workshop",
       tr: "Latte Art Atölyesi"
@@ -257,7 +269,7 @@ export const sampleCourses = [
       tr: "Başlangıç"
     },
     category: "barista",
-    courseType: "face-to-face",
+    courseType: "On Site",
     duration: 4,
     startDate: "2024-03-20",
     endDate: "2024-03-20",

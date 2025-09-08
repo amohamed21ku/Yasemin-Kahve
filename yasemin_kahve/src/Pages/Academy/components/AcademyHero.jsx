@@ -1,6 +1,6 @@
 import React from 'react';
 import { BookOpen, Users, Award, Coffee, Play, ArrowRight } from 'lucide-react';
-import { useTranslation } from '/src/useTranslation';
+import { useTranslation } from '../../../useTranslation';
 import './AcademyHero.css';
 
 const AcademyHero = () => {

@@ -378,6 +378,8 @@ export const tr = {
   "locked": "Kilitli",
   "images": "Görseller",
   "videos": "Videolar",
+  "onSite": "Yerinde",
+  "online": "Çevrimiçi",
   "documents": "Dökümanlar",
   "noMediaAvailable": "Bu kurs için medya bulunmuyor",
   "viewCourse": "Kursu Görüntüle",

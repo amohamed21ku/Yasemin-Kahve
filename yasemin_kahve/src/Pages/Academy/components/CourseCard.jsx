@@ -8,6 +8,12 @@ const CourseCard = ({ course, onClick, onEnroll }) => {
   const { t, language } = useTranslation()
   const { currentUser } = useAuth()
 
+  // Safety check - if course is null or undefined, don't render
+  if (!course || typeof course !== 'object') {
+    console.error('CourseCard: Invalid course data', course)
+    return null
+  }
+
   const handleCardClick = () => {
     if (onClick) {
       onClick(course)
@@ -23,25 +29,43 @@ const CourseCard = ({ course, onClick, onEnroll }) => {
 
   // Helper function to get localized content
   const getLocalizedText = (textObj, fallback = '') => {
-    if (textObj && typeof textObj === 'object') {
-      return textObj[language] || textObj.en || textObj.tr || fallback
+    try {
+      if (textObj && typeof textObj === 'object') {
+        return textObj[language] || textObj.en || textObj.tr || fallback
+      }
+      return textObj || fallback
+    } catch (error) {
+      console.error('Error getting localized text:', error)
+      return fallback
     }
-    return textObj || fallback
   }
 
   const formatPrice = (price) => {
-    return new Intl.NumberFormat('tr-TR', {
-      style: 'currency',
-      currency: 'TRY'
-    }).format(price)
+    try {
+      if (!price || isNaN(price)) return '₺0'
+      return new Intl.NumberFormat('tr-TR', {
+        style: 'currency',
+        currency: 'TRY'
+      }).format(price)
+    } catch (error) {
+      console.error('Error formatting price:', error)
+      return `₺${price || 0}`
+    }
   }
 
   const formatDate = (dateStr) => {
-    const date = new Date(dateStr)
-    return date.toLocaleDateString(language === 'tr' ? 'tr-TR' : 'en-US', {
-      month: 'short',
-      day: 'numeric'
-    })
+    try {
+      if (!dateStr) return ''
+      const date = new Date(dateStr)
+      if (isNaN(date.getTime())) return dateStr
+      return date.toLocaleDateString(language === 'tr' ? 'tr-TR' : 'en-US', {
+        month: 'short',
+        day: 'numeric'
+      })
+    } catch (error) {
+      console.error('Error formatting date:', error)
+      return dateStr || ''
+    }
   }
 
   const isEnrolled = currentUser && course.enrolledStudents?.includes(currentUser.uid)
@@ -60,13 +84,11 @@ const CourseCard = ({ course, onClick, onEnroll }) => {
         <div className="course-overlay">
           <div className="course-badges">
             <div className="course-level">{getLocalizedText(course.level)}</div>
-            <div className={`course-type ${course.courseType || 'face-to-face'}`}>
-              {course.courseType === 'online' ? (
+            <div className="course-type" data-type={course.courseType || 'On Site'}>
+              {course.courseType === 'Online' ? (
                 <><Monitor size={12} /> {t("online") || "Online"}</>
-              ) : course.courseType === 'hybrid' ? (
-                <><Monitor size={12} /> {t("hybrid") || "Hybrid"}</>
               ) : (
-                <><MapPin size={12} /> {t("faceToFace") || "Face-to-Face"}</>
+                <><MapPin size={12} /> {t("onSite") || "On Site"}</>
               )}
             </div>
           </div>
@@ -100,7 +122,7 @@ const CourseCard = ({ course, onClick, onEnroll }) => {
             <Users size={14} />
             <span>{course.enrolledStudents?.length || 0}/{course.maxStudents}</span>
           </div>
-          {course.location && course.courseType !== 'online' && (
+          {course.location && course.courseType !== 'Online' && (
             <div className="course-meta-item">
               <MapPin size={14} />
               <span>{getLocalizedText(course.location)}</span>
@@ -108,19 +130,21 @@ const CourseCard = ({ course, onClick, onEnroll }) => {
           )}
         </div>
 
-        <div className="course-instructor">
-          <img 
-            src={course.instructor.avatar} 
-            alt={course.instructor.name}
-            onError={(e) => {
-              e.target.src = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='40' height='40' viewBox='0 0 40 40'%3E%3Ccircle cx='20' cy='20' r='20' fill='%23D2691E'/%3E%3Ccircle cx='20' cy='15' r='6' fill='white'/%3E%3Cpath d='M8 32c0-6.627 5.373-12 12-12s12 5.373 12 12' fill='white'/%3E%3C/svg%3E"
-            }}
-          />
-          <div>
-            <span className="instructor-name">{course.instructor.name}</span>
-            <span className="instructor-title">{getLocalizedText(course.instructor.title)}</span>
+        {course.instructor && (
+          <div className="course-instructor">
+            <img 
+              src={course.instructor.avatar || "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='40' height='40' viewBox='0 0 40 40'%3E%3Ccircle cx='20' cy='20' r='20' fill='%23D2691E'/%3E%3Ccircle cx='20' cy='15' r='6' fill='white'/%3E%3Cpath d='M8 32c0-6.627 5.373-12 12-12s12 5.373 12 12' fill='white'/%3E%3C/svg%3E"} 
+              alt={course.instructor.name || 'Instructor'}
+              onError={(e) => {
+                e.target.src = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='40' height='40' viewBox='0 0 40 40'%3E%3Ccircle cx='20' cy='20' r='20' fill='%23D2691E'/%3E%3Ccircle cx='20' cy='15' r='6' fill='white'/%3E%3Cpath d='M8 32c0-6.627 5.373-12 12-12s12 5.373 12 12' fill='white'/%3E%3C/svg%3E"
+              }}
+            />
+            <div>
+              <span className="instructor-name">{course.instructor.name || 'Unknown Instructor'}</span>
+              <span className="instructor-title">{getLocalizedText(course.instructor.title, 'Instructor')}</span>
+            </div>
           </div>
-        </div>
+        )}
 
         <div className="course-footer">
           <div className="course-price">

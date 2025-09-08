@@ -34,6 +34,9 @@
   width: 100%;
   height: 100%;
   object-fit: cover;
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
   transition: transform 0.3s ease;
 }
 
@@ -83,20 +86,10 @@
   backdrop-filter: blur(10px);
 }
 
-.course-type.online {
-  background: rgba(34, 197, 94, 0.9);
-  color: white;
-}
 
-.course-type.face-to-face {
-  background: rgba(59, 130, 246, 0.9);
-  color: white;
-}
 
-.course-type.hybrid {
-  background: rgba(168, 85, 247, 0.9);
-  color: white;
-}
+/* Fallback for course types */
+
 
 .course-rating {
   display: flex;
@@ -165,14 +158,13 @@
   gap: 1rem;
   margin-bottom: 1rem;
   padding-bottom: 1rem;
-  border-bottom: 2px solid #F3F4F6;
 }
 
 .course-meta-item {
   display: flex;
   align-items: center;
   gap: 0.5rem;
-  color: #6B7280;
+  color: #36383a !important;
   font-size: 0.85rem;
   font-weight: 500;
 }

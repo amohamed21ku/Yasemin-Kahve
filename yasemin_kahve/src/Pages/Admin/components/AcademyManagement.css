@@ -358,19 +358,20 @@
   text-transform: uppercase;
 }
 
-.type-badge.online {
+.type-badge[data-type="Online"] {
   background: #DCFCE7;
   color: #166534;
 }
 
-.type-badge.face-to-face {
+.type-badge[data-type="On Site"] {
   background: #DBEAFE;
   color: #1E40AF;
 }
 
-.type-badge.hybrid {
-  background: #F3E8FF;
-  color: #7C2D92;
+/* Fallback styling */
+.type-badge {
+  background: #DBEAFE;
+  color: #1E40AF;
 }
 
 .enrollment-count {

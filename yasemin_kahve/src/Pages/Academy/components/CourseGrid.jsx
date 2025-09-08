@@ -3,10 +3,12 @@ import { Filter, Search, SlidersHorizontal, Loader } from 'lucide-react'
 import CourseCard from './CourseCard'
 import { useTranslation } from '../../../useTranslation'
 import { getAllCourses } from '../../../services/courseService'
+import { useAuth } from '../../../AuthContext'
 import './CourseGrid.css'
 
-const CourseGrid = ({ onCourseClick, onEnroll }) => {
+const CourseGrid = ({ onCourseClick, onEnroll, onAddNewCourse }) => {
   const { t } = useTranslation()
+  const { currentUser } = useAuth()
   const [courses, setCourses] = useState([])
   const [filteredCourses, setFilteredCourses] = useState([])
   const [searchTerm, setSearchTerm] = useState('')
@@ -23,12 +25,31 @@ const CourseGrid = ({ onCourseClick, onEnroll }) => {
       try {
         setLoading(true)
         setError(null)
-        const fetchedCourses = await getAllCourses()
-        setCourses(fetchedCourses)
-        setFilteredCourses(fetchedCourses)
-      } catch (error) {
-        console.error('Error fetching courses:', error)
-        setError(error.message)
+        
+        // Try to get Firebase data first
+        try {
+          const fetchedCourses = await getAllCourses()
+          if (fetchedCourses && fetchedCourses.length > 0) {
+            console.log('Successfully fetched courses from Firebase:', fetchedCourses.length)
+            setCourses(fetchedCourses)
+            setFilteredCourses(fetchedCourses)
+          } else {
+            console.log('No courses found in Firebase, using sample data')
+            const { sampleCourses } = await import('../../../utils/sampleCourseData')
+            setCourses(sampleCourses)
+            setFilteredCourses(sampleCourses)
+          }
+        } catch (firebaseError) {
+          console.warn('Firebase error, falling back to sample data:', firebaseError.message)
+          // Fallback to sample data on Firebase error
+          const { sampleCourses } = await import('../../../utils/sampleCourseData')
+          setCourses(sampleCourses)
+          setFilteredCourses(sampleCourses)
+        }
+        
+      } catch (fallbackError) {
+        console.error('Critical error: Cannot load any course data:', fallbackError)
+        setError('Unable to load courses. Please refresh the page and try again.')
       } finally {
         setLoading(false)
       }
@@ -39,6 +60,11 @@ const CourseGrid = ({ onCourseClick, onEnroll }) => {
 
   // Filter and search logic
   useEffect(() => {
+    if (!courses || !Array.isArray(courses)) {
+      setFilteredCourses([])
+      return
+    }
+    
     let filtered = [...courses]
 
     // Search filter
@@ -98,7 +124,9 @@ const CourseGrid = ({ onCourseClick, onEnroll }) => {
   return (
     <div className="course-grid-container">
       <div className="course-grid-header">
-        <h2 className="course-grid-title">{t("availableCourses") || "Available Courses"}</h2>
+        <div className="header-title-section">
+          <h2 className="course-grid-title">{t("availableCourses") || "Available Courses"}</h2>
+        </div>
         
         <div className="course-controls">
           <div className="search-box">
@@ -192,14 +220,22 @@ const CourseGrid = ({ onCourseClick, onEnroll }) => {
         ) : (
           <>
             <div className="course-grid">
-              {filteredCourses.map(course => (
-                <CourseCard
-                  key={course.id}
-                  course={course}
-                  onClick={onCourseClick}
-                  onEnroll={onEnroll}
-                />
-              ))}
+              {filteredCourses && filteredCourses.length > 0 ? (
+                filteredCourses.map((course, index) => (
+                  <CourseCard
+                    key={course?.id || `course_${index}`}
+                    course={course}
+                    onClick={onCourseClick}
+                    onEnroll={onEnroll}
+                  />
+                ))
+              ) : (
+                <div className="no-courses">
+                  <div className="no-courses-icon">📚</div>
+                  <h3>{t("noCoursesFound") || "No courses found"}</h3>
+                  <p>{t("tryDifferentFilters") || "Try adjusting your search or filter criteria"}</p>
+                </div>
+              )}
             </div>
 
             {filteredCourses.length === 0 && courses.length > 0 && (
