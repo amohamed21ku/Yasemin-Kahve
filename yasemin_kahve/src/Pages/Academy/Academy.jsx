@@ -7,6 +7,7 @@ import EnrollmentModal from './components/EnrollmentModal'
 import { useAuth } from '../../AuthContext'
 import { useTranslation } from '../../useTranslation'
 import './Academy.css'
+import AcademyOverview from './components/AcademyOverview'
 
 const Academy = ({ onNavigate }) => {
   const { currentUser } = useAuth()
@@ -55,6 +56,7 @@ const Academy = ({ onNavigate }) => {
       <Header activeSection="academy" onNavigate={onNavigate} />
       
       <AcademyHero />
+      <AcademyOverview />
       
       <div className="academy-content">
         <CourseGrid 

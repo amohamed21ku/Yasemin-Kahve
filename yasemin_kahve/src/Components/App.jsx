@@ -7,6 +7,7 @@ import AcademyPage from '../Pages/Academy/Academy'
 import CourseDetailPage from '../Pages/CourseDetail/CourseDetail'
 import AdminPanel from '../Pages/Admin/AdminPanel'
 import Auth from '../Pages/Auth/Auth'
+import WhatsAppButton from './WhatsAppButton'
 
 import { AuthProvider } from '../AuthContext'
 import { LanguageProvider } from '../LanguageContext'
@@ -391,6 +392,7 @@ function App() {
       <AuthProvider>
         <div className="app">
           {renderCurrentPage()}
+          <WhatsAppButton currentPage={currentPage} />
         </div>
       </AuthProvider>
     </LanguageProvider>

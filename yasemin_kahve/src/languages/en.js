@@ -66,6 +66,7 @@ export const en = {
   "guatemala": "Guatemala",
   "ethiopian": "Ethiopian",
   "cardamom": "Cardamom",
+
   // Contact Section
 "contactUsDescription":"Let's try out the irresistible green coffee… Let's partner and experience the success together…",
 
@@ -186,7 +187,6 @@ export const en = {
   "siteSettings":"Site Settings",
   "siteSettingsDesc":"Configure website settings",
   "loadingDashboard":"Loading dashboard...",
-  "dashboard":"Dashboard",
   "dashboardWelcome":"Welcome to your admin control panel",
   "quickActions":"Quick Actions",
   "recentActivity":"Recent Activity",
@@ -266,7 +266,6 @@ export const en = {
   "balance": "Balance",
   "region": "Region",
   "classification": "Classification",
-  "processing": "Processing",
   "type": "Type",
   "bagType": "Bag Type",
   "regionPlaceholder": "e.g., Huila, Nariño, Cauca",
@@ -277,6 +276,25 @@ export const en = {
   "score": "Score",
   "scoreHelp": "Coffee quality score out of 100 points",
   "qualityScore": "Quality Score",
+
+
+  // Academy 
+  //Academy Hero
+  "academyHeroTitle":"Master the Art of Coffee",
+  "academyHeroDescription":"Join Yasemin Kahve Academy and learn from industry experts. From bean to cup, discover the secrets of exceptional coffee through our comprehensive courses",
+  "students":"Students",
+  "certified":"Certified",
+
+
+  // "":"",
+  // "":"",
+  // "":"",
+  // "":"",
+  // "":"",
+  // "":"",
+  // "":"",
+  // "":"",
+
 
 
 
@@ -371,6 +389,38 @@ export const en = {
   "signUp": "Sign Up",
   "signInWelcome": "Welcome back! Sign in to your account",
   "signUpWelcome": "Create your account to get started",
+  
+  // Course Details
+  "overview": "Overview",
+  "curriculum": "Curriculum",
+  "instructor": "Instructor",
+  "media": "Media",
+  "courseNotFound": "Course not found",
+  "backToAcademy": "Back to Academy",
+  "duration": "Duration",
+  "students": "Students",
+  "level": "Level",
+  "language": "Language",
+  "startDate": "Start Date",
+  "location": "Location",
+  "price": "Price",
+  "enrolled": "Enrolled",
+  "full": "Course Full",
+  "enrollNow": "Enroll Now",
+  "whatYouWillLearn": "What You'll Learn",
+  "prerequisites": "Prerequisites",
+  "materialsIncluded": "Materials Included",
+  "certificate": "Certificate",
+  "lessons": "Lessons",
+  "topics": "Topics",
+  "completed": "Completed",
+  "locked": "Locked",
+  "images": "Images",
+  "videos": "Videos",
+  "documents": "Documents",
+  "noMediaAvailable": "No media available for this course",
+  "viewCourse": "View Course",
+  "downloadMaterial": "Download Material",
   
   // General
 };

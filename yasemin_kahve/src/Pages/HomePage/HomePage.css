@@ -1407,6 +1407,26 @@ html {
   z-index: 1;
 }
 
+/* ===== WHATSAPP CONTACT STYLING ===== */
+.whatsapp-contact {
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.whatsapp-contact:hover {
+  transform: translateX(12px);
+}
+
+.whatsapp-icon {
+  background: linear-gradient(135deg, #25D366, #1BAE4E);
+  color: white;
+}
+
+.whatsapp-contact:hover .whatsapp-icon {
+  transform: scale(1.15) rotate(-5deg);
+  box-shadow: 0 15px 40px rgba(37, 211, 102, 0.4);
+}
+
 /* ===== FOOTER ===== */
 .footer {
   background: linear-gradient(135deg, #3E2723 0%, #2E2E2E 100%);

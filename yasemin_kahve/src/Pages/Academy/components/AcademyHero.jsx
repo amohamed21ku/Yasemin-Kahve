@@ -1,70 +1,92 @@
-import React from 'react'
-import { GraduationCap, Clock, Users, Award } from 'lucide-react'
-import { useTranslation } from '../../../useTranslation'
-import './AcademyHero.css'
+import React from 'react';
+import { BookOpen, Users, Award, Coffee, Play, ArrowRight } from 'lucide-react';
+import { useTranslation } from '/src/useTranslation';
+import './AcademyHero.css';
 
 const AcademyHero = () => {
-  const { t } = useTranslation()
+  const { t } = useTranslation();
+
+  const handleVideoPlay = () => {
+    // Video play functionality can be implemented here
+    console.log('Play academy introduction video');
+  };
+
+  const scrollToCourses = () => {
+    const coursesSection = document.querySelector('.courses-section');
+    if (coursesSection) {
+      coursesSection.scrollIntoView({ behavior: 'smooth' });
+    }
+  };
 
   return (
     <section className="academy-hero">
-      <div className="academy-hero-background">
-        <img 
-          src="/static/images/assets/academy-hero.jpg" 
-          alt="Yasemin Kahve Academy" 
-          className="academy-hero-image"
-          onError={(e) => {
-            // Fallback to a coffee training scene
-            e.target.src = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='1200' height='600' viewBox='0 0 1200 600'%3E%3Cdefs%3E%3ClinearGradient id='bg' x1='0%25' y1='0%25' x2='100%25' y2='100%25'%3E%3Cstop offset='0%25' style='stop-color:%23FFF8E1'/%3E%3Cstop offset='100%25' style='stop-color:%23FFECB3'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='1200' height='600' fill='url(%23bg)'/%3E%3Cg fill='%23D2691E' opacity='0.1'%3E%3Ccircle cx='200' cy='150' r='20'/%3E%3Ccircle cx='400' cy='100' r='15'/%3E%3Ccircle cx='600' cy='200' r='25'/%3E%3Ccircle cx='800' cy='120' r='18'/%3E%3Ccircle cx='1000' cy='180' r='22'/%3E%3C/g%3E%3Ctext x='600' y='320' text-anchor='middle' fill='%238B4513' font-size='48' font-weight='bold'%3EYasemin Kahve Academy%3C/text%3E%3C/svg%3E"
-          }}
-        />
-        <div className="academy-hero-overlay"></div>
+      {/* Background decorative elements */}
+      <div className="hero-Academy-background">
+        <div className="coffee-bean coffee-bean-1"></div>
+        <div className="coffee-bean coffee-bean-2"></div>
+        <div className="coffee-bean coffee-bean-3"></div>
+        <div className="coffee-steam steam-1"></div>
+        <div className="coffee-steam steam-2"></div>
+        <div className="coffee-steam steam-3"></div>
       </div>
-      
-      <div className="academy-hero-content">
-        <div className="academy-hero-text">
-          <div className="academy-badge">
-            <GraduationCap size={24} />
-            <span>{t("academy") || "Academy"}</span>
+
+      <div className="container">
+        <div className="hero-Academy-content">
+          {/* Left side - Content */}
+          <div className="hero-text">
+            <div className="hero-badge">
+              <Coffee className="badge-icon" />
+              <span>{t('coffeeMastery') || 'Coffee Mastery'}</span>
+            </div>
+            
+            <h1 className="hero-title">
+              <span className="title-main">{t('yaseminCoffeeAcademy') || 'Yasemin Coffee Academy'}</span>
+              <span className="title-subtitle">{t('masterTheArtOfCoffee') || 'Master the Art of Coffee'}</span>
+            </h1>
+            
+            <p className="hero-Academy-description">
+              {t('academyDescription') || 'Join our comprehensive coffee education program. Learn from industry experts, master brewing techniques, and discover the secrets behind exceptional coffee. From bean to cup, we\'ll guide your journey to coffee mastery.'}
+            </p>
+
+
+            {/* Action buttons */}
+            <div className="hero-actions">
+              <button className="btn-Academy-primary" onClick={scrollToCourses}>
+                <span>{t('exploreCourses') || 'Explore Courses'}</span>
+                <ArrowRight className="btn-icon" />
+              </button>
+              <button className="btn-Academy-secondary" onClick={handleVideoPlay}>
+                <Play className="btn-icon" />
+                <span>{t('watchIntro') || 'Watch Introduction'}</span>
+              </button>
+            </div>
           </div>
-          
-          <h1 className="academy-hero-title">
-            {t("academyHeroTitle") || "Master the Art of Coffee"}
-          </h1>
-          
-          <p className="academy-hero-description">
-            {t("academyHeroDescription") || "Join Yasemin Kahve Academy and learn from industry experts. From bean to cup, discover the secrets of exceptional coffee through our comprehensive courses."}
-          </p>
-          
-          <div className="academy-stats">
-            <div className="academy-stat">
-              <Users size={20} />
-              <div>
-                <span className="stat-number">500+</span>
-                <span className="stat-label">{t("students") || "Students"}</span>
+
+          {/* Right side - Visual */}
+          <div className="hero-visual">
+            <div className="visual-container">
+              <div className="main-image">
+                <div className="image-placeholder">
+                  <Coffee size={80} />
+                </div>
+                <div className="floating-Academy-element element-1">
+                  <BookOpen size={24} />
+                </div>
+                <div className="floating-Academy-element element-2">
+                  <Award size={28} />
+                </div>
+                <div className="floating-Academy-element element-3">
+                  <Users size={26} />
+                </div>
               </div>
-            </div>
-            
-            <div className="academy-stat">
-              <Clock size={20} />
-              <div>
-                <span className="stat-number">12</span>
-                <span className="stat-label">{t("courses") || "Courses"}</span>
-              </div>
-            </div>
-            
-            <div className="academy-stat">
-              <Award size={20} />
-              <div>
-                <span className="stat-number">100%</span>
-                <span className="stat-label">{t("certified") || "Certified"}</span>
-              </div>
+              
             </div>
           </div>
         </div>
       </div>
-    </section>
-  )
-}
 
-export default AcademyHero
+    </section>
+  );
+};
+
+export default AcademyHero;

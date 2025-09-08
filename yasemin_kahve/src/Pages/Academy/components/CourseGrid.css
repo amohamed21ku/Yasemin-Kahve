@@ -130,6 +130,21 @@
   gap: 2rem;
 }
 
+/* Mobile layout - 2 cards per row */
+@media (max-width: 768px) {
+  .course-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.75rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .course-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.5rem;
+  }
+}
+
 /* Loading State */
 .loading-state {
   display: flex;
@@ -234,54 +249,74 @@
 
 /* Responsive Design */
 @media (max-width: 1024px) {
-  .courses-grid {
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    gap: 1.5rem;
+  .course-grid-container {
+    padding: 1.5rem;
   }
 }
 
 @media (max-width: 768px) {
-  .courses-section .container {
-    padding: 0 1rem;
+  .course-grid-container {
+    padding: 1rem;
   }
 
-  .section-header h2 {
-    font-size: 2rem;
-  }
-
-  .section-header p {
-    font-size: 1.1rem;
-  }
-
-  .filter-tabs {
-    flex-wrap: wrap;
-    justify-content: center;
-  }
-
-  .filter-tab {
-    padding: 0.5rem 1rem;
-    font-size: 0.9rem;
-  }
-
-  .courses-grid {
-    grid-template-columns: 1fr;
+  .course-grid-header {
+    flex-direction: column;
+    align-items: stretch;
     gap: 1rem;
   }
 
+  .course-grid-title {
+    font-size: 2rem;
+    text-align: center;
+  }
+
+  .course-controls {
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+
+  .search-box {
+    min-width: auto;
+    width: 100%;
+  }
+
+  .filter-toggle {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .course-filters {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.75rem;
+    padding: 1rem;
+  }
 }
 
 @media (max-width: 480px) {
-  .section-header h2 {
-    font-size: 1.8rem;
+  .course-grid-container {
+    padding: 0.75rem;
   }
 
-  .filter-tabs {
-    padding: 0.25rem;
+  .course-grid-title {
+    font-size: 1.75rem;
   }
 
-  .filter-tab {
+  .course-filters {
+    grid-template-columns: 1fr;
+    gap: 0.5rem;
+    padding: 0.75rem;
+  }
+
+  .filter-group select {
+    padding: 0.5rem;
+    font-size: 0.9rem;
+  }
+
+  .search-box {
     padding: 0.5rem 0.75rem;
-    font-size: 0.8rem;
   }
 
+  .search-box input {
+    font-size: 0.9rem;
+  }
 }
