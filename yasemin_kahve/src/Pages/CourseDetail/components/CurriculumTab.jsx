@@ -28,7 +28,7 @@ const CurriculumTab = ({ courseDetails, getLocalizedText, isEnrolled }) => {
                 <div className="module-meta">
                   <span className="module-duration">
                     <Clock size={14} />
-                    {module.duration} {t("hours") || "hours"}
+                    {module.duration} {t("days") || "days"}
                   </span>
                   {module.lessons && (
                     <span className="topic-count">

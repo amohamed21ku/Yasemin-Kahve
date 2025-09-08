@@ -442,6 +442,19 @@
   gap: 20px;
 }
 
+.curriculum-module-card {
+  background: #f8f9fa;
+  border: 2px solid #e2e8f0;
+  border-radius: 12px;
+  padding: 20px;
+  transition: all 0.2s ease;
+}
+
+.curriculum-module-card:hover {
+  border-color: #D2691E;
+  box-shadow: 0 4px 12px rgba(210, 105, 30, 0.1);
+}
+
 .curriculum-module-edit {
   background: #f8f9fa;
   border: 1px solid #ddd;
@@ -450,21 +463,65 @@
 }
 
 .module-header {
-  margin-bottom: 15px;
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  margin-bottom: 20px;
+}
+
+.module-number {
+  flex-shrink: 0;
+  width: 32px;
+  height: 32px;
+  background: #D2691E;
+  color: white;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 600;
+  font-size: 14px;
 }
 
 .module-inputs {
   display: flex;
   flex-direction: column;
+  gap: 15px;
+  flex: 1;
+}
+
+.module-title-inputs {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
   gap: 10px;
 }
 
+.module-duration-input {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.module-duration-input label {
+  font-weight: 600;
+  color: #2c3e50;
+  font-size: 14px;
+}
+
 .module-title-input {
-  padding: 8px 12px;
-  border: 1px solid #ddd;
-  border-radius: 6px;
+  padding: 10px 14px;
+  border: 2px solid #e2e8f0;
+  border-radius: 8px;
   font-size: 14px;
   font-weight: 600;
+  background: white;
+  transition: all 0.2s ease;
+}
+
+.module-title-input:focus {
+  outline: none;
+  border-color: #D2691E;
+  box-shadow: 0 0 0 3px rgba(210, 105, 30, 0.1);
 }
 
 .module-controls {
@@ -514,7 +571,147 @@
 }
 
 .module-lessons {
-  margin-top: 15px;
+  margin-top: 20px;
+  background: white;
+  border-radius: 8px;
+  padding: 15px;
+  border: 1px solid #e2e8f0;
+}
+
+.topics-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 15px;
+}
+
+.topics-header h4 {
+  margin: 0;
+  color: #2c3e50;
+  font-size: 16px;
+  font-weight: 600;
+}
+
+.add-topic-btn {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 12px;
+  background: #17a2b8;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-size: 12px;
+  font-weight: 500;
+}
+
+.add-topic-btn:hover {
+  background: #138496;
+  transform: translateY(-1px);
+}
+
+.topics-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.topic-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px;
+  background: #f8f9fa;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  transition: all 0.2s ease;
+}
+
+.topic-item:hover {
+  background: #f1f3f5;
+  border-color: #D2691E;
+}
+
+.topic-number {
+  flex-shrink: 0;
+  width: 24px;
+  height: 24px;
+  background: #6c757d;
+  color: white;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 600;
+  font-size: 12px;
+}
+
+.topic-inputs {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  flex: 1;
+}
+
+.topic-input {
+  padding: 8px 12px;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  font-size: 13px;
+  background: white;
+  transition: all 0.2s ease;
+}
+
+.topic-input:focus {
+  outline: none;
+  border-color: #D2691E;
+  box-shadow: 0 0 0 2px rgba(210, 105, 30, 0.1);
+}
+
+.remove-topic-btn {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding: 6px 8px;
+  background: #dc3545;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-size: 11px;
+}
+
+.remove-topic-btn:hover {
+  background: #c82333;
+  transform: scale(1.05);
+}
+
+.no-topics {
+  text-align: center;
+  color: #6c757d;
+  font-style: italic;
+  padding: 20px;
+  background: #f8f9fa;
+  border-radius: 6px;
+  border: 1px dashed #ddd;
+}
+
+.no-curriculum {
+  text-align: center;
+  color: #6c757d;
+  font-style: italic;
+  padding: 40px 20px;
+  background: #f8f9fa;
+  border-radius: 12px;
+  border: 2px dashed #ddd;
+}
+
+.no-curriculum p {
+  margin: 0;
+  font-size: 16px;
 }
 
 .lesson-row {
@@ -813,6 +1010,36 @@
 
   .lesson-row input {
     margin-bottom: 5px;
+  }
+
+  .module-title-inputs {
+    grid-template-columns: 1fr;
+  }
+
+  .topic-inputs {
+    grid-template-columns: 1fr;
+  }
+
+  .topic-item {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 8px;
+  }
+
+  .topics-header {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 10px;
+  }
+
+  .curriculum-module-card {
+    padding: 15px;
+  }
+
+  .module-header {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 10px;
   }
 
   .upload-buttons {

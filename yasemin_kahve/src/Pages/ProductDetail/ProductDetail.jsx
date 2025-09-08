@@ -142,7 +142,7 @@ const ProductDetail = ({ onNavigate, product, previousPage }) => {
 
   return (
     <div className="product-detail-page">
-      <Header activeSection="products" onNavigate={onNavigate} />
+      <Header activeSection="products" onNavigate={onNavigate} darkContent={true} />
       
       {/* Hero Section */}
       <section className="product-detail-hero">

@@ -115,6 +115,12 @@ const EnrollmentModal = ({ course, isOpen, onClose, onEnroll }) => {
 
   const handleEnroll = async () => {
     if (!validateForm()) return
+    
+    // Double-check that user is authenticated
+    if (!currentUser) {
+      setErrors({ general: t("userNotAuthenticated") || "User not authenticated. Please sign in again." })
+      return
+    }
 
     setIsProcessing(true)
 
@@ -160,7 +166,21 @@ const EnrollmentModal = ({ course, isOpen, onClose, onEnroll }) => {
     }
   }
 
-  if (!isOpen) return null
+  if (!isOpen || !course) return null
+  
+  // Show loading state if user is not yet authenticated
+  if (!currentUser) {
+    return (
+      <div className="enrollment-modal-overlay">
+        <div className="enrollment-modal">
+          <div className="modal-content" style={{ textAlign: 'center', padding: '2rem' }}>
+            <div className="spinner"></div>
+            <p>{t("loadingUserData") || "Loading user data..."}</p>
+          </div>
+        </div>
+      </div>
+    )
+  }
 
   return (
     <div className="enrollment-modal-overlay" onClick={onClose}>

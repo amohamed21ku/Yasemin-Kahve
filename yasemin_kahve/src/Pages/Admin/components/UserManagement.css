@@ -210,7 +210,7 @@
 
 .user-name {
   font-weight: 600;
-  color: #1e293b;
+  color: #1e293b!important;
   margin-bottom: 0.25rem;
   white-space: nowrap;
   overflow: hidden;

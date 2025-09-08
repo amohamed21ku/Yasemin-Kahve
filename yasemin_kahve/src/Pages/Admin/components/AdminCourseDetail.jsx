@@ -461,7 +461,7 @@ const AdminCourseDetail = ({ course, instructors = [], onBack, onUpdate }) => {
                           />
                         </div>
                         <div className="module-duration-input">
-                          <label>{t('durationHours') || 'Duration (hours)'}:</label>
+                          <label>{t('durationDays') || 'Duration (days)'}:</label>
                           <input
                             type="number"
                             value={module.duration || 1}

@@ -5,7 +5,7 @@ import { useTranslation } from "/src/useTranslation";
 import { useAuth } from "/src/AuthContext";
 import LanguageSwitcher from "/src/Pages/HomePage/components/LanguageSwitcher";
 
-const Header = ({ activeSection = "home", onNavigate }) => {
+const Header = ({ activeSection = "home", onNavigate, darkContent = false }) => {
   const { t } = useTranslation();
   const { currentUser, logout, getUserData } = useAuth();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -61,7 +61,7 @@ const Header = ({ activeSection = "home", onNavigate }) => {
   const isAdmin = userData?.isAdmin === true;
 
   return (
-    <nav className={`header ${scrollY > 50 ? "scrolled" : ""}`}>
+    <nav className={`header ${scrollY > 50 ? "scrolled" : ""} ${darkContent ? "dark-content" : ""}`}>
       <div className="container">
         <div className="header-content">
           <div className="logo-section glow-effect floating">

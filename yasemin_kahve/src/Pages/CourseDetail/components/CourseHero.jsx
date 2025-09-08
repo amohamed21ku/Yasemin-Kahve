@@ -70,7 +70,7 @@ const CourseHero = ({ course, onNavigate, getLocalizedText, formatDate }) => {
             <div className="course-meta-items">
               <div className="course-detail-meta-item">
                 <Clock size={16} />
-                <span>{course.duration} {t("hours") || "hours"}</span>
+                <span>{course.duration} {t("days") || "days"}</span>
               </div>
               <div className="course-detail-meta-item">
                 <Calendar size={16} />

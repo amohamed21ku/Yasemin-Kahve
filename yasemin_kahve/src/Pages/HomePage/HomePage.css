@@ -65,6 +65,80 @@ html {
   /* backdrop-filter: blur(10px); */
 }
 
+/* Header with dark content for white backgrounds */
+.header.dark-content .nav-link {
+  color: #5D4037;
+}
+
+.header.dark-content .nav-link:hover {
+  color: #8B4513;
+}
+
+.header.dark-content .nav-link.active {
+  color: #8B4513;
+}
+
+.header.dark-content .mobile-menu-btn {
+  color: #3E2723;
+}
+
+.header.dark-content .mobile-menu-btn:hover {
+  background: rgba(139, 69, 19, 0.1);
+}
+
+.header.dark-content .language-switcher {
+  color: #8B4513;
+  border-color: rgba(139, 69, 19, 0.2);
+}
+
+.header.dark-content .language-switcher:hover {
+  background: rgba(139, 69, 19, 0.05);
+  border-color: rgba(139, 69, 19, 0.4);
+}
+
+.header.dark-content .company-name {
+  background: linear-gradient(135deg, #5D4037, #A0522D);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.header.dark-content .company-tagline {
+  color: #8D6E63;
+}
+
+.header.dark-content .user-menu-trigger {
+  background: linear-gradient(135deg, rgba(139, 69, 19, 0.1), rgba(210, 105, 30, 0.1));
+  border: 2px solid rgba(139, 69, 19, 0.15);
+  color: #8B4513;
+}
+
+.header.dark-content .user-menu-trigger:hover {
+  background: linear-gradient(135deg, rgba(139, 69, 19, 0.15), rgba(210, 105, 30, 0.15));
+  border-color: rgba(139, 69, 19, 0.25);
+}
+
+.header.dark-content .sign-in-btn {
+  background: rgba(139, 69, 19, 0.08);
+  color: #8B4513;
+  border-color: rgba(139, 69, 19, 0.15);
+}
+
+.header.dark-content .sign-in-btn:hover {
+  background: rgba(139, 69, 19, 0.12);
+  border-color: rgba(139, 69, 19, 0.25);
+}
+
+.header.dark-content .admin-nav-link {
+  background: rgba(139, 69, 19, 0.06);
+  border-color: rgba(139, 69, 19, 0.12);
+}
+
+.header.dark-content .admin-nav-link:hover {
+  background: rgba(139, 69, 19, 0.1);
+  border-color: rgba(139, 69, 19, 0.2);
+}
+
 .header.scrolled {
   background: rgba(255, 255, 255, 0.95);
   backdrop-filter: blur(20px);

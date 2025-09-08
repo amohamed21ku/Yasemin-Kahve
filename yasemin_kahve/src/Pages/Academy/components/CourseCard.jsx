@@ -112,7 +112,7 @@ const CourseCard = ({ course, onClick, onEnroll }) => {
         <div className="course-meta">
           <div className="course-meta-item">
             <Clock size={14} />
-            <span>{course.duration} {t("hours") || "hours"}</span>
+            <span>{course.duration} {t("days") || "days"}</span>
           </div>
           <div className="course-meta-item">
             <Calendar size={14} />

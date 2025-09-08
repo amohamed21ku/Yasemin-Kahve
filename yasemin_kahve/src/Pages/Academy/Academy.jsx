@@ -5,6 +5,7 @@ import AcademyHero from './components/AcademyHero'
 import CourseGrid from './components/CourseGrid'
 import EnrollmentModal from './components/EnrollmentModal'
 import CourseFormModal from './components/CourseFormModal'
+import SignInModal from '../../Components/SignInModal'
 import { useAuth } from '../../AuthContext'
 import { useTranslation } from '../../useTranslation'
 import './Academy.css'
@@ -16,6 +17,7 @@ const Academy = ({ onNavigate }) => {
   const [selectedCourse, setSelectedCourse] = useState(null)
   const [showEnrollModal, setShowEnrollModal] = useState(false)
   const [showCourseFormModal, setShowCourseFormModal] = useState(false)
+  const [signInModalOpen, setSignInModalOpen] = useState(false)
   const [hasError, setHasError] = useState(false)
 
   // Add error handling for unhandled promise rejections
@@ -39,13 +41,37 @@ const Academy = ({ onNavigate }) => {
 
   const handleEnroll = (course) => {
     if (!currentUser) {
-      // Redirect to login/register if not authenticated
-      onNavigate('register')
+      setSelectedCourse(course)
+      setSignInModalOpen(true)
       return
     }
     
     setSelectedCourse(course)
     setShowEnrollModal(true)
+  }
+
+  const handleSignInSuccess = () => {
+    // After successful sign in, automatically show enrollment modal
+    // Wait longer to ensure currentUser is updated in the auth context
+    setTimeout(() => {
+      if (selectedCourse && currentUser) {
+        setShowEnrollModal(true)
+        setSignInModalOpen(false)
+      } else {
+        // If currentUser is still not available, wait a bit longer
+        setTimeout(() => {
+          if (selectedCourse && currentUser) {
+            setShowEnrollModal(true)
+            setSignInModalOpen(false)
+          } else {
+            console.warn('User authentication state not properly updated after sign-in')
+            // Reset state to prevent white screen
+            setSelectedCourse(null)
+            setSignInModalOpen(false)
+          }
+        }, 500)
+      }
+    }, 500)
   }
 
   const handleEnrollComplete = async (course) => {
@@ -84,7 +110,7 @@ const Academy = ({ onNavigate }) => {
   if (hasError) {
     return (
       <div className="academy-page">
-        <Header activeSection="academy" onNavigate={onNavigate} />
+        <Header activeSection="academy" onNavigate={onNavigate} darkContent={true} />
         <div style={{ 
           display: 'flex', 
           flexDirection: 'column', 
@@ -119,7 +145,7 @@ const Academy = ({ onNavigate }) => {
   try {
     return (
       <div className="academy-page">
-        <Header activeSection="academy" onNavigate={onNavigate} />
+        <Header activeSection="academy" onNavigate={onNavigate} darkContent={true} />
         
         <AcademyHero />
         {/* <AcademyOverview /> */}
@@ -149,6 +175,16 @@ const Academy = ({ onNavigate }) => {
           isOpen={showCourseFormModal}
           onClose={() => setShowCourseFormModal(false)}
           onSubmit={handleCourseFormSubmit}
+        />
+
+        {/* Sign In Modal */}
+        <SignInModal
+          isOpen={signInModalOpen}
+          onClose={() => {
+            setSignInModalOpen(false)
+            setSelectedCourse(null)
+          }}
+          onSuccess={handleSignInSuccess}
         />
       </div>
     )

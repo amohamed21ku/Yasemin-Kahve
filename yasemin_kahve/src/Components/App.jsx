@@ -315,6 +315,27 @@ function App() {
     }
   };
 
+  // Handle course enrollment
+  const handleCourseEnroll = async (course) => {
+    try {
+      console.log('Enrolling in course:', course)
+      // In a real application, this would:
+      // 1. Call API to enroll user in course
+      // 2. Update user's enrolled courses
+      // 3. Send confirmation email
+      // 4. Redirect to course content or show success message
+      
+      // For now, we'll simulate the enrollment and show a success message
+      alert(`Successfully enrolled in: ${course.title?.en || course.title}!`)
+      
+      // Navigate back to academy or show enrollment success
+      handleNavigate('academy')
+    } catch (error) {
+      console.error('Enrollment error:', error)
+      alert('An error occurred during enrollment. Please try again.')
+    }
+  };
+
   useEffect(() => {
     // Reset scroll section after it's been used
     if (currentScrollSection) {
@@ -335,7 +356,7 @@ function App() {
       case 'academy':
         return <AcademyPage onNavigate={handleNavigate} />;
       case 'course-detail':
-        return <CourseDetailPage onNavigate={handleNavigate} course={selectedProduct} />;
+        return <CourseDetailPage onNavigate={handleNavigate} course={selectedProduct} onEnroll={handleCourseEnroll} />;
       case 'register':
         return <Auth onNavigate={handleNavigate} />;
       case 'admin':

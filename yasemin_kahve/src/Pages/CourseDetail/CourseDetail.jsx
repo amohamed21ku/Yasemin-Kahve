@@ -10,6 +10,7 @@ import InstructorTab from './components/InstructorTab'
 import MediaTab from './components/MediaTab'
 import EnrollmentCard from './components/EnrollmentCard'
 import ImageViewer from './components/ImageViewer'
+import SignInModal from '../../Components/SignInModal'
 import { useTranslate } from '../../useTranslate'
 import { useAuth } from '../../AuthContext'
 import './CourseDetail.css'
@@ -20,6 +21,8 @@ const CourseDetail = ({ course, onNavigate, onEnroll }) => {
   const [activeTab, setActiveTab] = useState('overview')
   const [imageViewerOpen, setImageViewerOpen] = useState(false)
   const [currentImageIndex, setCurrentImageIndex] = useState(0)
+  const [signInModalOpen, setSignInModalOpen] = useState(false)
+  const [isProcessing, setIsProcessing] = useState(false)
 
   // Helper function to get localized content
   const getLocalizedText = (textObj, fallback = '') => {
@@ -51,13 +54,41 @@ const CourseDetail = ({ course, onNavigate, onEnroll }) => {
 
   const handleEnrollClick = () => {
     if (!currentUser) {
-      onNavigate('register')
+      setSignInModalOpen(true)
       return
     }
     
     if (onEnroll) {
-      onEnroll(course)
+      try {
+        onEnroll(course)
+      } catch (error) {
+        console.error('Error during direct enrollment:', error)
+      }
     }
+  }
+
+  const handleSignInSuccess = () => {
+    setIsProcessing(true)
+    
+    // Fallback timeout to prevent infinite processing state
+    const fallbackTimeout = setTimeout(() => {
+      setIsProcessing(false)
+    }, 5000)
+    
+    // After successful sign in, automatically enroll the user
+    // Wait a bit to ensure currentUser is updated in the auth context
+    setTimeout(() => {
+      clearTimeout(fallbackTimeout) // Clear fallback since we're handling it normally
+      
+      if (onEnroll && course) {
+        try {
+          onEnroll(course)
+        } catch (error) {
+          console.error('Error during enrollment:', error)
+        }
+      }
+      setIsProcessing(false)
+    }, 1000) // Increased timeout to ensure auth state is properly updated
   }
 
   // Image viewer functions
@@ -122,7 +153,7 @@ const CourseDetail = ({ course, onNavigate, onEnroll }) => {
   if (!course) {
     return (
       <div className="course-detail-page">
-        <Header activeSection="academy" onNavigate={onNavigate} />
+        <Header activeSection="academy" onNavigate={onNavigate} darkContent={true} />
         <div className="course-not-found">
           <h2>{t("courseNotFound") || "Course not found"}</h2>
           <button onClick={() => onNavigate('academy')} className="back-btn">
@@ -137,7 +168,38 @@ const CourseDetail = ({ course, onNavigate, onEnroll }) => {
 
   return (
     <div className="course-detail-page">
-      <Header activeSection="academy" onNavigate={onNavigate} />
+      <Header activeSection="academy" onNavigate={onNavigate} darkContent={true} />
+      
+      {isProcessing && (
+        <div style={{
+          position: 'fixed',
+          top: 0,
+          left: 0,
+          right: 0,
+          bottom: 0,
+          background: 'rgba(0, 0, 0, 0.7)',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          zIndex: 1001,
+          color: 'white',
+          fontSize: '18px',
+          fontWeight: '600'
+        }}>
+          <div style={{ textAlign: 'center' }}>
+            <div style={{
+              width: '40px',
+              height: '40px',
+              border: '4px solid rgba(255, 255, 255, 0.3)',
+              borderTop: '4px solid white',
+              borderRadius: '50%',
+              animation: 'spin 1s linear infinite',
+              margin: '0 auto 20px'
+            }}></div>
+            {t('processing') || 'Processing...'}
+          </div>
+        </div>
+      )}
       
       <CourseHero 
         course={course}
@@ -207,6 +269,12 @@ const CourseDetail = ({ course, onNavigate, onEnroll }) => {
         onClose={closeImageViewer}
         onNext={nextImage}
         onPrev={prevImage}
+      />
+
+      <SignInModal
+        isOpen={signInModalOpen}
+        onClose={() => setSignInModalOpen(false)}
+        onSuccess={handleSignInSuccess}
       />
     </div>
   )
