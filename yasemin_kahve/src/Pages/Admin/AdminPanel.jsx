@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useAuth } from '../../AuthContext';
 import { useTranslation } from '../../useTranslation';
-import { BarChart3, Coffee, Users, GraduationCap, Home, LogOut, User } from 'lucide-react';
+import { BarChart3, Coffee, Users, GraduationCap, Home, LogOut, User, ChevronLeft, ChevronRight } from 'lucide-react';
 import ProductManagement from './components/ProductManagement';
 import Dashboard from './components/Dashboard';
 import UserManagement from './components/UserManagement';
@@ -11,6 +11,7 @@ import './AdminPanel.css';
 const AdminPanel = ({ onNavigate }) => {
   const [activeTab, setActiveTab] = useState('dashboard');
   const [userData, setUserData] = useState(null);
+  const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
   const { currentUser, getUserData, logout } = useAuth();
   const { t } = useTranslation();
 
@@ -75,29 +76,43 @@ const AdminPanel = ({ onNavigate }) => {
   return (
     <div className="admin-panel">
       {/* Sidebar */}
-      <div className="admin-sidebar">
+      <div className={`admin-sidebar ${sidebarCollapsed ? 'collapsed' : ''}`}>
         <div className="admin-header">
-          <div className="brand-section">
-            <img src="/src/assets/yasemin.png" alt="Yasemin Kahve" className="admin-logo" />
-            <div className="admin-brand">
-              <span>{t('adminPanel') || 'Admin Panel'}</span>
-            </div>
+          <div className="sidebar-toggle">
+            <button 
+              className="toggle-btn"
+              onClick={() => setSidebarCollapsed(!sidebarCollapsed)}
+              aria-label={sidebarCollapsed ? 'Expand sidebar' : 'Collapse sidebar'}
+            >
+              {sidebarCollapsed ? <ChevronRight size={20} /> : <ChevronLeft size={20} />}
+            </button>
           </div>
           
-          <div className="admin-user">
-            <div className="user-avatar">
-              {userData?.photoURL ? (
-                <img src={userData.photoURL} alt="User" />
-              ) : (
-                <User size={20} />
-              )}
-            </div>
-            <div className="user-info">
-              <div className="user-name">
-                {userData?.displayName || `${userData?.firstName} ${userData?.lastName}` || currentUser?.email}
+          <div className="brand-section">
+            <img src="/src/assets/yasemin.png" alt="Yasemin Kahve" className="admin-logo" />
+            {!sidebarCollapsed && (
+              <div className="admin-brand">
+                <span>{t('adminPanel') || 'Admin Panel'}</span>
+              </div>
+            )}
+          </div>
+          
+          {!sidebarCollapsed && (
+            <div className="admin-user">
+              <div className="user-avatar">
+                {userData?.photoURL ? (
+                  <img src={userData.photoURL} alt="User" />
+                ) : (
+                  <User size={20} />
+                )}
+              </div>
+              <div className="user-info">
+                <div className="user-name">
+                  {userData?.displayName || `${userData?.firstName} ${userData?.lastName}` || currentUser?.email}
+                </div>
               </div>
             </div>
-          </div>
+          )}
         </div>
 
         <nav className="admin-nav">
@@ -114,11 +129,13 @@ const AdminPanel = ({ onNavigate }) => {
                 <span className="nav-icon">
                   <IconComponent size={20} />
                 </span>
-                <div className="nav-content">
-                  <span className="nav-label">{item.label}</span>
-                  <span className="nav-description">{item.description}</span>
-                </div>
-                {item.disabled && <span className="coming-soon">Soon</span>}
+                {!sidebarCollapsed && (
+                  <div className="nav-content">
+                    <span className="nav-label">{item.label}</span>
+                    <span className="nav-description">{item.description}</span>
+                  </div>
+                )}
+                {item.disabled && !sidebarCollapsed && <span className="coming-soon">Soon</span>}
               </button>
             );
           })}
@@ -129,18 +146,22 @@ const AdminPanel = ({ onNavigate }) => {
             <span className="nav-icon">
               <Home size={20} />
             </span>
-            <div className="nav-content">
-              <span className="nav-label">{t('backToWebsite') || 'Back to Website'}</span>
-            </div>
+            {!sidebarCollapsed && (
+              <div className="nav-content">
+                <span className="nav-label">{t('backToWebsite') || 'Back to Website'}</span>
+              </div>
+            )}
           </button>
           
           <button className="nav-item logout-btn" onClick={handleLogout}>
             <span className="nav-icon">
               <LogOut size={20} />
             </span>
-            <div className="nav-content">
-              <span className="nav-label">{t('signOut') || 'Sign Out'}</span>
-            </div>
+            {!sidebarCollapsed && (
+              <div className="nav-content">
+                <span className="nav-label">{t('signOut') || 'Sign Out'}</span>
+              </div>
+            )}
           </button>
         </div>
       </div>

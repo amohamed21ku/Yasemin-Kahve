@@ -527,8 +527,8 @@ html {
 }
 
 .price-list-btn {
-  background: rgba(210, 180, 140, 0.1);
-  border: 2px solid #D2B48C;
+  background: rgba(19, 19, 19, 0.264) !important;
+  border: 2px solid #ffffff64 !important;
   padding: 1rem 2.5rem;
   position: relative;
   width: 100%;
@@ -3406,5 +3406,3 @@ html {
     padding: 2rem 0;
   }
 }
-
-

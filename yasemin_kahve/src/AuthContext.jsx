@@ -79,6 +79,8 @@ export const AuthProvider = ({ children }) => {
       // Check if user document exists
       const userDoc = await getDoc(doc(db, 'users', result.user.uid));
       
+      let shouldRequestPhone = false;
+      
       if (!userDoc.exists()) {
         // Create new user document
         await setDoc(doc(db, 'users', result.user.uid), {
@@ -88,20 +90,26 @@ export const AuthProvider = ({ children }) => {
           firstName: result.user.displayName ? result.user.displayName.split(' ')[0] : '',
           lastName: result.user.displayName ? result.user.displayName.split(' ').slice(1).join(' ') : '',
           photoURL: result.user.photoURL || '',
+          phoneNumber: '', // Initialize empty phone number
           enrolledCourses: [],
           createdAt: new Date(),
           lastLogin: new Date(),
           provider: 'google'
         });
+        shouldRequestPhone = true; // New user should be asked for phone
       } else {
         // Update last login for existing user
         await setDoc(doc(db, 'users', result.user.uid), {
           lastLogin: new Date(),
           photoURL: result.user.photoURL || userDoc.data().photoURL
         }, { merge: true });
+        
+        // Check if existing user has phone number
+        const userData = userDoc.data();
+        shouldRequestPhone = !userData.phoneNumber || userData.phoneNumber.trim() === '';
       }
 
-      return result;
+      return { ...result, shouldRequestPhone };
     } catch (error) {
       setError(error.message);
       throw error;

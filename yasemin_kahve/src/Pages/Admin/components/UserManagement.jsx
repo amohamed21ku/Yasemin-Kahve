@@ -71,7 +71,7 @@ const UserManagement = () => {
     user.displayName?.toLowerCase().includes(searchTerm.toLowerCase()) ||
     user.firstName?.toLowerCase().includes(searchTerm.toLowerCase()) ||
     user.lastName?.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    user.phone?.toLowerCase().includes(searchTerm.toLowerCase())
+    user.phoneNumber?.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
   const formatDate = (timestamp) => {
@@ -172,7 +172,7 @@ const UserManagement = () => {
                   </div>
                   
                   <div className="table-cell">
-                    {user.phone || 'N/A'}
+                    {user.phoneNumber || 'N/A'}
                   </div>
                   
                   <div className="table-cell">
@@ -249,7 +249,7 @@ const UserManagement = () => {
                   
                   <div className="detail-row">
                     <label>{t('phone') || 'Phone'}:</label>
-                    <span>{selectedUser.phone || 'N/A'}</span>
+                    <span>{selectedUser.phoneNumber || 'N/A'}</span>
                   </div>
                   
                   <div className="detail-row">

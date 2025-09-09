@@ -29,6 +29,12 @@
   backdrop-filter: blur(20px);
   border-right: 1px solid rgba(255, 255, 255, 0.1);
   flex-shrink: 0;
+  transition: width 0.3s ease, min-width 0.3s ease;
+}
+
+.admin-sidebar.collapsed {
+  width: 70px;
+  min-width: 70px;
 }
 
 .admin-header {
@@ -36,6 +42,39 @@
   border-bottom: 1px solid rgba(255, 255, 255, 0.1);
   background: rgba(255, 255, 255, 0.05);
   backdrop-filter: blur(10px);
+  transition: padding 0.3s ease;
+}
+
+.admin-sidebar.collapsed .admin-header {
+  padding: 1rem 0.75rem;
+}
+
+/* Sidebar Toggle */
+.sidebar-toggle {
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: 1rem;
+}
+
+.toggle-btn {
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  color: white;
+  border-radius: 8px;
+  padding: 0.5rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+}
+
+.toggle-btn:hover {
+  background: rgba(255, 255, 255, 0.2);
+  border-color: rgba(255, 255, 255, 0.3);
+  transform: translateY(-1px);
 }
 
 .brand-section {
@@ -43,6 +82,12 @@
   align-items: center;
   gap: 1rem;
   margin-bottom: 2rem;
+  transition: all 0.3s ease;
+}
+
+.admin-sidebar.collapsed .brand-section {
+  justify-content: center;
+  margin-bottom: 1rem;
 }
 
 .admin-logo {
@@ -151,6 +196,12 @@
   border-left: 3px solid transparent;
 }
 
+.admin-sidebar.collapsed .nav-item {
+  justify-content: center;
+  padding: 1rem 0.75rem;
+  gap: 0;
+}
+
 .nav-item:hover:not(.disabled) {
   background: rgba(255, 255, 255, 0.1);
   color: white;
@@ -250,7 +301,12 @@
   flex-direction: column;
   overflow: hidden;
   height: 100vh;
-  width: calc(100vw - 280px); /* Add this to force proper width calculation */
+  width: calc(100vw - 280px);
+  transition: width 0.3s ease;
+}
+
+.admin-sidebar.collapsed ~ .admin-main {
+  width: calc(100vw - 70px);
 }
 
 .admin-content {
@@ -280,12 +336,29 @@
     width: 240px;
   }
   
+  .admin-sidebar.collapsed {
+    width: 60px;
+    min-width: 60px;
+  }
+  
+  .admin-main {
+    width: calc(100vw - 240px);
+  }
+  
+  .admin-sidebar.collapsed ~ .admin-main {
+    width: calc(100vw - 60px);
+  }
+  
   .admin-header {
     padding: 1.5rem 1rem;
   }
   
   .nav-item {
     padding: 0.875rem 1rem;
+  }
+  
+  .admin-sidebar.collapsed .nav-item {
+    padding: 0.875rem 0.5rem;
   }
   
   .admin-content {

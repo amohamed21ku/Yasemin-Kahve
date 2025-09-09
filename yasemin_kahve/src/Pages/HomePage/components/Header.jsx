@@ -1,5 +1,5 @@
 // Header.jsx with improved admin button design and authentication
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import { Menu, X, User, Settings, LogOut, Shield, Coffee } from "lucide-react";
 import { useTranslation } from "/src/useTranslation";
 import { useAuth } from "/src/AuthContext";
@@ -12,12 +12,27 @@ const Header = ({ activeSection = "home", onNavigate, darkContent = false }) => 
   const [isUserMenuOpen, setIsUserMenuOpen] = useState(false);
   const [userData, setUserData] = useState(null);
   const [scrollY, setScrollY] = useState(0);
+  const userMenuRef = useRef(null);
 
   useEffect(() => {
     const handleScroll = () => setScrollY(window.scrollY);
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
+
+  // Handle click outside user menu
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (userMenuRef.current && !userMenuRef.current.contains(event.target)) {
+        setIsUserMenuOpen(false);
+      }
+    };
+
+    if (isUserMenuOpen) {
+      document.addEventListener("mousedown", handleClickOutside);
+      return () => document.removeEventListener("mousedown", handleClickOutside);
+    }
+  }, [isUserMenuOpen]);
 
   // Load user data when user changes
   useEffect(() => {
@@ -110,7 +125,7 @@ const Header = ({ activeSection = "home", onNavigate, darkContent = false }) => 
           {/* Authentication Section */}
           <div className="auth-section">
             {currentUser ? (
-              <div className="user-menu-container">
+              <div className="user-menu-container" ref={userMenuRef}>
                 <button 
                   className="user-menu-trigger"
                   onClick={() => setIsUserMenuOpen(!isUserMenuOpen)}

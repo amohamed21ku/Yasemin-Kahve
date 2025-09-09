@@ -21,16 +21,23 @@ const LocationsSection = () => {
               </div>
             </div>
             <div className="map-container">
-              <iframe
-                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3010.2076928261!2d28.97953291572589!3d41.008610479301344!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x14cab9bd6570f4e1%3A0x8dc0b2c7784e7e6e!2sIstanbul%2C%20Turkey!5e0!3m2!1sen!2s!4v1635789123456!5m2!1sen!2s"
-                width="100%"
-                height="250"
-                style={{ border: 0, borderRadius: '12px' }}
-                allowFullScreen=""
-                loading="lazy"
-                referrerPolicy="no-referrer-when-downgrade"
-                title="Head Office Location"
-              ></iframe>
+              <a 
+                href="https://www.google.com/maps/place/Yasemin+Kahve+Head+Office/@41.1199293,28.7720848,17z/data=!3m1!4b1!4m6!3m5!1s0x14caaf88faaef891:0xa91f9cc6db6d95e4!8m2!3d41.1199293!4d28.7746597!16s%2Fg%2F11rv80mm6p?entry=ttu&g_ep=EgoyMDI1MDkwMy4wIKXMDSoASAFQAw%3D%3D"
+                target="_blank"
+                rel="noopener noreferrer"
+                style={{ display: 'block', textDecoration: 'none' }}
+              >
+                <iframe
+                  src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3009.7766159779953!2d28.772084815725974!3d41.11992930846686!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x14caaf88faaef891%3A0xa91f9cc6db6d95e4!2sYasemin%20Kahve%20Head%20Office!5e0!3m2!1sen!2s!4v1635789123456!5m2!1sen!2s"
+                  width="100%"
+                  height="250"
+                  style={{ border: 0, borderRadius: '12px', pointerEvents: 'none' }}
+                  allowFullScreen=""
+                  loading="lazy"
+                  referrerPolicy="no-referrer-when-downgrade"
+                  title="Head Office Location"
+                ></iframe>
+              </a>
             </div>
           </div>
 
@@ -47,16 +54,23 @@ const LocationsSection = () => {
               </div>
             </div>
             <div className="map-container">
-              <iframe
-                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3010.2076928261!2d28.97953291572589!3d41.008610479301344!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x14cab9bd6570f4e1%3A0x8dc0b2c7784e7e6e!2sIstanbul%2C%20Turkey!5e0!3m2!1sen!2s!4v1635789123456!5m2!1sen!2s"
-                width="100%"
-                height="250"
-                style={{ border: 0, borderRadius: '12px' }}
-                allowFullScreen=""
-                loading="lazy"
-                referrerPolicy="no-referrer-when-downgrade"
-                title="Wholesale Center Location"
-              ></iframe>
+              <a 
+                href="https://www.google.com/maps/place/Yasemin+Kahve+Deposu/@41.0833439,28.7155908,17z/data=!3m1!4b1!4m6!3m5!1s0x14caa76c3efcd521:0x420517cc992f29be!8m2!3d41.0833439!4d28.7181657!16s%2Fg%2F11rv8bgrmz?entry=ttu&g_ep=EgoyMDI1MDkwMy4wIKXMDSoASAFQAw%3D%3D"
+                target="_blank"
+                rel="noopener noreferrer"
+                style={{ display: 'block', textDecoration: 'none' }}
+              >
+                <iframe
+                  src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3011.2843717896387!2d28.71559081572527!3d41.08334390846164!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x14caa76c3efcd521%3A0x420517cc992f29be!2sYasemin%20Kahve%20Deposu!5e0!3m2!1sen!2s!4v1635789123456!5m2!1sen!2s"
+                  width="100%"
+                  height="250"
+                  style={{ border: 0, borderRadius: '12px', pointerEvents: 'none' }}
+                  allowFullScreen=""
+                  loading="lazy"
+                  referrerPolicy="no-referrer-when-downgrade"
+                  title="Wholesale Center Location"
+                ></iframe>
+              </a>
             </div>
           </div>
         </div>

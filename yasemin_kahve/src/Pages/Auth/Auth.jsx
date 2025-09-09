@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useAuth } from '../../AuthContext';
 import { useTranslation } from '../../useTranslation';
+import PhoneNumberModal from '../../Components/PhoneNumberModal';
 import './Auth.css';
 
 const Auth = ({ onNavigate }) => {
@@ -14,6 +15,7 @@ const Auth = ({ onNavigate }) => {
   });
   const [loading, setLoading] = useState(false);
   const [validationErrors, setValidationErrors] = useState({});
+  const [showPhoneModal, setShowPhoneModal] = useState(false);
 
   const { login, signup, signInWithGoogle, error, setError } = useAuth();
   const { t } = useTranslation();
@@ -97,13 +99,22 @@ const Auth = ({ onNavigate }) => {
     setError(null);
     
     try {
-      await signInWithGoogle();
-      onNavigate('home');
+      const result = await signInWithGoogle();
+      if (result.shouldRequestPhone) {
+        setShowPhoneModal(true);
+      } else {
+        onNavigate('home');
+      }
     } catch (err) {
       console.error('Google sign-in error:', err);
     } finally {
       setLoading(false);
     }
+  };
+
+  const handlePhoneModalSuccess = () => {
+    setShowPhoneModal(false);
+    onNavigate('home');
   };
 
   const switchMode = () => {
@@ -290,6 +301,12 @@ const Auth = ({ onNavigate }) => {
           </div>
         </div>
       </div>
+      
+      <PhoneNumberModal
+        isOpen={showPhoneModal}
+        onClose={() => setShowPhoneModal(false)}
+        onSuccess={handlePhoneModalSuccess}
+      />
     </div>
   );
 };

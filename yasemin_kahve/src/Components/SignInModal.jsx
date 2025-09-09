@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import { X } from 'lucide-react'
 import { useAuth } from '../AuthContext'
 import { useTranslation } from '../useTranslation'
+import PhoneNumberModal from './PhoneNumberModal'
 import './SignInModal.css'
 
 const SignInModal = ({ isOpen, onClose, onSuccess }) => {
@@ -15,6 +16,7 @@ const SignInModal = ({ isOpen, onClose, onSuccess }) => {
   })
   const [loading, setLoading] = useState(false)
   const [validationErrors, setValidationErrors] = useState({})
+  const [showPhoneModal, setShowPhoneModal] = useState(false)
 
   const { login, signup, signInWithGoogle, error, setError } = useAuth()
   const { t } = useTranslation()
@@ -99,14 +101,23 @@ const SignInModal = ({ isOpen, onClose, onSuccess }) => {
     setError(null)
     
     try {
-      await signInWithGoogle()
-      handleSuccess()
+      const result = await signInWithGoogle()
+      if (result.shouldRequestPhone) {
+        setShowPhoneModal(true)
+      } else {
+        handleSuccess()
+      }
     } catch (err) {
       console.error('Google sign-in error:', err)
       setError(err.message || 'An error occurred during Google sign-in')
     } finally {
       setLoading(false)
     }
+  }
+
+  const handlePhoneModalSuccess = () => {
+    setShowPhoneModal(false)
+    handleSuccess()
   }
 
   const handleSuccess = () => {
@@ -310,6 +321,12 @@ const SignInModal = ({ isOpen, onClose, onSuccess }) => {
           </p>
         </div>
       </div>
+      
+      <PhoneNumberModal
+        isOpen={showPhoneModal}
+        onClose={() => setShowPhoneModal(false)}
+        onSuccess={handlePhoneModalSuccess}
+      />
     </div>
   )
 }

@@ -19,6 +19,8 @@ export const tr = {
   "exploreProducts":"Ürünleri Keşfedin",
   "PriceList":"Fiyat Listesi",
   "whatsAppPriceListMessage":"Merhaba! Kahve ürünleriniz için fiyat listesi talep etmek istiyorum. Teşekkürler!",
+  "discoverAcademy": "Yasemin Akademi",
+
 
   
   // Company Overview
