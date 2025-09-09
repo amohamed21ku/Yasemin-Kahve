@@ -311,10 +311,12 @@
   }
 
   .course-meta {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 1fr 1fr;
     gap: 0.5rem;
     margin-bottom: 0.75rem;
     padding-bottom: 0.75rem;
-    flex-wrap: wrap;
   }
 
   .course-meta-item {
@@ -423,6 +425,9 @@
   }
 
   .course-meta {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 1fr 1fr;
     gap: 0.4rem;
     margin-bottom: 0.6rem;
     padding-bottom: 0.6rem;
