@@ -2227,6 +2227,8 @@ html {
 /* User Menu Container */
 .user-menu-container {
   position: relative;
+  display: inline-block;
+  z-index: 1001; /* Higher than other elements */
 }
 
 /* User Menu Trigger */
@@ -2282,6 +2284,10 @@ html {
   z-index: 1000;
   margin-top: 0.5rem;
   animation: dropdownFade 0.2s ease-out;
+  pointer-events: auto;
+
+  
+  
 }
 
 @keyframes dropdownFade {
@@ -2511,6 +2517,15 @@ html {
 }
 
 /* Click outside to close dropdown */
+.user-dropdown::before,
+.user-dropdown::after {
+  display: none !important;
+}
+.user-menu-container::before,
+.user-menu-container::after {
+  display: none !important;
+}
+/* 
 .user-dropdown::before {
   content: '';
   position: fixed;
@@ -2519,7 +2534,7 @@ html {
   right: 0;
   bottom: 0;
   z-index: -1;
-}
+} */
 /* Additional CSS for improved Header Admin Button - Add to App.css */
 
 /* ===== IMPROVED ADMIN NAVIGATION STYLES ===== */

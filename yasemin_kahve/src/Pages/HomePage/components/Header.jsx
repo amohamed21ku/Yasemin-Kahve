@@ -1,4 +1,4 @@
-// Header.jsx with improved admin button design and authentication
+// Header.jsx with fixed user menu dropdown behavior
 import React, { useEffect, useState, useRef } from "react";
 import { Menu, X, User, Settings, LogOut, Shield, Coffee } from "lucide-react";
 import { useTranslation } from "/src/useTranslation";
@@ -20,7 +20,7 @@ const Header = ({ activeSection = "home", onNavigate, darkContent = false }) => 
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  // Handle click outside user menu
+  // Fixed: Handle click outside user menu with proper event handling
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (userMenuRef.current && !userMenuRef.current.contains(event.target)) {
@@ -28,10 +28,15 @@ const Header = ({ activeSection = "home", onNavigate, darkContent = false }) => 
       }
     };
 
+    // Only add listener when menu is open
     if (isUserMenuOpen) {
-      document.addEventListener("mousedown", handleClickOutside);
-      return () => document.removeEventListener("mousedown", handleClickOutside);
+      // Use capture phase to ensure we catch the event before other handlers
+      document.addEventListener("mousedown", handleClickOutside, true);
     }
+
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside, true);
+    };
   }, [isUserMenuOpen]);
 
   // Load user data when user changes
@@ -71,6 +76,17 @@ const Header = ({ activeSection = "home", onNavigate, darkContent = false }) => 
     } catch (error) {
       console.error('Logout error:', error);
     }
+  };
+
+  // Fixed: Prevent event propagation when clicking user menu trigger
+  const handleUserMenuToggle = (e) => {
+    e.stopPropagation();
+    setIsUserMenuOpen(!isUserMenuOpen);
+  };
+
+  // Fixed: Prevent dropdown from closing when clicking inside it
+  const handleDropdownClick = (e) => {
+    e.stopPropagation();
   };
 
   const isAdmin = userData?.isAdmin === true;
@@ -128,7 +144,7 @@ const Header = ({ activeSection = "home", onNavigate, darkContent = false }) => 
               <div className="user-menu-container" ref={userMenuRef}>
                 <button 
                   className="user-menu-trigger"
-                  onClick={() => setIsUserMenuOpen(!isUserMenuOpen)}
+                  onClick={handleUserMenuToggle}
                 >
                   {userData?.photoURL ? (
                     <img 
@@ -146,7 +162,7 @@ const Header = ({ activeSection = "home", onNavigate, darkContent = false }) => 
                 </button>
                 
                 {isUserMenuOpen && (
-                  <div className="user-dropdown">
+                  <div className="user-dropdown" onClick={handleDropdownClick}>
                     <div className="user-info">
                       <strong>{userData?.displayName || `${userData?.firstName} ${userData?.lastName}`.trim()}</strong>
                       <span className="user-email">{currentUser.email}</span>
