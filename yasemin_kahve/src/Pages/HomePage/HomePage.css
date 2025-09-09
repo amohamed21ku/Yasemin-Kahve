@@ -508,10 +508,85 @@ html {
   align-items: center;
 }
 
+.hero-buttons-row {
+  display: flex;
+  flex-direction: row;
+  gap: 1rem;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+  width: 100%;
+  max-width: 800px;
+}
+
 @media (min-width: 640px) {
-  .hero-buttons {
-    flex-direction: row;
+  .hero-buttons-row {
     gap: 1.5rem;
+    flex-wrap: nowrap;
+  }
+}
+
+.price-list-btn {
+  background: rgba(210, 180, 140, 0.1);
+  border: 2px solid #D2B48C;
+  padding: 1rem 2.5rem;
+  position: relative;
+  width: 100%;
+  max-width: 80%;
+  height: 56px;
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  font-size: 1.125rem;
+  border-radius: 50px;
+  margin-top: 0.5rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-primary);
+}
+
+.price-list-btn p {
+  position: relative;
+  margin: 0;
+  padding: 0;
+  transition: all 0.4s ease;
+  color: #D2B48C;
+  font-weight: 700;
+  z-index: 1;
+}
+
+.price-list-btn .price-icon {
+  position: absolute;
+  right: 1rem;
+  margin: 0;
+  padding: 0;
+  opacity: 0;
+  transition: all 0.4s ease;
+  height: 1.2em;
+  width: 1.2em;
+  fill: white;
+  z-index: 1;
+}
+
+.price-list-btn:hover p {
+  color: white;
+  transform: translateX(-0.5rem);
+}
+
+.price-list-btn:hover .price-icon {
+  opacity: 1;
+}
+
+.price-list-btn:hover {
+  background-color: #D2B48C;
+  transform: translateY(-4px);
+  box-shadow: 0 20px 40px rgba(210, 180, 140, 0.4);
+}
+
+
+@media (min-width: 640px) {
+  .price-list-btn {
+    max-width: 80%;
   }
 }
 
@@ -534,6 +609,8 @@ html {
   position: relative;
   overflow: hidden;
   text-decoration: none;
+  height: 56px;
+  flex: 1;
 }
 
 .btn-primary::before {
@@ -560,10 +637,10 @@ html {
 }
 
 .btn-secondary {
-  border: 2px solid rgba(255, 255, 255, 0.8);
-  background: rgba(255, 255, 255, 0.1);
+  border: 2px solid #D2B48C;
+  background: rgba(210, 180, 140, 0.1);
   backdrop-filter: blur(10px);
-  color: white;
+  color: #D2B48C;
   padding: 1rem 2.5rem;
   border-radius: 50px;
   font-weight: 700;
@@ -574,14 +651,106 @@ html {
   display: inline-flex;
   align-items: center;
   gap: 0.75rem;
+  height: 56px;
+  flex: 1;
 }
 
 .btn-secondary:hover {
-  background: white;
-  color: #8B4513;
+  background: #D2B48C;
+  color: white;
   transform: translateY(-4px);
-  box-shadow: 0 20px 40px rgba(255, 255, 255, 0.2);
+  box-shadow: 0 20px 40px rgba(210, 180, 140, 0.4);
 }
+
+.academy-btn.animated-button {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding: 1rem 2.5rem;
+  border: 2px solid #D2B48C;
+  font-size: 1.125rem;
+  background: rgba(210, 180, 140, 0.1);
+  border-radius: 50px;
+  font-weight: 700;
+  color: #D2B48C;
+  cursor: pointer;
+  overflow: hidden;
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  height: 56px;
+  font-family: var(--font-primary);
+}
+
+.academy-btn.animated-button svg {
+  position: absolute;
+  width: 24px;
+  fill: #D2B48C;
+  z-index: 9;
+  transition: all 0.4s ease;
+}
+
+.academy-btn.animated-button .arr-1 {
+  right: 16px;
+}
+
+.academy-btn.animated-button .arr-2 {
+  left: -25%;
+}
+
+.academy-btn.animated-button .circle {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 20px;
+  height: 20px;
+  background-color: #D2B48C;
+  border-radius: 50%;
+  opacity: 0;
+  transition: all 0.8s cubic-bezier(0.23, 1, 0.32, 1);
+}
+
+.academy-btn.animated-button .text {
+  position: relative;
+  z-index: 1;
+  transform: translateX(-12px);
+  transition: all 0.8s cubic-bezier(0.23, 1, 0.32, 1);
+}
+
+.academy-btn.animated-button:hover {
+  background-color: #D2B48C;
+  color: white;
+  transform: translateY(-4px);
+  box-shadow: 0 20px 40px rgba(210, 180, 140, 0.4);
+}
+
+.academy-btn.animated-button:hover .arr-1 {
+  right: -25%;
+}
+
+.academy-btn.animated-button:hover .arr-2 {
+  left: 16px;
+}
+
+.academy-btn.animated-button:hover .text {
+  transform: translateX(12px);
+}
+
+.academy-btn.animated-button:hover svg {
+  fill: white;
+}
+
+.academy-btn.animated-button:active {
+  scale: 0.95;
+  box-shadow: 0 0 0 4px #D2B48C;
+}
+
+.academy-btn.animated-button:hover .circle {
+  width: 220px;
+  height: 220px;
+  opacity: 1;
+}
+
 
 .scroll-indicator {
   position: absolute;
@@ -1833,6 +2002,36 @@ html {
   .btn-secondary {
     padding: 0.8rem 1.8rem;
     font-size: 1rem;
+  }
+  
+  .hero-buttons-row .btn-primary,
+  .hero-buttons-row .btn-secondary {
+    flex: 1;
+    min-width: 140px;
+    max-width: 180px;
+    font-size: 0.9rem;
+  }
+  
+  .academy-btn.animated-button {
+    padding: 12px 28px;
+    font-size: 0.9rem;
+  }
+  
+  .academy-btn.animated-button svg {
+    width: 20px;
+  }
+  
+  .hero-buttons-row {
+    gap: 0.6rem;
+  }
+  
+  .price-list-btn {
+    font-size: 15px;
+    height: 1.8em;
+  }
+  
+  .price-list-btn p {
+    font-size: 15px;
   }
   
   .section-title {
@@ -3165,6 +3364,37 @@ html {
   .btn-secondary {
     padding: 0.7rem 1.5rem;
     font-size: 0.9rem;
+  }
+  
+  .hero-buttons-row .btn-primary,
+  .hero-buttons-row .btn-secondary {
+    flex: 1;
+    min-width: 120px;
+    max-width: 160px;
+    padding: 0.6rem 1rem;
+    font-size: 0.75rem;
+  }
+  
+  .academy-btn.animated-button {
+    padding: 10px 20px;
+    font-size: 0.75rem;
+  }
+  
+  .academy-btn.animated-button svg {
+    width: 18px;
+  }
+  
+  .hero-buttons-row {
+    gap: 0.5rem;
+  }
+  
+  .price-list-btn {
+    font-size: 13px;
+    height: 1.6em;
+  }
+  
+  .price-list-btn p {
+    font-size: 13px;
   }
   
   .hero-logo-image {

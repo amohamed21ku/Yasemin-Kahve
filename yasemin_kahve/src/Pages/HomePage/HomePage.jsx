@@ -6,6 +6,7 @@ import CompanyOverview from "/src/Pages/HomePage/components/CompanyOverview";
 import ProductsPreview from "/src/Pages/HomePage/components/ProductsPreview";
 import ContactSection from "/src/Pages/HomePage/components/ContactSection";
 import Footer from "/src/Pages/HomePage/components/Footer";
+import WhatsAppFloat from "/src/Pages/HomePage/components/WhatsAppFloat";
 import './HomePage.css';
 
 const HomePage = ({ onNavigate }) => {
@@ -17,6 +18,7 @@ const HomePage = ({ onNavigate }) => {
       <ProductsPreview onNavigate={onNavigate} />
       <ContactSection />
       <Footer />
+      <WhatsAppFloat />
     </div>
   );
 };

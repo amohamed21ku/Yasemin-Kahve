@@ -62,6 +62,12 @@ const Hero = ({ onNavigate }) => {  // Add onNavigate as a prop
     window.open(whatsAppUrl, '_blank');
   };
 
+  const handleAcademyClick = () => {
+    if (onNavigate) {
+      onNavigate('academy');
+    }
+  };
+
   return (
     <section className="hero">
       <div className="hero-background">
@@ -94,17 +100,35 @@ const Hero = ({ onNavigate }) => {  // Add onNavigate as a prop
           <p className="hero-description">{slide.description}</p>
 
           <div className="hero-buttons">
+            <div className="hero-buttons-row">
+              <button 
+                className="btn-primary"
+                onClick={scrollToProducts}
+              >
+                <span>{slide.cta}</span>
+              </button>
+              <button 
+                className="btn-secondary academy-btn animated-button"
+                onClick={handleAcademyClick}
+              >
+                <svg viewBox="0 0 24 24" className="arr-2" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M16.1716 10.9999L10.8076 5.63589L12.2218 4.22168L20 11.9999L12.2218 19.778L10.8076 18.3638L16.1716 12.9999H4V10.9999H16.1716Z"></path>
+                </svg>
+                <span className="text">{t("discoverAcademy") || "Akademiyi Keşfet"}</span>
+                <span className="circle"></span>
+                <svg viewBox="0 0 24 24" className="arr-1" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M16.1716 10.9999L10.8076 5.63589L12.2218 4.22168L20 11.9999L12.2218 19.778L10.8076 18.3638L16.1716 12.9999H4V10.9999H16.1716Z"></path>
+                </svg>
+              </button>
+            </div>
             <button 
-              className="btn-primary"
-              onClick={scrollToProducts}
-            >
-              <span>{slide.cta}</span>
-            </button>
-            <button 
-              className="btn-secondary"
+              className="btn-secondary price-list-btn"
               onClick={handlePriceListClick}
             >
-              <span>{t("PriceList") || "Price List"}</span>
+              <p>{t("PriceList") || "Price List"}</p>
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="price-icon" viewBox="0 0 24 24">
+                <path d="M9 11H7v3a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h1a2 2 0 0 1 2 2v3zm0 0V8a2 2 0 0 1 2-2h1a2 2 0 0 1 2 2v3a2 2 0 0 1-2 2h-1a2 2 0 0 1-2-2zm7 0V8a2 2 0 0 1 2-2h1a2 2 0 0 1 2 2v3a2 2 0 0 1-2 2h-1a2 2 0 0 1-2-2zM7 3h10v2H7V3zM5 21v-2h14v2H5z"/>
+              </svg>
             </button>
           </div>
         </div>
