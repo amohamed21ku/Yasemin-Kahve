@@ -137,6 +137,13 @@ const Header = ({ activeSection = "home", onNavigate, darkContent = false }) => 
                       <span className="user-email">{currentUser.email}</span>
                     </div>
                     <div className="dropdown-divider"></div>
+                    <button 
+                      className="dropdown-item"
+                      onClick={(e) => handleNavClick('profile', e)}
+                    >
+                      <User size={16} />
+                      {t("myProfile") || "My Profile"}
+                    </button>
                     {isAdmin && (
                       <button 
                         className="dropdown-item admin-item"
@@ -220,6 +227,13 @@ const Header = ({ activeSection = "home", onNavigate, darkContent = false }) => 
                   <span>{userData?.displayName || userData?.firstName || currentUser.email?.split('@')[0]}</span>
                   {isAdmin && <span className="admin-badge">ADMIN</span>}
                 </div>
+                <button 
+                  className="mobile-nav-link"
+                  onClick={(e) => handleNavClick('profile', e)}
+                >
+                  <User size={16} />
+                  {t("myProfile") || "My Profile"}
+                </button>
                 <button className="mobile-logout-btn" onClick={handleLogout}>
                   <LogOut size={16} />
                   {t("signOut") || "Sign Out"}

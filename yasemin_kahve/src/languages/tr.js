@@ -179,7 +179,6 @@ export const tr = {
 "siteSettings": "Site Ayarları",
 "siteSettingsDesc": "Web sitesi ayarlarını yapılandırın",
 "loadingDashboard": "Kontrol paneli yükleniyor...",
-"dashboard": "Kontrol Paneli",
 "dashboardWelcome": "Yönetici kontrol panelinize hoş geldiniz",
 "quickActions": "Hızlı İşlemler",
 "recentActivity": "Son Etkinlik",
@@ -246,7 +245,6 @@ export const tr = {
 // Product Detail
 "productSpecifications": "Ürün Özellikleri",
 "roastLevel": "Kavurma Seviyesi",
-"processing": "İşleme",
 "altitude": "Rakım",
 "harvestSeason": "Hasat Mevsimi",
 "tastingNotes": "Tat Notları",
@@ -259,7 +257,6 @@ export const tr = {
 "balance": "Denge",
 "region": "Bölge",
 "classification": "Sınıflandırma",
-"processing": "İşleme",
 "type": "Tür",
 "bagType": "Çuval Tipi",
 "regionPlaceholder": "ör. Huila, Nariño, Cauca",
@@ -270,6 +267,57 @@ export const tr = {
 "score": "Puan",
 "scoreHelp": "Kahve kalite puanı 100 üzerinden",
 "qualityScore": "Kalite Puanı",
+
+
+
+//Academy
+//Academy Hero
+"coffeeMastery": "Kahve Ustalığı",
+"yaseminCoffeeAcademy": "Yasemin Kahve Akademisi",
+"masterTheArtOfCoffee": "Kahve Sanatında Ustalaşın",
+"academyDescription": "Buraya ne yazılması gerektiğini Saadettin’e sor",
+"exploreCourses": "Kursları Keşfet",
+"watchIntro": "Tanıtımı İzle",
+
+
+//Course Card
+
+//Course Grid 
+"availableCourses": "Mevcut Kurslar",
+"searchCourses": "Kurslarda ara...",
+"filters": "Filtreler",
+"level": "Seviye",
+"allLevels": "Tüm Seviyeler",
+"beginner": "Başlangıç",
+"intermediate": "Orta Düzey",
+"advanced": "İleri Düzey",
+"basics": "Temel Bilgiler",
+"brewing": "Demleme",
+"tasting": "Tadım",
+"roasting": "Kavurma",
+"business": "İşletme",
+"barista": "Barista Becerileri",
+"allTypes": "Tüm Türler",
+"online": "Çevrimiçi",
+"onSite": "Yerinde",
+"sortBy": "Sırala",
+"popularity": "Popülerlik",
+"priceLowToHigh": "Fiyat: Düşükten Yükseğe",
+"priceHighToLow": "Fiyat: Yüksekten Düşüğe",
+"duration": "Süre",
+"days": "gün",
+"durationDays": "Süre (gün)",
+"rating": "Değerlendirme",
+"startDate": "Başlangıç Tarihi",
+"coursesFound": "kurs bulundu",
+"loadingCourses": "Kurslar yükleniyor...",
+"errorLoadingCourses": "Kurslar yüklenirken hata oluştu",
+"retry": "Tekrar Dene",
+"noCoursesFound": "Kurs bulunamadı",
+"tryDifferentFilters": "Arama veya filtre kriterlerinizi değiştirerek tekrar deneyin",
+"checkBackLater": "Yeni kurslar için lütfen daha sonra tekrar kontrol edin",
+
+
 
 
 

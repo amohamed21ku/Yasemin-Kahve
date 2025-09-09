@@ -255,7 +255,6 @@ export const en = {
   // Product Detail
   "productSpecifications": "Product Specifications",
   "roastLevel": "Roast Level",
-  "processing": "Processing",
   "altitude": "Altitude",
   "harvestSeason": "Harvest Season",
   "tastingNotes": "Tasting Notes",

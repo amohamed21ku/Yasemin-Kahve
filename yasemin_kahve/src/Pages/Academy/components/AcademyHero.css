@@ -7,7 +7,8 @@ Academy Hero Component Styles
   align-items: center;
   background: linear-gradient(135deg, var(--light-beige) 0%, var(--white) 50%, #faf6f0 100%);
   overflow: hidden;
-  padding: 10rem 0 4rem;
+  padding: 12rem 0 4rem;
+  margin-top: 2rem;
 }
 
 /* Background decorative elements */
@@ -140,7 +141,7 @@ Academy Hero Component Styles
   color: var(--dark-brown);
   line-height: 1.1;
   margin-bottom: 0.5rem;
-  animation: typewriter 2s steps(20) 0.5s both;
+  animation: elegantSlideIn 1.2s cubic-bezier(0.4, 0, 0.2, 1) 0.3s both;
 }
 
 .title-subtitle {
@@ -148,7 +149,7 @@ Academy Hero Component Styles
   font-size: 1.5rem;
   font-weight: 400;
   color: var(--medium-brown);
-  animation: fadeIn 1s ease-out 1.5s both;
+  animation: elegantSlideIn 1s cubic-bezier(0.4, 0, 0.2, 1) 0.8s both;
 }
 
 .hero-Academy-description {
@@ -480,12 +481,14 @@ Academy Hero Component Styles
   }
 }
 
-@keyframes typewriter {
+@keyframes elegantSlideIn {
   from {
-    width: 0;
+    opacity: 0;
+    transform: translateY(40px) scale(0.95);
   }
   to {
-    width: 100%;
+    opacity: 1;
+    transform: translateY(0) scale(1);
   }
 }
 

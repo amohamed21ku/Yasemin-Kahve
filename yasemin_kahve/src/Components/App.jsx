@@ -7,6 +7,7 @@ import AcademyPage from '../Pages/Academy/Academy'
 import CourseDetailPage from '../Pages/CourseDetail/CourseDetail'
 import AdminPanel from '../Pages/Admin/AdminPanel'
 import Auth from '../Pages/Auth/Auth'
+import UserProfile from '../Pages/UserProfile/UserProfile'
 import WhatsAppButton from './WhatsAppButton'
 
 import { AuthProvider } from '../AuthContext'
@@ -359,6 +360,8 @@ function App() {
         return <CourseDetailPage onNavigate={handleNavigate} course={selectedProduct} onEnroll={handleCourseEnroll} />;
       case 'register':
         return <Auth onNavigate={handleNavigate} />;
+      case 'profile':
+        return <UserProfile onNavigate={handleNavigate} />;
       case 'admin':
         return (
           <ProtectedAdminRoute currentPage={currentPage} onNavigate={handleNavigate}>
