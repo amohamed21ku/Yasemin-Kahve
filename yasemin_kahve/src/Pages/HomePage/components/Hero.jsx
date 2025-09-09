@@ -111,8 +111,7 @@ const Hero = ({ onNavigate }) => {  // Add onNavigate as a prop
                 className="btn-secondary academy-btn animated-button"
                 onClick={handleAcademyClick}
               >
-                <svg viewBox="0 0 24 24" className="arr-2" xmlns="http://www.w3.org/2000/svg">
-                  <path d="M16.1716 10.9999L10.8076 5.63589L12.2218 4.22168L20 11.9999L12.2218 19.778L10.8076 18.3638L16.1716 12.9999H4V10.9999H16.1716Z"></path>
+                <svg viewBox="0 0 24 24" className="arr-2" >
                 </svg>
                 <span className="text">{t("discoverAcademy") || "Akademiyi Keşfet"}</span>
                 <span className="circle"></span>
@@ -126,8 +125,10 @@ const Hero = ({ onNavigate }) => {  // Add onNavigate as a prop
               onClick={handlePriceListClick}
             >
               <p>{t("PriceList") || "Price List"}</p>
-              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="price-icon" viewBox="0 0 24 24">
-                <path d="M9 11H7v3a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h1a2 2 0 0 1 2 2v3zm0 0V8a2 2 0 0 1 2-2h1a2 2 0 0 1 2 2v3a2 2 0 0 1-2 2h-1a2 2 0 0 1-2-2zm7 0V8a2 2 0 0 1 2-2h1a2 2 0 0 1 2 2v3a2 2 0 0 1-2 2h-1a2 2 0 0 1-2-2zM7 3h10v2H7V3zM5 21v-2h14v2H5z"/>
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="price-icon" viewBox="0 0 16 16">
+                <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"></path>
+                <path d="M8 13.5a5.5 5.5 0 1 1 0-11 5.5 5.5 0 0 1 0 11zm0 .5A6 6 0 1 0 8 2a6 6 0 0 0 0 12z"></path>
+                <path d="M6.271 5.055a.5.5 0 0 1 .52.008L9 6.4A.5.5 0 0 1 9 7.4L6.791 8.737a.5.5 0 0 1-.791-.4V5.5a.5.5 0 0 1 .271-.445z"></path>
               </svg>
             </button>
           </div>

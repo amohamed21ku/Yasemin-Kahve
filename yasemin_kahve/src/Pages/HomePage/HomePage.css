@@ -1525,8 +1525,8 @@ html {
 }
 
 .contact-icon {
-  width: 4rem;
-  height: 4rem;
+  width: 3rem;
+  height: 3rem;
   background: linear-gradient(135deg, var(--golden-yellow), var(--medium-brown));
   border-radius: 1rem;
   display: flex;
@@ -1543,15 +1543,15 @@ html {
 }
 
 .contact-label {
-  font-weight: 700;
-  font-size: 1.125rem;
-  margin-bottom: 0.25rem;
+  font-weight: 600;
+  font-size: 1 rem;
+  margin-bottom: 0rem;
 }
 
 .contact-value {
-  font-size: 1.125rem;
+  font-size: 0.9rem;
   color: rgba(255, 224, 178, 0.9);
-  font-weight: 500;
+  font-weight: 400;
 }
 
 .contact-form-container {
