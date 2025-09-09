@@ -42,6 +42,62 @@
   font-style: italic;
 }
 
+/* Cupping Score Toggle & Score Toggle */
+.cupping-toggle, .score-toggle {
+  margin-bottom: 1.5rem;
+}
+
+.checkbox-label {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  cursor: pointer;
+  padding: 1rem;
+  background: #f8f6f3;
+  border-radius: 0.5rem;
+  border: 2px solid transparent;
+  transition: all 0.2s ease;
+}
+
+.checkbox-label:hover {
+  background: #f2efea;
+  border-color: #e6b555;
+}
+
+.checkbox-label input[type="checkbox"] {
+  appearance: none;
+  width: 20px;
+  height: 20px;
+  border: 2px solid #ddd;
+  border-radius: 4px;
+  background: white;
+  position: relative;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.checkbox-label input[type="checkbox"]:checked {
+  background: #e6b555;
+  border-color: #e6b555;
+}
+
+.checkbox-label input[type="checkbox"]:checked::after {
+  content: '✓';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: white;
+  font-size: 14px;
+  font-weight: bold;
+}
+
+.checkbox-text {
+  color: #3c2e26;
+  font-weight: 500;
+  font-size: 1rem;
+}
+
 @media (max-width: 768px) {
   .category-origin-inputs {
     grid-template-columns: 1fr;

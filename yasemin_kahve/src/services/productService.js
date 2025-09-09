@@ -19,13 +19,12 @@ const CATEGORIES_COLLECTION = 'categories';
 
 // Helper function to transform Firebase product data to frontend format
 const transformFirebaseToFrontend = (firebaseProduct) => {
-  const currentLang = localStorage.getItem('language') || 'en';
-  
   return {
     id: firebaseProduct.id,
-    name: firebaseProduct.name?.[currentLang] || firebaseProduct.name?.en || firebaseProduct.name?.tr || 'Untitled Product',
+    // Keep multilingual data intact for dynamic language switching
+    name: firebaseProduct.name || 'Untitled Product',
     origin: firebaseProduct.origin || '',
-    description: firebaseProduct.description?.[currentLang] || firebaseProduct.description?.en || firebaseProduct.description?.tr || '',
+    description: firebaseProduct.description || '',
     image: firebaseProduct.image || '',
     category: firebaseProduct.categoryId || 'Other',
     price: firebaseProduct.price && firebaseProduct.currency ? 
@@ -47,8 +46,8 @@ const getCategoryName = async (categoryId) => {
     const categoryDoc = await getDoc(doc(db, CATEGORIES_COLLECTION, categoryId));
     if (categoryDoc.exists()) {
       const categoryData = categoryDoc.data();
-      const currentLang = localStorage.getItem('language') || 'en';
-      return categoryData.name?.[currentLang] || categoryData.name?.en || categoryData.name || categoryId;
+      // Return the multilingual name object, not a specific language
+      return categoryData.name || categoryId;
     }
   } catch (error) {
     console.warn('Error fetching category name:', error);

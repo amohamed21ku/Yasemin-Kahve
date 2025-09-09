@@ -24,6 +24,8 @@ export const LanguageProvider = ({ children }) => {
 
   useEffect(() => {
     localStorage.setItem('cafe-del-belo-language', language);
+    // Also set the 'language' key for compatibility with services
+    localStorage.setItem('language', language);
   }, [language]);
 
   const toggleLanguage = () => {

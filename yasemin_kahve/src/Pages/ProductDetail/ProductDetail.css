@@ -135,15 +135,10 @@
   font-weight: 700;
   line-height: 1;
   text-shadow: 0 4px 8px rgba(139, 69, 19, 0.4);
-  background: rgba(255, 255, 255, 0.9);
+  background: none !important;
   backdrop-filter: blur(10px);
-  border-radius: 50%;
-  width: 80px;
-  height: 80px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border: 3px solid #e6b555;
+  padding: 0.5rem 1rem;
+  border-radius: 0.5rem;
   box-shadow: 0 8px 32px rgba(230, 181, 85, 0.3);
   transform-style: preserve-3d;
 }
@@ -594,10 +589,7 @@
     font-size: 2.5rem;
     background: none;
     backdrop-filter: none;
-    border-radius: 0;
-    width: auto;
-    height: auto;
-    border: none;
+    padding: 0;
     box-shadow: none;
   }
 

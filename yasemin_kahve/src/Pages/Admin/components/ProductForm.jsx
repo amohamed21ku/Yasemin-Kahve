@@ -23,7 +23,7 @@ const ProductForm = ({ product, categories = [], onSave, onCancel }) => {
     badge: product?.badge || '',
     price: product?.price || '',
     currency: product?.currency || 'TRY',
-    score: product?.score || 8.5,
+    score: product?.score !== null && product?.score !== undefined ? product.score : 8.5,
     image: product?.image || '',
     isVisible: product?.isVisible !== false,
     // Additional product specifications
@@ -56,6 +56,11 @@ const ProductForm = ({ product, categories = [], onSave, onCancel }) => {
       return !(aroma === 8.0 && flavor === 8.0 && acidity === 8.0 && body === 8.0 && balance === 8.0);
     }
     return false;
+  });
+  
+  const [showScore, setShowScore] = useState(() => {
+    // Show score if product has a score that's not null/undefined
+    return product?.score !== undefined && product?.score !== null;
   });
 
 
@@ -215,6 +220,16 @@ const ProductForm = ({ product, categories = [], onSave, onCancel }) => {
       const productData = {
         ...formData
       };
+      
+      // If cupping scores are not enabled, remove cupping data or set to null
+      if (!showCuppingScores) {
+        productData.cupping = null;
+      }
+      
+      // If score is not enabled, set to null
+      if (!showScore) {
+        productData.score = null;
+      }
       
       // Only pass imageFile if a new image was selected
       // The service will handle image preservation automatically
@@ -544,15 +559,31 @@ const ProductForm = ({ product, categories = [], onSave, onCancel }) => {
           <div className="specs-input-grid">
             <div className="productform-form-group">
               <label>{t('score') || 'Score'}</label>
-              <input
-                type="number"
-                step="0.1"
-                min="0"
-                value={formData.score}
-                onChange={(e) => handleInputChange('score', parseFloat(e.target.value) || 0)}
-                placeholder="8.5"
-              />
-              <small>{t('scoreHelp') || 'Coffee quality score (decimal values allowed)'}</small>
+              
+              <div className="score-toggle">
+                <label className="checkbox-label">
+                  <input
+                    type="checkbox"
+                    checked={showScore}
+                    onChange={(e) => setShowScore(e.target.checked)}
+                  />
+                  <span className="checkbox-text">
+                    {t('includeScore') || 'Include quality score for this product'}
+                  </span>
+                </label>
+              </div>
+              
+              {showScore && (
+                <input
+                  type="number"
+                  step="0.1"
+                  min="0"
+                  value={formData.score}
+                  onChange={(e) => handleInputChange('score', parseFloat(e.target.value) || 0)}
+                  placeholder="8.5"
+                />
+              )}
+              <small>{t('scoreHelp') || 'Quality score is optional. Only enable for products that have been evaluated.'}</small>
             </div>
             
             <div className="productform-form-group">
@@ -656,70 +687,86 @@ const ProductForm = ({ product, categories = [], onSave, onCancel }) => {
 
         {/* Cupping Scores */}
         <div className="form-section">
-          <h3>{t('cuppingScores') || 'Cupping Scores'} <span className="optional-label">({t('optional') || 'Optional'})</span></h3>
+          <h3>{t('cuppingScores') || 'Cupping Scores'}</h3>
           
-          <div className="cupping-scores-grid">
-            <div className="productform-form-group">
-              <label>{t('aroma') || 'Aroma'}</label>
+          <div className="cupping-toggle">
+            <label className="checkbox-label">
               <input
-                type="number"
-                step="0.1"
-                min="0"
-                max="10"
-                value={formData.cupping.aroma}
-                onChange={(e) => handleInputChange('cupping', { ...formData.cupping, aroma: parseFloat(e.target.value) || 0 })}
+                type="checkbox"
+                checked={showCuppingScores}
+                onChange={(e) => setShowCuppingScores(e.target.checked)}
               />
-            </div>
-            
-            <div className="productform-form-group">
-              <label>{t('flavor') || 'Flavor'}</label>
-              <input
-                type="number"
-                step="0.1"
-                min="0"
-                max="10"
-                value={formData.cupping.flavor}
-                onChange={(e) => handleInputChange('cupping', { ...formData.cupping, flavor: parseFloat(e.target.value) || 0 })}
-              />
-            </div>
-            
-            <div className="productform-form-group">
-              <label>{t('acidity') || 'Acidity'}</label>
-              <input
-                type="number"
-                step="0.1"
-                min="0"
-                max="10"
-                value={formData.cupping.acidity}
-                onChange={(e) => handleInputChange('cupping', { ...formData.cupping, acidity: parseFloat(e.target.value) || 0 })}
-              />
-            </div>
-            
-            <div className="productform-form-group">
-              <label>{t('body') || 'Body'}</label>
-              <input
-                type="number"
-                step="0.1"
-                min="0"
-                max="10"
-                value={formData.cupping.body}
-                onChange={(e) => handleInputChange('cupping', { ...formData.cupping, body: parseFloat(e.target.value) || 0 })}
-              />
-            </div>
-            
-            <div className="productform-form-group">
-              <label>{t('balance') || 'Balance'}</label>
-              <input
-                type="number"
-                step="0.1"
-                min="0"
-                max="10"
-                value={formData.cupping.balance}
-                onChange={(e) => handleInputChange('cupping', { ...formData.cupping, balance: parseFloat(e.target.value) || 0 })}
-              />
-            </div>
+              <span className="checkbox-text">
+                {t('includeCuppingScores') || 'Include cupping scores for this product'}
+              </span>
+            </label>
+            <small>{t('cuppingToggleHelp') || 'Check this option if this product has cupping scores. Some products like cardamom, accessories, or non-coffee items may not need cupping scores.'}</small>
           </div>
-          <small>{t('cuppingScoresHelp') || 'Cupping scores are optional and rated from 0 to 10. Leave blank or use default values for products like cardamom.'}</small>
+          
+          {showCuppingScores && (
+            <div className="cupping-scores-grid">
+              <div className="productform-form-group">
+                <label>{t('aroma') || 'Aroma'}</label>
+                <input
+                  type="number"
+                  step="0.1"
+                  min="0"
+                  max="10"
+                  value={formData.cupping.aroma}
+                  onChange={(e) => handleInputChange('cupping', { ...formData.cupping, aroma: parseFloat(e.target.value) || 0 })}
+                />
+              </div>
+              
+              <div className="productform-form-group">
+                <label>{t('flavor') || 'Flavor'}</label>
+                <input
+                  type="number"
+                  step="0.1"
+                  min="0"
+                  max="10"
+                  value={formData.cupping.flavor}
+                  onChange={(e) => handleInputChange('cupping', { ...formData.cupping, flavor: parseFloat(e.target.value) || 0 })}
+                />
+              </div>
+              
+              <div className="productform-form-group">
+                <label>{t('acidity') || 'Acidity'}</label>
+                <input
+                  type="number"
+                  step="0.1"
+                  min="0"
+                  max="10"
+                  value={formData.cupping.acidity}
+                  onChange={(e) => handleInputChange('cupping', { ...formData.cupping, acidity: parseFloat(e.target.value) || 0 })}
+                />
+              </div>
+              
+              <div className="productform-form-group">
+                <label>{t('body') || 'Body'}</label>
+                <input
+                  type="number"
+                  step="0.1"
+                  min="0"
+                  max="10"
+                  value={formData.cupping.body}
+                  onChange={(e) => handleInputChange('cupping', { ...formData.cupping, body: parseFloat(e.target.value) || 0 })}
+                />
+              </div>
+              
+              <div className="productform-form-group">
+                <label>{t('balance') || 'Balance'}</label>
+                <input
+                  type="number"
+                  step="0.1"
+                  min="0"
+                  max="10"
+                  value={formData.cupping.balance}
+                  onChange={(e) => handleInputChange('cupping', { ...formData.cupping, balance: parseFloat(e.target.value) || 0 })}
+                />
+              </div>
+            </div>
+          )}
+          <small>{t('cuppingScoresHelp') || 'Cupping scores are rated from 0 to 10. Only enable if this product is a coffee that has been cupped.'}</small>
         </div>
 
         {/* Visibility */}

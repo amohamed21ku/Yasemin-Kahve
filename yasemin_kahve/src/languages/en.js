@@ -12,6 +12,8 @@ export const en = {
   "signOut": "Sign Out",
   "admin": "Admin",
   "adminConsole": "Admin Console",
+  "myProfile":"My Profile",
+  "clickToChat":"Click To Chat",
 
 
   

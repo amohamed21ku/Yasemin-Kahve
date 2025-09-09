@@ -147,7 +147,7 @@ const ProductDetail = ({ onNavigate, product, previousPage }) => {
       {/* Hero Section */}
       <section className="product-detail-hero">
         {/* Score positioned absolutely on the right */}
-        {displayProduct.score && (
+        {displayProduct.score !== null && displayProduct.score !== undefined && (
           <div 
             ref={scoreRef}
             className="product-score-animated"
@@ -199,7 +199,7 @@ const ProductDetail = ({ onNavigate, product, previousPage }) => {
                     <span className="country-flag">{getCountryFlag(displayProduct.origin)}</span>
                     <span>{displayProduct.origin}</span>
                   </div>
-                  {displayProduct.score && (
+                  {displayProduct.score !== null && displayProduct.score !== undefined && (
                     <div className="mobile-score-inline">
                       <div className="mobile-score-number">{displayProduct.score}</div>
                     </div>
@@ -310,7 +310,7 @@ const ProductDetail = ({ onNavigate, product, previousPage }) => {
           <div className="productdetail-container">
             <div className="cupping-header">
               <h2>Cupping Scores</h2>
-              {displayProduct.score && scrollProgress > 0.75 && (
+              {displayProduct.score !== null && displayProduct.score !== undefined && scrollProgress > 0.75 && (
                 <div className="final-score-display">
                   <span className="final-score-number">{displayProduct.score}</span>
                   <span className="final-score-label">Overall Score</span>

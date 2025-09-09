@@ -13,6 +13,10 @@ export const tr = {
   "signOut": "Çıkış Yap",
   "admin": "Yönetici",
   "adminConsole": "Yönetici Paneli",
+  "myProfile": "Profilim",
+  "clickToChat": "Sohbete Başla",
+
+
   
   // Hero
 "yaseminHeroDescription": "Yasemin Kahve, dünyanın en kaliteli yeşil kahvesini tutkulu kahve tutkunlarına sunar",

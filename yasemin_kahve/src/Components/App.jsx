@@ -286,12 +286,16 @@ function App() {
   const [currentScrollSection, setCurrentScrollSection] = useState(null);
   const [selectedProduct, setSelectedProduct] = useState(null);
   const [productsScrollPosition, setProductsScrollPosition] = useState(0);
+  const [homeScrollPosition, setHomeScrollPosition] = useState(0);
   const [previousPage, setPreviousPage] = useState(null);
 
   const handleNavigate = (page, scrollToSection = null, product = null) => {
-    // Store scroll position if navigating away from products page
+    // Store scroll position if navigating away from current page
     if (currentPage === 'products' && page !== 'products') {
       setProductsScrollPosition(window.scrollY);
+    }
+    if (currentPage === 'home' && page !== 'home') {
+      setHomeScrollPosition(window.scrollY);
     }
     
     // Track previous page before changing current page
@@ -302,10 +306,14 @@ function App() {
       setSelectedProduct(product);
     }
     
-    // If navigating back to products page, restore scroll position
+    // Restore scroll position when navigating back to saved pages
     if (page === 'products' && currentPage !== 'products') {
       setTimeout(() => {
         window.scrollTo({ top: productsScrollPosition, behavior: 'smooth' });
+      }, 100);
+    } else if (page === 'home' && currentPage !== 'home') {
+      setTimeout(() => {
+        window.scrollTo({ top: homeScrollPosition, behavior: 'smooth' });
       }, 100);
     } else {
       // Scroll to top for all other page navigations, especially product-detail
