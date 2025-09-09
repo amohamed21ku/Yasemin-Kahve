@@ -15,6 +15,7 @@ import {
   increment 
 } from 'firebase/firestore';
 import { db } from '../firebase';
+import { deleteCourseFiles } from './courseStorageService';
 
 const COURSES_COLLECTION = 'courses';
 const ENROLLMENTS_COLLECTION = 'enrollments';
@@ -84,8 +85,24 @@ export const updateCourse = async (courseId, updates) => {
 
 export const deleteCourse = async (courseId) => {
   try {
+    // First get the course data to know which files to delete
+    const courseData = await getCourseById(courseId);
+    
+    // Delete all associated files from Firebase Storage
+    await deleteCourseFiles(courseId, courseData);
+    
+    // Delete related enrollments
+    const enrollments = await getCourseEnrollments(courseId);
+    const enrollmentDeletions = enrollments.map(enrollment => 
+      deleteDoc(doc(db, ENROLLMENTS_COLLECTION, enrollment.id))
+    );
+    await Promise.all(enrollmentDeletions);
+    
+    // Finally delete the course document from Firestore
     const docRef = doc(db, COURSES_COLLECTION, courseId);
     await deleteDoc(docRef);
+    
+    console.log(`Course ${courseId} and all associated data deleted successfully`);
   } catch (error) {
     console.error('Error deleting course:', error);
     throw error;

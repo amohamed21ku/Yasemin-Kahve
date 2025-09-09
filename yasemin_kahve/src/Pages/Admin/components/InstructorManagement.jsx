@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react'
 import { Plus, Edit, Trash2, User, Upload, Image as ImageIcon } from 'lucide-react'
 import { useTranslation } from '../../../useTranslation'
-import { uploadInstructorAvatar } from '../../../services/courseStorageService'
+import { uploadInstructorAvatar } from '../../../services/instructorStorageService'
 import './InstructorManagement.css'
 
 const InstructorManagement = ({ instructors, onCreateInstructor, onUpdateInstructor, onDeleteInstructor }) => {
@@ -14,6 +14,7 @@ const InstructorManagement = ({ instructors, onCreateInstructor, onUpdateInstruc
     title: { en: '', tr: '' }
   })
   const [imageUploading, setImageUploading] = useState(false)
+  const [pendingAvatarFile, setPendingAvatarFile] = useState(null)
   const fileInputRef = useRef(null)
 
   useEffect(() => {
@@ -23,12 +24,14 @@ const InstructorManagement = ({ instructors, onCreateInstructor, onUpdateInstruc
         avatar: editingInstructor.avatar || '',
         title: editingInstructor.title || { en: '', tr: '' }
       })
+      setPendingAvatarFile(null)
     } else {
       setFormData({
         name: '',
         avatar: '',
         title: { en: '', tr: '' }
       })
+      setPendingAvatarFile(null)
     }
   }, [editingInstructor])
 
@@ -49,7 +52,7 @@ const InstructorManagement = ({ instructors, onCreateInstructor, onUpdateInstruc
     }
   }
 
-  const handleImageUpload = async (event) => {
+  const handleImageUpload = (event) => {
     const file = event.target.files[0]
     if (!file) return
 
@@ -63,20 +66,13 @@ const InstructorManagement = ({ instructors, onCreateInstructor, onUpdateInstruc
       return
     }
 
-    try {
-      setImageUploading(true)
-      const instructorId = editingInstructor?.id || `temp-${Date.now()}`
-      const imageUrl = await uploadInstructorAvatar(instructorId, file)
-      handleInputChange('avatar', imageUrl)
-    } catch (error) {
-      console.error('Error uploading image:', error)
-      alert(t('imageUploadError') || 'Error uploading image. Please try again.')
-    } finally {
-      setImageUploading(false)
-    }
+    // Store file temporarily and create preview URL
+    setPendingAvatarFile(file)
+    const previewUrl = URL.createObjectURL(file)
+    handleInputChange('avatar', previewUrl)
   }
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault()
     
     if (!formData.name.trim()) {
@@ -89,24 +85,45 @@ const InstructorManagement = ({ instructors, onCreateInstructor, onUpdateInstruc
       return
     }
 
-    const instructorData = {
-      ...formData,
-      id: editingInstructor?.id || Date.now().toString()
-    }
+    try {
+      setImageUploading(true)
 
-    if (editingInstructor) {
-      onUpdateInstructor(instructorData)
-    } else {
-      onCreateInstructor(instructorData)
-    }
+      // Upload avatar if there's a pending file
+      let finalAvatarUrl = formData.avatar
+      if (pendingAvatarFile) {
+        const instructorId = editingInstructor?.id || `instructor_${Date.now()}`
+        const instructorName = formData.name
+        const oldAvatarUrl = editingInstructor?.avatar || null
+        finalAvatarUrl = await uploadInstructorAvatar(instructorId, pendingAvatarFile, instructorName, oldAvatarUrl)
+      }
 
-    setShowForm(false)
-    setEditingInstructor(null)
+      const instructorData = {
+        ...formData,
+        avatar: finalAvatarUrl,
+        id: editingInstructor?.id || Date.now().toString()
+      }
+
+      if (editingInstructor) {
+        onUpdateInstructor(instructorData)
+      } else {
+        onCreateInstructor(instructorData)
+      }
+
+      setShowForm(false)
+      setEditingInstructor(null)
+      setPendingAvatarFile(null)
+    } catch (error) {
+      console.error('Error uploading instructor avatar:', error)
+      alert(t('uploadError') || 'Error uploading avatar. Please try again.')
+    } finally {
+      setImageUploading(false)
+    }
   }
 
   const handleEdit = (instructor) => {
     setEditingInstructor(instructor)
     setShowForm(true)
+    setPendingAvatarFile(null)
   }
 
   const handleDelete = (instructor) => {
@@ -128,7 +145,10 @@ const InstructorManagement = ({ instructors, onCreateInstructor, onUpdateInstruc
         <h3>{t('instructorManagement') || 'Instructor Management'}</h3>
         <button 
           className="add-instructor-btn"
-          onClick={() => setShowForm(true)}
+          onClick={() => {
+            setShowForm(true)
+            setPendingAvatarFile(null)
+          }}
         >
           <Plus size={18} />
           {t('addInstructor') || 'Add Instructor'}
@@ -194,6 +214,7 @@ const InstructorManagement = ({ instructors, onCreateInstructor, onUpdateInstruc
                 onClick={() => {
                   setShowForm(false)
                   setEditingInstructor(null)
+                  setPendingAvatarFile(null)
                 }}
               >
                 ×
@@ -281,6 +302,7 @@ const InstructorManagement = ({ instructors, onCreateInstructor, onUpdateInstruc
                   onClick={() => {
                     setShowForm(false)
                     setEditingInstructor(null)
+                    setPendingAvatarFile(null)
                   }}
                 >
                   {t('cancel') || 'Cancel'}

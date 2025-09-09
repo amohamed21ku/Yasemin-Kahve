@@ -8,8 +8,10 @@ import OverviewTab from './components/OverviewTab'
 import CurriculumTab from './components/CurriculumTab'
 import InstructorTab from './components/InstructorTab'
 import MediaTab from './components/MediaTab'
+import ReviewsTab from './components/ReviewsTab'
 import EnrollmentCard from './components/EnrollmentCard'
 import ImageViewer from './components/ImageViewer'
+import VideoViewer from './components/VideoViewer'
 import SignInModal from '../../Components/SignInModal'
 import { useTranslate } from '../../useTranslate'
 import { useAuth } from '../../AuthContext'
@@ -21,6 +23,8 @@ const CourseDetail = ({ course, onNavigate, onEnroll }) => {
   const [activeTab, setActiveTab] = useState('overview')
   const [imageViewerOpen, setImageViewerOpen] = useState(false)
   const [currentImageIndex, setCurrentImageIndex] = useState(0)
+  const [videoViewerOpen, setVideoViewerOpen] = useState(false)
+  const [currentVideoIndex, setCurrentVideoIndex] = useState(0)
   const [signInModalOpen, setSignInModalOpen] = useState(false)
   const [isProcessing, setIsProcessing] = useState(false)
 
@@ -111,6 +115,26 @@ const CourseDetail = ({ course, onNavigate, onEnroll }) => {
     setCurrentImageIndex((prev) => (prev - 1 + images.length) % images.length)
   }
 
+  // Video viewer functions
+  const openVideoViewer = (index) => {
+    setCurrentVideoIndex(index)
+    setVideoViewerOpen(true)
+  }
+
+  const closeVideoViewer = () => {
+    setVideoViewerOpen(false)
+  }
+
+  const nextVideo = () => {
+    const videos = courseDetails.videos || []
+    setCurrentVideoIndex((prev) => (prev + 1) % videos.length)
+  }
+
+  const prevVideo = () => {
+    const videos = courseDetails.videos || []
+    setCurrentVideoIndex((prev) => (prev - 1 + videos.length) % videos.length)
+  }
+
   // Use course data with fallbacks
   const courseDetails = {
     ...course,
@@ -147,6 +171,7 @@ const CourseDetail = ({ course, onNavigate, onEnroll }) => {
     ...(courseDetails.instructor 
       ? [{ id: 'instructor', label: t("instructor") || "Instructor" }] 
       : []),
+    { id: 'reviews', label: t("reviews") || "Reviews" },
     { id: 'media', label: t("media") || "Media" }
   ]
 
@@ -239,10 +264,18 @@ const CourseDetail = ({ course, onNavigate, onEnroll }) => {
               />
             )}
 
+            {activeTab === 'reviews' && (
+              <ReviewsTab 
+                courseDetails={courseDetails}
+                getLocalizedText={getLocalizedText}
+              />
+            )}
+
             {activeTab === 'media' && (
               <MediaTab 
                 courseDetails={courseDetails}
                 openImageViewer={openImageViewer}
+                openVideoViewer={openVideoViewer}
               />
             )}
           </div>
@@ -269,6 +302,15 @@ const CourseDetail = ({ course, onNavigate, onEnroll }) => {
         onClose={closeImageViewer}
         onNext={nextImage}
         onPrev={prevImage}
+      />
+
+      <VideoViewer 
+        isOpen={videoViewerOpen}
+        videos={courseDetails.videos || []}
+        currentIndex={currentVideoIndex}
+        onClose={closeVideoViewer}
+        onNext={nextVideo}
+        onPrev={prevVideo}
       />
 
       <SignInModal

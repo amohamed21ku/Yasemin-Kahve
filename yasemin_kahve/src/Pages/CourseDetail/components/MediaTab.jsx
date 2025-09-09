@@ -4,7 +4,7 @@ import { useTranslate } from '../../../useTranslate'
 import './TabContent.css'
 import './MediaTab.css'
 
-const MediaTab = ({ courseDetails, openImageViewer }) => {
+const MediaTab = ({ courseDetails, openImageViewer, openVideoViewer }) => {
   const { t } = useTranslate()
   return (
     <div className="tab-content">
@@ -21,9 +21,18 @@ const MediaTab = ({ courseDetails, openImageViewer }) => {
                   <Play size={24} />
                   <span>{video.name}</span>
                 </div>
-                <a href={video.url} target="_blank" rel="noopener noreferrer" className="media-link">
-                  {t("watchVideo") || "Watch Video"}
-                </a>
+                <div className="video-actions">
+                  <button 
+                    onClick={() => openVideoViewer && openVideoViewer(index)}
+                    className="watch-video-btn"
+                  >
+                    <Play size={16} />
+                    {t("watchVideo") || "Watch Video"}
+                  </button>
+                  <a href={video.url} target="_blank" rel="noopener noreferrer" className="media-link external-link">
+                    {t("openExternal") || "Open External"}
+                  </a>
+                </div>
               </div>
             ))}
           </div>

@@ -1,11 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { useAuth } from '../../AuthContext';
 import { useTranslation } from '../../useTranslation';
-import { BarChart3, Coffee, Users, GraduationCap, Database, Home, LogOut, User } from 'lucide-react';
+import { BarChart3, Coffee, Users, GraduationCap, Home, LogOut, User } from 'lucide-react';
 import ProductManagement from './components/ProductManagement';
 import Dashboard from './components/Dashboard';
 import UserManagement from './components/UserManagement';
-import DataMigration from './components/DataMigration';
 import AcademyManagement from './components/AcademyManagement';
 import './AdminPanel.css';
 
@@ -44,12 +43,6 @@ const AdminPanel = ({ onNavigate }) => {
       description: t('productsDesc') || 'Manage coffee products'
     },
     {
-      id: 'migration',
-      label: t('dataMigration') || 'Data Migration',
-      icon: Database,
-      description: t('migrationDesc') || 'Import sample data'
-    },
-    {
       id: 'users',
       label: t('users') || 'Users',
       icon: Users,
@@ -70,8 +63,6 @@ const AdminPanel = ({ onNavigate }) => {
         return <Dashboard />;
       case 'products':
         return <ProductManagement />;
-      case 'migration':
-        return <DataMigration />;
       case 'users':
         return <UserManagement />;
       case 'academy':

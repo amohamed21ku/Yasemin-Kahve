@@ -70,7 +70,8 @@ const UserManagement = () => {
     user.email?.toLowerCase().includes(searchTerm.toLowerCase()) ||
     user.displayName?.toLowerCase().includes(searchTerm.toLowerCase()) ||
     user.firstName?.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    user.lastName?.toLowerCase().includes(searchTerm.toLowerCase())
+    user.lastName?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    user.phone?.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
   const formatDate = (timestamp) => {
@@ -139,6 +140,7 @@ const UserManagement = () => {
             <div className="table-header">
               <div className="header-cell">{t('user') || 'User'}</div>
               <div className="header-cell">{t('email') || 'Email'}</div>
+              <div className="header-cell">{t('phone') || 'Phone'}</div>
               <div className="header-cell">{t('joinDate') || 'Join Date'}</div>
               <div className="header-cell">{t('role') || 'Role'}</div>
               <div className="header-cell">{t('actions') || 'Actions'}</div>
@@ -167,6 +169,10 @@ const UserManagement = () => {
                   
                   <div className="table-cell email-cell">
                     {user.email}
+                  </div>
+                  
+                  <div className="table-cell">
+                    {user.phone || 'N/A'}
                   </div>
                   
                   <div className="table-cell">
@@ -239,6 +245,11 @@ const UserManagement = () => {
                   <div className="detail-row">
                     <label>{t('email') || 'Email'}:</label>
                     <span>{selectedUser.email}</span>
+                  </div>
+                  
+                  <div className="detail-row">
+                    <label>{t('phone') || 'Phone'}:</label>
+                    <span>{selectedUser.phone || 'N/A'}</span>
                   </div>
                   
                   <div className="detail-row">

@@ -1,5 +1,5 @@
 import React from 'react'
-import { Clock, Calendar, Users, Star, CheckCircle, Monitor, MapPin } from 'lucide-react'
+import { Clock, Calendar, Users, CheckCircle, Monitor, MapPin } from 'lucide-react'
 import { useTranslation } from '../../../useTranslation'
 import { useAuth } from '../../../AuthContext'
 import './CourseCard.css'
@@ -91,10 +91,6 @@ const CourseCard = ({ course, onClick, onEnroll }) => {
                 <><MapPin size={12} /> {t("onSite") || "On Site"}</>
               )}
             </div>
-          </div>
-          <div className="course-rating">
-            <Star size={14} fill="currentColor" />
-            <span>{course.rating || '4.8'}</span>
           </div>
         </div>
         {isEnrolled && (

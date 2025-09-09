@@ -16,6 +16,7 @@ const CourseGrid = ({ onCourseClick, onEnroll, onAddNewCourse }) => {
   const [searchTerm, setSearchTerm] = useState('')
   const [selectedLevel, setSelectedLevel] = useState('all')
   const [selectedCategory, setSelectedCategory] = useState('all')
+  const [minRating, setMinRating] = useState('all')
   const [sortBy, setSortBy] = useState('popularity')
   const [showFilters, setShowFilters] = useState(false)
   const [loading, setLoading] = useState(true)
@@ -61,17 +62,15 @@ const CourseGrid = ({ onCourseClick, onEnroll, onAddNewCourse }) => {
             setCourses(coursesWithInstructors)
             setFilteredCourses(coursesWithInstructors)
           } else {
-            console.log('No courses found in Firebase, using sample data')
-            const { sampleCourses } = await import('../../../utils/sampleCourseData')
-            setCourses(sampleCourses)
-            setFilteredCourses(sampleCourses)
+            console.log('No courses found in Firebase')
+            setCourses([])
+            setFilteredCourses([])
           }
         } catch (firebaseError) {
-          console.warn('Firebase error, falling back to sample data:', firebaseError.message)
-          // Fallback to sample data on Firebase error
-          const { sampleCourses } = await import('../../../utils/sampleCourseData')
-          setCourses(sampleCourses)
-          setFilteredCourses(sampleCourses)
+          console.error('Firebase error:', firebaseError.message)
+          setError('Unable to load courses. Please check your connection and try again.')
+          setCourses([])
+          setFilteredCourses([])
         }
         
       } catch (fallbackError) {
@@ -124,6 +123,15 @@ const CourseGrid = ({ onCourseClick, onEnroll, onAddNewCourse }) => {
       filtered = filtered.filter(course => course.category === selectedCategory)
     }
 
+    // Minimum rating filter
+    if (minRating !== 'all') {
+      const minRatingNum = parseFloat(minRating)
+      filtered = filtered.filter(course => {
+        const rating = course.rating || 0
+        return rating >= minRatingNum
+      })
+    }
+
     // Sort
     switch (sortBy) {
       case 'price-low':
@@ -146,7 +154,7 @@ const CourseGrid = ({ onCourseClick, onEnroll, onAddNewCourse }) => {
     }
 
     setFilteredCourses(filtered)
-  }, [courses, searchTerm, selectedLevel, selectedCategory, sortBy])
+  }, [courses, searchTerm, selectedLevel, selectedCategory, minRating, sortBy])
 
   return (
     <div className="course-grid-container">
@@ -208,6 +216,17 @@ const CourseGrid = ({ onCourseClick, onEnroll, onAddNewCourse }) => {
               <option value="online">{t("online") || "Online"}</option>
               <option value="face-to-face">{t("faceToFace") || "Face-to-Face"}</option>
               <option value="hybrid">{t("hybrid") || "Hybrid"}</option>
+            </select>
+          </div>
+
+          <div className="filter-group">
+            <label>{t("minRating") || "Minimum Rating"}</label>
+            <select value={minRating} onChange={(e) => setMinRating(e.target.value)}>
+              <option value="all">{t("anyRating") || "Any Rating"}</option>
+              <option value="4.5">4.5+ {t("stars") || "stars"}</option>
+              <option value="4.0">4.0+ {t("stars") || "stars"}</option>
+              <option value="3.5">3.5+ {t("stars") || "stars"}</option>
+              <option value="3.0">3.0+ {t("stars") || "stars"}</option>
             </select>
           </div>
 

@@ -11,6 +11,7 @@ import {
   orderBy 
 } from 'firebase/firestore';
 import { db } from '../firebase';
+import { deleteAllInstructorFiles } from './instructorStorageService';
 
 const INSTRUCTORS_COLLECTION = 'instructors';
 
@@ -81,9 +82,24 @@ export const updateInstructor = async (instructorId, instructorData) => {
 
 export const deleteInstructor = async (instructorId) => {
   try {
+    // First get the instructor data to access avatar URL
     const docRef = doc(db, INSTRUCTORS_COLLECTION, instructorId);
-    await deleteDoc(docRef);
-    return instructorId;
+    const docSnap = await getDoc(docRef);
+    
+    if (docSnap.exists()) {
+      const instructorData = docSnap.data();
+      
+      // Delete instructor files from storage
+      await deleteAllInstructorFiles(instructorId, instructorData);
+      
+      // Delete instructor document from Firestore
+      await deleteDoc(docRef);
+      
+      console.log('Instructor deleted successfully:', instructorId);
+      return instructorId;
+    } else {
+      throw new Error('Instructor not found');
+    }
   } catch (error) {
     console.error('Error deleting instructor:', error);
     throw error;

@@ -1,7 +1,8 @@
 import React, { useState, useEffect, useRef } from 'react'
 import { X, Plus, Trash2, Upload, Image as ImageIcon, User, Camera, Globe } from 'lucide-react'
 import { useTranslation } from '../../../useTranslation'
-import { uploadCourseImage, uploadInstructorAvatar } from '../../../services/courseStorageService'
+import { uploadCourseImage } from '../../../services/courseStorageService'
+import { uploadInstructorAvatar } from '../../../services/instructorStorageService'
 import './CourseForm.css'
 
 const CourseForm = ({ course, instructors = [], onSubmit, onCancel }) => {
@@ -36,6 +37,8 @@ const CourseForm = ({ course, instructors = [], onSubmit, onCancel }) => {
     title: { en: '', tr: '' }
   })
   const [instructorImageUploading, setInstructorImageUploading] = useState(false)
+  const [pendingCourseImage, setPendingCourseImage] = useState(null)
+  const [pendingInstructorAvatar, setPendingInstructorAvatar] = useState(null)
   const fileInputRef = useRef(null)
   const instructorFileInputRef = useRef(null)
 
@@ -63,6 +66,11 @@ const CourseForm = ({ course, instructors = [], onSubmit, onCancel }) => {
         rating: course.rating || 4.5,
         isActive: course.isActive !== false
       })
+      setPendingCourseImage(null)
+      setPendingInstructorAvatar(null)
+    } else {
+      setPendingCourseImage(null)
+      setPendingInstructorAvatar(null)
     }
   }, [course])
 
@@ -126,7 +134,7 @@ const CourseForm = ({ course, instructors = [], onSubmit, onCancel }) => {
     alert(t('instructorCreatedNote') || 'Instructor will be created when you save the course.')
   }
 
-  const handleImageUpload = async (event, type = 'course') => {
+  const handleImageUpload = (event, type = 'course') => {
     const file = event.target.files[0]
     if (!file) return
 
@@ -142,37 +150,19 @@ const CourseForm = ({ course, instructors = [], onSubmit, onCancel }) => {
       return
     }
 
-    try {
-      if (type === 'course') {
-        setImageUploading(true)
-      } else {
-        setInstructorImageUploading(true)
-      }
-
-      // Generate temporary course ID for new courses
-      const courseId = course?.id || `temp-${Date.now()}`
-      
-      let imageUrl
-      if (type === 'course') {
-        imageUrl = await uploadCourseImage(courseId, file)
-        handleInputChange('image', imageUrl)
-      } else {
-        imageUrl = await uploadInstructorAvatar(courseId, file)
-        handleNewInstructorChange('avatar', imageUrl)
-      }
-    } catch (error) {
-      console.error('Error uploading image:', error)
-      alert(t('imageUploadError') || 'Error uploading image. Please try again.')
-    } finally {
-      if (type === 'course') {
-        setImageUploading(false)
-      } else {
-        setInstructorImageUploading(false)
-      }
+    // Store file temporarily and create preview URL
+    if (type === 'course') {
+      setPendingCourseImage(file)
+      const previewUrl = URL.createObjectURL(file)
+      handleInputChange('image', previewUrl)
+    } else {
+      setPendingInstructorAvatar(file)
+      const previewUrl = URL.createObjectURL(file)
+      handleNewInstructorChange('avatar', previewUrl)
     }
   }
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault()
     
     // Basic validation
@@ -191,25 +181,53 @@ const CourseForm = ({ course, instructors = [], onSubmit, onCancel }) => {
       return
     }
 
-    // If creating new instructor, add it to the course data
-    let courseData = {
-      ...formData,
-      price: parseFloat(formData.price),
-      originalPrice: formData.originalPrice ? parseFloat(formData.originalPrice) : null,
-      maxStudents: parseInt(formData.maxStudents),
-      duration: parseInt(formData.duration)
-    }
+    try {
+      setImageUploading(true)
 
-    // Add new instructor data if needed
-    const selectedInstructor = instructors.find(i => i.id === formData.instructorId)
-    if (!selectedInstructor && newInstructor.name) {
-      courseData.newInstructor = {
-        ...newInstructor,
-        id: formData.instructorId
+      // Upload course image if there's a pending one
+      let finalCourseImage = formData.image
+      if (pendingCourseImage) {
+        const courseId = course?.id || `course_${Date.now()}`
+        const courseTitle = formData.title?.en || ''
+        const oldImageUrl = course?.image || null
+        finalCourseImage = await uploadCourseImage(courseId, pendingCourseImage, courseTitle, oldImageUrl)
       }
-    }
 
-    onSubmit(courseData)
+      // Upload instructor avatar if creating a new instructor and there's a pending one
+      let finalInstructorAvatar = newInstructor.avatar
+      if (pendingInstructorAvatar && newInstructor.name) {
+        const instructorId = newInstructor.name.toLowerCase().replace(/\s+/g, '_')
+        const instructorName = newInstructor.name
+        finalInstructorAvatar = await uploadInstructorAvatar(instructorId, pendingInstructorAvatar, instructorName, null)
+      }
+
+      // Prepare course data
+      let courseData = {
+        ...formData,
+        image: finalCourseImage,
+        price: parseFloat(formData.price),
+        originalPrice: formData.originalPrice ? parseFloat(formData.originalPrice) : null,
+        maxStudents: parseInt(formData.maxStudents),
+        duration: parseInt(formData.duration)
+      }
+
+      // Add new instructor data if needed
+      const selectedInstructor = instructors.find(i => i.id === formData.instructorId)
+      if (!selectedInstructor && newInstructor.name) {
+        courseData.newInstructor = {
+          ...newInstructor,
+          avatar: finalInstructorAvatar,
+          id: formData.instructorId
+        }
+      }
+
+      onSubmit(courseData)
+    } catch (error) {
+      console.error('Error uploading files:', error)
+      alert(t('uploadError') || 'Error uploading files. Please try again.')
+    } finally {
+      setImageUploading(false)
+    }
   }
 
   const getLocalizedText = (textObj, fallback = '') => {

@@ -14,7 +14,7 @@ import {
 } from 'lucide-react'
 import { useTranslation } from '../../../useTranslation'
 import { updateCourse } from '../../../services/courseService'
-import { uploadAdditionalImage, uploadCourseVideo, uploadCourseDocument } from '../../../services/courseStorageService'
+import { uploadAdditionalImage, uploadCourseVideo, uploadCourseDocument, deleteSpecificCourseFile } from '../../../services/courseStorageService'
 import './AdminCourseDetail.css'
 
 const AdminCourseDetail = ({ course, instructors = [], onBack, onUpdate }) => {
@@ -24,7 +24,10 @@ const AdminCourseDetail = ({ course, instructors = [], onBack, onUpdate }) => {
   const [courseData, setCourseData] = useState({
     ...course,
     instructorId: course.instructorId || course.instructor?.id || '',
-    curriculum: course.curriculum || []
+    curriculum: course.curriculum || [],
+    videos: course.videos || [],
+    additionalImages: course.additionalImages || [],
+    documents: course.documents || []
   })
   const [uploading, setUploading] = useState(false)
   
@@ -58,7 +61,15 @@ const AdminCourseDetail = ({ course, instructors = [], onBack, onUpdate }) => {
 
   const handleSave = async () => {
     try {
-      await updateCourse(course.id, courseData)
+      // Ensure all media arrays are included in the save data
+      const saveData = {
+        ...courseData,
+        videos: courseData.videos || [],
+        additionalImages: courseData.additionalImages || [],
+        documents: courseData.documents || []
+      }
+      
+      await updateCourse(course.id, saveData)
       onUpdate()
       alert(t('courseUpdatedSuccess') || 'Course updated successfully!')
     } catch (error) {
@@ -70,34 +81,84 @@ const AdminCourseDetail = ({ course, instructors = [], onBack, onUpdate }) => {
   const handleFileUpload = async (file, type) => {
     try {
       setUploading(true)
+      
+      // File size validation
+      const maxSizes = {
+        video: 100 * 1024 * 1024, // 100MB
+        image: 5 * 1024 * 1024,   // 5MB
+        document: 10 * 1024 * 1024 // 10MB
+      }
+      
+      if (file.size > maxSizes[type]) {
+        const sizeMB = (maxSizes[type] / (1024 * 1024)).toFixed(0)
+        alert(t('fileTooLarge') || `File is too large. Maximum size for ${type} is ${sizeMB}MB.`)
+        return
+      }
+      
+      // File type validation
+      const allowedTypes = {
+        video: ['video/mp4', 'video/webm', 'video/ogg', 'video/avi', 'video/mov'],
+        image: ['image/jpeg', 'image/jpg', 'image/png', 'image/gif', 'image/webp'],
+        document: ['application/pdf', 'application/msword', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document', 'text/plain']
+      }
+      
+      if (!allowedTypes[type].includes(file.type)) {
+        alert(t('invalidFileType') || `Invalid file type. Please select a valid ${type} file.`)
+        return
+      }
+      
       let downloadURL
+      
+      const courseTitle = courseData.title?.en || ''
       
       switch (type) {
         case 'video':
-          downloadURL = await uploadCourseVideo(course.id, file, 'course-video')
-          setCourseData(prev => ({
-            ...prev,
-            videos: [...(prev.videos || []), { url: downloadURL, name: file.name }]
-          }))
+          downloadURL = await uploadCourseVideo(course.id, file, courseTitle)
+          const updatedVideoData = {
+            ...courseData,
+            videos: [...(courseData.videos || []), { url: downloadURL, name: file.name }]
+          }
+          setCourseData(updatedVideoData)
+          // Save to database immediately
+          await updateCourse(course.id, updatedVideoData)
+          alert(t('videoUploadSuccess') || 'Video uploaded successfully!')
           break
         case 'image':
-          downloadURL = await uploadAdditionalImage(course.id, file, 'additional-image')
-          setCourseData(prev => ({
-            ...prev,
-            additionalImages: [...(prev.additionalImages || []), downloadURL]
-          }))
+          downloadURL = await uploadAdditionalImage(course.id, file, courseTitle)
+          const updatedImageData = {
+            ...courseData,
+            additionalImages: [...(courseData.additionalImages || []), downloadURL]
+          }
+          setCourseData(updatedImageData)
+          // Save to database immediately
+          await updateCourse(course.id, updatedImageData)
+          alert(t('imageUploadSuccess') || 'Image uploaded successfully!')
           break
         case 'document':
-          downloadURL = await uploadCourseDocument(course.id, file, 'course-document')
-          setCourseData(prev => ({
-            ...prev,
-            documents: [...(prev.documents || []), { url: downloadURL, name: file.name }]
-          }))
+          downloadURL = await uploadCourseDocument(course.id, file, courseTitle)
+          const updatedDocumentData = {
+            ...courseData,
+            documents: [...(courseData.documents || []), { url: downloadURL, name: file.name }]
+          }
+          setCourseData(updatedDocumentData)
+          // Save to database immediately
+          await updateCourse(course.id, updatedDocumentData)
+          alert(t('documentUploadSuccess') || 'Document uploaded successfully!')
           break
       }
     } catch (error) {
       console.error(`Error uploading ${type}:`, error)
-      alert(t('uploadError') || `Error uploading ${type}. Please try again.`)
+      let errorMessage = t('uploadError') || `Error uploading ${type}. Please try again.`
+      
+      if (error.code === 'storage/canceled') {
+        errorMessage = t('uploadCanceled') || 'Upload was canceled.'
+      } else if (error.code === 'storage/unauthorized') {
+        errorMessage = t('uploadUnauthorized') || 'You are not authorized to upload files.'
+      } else if (error.code === 'storage/retry-limit-exceeded') {
+        errorMessage = t('uploadTimeout') || 'Upload timed out. Please try with a smaller file.'
+      }
+      
+      alert(errorMessage)
     } finally {
       setUploading(false)
     }
@@ -217,6 +278,72 @@ const AdminCourseDetail = ({ course, instructors = [], onBack, onUpdate }) => {
       ...prev,
       overviewSections: prev.overviewSections?.filter(s => s.id !== sectionId) || []
     }))
+  }
+
+  const removeVideo = async (videoIndex) => {
+    try {
+      const videoToRemove = courseData.videos[videoIndex]
+      if (videoToRemove && videoToRemove.url) {
+        await deleteSpecificCourseFile(videoToRemove.url)
+      }
+      
+      const updatedData = {
+        ...courseData,
+        videos: courseData.videos?.filter((_, index) => index !== videoIndex) || []
+      }
+      setCourseData(updatedData)
+      // Save to database immediately
+      await updateCourse(course.id, updatedData)
+      
+      alert(t('videoDeletedSuccess') || 'Video deleted successfully!')
+    } catch (error) {
+      console.error('Error deleting video:', error)
+      alert(t('videoDeleteError') || 'Error deleting video. Please try again.')
+    }
+  }
+
+  const removeImage = async (imageIndex) => {
+    try {
+      const imageToRemove = courseData.additionalImages[imageIndex]
+      if (imageToRemove) {
+        await deleteSpecificCourseFile(imageToRemove)
+      }
+      
+      const updatedData = {
+        ...courseData,
+        additionalImages: courseData.additionalImages?.filter((_, index) => index !== imageIndex) || []
+      }
+      setCourseData(updatedData)
+      // Save to database immediately
+      await updateCourse(course.id, updatedData)
+      
+      alert(t('imageDeletedSuccess') || 'Image deleted successfully!')
+    } catch (error) {
+      console.error('Error deleting image:', error)
+      alert(t('imageDeleteError') || 'Error deleting image. Please try again.')
+    }
+  }
+
+  const removeDocument = async (docIndex) => {
+    try {
+      const docToRemove = courseData.documents[docIndex]
+      if (docToRemove && docToRemove.url) {
+        await deleteSpecificCourseFile(docToRemove.url)
+      }
+      
+      const updatedData = {
+        ...courseData,
+        documents: courseData.documents?.filter((_, index) => index !== docIndex) || []
+      }
+      setCourseData(updatedData)
+      // Save to database immediately
+      await updateCourse(course.id, updatedData)
+      
+      alert(t('documentDeletedSuccess') || 'Document deleted successfully!')
+    } catch (error) {
+      console.error('Error deleting document:', error)
+      alert(t('documentDeleteError') || 'Error deleting document. Please try again.')
+    }
   }
 
   const tabs = [
@@ -614,7 +741,7 @@ const AdminCourseDetail = ({ course, instructors = [], onBack, onUpdate }) => {
                   disabled={uploading}
                 >
                   <Video size={16} />
-                  {t('addVideo') || 'Add Video'}
+                  {uploading ? (t('uploading') || 'Uploading...') : (t('addVideo') || 'Add Video')}
                 </button>
                 
                 <button
@@ -623,7 +750,7 @@ const AdminCourseDetail = ({ course, instructors = [], onBack, onUpdate }) => {
                   disabled={uploading}
                 >
                   <ImageIcon size={16} />
-                  {t('addImage') || 'Add Image'}
+                  {uploading ? (t('uploading') || 'Uploading...') : (t('addImage') || 'Add Image')}
                 </button>
                 
                 <button
@@ -632,14 +759,21 @@ const AdminCourseDetail = ({ course, instructors = [], onBack, onUpdate }) => {
                   disabled={uploading}
                 >
                   <FileText size={16} />
-                  {t('addDocument') || 'Add Document'}
+                  {uploading ? (t('uploading') || 'Uploading...') : (t('addDocument') || 'Add Document')}
                 </button>
               </div>
+              
+              {uploading && (
+                <div className="upload-progress">
+                  <div className="progress-spinner"></div>
+                  <span>{t('uploadingFile') || 'Uploading file, please wait...'}</span>
+                </div>
+              )}
 
               <input
                 ref={videoFileRef}
                 type="file"
-                accept="video/*"
+                accept="video/mp4,video/webm,video/ogg,video/avi,video/mov"
                 style={{ display: 'none' }}
                 onChange={(e) => e.target.files[0] && handleFileUpload(e.target.files[0], 'video')}
               />
@@ -653,7 +787,7 @@ const AdminCourseDetail = ({ course, instructors = [], onBack, onUpdate }) => {
               <input
                 ref={docFileRef}
                 type="file"
-                accept=".pdf,.doc,.docx,.txt"
+                accept="application/pdf,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document,text/plain"
                 style={{ display: 'none' }}
                 onChange={(e) => e.target.files[0] && handleFileUpload(e.target.files[0], 'document')}
               />
@@ -671,6 +805,13 @@ const AdminCourseDetail = ({ course, instructors = [], onBack, onUpdate }) => {
                         <a href={video.url} target="_blank" rel="noopener noreferrer">
                           {t('view') || 'View'}
                         </a>
+                        <button
+                          onClick={() => removeVideo(index)}
+                          className="delete-file-btn"
+                          title={t('deleteVideo') || 'Delete Video'}
+                        >
+                          <Trash2 size={14} />
+                        </button>
                       </li>
                     ))}
                   </ul>
@@ -686,6 +827,13 @@ const AdminCourseDetail = ({ course, instructors = [], onBack, onUpdate }) => {
                     {courseData.additionalImages.map((image, index) => (
                       <div key={index} className="image-item">
                         <img src={image} alt={`Course image ${index + 1}`} />
+                        <button
+                          onClick={() => removeImage(index)}
+                          className="delete-image-btn"
+                          title={t('deleteImage') || 'Delete Image'}
+                        >
+                          <Trash2 size={14} />
+                        </button>
                       </div>
                     ))}
                   </div>
@@ -705,6 +853,13 @@ const AdminCourseDetail = ({ course, instructors = [], onBack, onUpdate }) => {
                         <a href={doc.url} target="_blank" rel="noopener noreferrer">
                           {t('download') || 'Download'}
                         </a>
+                        <button
+                          onClick={() => removeDocument(index)}
+                          className="delete-file-btn"
+                          title={t('deleteDocument') || 'Delete Document'}
+                        >
+                          <Trash2 size={14} />
+                        </button>
                       </li>
                     ))}
                   </ul>
