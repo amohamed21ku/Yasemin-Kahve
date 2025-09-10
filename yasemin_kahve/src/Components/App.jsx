@@ -4,6 +4,9 @@ import AboutUsPage from '../Pages/AboutUs/AboutUs'
 import ProductsPage from '../Pages/Products/Products'
 import ProductDetailPage from '../Pages/ProductDetail/ProductDetail'
 import AcademyPage from '../Pages/Academy/Academy'
+import AcademyV1 from '../Pages/Academy/AcademyV1'
+import AcademyV2 from '../Pages/Academy/AcademyV2'
+
 import CourseDetailPage from '../Pages/CourseDetail/CourseDetail'
 import AdminPanel from '../Pages/Admin/AdminPanel'
 import Auth from '../Pages/Auth/Auth'
@@ -363,7 +366,7 @@ function App() {
       case 'product-detail':
         return <ProductDetailPage onNavigate={handleNavigate} product={selectedProduct} previousPage={previousPage} />;
       case 'academy':
-        return <AcademyPage onNavigate={handleNavigate} />;
+        return <AcademyV2 onNavigate={handleNavigate} />;
       case 'course-detail':
         return <CourseDetailPage onNavigate={handleNavigate} course={selectedProduct} onEnroll={handleCourseEnroll} />;
       case 'register':
