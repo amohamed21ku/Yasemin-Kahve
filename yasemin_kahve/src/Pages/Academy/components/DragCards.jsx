@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React, { useRef, useState, useCallback } from "react";
 import { motion } from "framer-motion";
 import { twMerge } from "tailwind-merge";
 
@@ -19,11 +19,18 @@ export const DragCards = () => {
 
 const Cards = () => {
   const containerRef = useRef(null);
+  const [maxZIndex, setMaxZIndex] = useState(5);
+
+  const getNextZIndex = useCallback(() => {
+    setMaxZIndex(prev => prev + 1);
+    return maxZIndex + 1;
+  }, [maxZIndex]);
 
   return (
     <div className="absolute inset-0 z-10" ref={containerRef}>
       <Card
         containerRef={containerRef}
+        getNextZIndex={getNextZIndex}
         src="https://res.cloudinary.com/dc6ajvbs2/image/upload/v1757501813/3_vr23kr.jpg"
         alt="Coffee image"
         rotate="6deg"
@@ -33,6 +40,7 @@ const Cards = () => {
       />
       <Card
         containerRef={containerRef}
+        getNextZIndex={getNextZIndex}
         src="https://res.cloudinary.com/dc6ajvbs2/image/upload/v1757501811/5_jvecjx.jpg"
         alt="Coffee image"
         rotate="12deg"
@@ -42,6 +50,7 @@ const Cards = () => {
       />
       <Card
         containerRef={containerRef}
+        getNextZIndex={getNextZIndex}
         src="https://res.cloudinary.com/dc6ajvbs2/image/upload/v1757501768/4_ir2mzj.jpg"
         alt="Coffee image"
         rotate="-6deg"
@@ -51,6 +60,7 @@ const Cards = () => {
       />
       <Card
         containerRef={containerRef}
+        getNextZIndex={getNextZIndex}
         src="https://res.cloudinary.com/dc6ajvbs2/image/upload/v1757501765/2_cvqxzm.jpg"
         alt="Coffee image"
         rotate="8deg"
@@ -60,6 +70,7 @@ const Cards = () => {
       />
       <Card
         containerRef={containerRef}
+        getNextZIndex={getNextZIndex}
         src="https://res.cloudinary.com/dc6ajvbs2/image/upload/v1757501761/Academy_logo_k39bjk.png"
         alt="Academy logo"
         rotate="18deg"
@@ -71,26 +82,13 @@ const Cards = () => {
   );
 };
 
-const Card = ({ containerRef, src, alt, top, left, rotate, className }) => {
+const Card = ({ containerRef, getNextZIndex, src, alt, top, left, rotate, className }) => {
   const [zIndex, setZIndex] = useState(0);
 
-  const updateZIndex = () => {
-    const els = document.querySelectorAll(".drag-elements");
-
-    let maxZIndex = -Infinity;
-
-    els.forEach((el) => {
-      let zIndex = parseInt(
-        window.getComputedStyle(el).getPropertyValue("z-index")
-      );
-
-      if (!isNaN(zIndex) && zIndex > maxZIndex) {
-        maxZIndex = zIndex;
-      }
-    });
-
-    setZIndex(maxZIndex + 1);
-  };
+  const updateZIndex = useCallback(() => {
+    const newZIndex = getNextZIndex();
+    setZIndex(newZIndex);
+  }, [getNextZIndex]);
 
   return (
     <motion.img
@@ -103,16 +101,36 @@ const Card = ({ containerRef, src, alt, top, left, rotate, className }) => {
         zIndex,
       }}
       className={twMerge(
-        "drag-elements absolute bg-neutral-200 p-1 pb-4 rounded-lg shadow-lg",
+        "drag-elements absolute bg-neutral-200 p-1 pb-4 rounded-lg shadow-lg select-none touch-none",
         className
       )}
       src={src}
       alt={alt}
       drag
       dragConstraints={containerRef}
-      dragElastic={0.65}
-      whileDrag={{ scale: 1.1 }}
-      whileHover={{ scale: 1.05 }}
+      dragElastic={0.1}
+      dragMomentum={false}
+      dragTransition={{ 
+        bounceStiffness: 600, 
+        bounceDamping: 20,
+        power: 0.3,
+        timeConstant: 200
+      }}
+      whileDrag={{ 
+        scale: 1.1,
+        transition: { duration: 0.1 }
+      }}
+      whileHover={{ 
+        scale: 1.05,
+        transition: { duration: 0.2 }
+      }}
+      animate={{ 
+        transition: { 
+          type: "spring", 
+          stiffness: 400, 
+          damping: 25 
+        }
+      }}
     />
   );
 };

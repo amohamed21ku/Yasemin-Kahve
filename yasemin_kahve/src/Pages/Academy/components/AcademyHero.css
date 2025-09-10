@@ -117,11 +117,12 @@ Academy Hero Component Styles
   animation: fadeInUp 1s ease-out;
   width: 100%;
   margin-left: 1.1rem;
- ;
 }
 
 .hero-text {
   animation: slideInLeft 1s ease-out;
+  position: relative;
+  z-index: 3;
 }
 
 .hero-badge {
@@ -296,6 +297,8 @@ Academy Hero Component Styles
   max-width: 1200px;
   margin: 0 auto;
   box-sizing: border-box;
+  position: relative;
+  overflow: visible;
 }
 
 /* Hero visual section */
@@ -305,6 +308,8 @@ Academy Hero Component Styles
   display: block;
   width: 100%;
   padding: 1rem;
+  z-index: 1;
+  overflow: visible;
 }
 
 .shuffle-grid-container {
