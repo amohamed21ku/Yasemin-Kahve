@@ -44,10 +44,10 @@ const SwipeCards = () => {
   };
 
   return (
-    <div className="relative h-[400px] md:h-[500px] w-full flex items-center justify-center overflow-hidden">
-      <div className="relative h-64 w-48 md:h-[500px] md:w-80">
+    <div className="relative h-[450px] md:h-[600px] w-full flex items-center justify-center overflow-hidden">
+      <div className="relative h-80 w-56 md:h-[600px] md:w-96">
         {!imagesLoaded ? (
-          <div className="absolute top-0 left-0 h-64 w-48 md:h-[500px] md:w-80 bg-gray-200 rounded-lg flex items-center justify-center">
+          <div className="absolute top-0 left-0 h-80 w-56 md:h-[600px] md:w-96 bg-gray-200 rounded-lg flex items-center justify-center">
             <div className="text-gray-500 text-sm">Loading images...</div>
           </div>
         ) : (
@@ -91,7 +91,7 @@ const Card = ({ id, url, removeCard, cards }) => {
     <motion.img
       src={url}
       alt="Coffee card"
-      className="absolute top-0 left-0 h-64 w-48 md:h-[500px] md:w-80 origin-bottom rounded-lg bg-white object-cover select-none"
+      className="absolute top-0 left-0 h-80 w-56 md:h-[600px] md:w-96 origin-bottom rounded-lg bg-white object-cover select-none"
       style={{
         x,
         opacity: isFront ? opacity : 0.8,
@@ -99,8 +99,8 @@ const Card = ({ id, url, removeCard, cards }) => {
         scale: isFront ? scale : 0.98,
         cursor: isFront ? 'grab' : 'default',
         boxShadow: isFront
-          ? "0 20px 25px -5px rgb(0 0 0 / 0.5), 0 8px 10px -6px rgb(0 0 0 / 0.5)"
-          : "0 5px 15px rgba(0, 0, 0, 0.2)",
+          ? "0 25px 50px -12px rgba(0, 0, 0, 0.4), 0 25px 25px -5px rgba(0, 0, 0, 0.1)"
+          : "0 8px 20px rgba(0, 0, 0, 0.15)",
         zIndex: isFront ? 10 : cards.length - id,
         willChange: 'transform, opacity',
         backfaceVisibility: 'hidden',
@@ -134,9 +134,10 @@ const Card = ({ id, url, removeCard, cards }) => {
       }}
       whileDrag={{
         cursor: 'grabbing',
-        scale: 1.02,
+        scale: 1.05,
         rotate: rotateRaw,
-        transition: { duration: 0 }
+        transition: { duration: 0 },
+        boxShadow: "0 30px 60px -12px rgba(0, 0, 0, 0.5), 0 30px 30px -5px rgba(0, 0, 0, 0.2)"
       }}
       onDragEnd={handleDragEnd}
       initial={{ scale: isFront ? 1 : 0.98 }}

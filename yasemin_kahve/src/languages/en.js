@@ -466,8 +466,6 @@ export const en = {
   "editCourse": "Edit Course",
   "addNewCourse": "Add New Course",
   "courseImage": "Course Image",
-  "changeImage": "Change Image",
-  "removeImage": "Remove",
   "clickToUploadCourseImage": "Click to upload course image",
   "courseInformation": "Course Information",
   "enterTitleEnglish": "Enter course title in English",
