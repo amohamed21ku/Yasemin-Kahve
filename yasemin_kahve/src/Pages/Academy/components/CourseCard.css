@@ -1,6 +1,6 @@
 .course-card {
   background: white;
-  border-radius: 1rem;
+  border-radius: 2rem;
   box-shadow: 0 8px 30px rgba(139, 69, 19, 0.1);
   overflow: hidden;
   transition: all 0.3s ease;
@@ -54,14 +54,15 @@
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  padding: 1rem;
+  padding: 0rem;
 }
 
 .course-badges {
   display: flex;
-  justify-content: flex-start;
+  justify-content: space-between;
   align-items: flex-start;
   gap: 0.5rem;
+  width: 100%;
 }
 
 .course-level {
@@ -89,9 +90,6 @@
 }
 
 .course-type {
-  position: absolute;
-  top: 1rem;
-  right: 1rem;
   display: flex;
   align-items: center;
   gap: 0.25rem;
@@ -102,14 +100,9 @@
   backdrop-filter: blur(10px);
   background: rgba(255, 255, 255, 0.95);
   color: #8B4513;
-  z-index: 2;
-  animation: slideInRight 0.6s ease-out 0.2s both;
+  animation: slideInRight 0.6s ease-out 0.3s both;
 }
 
-.course-type[data-type="Online"] {
-  background: rgba(59, 130, 246, 0.95);
-  color: white;
-}
 
 @keyframes slideInRight {
   0% {
@@ -127,55 +120,7 @@
 /* Fallback for course types */
 
 
-.course-rating {
-  display: flex;
-  align-items: center;
-  gap: 0.25rem;
-  background: rgba(0, 0, 0, 0.7);
-  color: #F59E0B;
-  padding: 0.375rem 0.75rem;
-  border-radius: 50px;
-  font-size: 0.85rem;
-  font-weight: 600;
-  backdrop-filter: blur(10px);
-  align-self: flex-end;
-}
 
-.enrolled-badge {
-  position: absolute;
-  top: 1rem;
-  right: 1rem;
-  display: flex;
-  align-items: center;
-  gap: 0.25rem;
-  background: rgba(34, 197, 94, 0.95);
-  color: white;
-  padding: 0.5rem 0.75rem;
-  border-radius: 50px;
-  font-size: 0.75rem;
-  font-weight: 600;
-  backdrop-filter: blur(10px);
-  z-index: 3;
-  animation: bounceIn 0.8s ease-out 0.4s both;
-}
-
-@keyframes bounceIn {
-  0% {
-    transform: scale(0.3) translateX(50px);
-    opacity: 0;
-  }
-  50% {
-    transform: scale(1.05) translateX(0);
-    opacity: 1;
-  }
-  70% {
-    transform: scale(0.9);
-  }
-  100% {
-    transform: scale(1);
-    opacity: 1;
-  }
-}
 
 
 
@@ -257,7 +202,7 @@
 .course-footer {
   display: flex;
   flex-direction: column;
-  align-items: flex-end;
+  align-items: center;
   gap: 0.75rem;
   margin-top: auto;
 }
@@ -345,22 +290,17 @@
 
   .course-title {
     font-size: 1.1rem !important;
-    margin-bottom: 0.25rem !important;
-    line-height: 1.2 !important;
+    margin-bottom: 0rem !important;
+    line-height: 1 !important;
   }
 
-  .course-description {
-    font-size: 0.85rem !important;
-    line-height: 1.4 !important;
-    margin-bottom: 0.25rem !important;
-    -webkit-line-clamp: 2 !important;
-  }
+
 
 
   .course-instructor {
-    margin-bottom: 0.25rem !important;
-    padding-bottom: 0.25rem !important;
-    gap: 0.5rem !important;
+    margin-bottom: 0rem !important;
+    padding-bottom: 0rem !important;
+    gap: 0.2rem !important;
   }
 
   .course-instructor img {
@@ -380,18 +320,18 @@
   }
 
   .course-footer {
-    gap: 0.5rem !important;
-    margin-top: 0.25rem !important;
+    gap: 1.4rem !important;
+    margin-top: 0.4rem !important;
     flex-direction: column !important;
-    align-items: flex-end !important;
+    align-items: center !important;
   }
 
   .price-current {
-    font-size: 1rem !important;
+    font-size: 1.1rem !important;
   }
 
   .price-original {
-    font-size: 0.75rem !important;
+    font-size: 0.85rem !important;
   }
 
   .course-enroll-btn {
@@ -401,14 +341,15 @@
   }
 
   .course-level {
-    font-size: 0.7rem !important;
+    font-size: 0.6rem !important;
     padding: 0.25rem 0.5rem !important;
+    
   }
 
   .course-type {
     font-size: 0.7rem !important;
     padding: 0.25rem 0.5rem !important;
-    gap: 0.2rem !important;
+    gap: 0rem !important;
   }
 
   .course-type svg {
@@ -416,27 +357,9 @@
     height: 10px !important;
   }
 
-  .course-rating {
-    font-size: 0.75rem !important;
-    padding: 0.2rem 0.4rem !important;
-    gap: 0rem !important;
-  }
 
-  .course-rating svg {
-    width: 10px !important;
-    height: 10px !important;
-  }
 
-  .enrolled-badge {
-    font-size: 0.7rem !important;
-    padding: 0.375rem 0.6rem !important;
-    gap: 0.2rem !important;
-  }
 
-  .enrolled-badge svg {
-    width: 12px !important;
-    height: 12px !important;
-  }
 }
 
 @media (max-width: 480px) {
@@ -445,7 +368,7 @@
   }
 
   .course-info {
-    padding: 0.25rem !important;
+    padding: 0rem !important;
   }
 
   .course-title {
@@ -453,11 +376,6 @@
     margin-bottom: 0.2rem !important;
   }
 
-  .course-description {
-    font-size: 0.8rem !important;
-    margin-bottom: 0.2rem !important;
-    -webkit-line-clamp: 2 !important;
-  }
 
 
   .course-instructor {
@@ -483,7 +401,7 @@
   .course-footer {
     flex-direction: column !important;
     gap: 0.2rem !important;
-    align-items: flex-end !important;
+    align-items: center !important;
   }
 
   .price-current {
@@ -530,13 +448,4 @@
     height: 10px !important;
   }
 
-  .enrolled-badge {
-    font-size: 0.65rem !important;
-    padding: 0.3rem 0.5rem !important;
-  }
-
-  .enrolled-badge svg {
-    width: 10px !important;
-    height: 10px !important;
-  }
 }
