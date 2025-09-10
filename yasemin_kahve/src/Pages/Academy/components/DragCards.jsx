@@ -4,12 +4,16 @@ import { twMerge } from "tailwind-merge";
 
 export const DragCards = () => {
   return (
-    <section className="relative grid min-h-screen w-full place-content-center overflow-hidden">
-      <h2 className="relative z-0 text-[20vw] font-black text-neutral-800 md:text-[200px]">
-        Yasemin <span className="text-amber-500"></span>
-      </h2>
+  <section className="relative grid min-h-screen w-full place-content-center overflow-hidden">
+      <div className="relative z-0 flex items-center justify-center">
+        <img 
+          src="https://res.cloudinary.com/dc6ajvbs2/image/upload/v1757501761/Academy_logo_k39bjk.png"
+          alt="Academy Logo"
+          className="w-[40vw] md:w-[300px] opacity-20 grayscale"
+        />
+      </div>
       <Cards />
-    </section>
+    </section>
   );
 };
 
