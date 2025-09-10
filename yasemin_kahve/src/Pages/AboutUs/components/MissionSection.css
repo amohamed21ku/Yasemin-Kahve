@@ -30,14 +30,32 @@
 /* Responsive design */
 @media (max-width: 768px) {
   .about-mission-unique {
-    padding: 4rem 1rem;
+    padding: 3rem 1rem;
   }
 
   .mission-content-unique h2 {
-    font-size: 2rem;
+    font-size: 1.5rem;
+    margin-bottom: 1.5rem;
   }
 
   .mission-content-unique p {
-    font-size: 0.95rem;
+    font-size: 0.9rem;
+    line-height: 1.6;
+  }
+}
+
+@media (max-width: 480px) {
+  .about-mission-unique {
+    padding: 2rem 1rem;
+  }
+
+  .mission-content-unique h2 {
+    font-size: 1.3rem;
+    margin-bottom: 1rem;
+  }
+
+  .mission-content-unique p {
+    font-size: 0.85rem;
+    line-height: 1.5;
   }
 }

@@ -1037,7 +1037,7 @@ html {
 
 /* ===== COMPANY OVERVIEW ===== */
 .company-overview {
-  padding: 8rem 0;
+  padding: 0rem 0;
   background: white;
   position: relative;
 }
@@ -1636,29 +1636,29 @@ html {
   }
   
   .form-title {
-    font-size: 1.4rem;
+    font-size: 1.4rem !important;
   }
   
   .form-input,
   .form-textarea {
-    font-size: 0.9rem;
-    padding: 0.9rem 1.2rem;
+  font-size: 0.9rem !important;
+    padding: 0.9rem 1.2rem !important;
   }
   
   .form-submit {
-    font-size: 1rem;
-    padding: 1rem 1.5rem;
+    font-size: 1rem !important;
+    padding: 1rem 1.5rem !important;
   }
   
   .form-submit span {
-    font-size: 0.9rem;
+    font-size: 0.9rem !important;
   }
 }
 
 .contact-item {
-  display: flex;
-  align-items: center;
-  gap: 1.5rem;
+  display: flex !important;
+  align-items: center !important;
+  gap: 1.5rem !important;
   transition: all 0.3s ease;
 }
 
@@ -1685,25 +1685,25 @@ html {
 }
 
 .contact-label {
-  font-weight: 600;
-  font-size: 1 rem;
-  margin-bottom: 0rem;
+  font-weight: 600 !important;
+  font-size: 1rem !important;
+  margin-bottom: 0rem !important;
 }
 
 .contact-value {
-  font-size: 0.9rem;
+  font-size: 0.9rem !important;
   color: rgba(255, 224, 178, 0.9);
-  font-weight: 400;
+  font-weight: 400 !important;
 }
 
 .contact-form-container {
   background: rgba(255, 255, 255, 0.95);
   backdrop-filter: blur(20px);
-  border-radius: 2rem;
-  padding: 3rem;
-  color: #3E2723;
-  box-shadow: 0 30px 80px rgba(0, 0, 0, 0.2);
-  border: 1px solid rgba(255, 255, 255, 0.3);
+  border-radius: 2rem !important;
+  padding: 3rem !important;
+  color: #3E2723 !important;
+  box-shadow: 0 30px 80px rgba(0, 0, 0, 0.2) !important;
+  border: 1px solid rgba(255, 255, 255, 0.3) !important; 
 }
 
 .form-title {
@@ -3406,7 +3406,7 @@ html {
 /* ===== CATEGORY SECTION ===== */
 .category-section {
   padding: 1rem;
-  background: white;
+  background: rgba(255, 255, 255, 0);
   border-bottom: 1px solid #f0f0f0;
 }
 
@@ -3414,9 +3414,9 @@ html {
 .category-tabs {
   display: flex;
   flex-wrap: wrap;
-  justify-content: center;
+  justify-content: center !important;
   gap: 0.5rem;
-  margin-bottom: 2rem;
+  margin-bottom: 0rem !important;
 }
 
 .category-tab {

@@ -97,7 +97,7 @@
 /* Category Section */
 .category-section {
   padding: 1rem 0.5rem;
-  background: white;
+  background: rgba(255, 255, 255, 0);
   border-bottom: 1px solid #f0f0f0;
 }
 
@@ -304,11 +304,11 @@
 /* Responsive Design */
 @media (max-width: 768px) {
   .hero-title {
-    font-size: 2.5rem;
+    font-size: 1.8rem;
   }
   
   .hero-subtitle {
-    font-size: 1.1rem;
+    font-size: 0.9rem;
   }
   
   .products-grid {
@@ -323,7 +323,7 @@
   }
   
   .category-section {
-    padding: 0.5rem 0;
+    padding: 0rem 0;
   }
   
   .features-grid {
@@ -413,5 +413,26 @@
     font-weight: 500;
     top: 0.3rem;
     right: 0.3rem;
+  }
+  
+  /* Education CTA mobile styles */
+  .education-cta {
+    padding: 2.5rem 1rem;
+  }
+  
+  .cta-content h2 {
+    font-size: 1.8rem;
+    margin-bottom: 1rem;
+  }
+  
+  .cta-content p {
+    font-size: 1rem;
+    margin-bottom: 1.5rem;
+    line-height: 1.5;
+  }
+  
+  .cta-button {
+    padding: 0.8rem 1.5rem;
+    font-size: 1rem;
   }
 }
