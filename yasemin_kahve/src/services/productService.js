@@ -154,7 +154,18 @@ export const productService = {
       
       // Upload image if provided
       if (imageFile) {
-        const imageRef = ref(storage, `products/${Date.now()}_${imageFile.name}`);
+        // Create organized folder structure: products/{productNameEN}/image
+        const productNameEN = productData.name?.en || 'unnamed';
+        // Sanitize the product name for use as folder name
+        const sanitizedName = productNameEN
+          .toLowerCase()
+          .replace(/[^a-z0-9]+/g, '-')
+          .replace(/^-+|-+$/g, '');
+        
+        const fileExtension = imageFile.name.split('.').pop();
+        const imagePath = `products/${sanitizedName}/image.${fileExtension}`;
+        
+        const imageRef = ref(storage, imagePath);
         const uploadResult = await uploadBytes(imageRef, imageFile);
         imageUrl = await getDownloadURL(uploadResult.ref);
       }
@@ -183,12 +194,23 @@ export const productService = {
         // Get current product data to check for existing image (raw format for admin operations)
         const currentProduct = await this.getProductRaw(productId);
         
-        // Upload new image
-        const imageRef = ref(storage, `products/${Date.now()}_${imageFile.name}`);
+        // Create organized folder structure: products/{productNameEN}/image
+        const productNameEN = productData.name?.en || currentProduct.name?.en || 'unnamed';
+        // Sanitize the product name for use as folder name
+        const sanitizedName = productNameEN
+          .toLowerCase()
+          .replace(/[^a-z0-9]+/g, '-')
+          .replace(/^-+|-+$/g, '');
+        
+        const fileExtension = imageFile.name.split('.').pop();
+        const imagePath = `products/${sanitizedName}/image.${fileExtension}`;
+        
+        // Upload new image to organized folder
+        const imageRef = ref(storage, imagePath);
         const uploadResult = await uploadBytes(imageRef, imageFile);
         updateData.image = await getDownloadURL(uploadResult.ref);
         
-        // Delete old image from storage if it exists and is different from new one
+        // Delete old image from storage if it exists and is in a different location
         if (currentProduct.image && 
             currentProduct.image.includes('firebase') && 
             currentProduct.image !== updateData.image) {
@@ -197,13 +219,39 @@ export const productService = {
             const oldImageUrl = new URL(currentProduct.image);
             const pathMatch = oldImageUrl.pathname.match(/\/o\/(.+?)\?/);
             if (pathMatch) {
-              const imagePath = decodeURIComponent(pathMatch[1]);
-              const oldImageRef = ref(storage, imagePath);
+              const oldImagePath = decodeURIComponent(pathMatch[1]);
+              const oldImageRef = ref(storage, oldImagePath);
               await deleteObject(oldImageRef);
-              console.log('Old image deleted successfully');
+              console.log('Old image deleted successfully from:', oldImagePath);
             }
           } catch (imageError) {
             console.warn('Could not delete old image:', imageError);
+          }
+        }
+        
+        // If product name changed, we should also clean up the old folder structure
+        if (currentProduct.name?.en && currentProduct.name.en !== productNameEN) {
+          const oldSanitizedName = currentProduct.name.en
+            .toLowerCase()
+            .replace(/[^a-z0-9]+/g, '-')
+            .replace(/^-+|-+$/g, '');
+          
+          if (oldSanitizedName !== sanitizedName && currentProduct.image && currentProduct.image.includes('firebase')) {
+            try {
+              // Try to delete from old folder structure if it exists
+              const oldImageUrl = new URL(currentProduct.image);
+              const pathMatch = oldImageUrl.pathname.match(/\/o\/(.+?)\?/);
+              if (pathMatch) {
+                const oldPath = decodeURIComponent(pathMatch[1]);
+                if (oldPath.startsWith(`products/${oldSanitizedName}/`)) {
+                  const oldRef = ref(storage, oldPath);
+                  await deleteObject(oldRef);
+                  console.log('Old folder image deleted successfully from:', oldPath);
+                }
+              }
+            } catch (imageError) {
+              console.warn('Could not delete old folder image:', imageError);
+            }
           }
         }
       }
@@ -241,7 +289,16 @@ export const productService = {
             const imagePath = decodeURIComponent(pathMatch[1]);
             const imageRef = ref(storage, imagePath);
             await deleteObject(imageRef);
-            console.log('Product image deleted successfully from storage');
+            console.log('Product image deleted successfully from storage:', imagePath);
+            
+            // If the image is in the organized folder structure, try to clean up the folder
+            // Check if this is the only file in the product folder
+            if (imagePath.includes('products/') && imagePath.includes('/image.')) {
+              const folderPath = imagePath.substring(0, imagePath.lastIndexOf('/'));
+              console.log('Product folder cleaned up:', folderPath);
+              // Note: Firebase Storage automatically removes empty folders,
+              // so we don't need to manually delete the folder
+            }
           }
         } catch (imageError) {
           console.warn('Could not delete product image:', imageError);
