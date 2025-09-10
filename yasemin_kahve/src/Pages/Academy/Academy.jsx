@@ -11,6 +11,7 @@ import { useTranslation } from '../../useTranslation'
 import './Academy.css'
 import AcademyOverview from './components/AcademyOverview'
 import SwipeCards from './components/SwipeCards'
+import DragCards from './components/DragCards'
 
 const Academy = ({ onNavigate }) => {
   const { currentUser } = useAuth()
@@ -152,6 +153,7 @@ const Academy = ({ onNavigate }) => {
         {/* <AcademyOverview /> */}
         
         <SwipeCards />
+        <DragCards />
         
         <div className="academy-content">
           <CourseGrid 

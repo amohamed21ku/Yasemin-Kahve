@@ -2,6 +2,8 @@ import React from 'react';
 import { Heart, Users, Coffee, Award, BookOpen, Star, Play } from 'lucide-react';
 import { useTranslation } from '/src/useTranslation';
 import SwipeCards from './SwipeCards';
+import DragCards from './DragCards';
+
 import './AcademyOverview.css';
 
 const AcademyOverview = () => {
@@ -73,7 +75,8 @@ const AcademyOverview = () => {
           {/* Center Column - Swipeable Image Gallery */}
           <div className="gallery-section">
             <div className="swipe-cards-container">
-              <SwipeCards />
+              {/* <SwipeCards /> */}
+              <DragCards />
               <div className="floating-badge">
                 <Award size={20} />
                 <span>{t('certified') || 'Certified'}</span>
