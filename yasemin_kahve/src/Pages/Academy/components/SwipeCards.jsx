@@ -67,6 +67,7 @@ const Card = ({ id, url, removeCard, cards }) => {
 
   const rotateRaw = useTransform(x, [-150, 150], [-18, 18]);
   const opacity = useTransform(x, [-150, 0, 150], [0, 1, 0]);
+  const scale = useTransform(x, [-150, 0, 150], [0.95, 1, 0.95]);
 
   const isFront = id === cards[cards.length - 1].id;
 
@@ -76,10 +77,12 @@ const Card = ({ id, url, removeCard, cards }) => {
     return `${rotateRaw.get() + offset}deg`;
   });
 
-  const handleDragEnd = () => {
+  const handleDragEnd = (event, info) => {
     const xValue = x.get();
-    // Reduced threshold from 100 to 50 for easier mobile swiping
-    if (Math.abs(xValue) > 50) {
+    const velocity = info.velocity.x;
+    
+    // Use velocity for more natural feel
+    if (Math.abs(xValue) > 50 || Math.abs(velocity) > 500) {
       removeCard(id);
     }
   };
@@ -93,6 +96,7 @@ const Card = ({ id, url, removeCard, cards }) => {
         x,
         opacity: isFront ? opacity : 0.8,
         rotate,
+        scale: isFront ? scale : 0.98,
         cursor: isFront ? 'grab' : 'default',
         boxShadow: isFront
           ? "0 20px 25px -5px rgb(0 0 0 / 0.5), 0 8px 10px -6px rgb(0 0 0 / 0.5)"
@@ -101,14 +105,16 @@ const Card = ({ id, url, removeCard, cards }) => {
         willChange: 'transform, opacity',
         backfaceVisibility: 'hidden',
         perspective: 1000,
+        transform: 'translateZ(0)',
       }}
       animate={{
         scale: isFront ? 1 : 0.98,
       }}
       transition={{
         type: "spring",
-        damping: 25,
-        stiffness: 200,
+        damping: 30,
+        stiffness: 300,
+        mass: 0.5,
       }}
       drag={isFront ? "x" : false}
       dragConstraints={{
@@ -117,18 +123,20 @@ const Card = ({ id, url, removeCard, cards }) => {
         top: 0,
         bottom: 0,
       }}
-      dragElastic={0.4}
-      dragMomentum={false}
+      dragElastic={0.2}
+      dragMomentum={true}
       dragTransition={{ 
-        bounceStiffness: 300, 
-        bounceDamping: 20,
-        power: 0.3,
-        timeConstant: 200 
+        bounceStiffness: 600, 
+        bounceDamping: 40,
+        power: 0.2,
+        timeConstant: 150,
+        modifyTarget: (target) => Math.round(target / 5) * 5
       }}
       whileDrag={{
         cursor: 'grabbing',
-        scale: 1.05,
+        scale: 1.02,
         rotate: rotateRaw,
+        transition: { duration: 0 }
       }}
       onDragEnd={handleDragEnd}
       initial={{ scale: isFront ? 1 : 0.98 }}

@@ -4,7 +4,7 @@ import { twMerge } from "tailwind-merge";
 
 export const DragCards = () => {
   return (
-    <section className="relative grid min-h-screen w-full place-content-center overflow-hidden bg-neutral-950">
+    <section className="relative grid min-h-screen w-full place-content-center overflow-hidden">
       <h2 className="relative z-0 text-[20vw] font-black text-neutral-800 md:text-[200px]">
         Yasemin <span className="text-amber-500"></span>
       </h2>
