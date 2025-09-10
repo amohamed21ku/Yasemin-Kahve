@@ -77,12 +77,46 @@ const Card = ({ id, url, removeCard, cards }) => {
     return `${rotateRaw.get() + offset}deg`;
   });
 
+  const handleDragStart = (event, info) => {
+    // On mobile, check if this is more of a vertical scroll gesture
+    const isMobile = window.innerWidth <= 768;
+    if (isMobile) {
+      const initialY = info.point.y;
+      const initialX = info.point.x;
+      
+      // Store initial touch position for comparison during drag
+      event.currentTarget._initialY = initialY;
+      event.currentTarget._initialX = initialX;
+    }
+  };
+
+  const handleDrag = (event, info) => {
+    // On mobile, detect if user is primarily scrolling vertically
+    const isMobile = window.innerWidth <= 768;
+    if (isMobile && event.currentTarget._initialY !== undefined) {
+      const deltaY = Math.abs(info.point.y - event.currentTarget._initialY);
+      const deltaX = Math.abs(info.point.x - event.currentTarget._initialX);
+      
+      // If vertical movement is greater than horizontal, don't drag the card
+      if (deltaY > deltaX && deltaY > 10) {
+        x.set(0); // Reset card position
+        return false; // Cancel drag
+      }
+    }
+  };
+
   const handleDragEnd = (event, info) => {
     const xValue = x.get();
     const velocity = info.velocity.x;
     
-    // Use velocity for more natural feel
-    if (Math.abs(xValue) > 50 || Math.abs(velocity) > 500) {
+    // Clean up mobile tracking
+    if (event.currentTarget._initialY !== undefined) {
+      delete event.currentTarget._initialY;
+      delete event.currentTarget._initialX;
+    }
+    
+    // Much more sensitive threshold - even smallest swipe triggers next card
+    if (Math.abs(xValue) > 15 || Math.abs(velocity) > 100) {
       removeCard(id);
     }
   };
@@ -138,6 +172,8 @@ const Card = ({ id, url, removeCard, cards }) => {
         rotate: rotateRaw,
         transition: { duration: 0 }
       }}
+      onDragStart={handleDragStart}
+      onDrag={handleDrag}
       onDragEnd={handleDragEnd}
       initial={{ scale: isFront ? 1 : 0.98 }}
       loading="eager"
