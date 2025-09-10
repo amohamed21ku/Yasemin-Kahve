@@ -89,9 +89,16 @@ const Footer = () => {
               <div className="footer-contact-item">
                 <MapPin size={16} />
                 <div>
-                  <p>Kayabaşı Mah. Adnan Menders Blv.</p>
-                  <p>Kuzey Yakası Sit, B5, No. 5D, İç Kapı</p>
-                  <p>No. 44, Başakşehir / İstanbul – Türkiye</p>
+                  <a 
+                    href="https://www.google.com/maps/place/Yasemin+Kahve+Head+Office/@41.1199293,28.7720848,17z/data=!3m1!4b1!4m6!3m5!1s0x14caaf88faaef891:0xa91f9cc6db6d95e4!8m2!3d41.1199293!4d28.7746597!16s%2Fg%2F11rv80mm6p?entry=ttu&g_ep=EgoyMDI1MDkwMy4wIKXMDSoASAFQAw%3D%3D"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="footer-location-link"
+                  >
+                    <p>Kayabaşı Mah. Adnan Menders Blv.</p>
+                    <p>Kuzey Yakası Sit, B5, No. 5D, İç Kapı</p>
+                    <p>No. 44, Başakşehir / İstanbul – Türkiye</p>
+                  </a>
                 </div>
               </div>
             </div>
@@ -103,10 +110,17 @@ const Footer = () => {
               <div className="footer-contact-item">
                 <MapPin size={16} />
                 <div>
-                  <p>Şahintepe Mah, Şehit Polis Fethi Sekin Cad,</p>
-                  <p>İstanbul Gıda Toptancılar Çarşısı,</p>
-                  <p>Dış Kapı: 1AE, İç Kapı: z15, NO. 12B15,</p>
-                  <p>Başakşehir / İstanbul – Türkiye</p>
+                  <a 
+                    href="https://www.google.com/maps/place/Yasemin+Kahve+Deposu/@41.0833439,28.7155908,17z/data=!3m1!4b1!4m6!3m5!1s0x14caa76c3efcd521:0x420517cc992f29be!8m2!3d41.0833439!4d28.7181657!16s%2Fg%2F11rv8bgrmz?entry=ttu&g_ep=EgoyMDI1MDkwMy4wIKXMDSoASAFQAw%3D%3D"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="footer-location-link"
+                  >
+                    <p>Şahintepe Mah, Şehit Polis Fethi Sekin Cad,</p>
+                    <p>İstanbul Gıda Toptancılar Çarşısı,</p>
+                    <p>Dış Kapı: 1AE, İç Kapı: z15, NO. 12B15,</p>
+                    <p>Başakşehir / İstanbul – Türkiye</p>
+                  </a>
                 </div>
               </div>
             </div>

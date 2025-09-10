@@ -2011,6 +2011,24 @@ html {
   }
 }
 
+/* Footer Location Links */
+.footer-location-link {
+  color: inherit !important;
+  text-decoration: none !important;
+  transition: color 0.3s ease !important;
+  cursor: pointer !important;
+}
+
+.footer-location-link:hover {
+  color: var(--golden-yellow) !important;
+}
+
+.footer-location-link p {
+  margin: 0 !important;
+  padding: 2px 0 !important;
+  transition: color 0.3s ease !important;
+}
+
 /* ===== RESPONSIVE DESIGN ===== */
 @media (max-width: 767px) {
   .container {
