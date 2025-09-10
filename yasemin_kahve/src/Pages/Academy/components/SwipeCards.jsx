@@ -4,29 +4,39 @@ import { motion, useMotionValue, useTransform } from "framer-motion";
 const SwipeCards = () => {
   const [cards, setCards] = useState(cardData);
 
+  const removeCard = (id) => {
+    setCards((prevCards) => {
+      const filteredCards = prevCards.filter((card) => card.id !== id);
+      const removedCard = prevCards.find((card) => card.id === id);
+      
+      // Always add the swiped card back to the beginning of the stack for infinite loop
+      const newCard = {
+        ...removedCard,
+        id: Date.now() + Math.random(), // Generate new unique ID
+      };
+      
+      return [newCard, ...filteredCards];
+    });
+  };
+
   return (
     <div className="relative h-[500px] w-full flex items-center justify-center overflow-hidden">
       <div className="relative h-96 w-72">
         {cards.map((card) => {
           return (
-            <Card key={card.id} cards={cards} setCards={setCards} {...card} />
+            <Card key={card.id} cards={cards} removeCard={removeCard} {...card} />
           );
         })}
       </div>
-      {cards.length === 0 && (
-        <div className="absolute inset-0 flex items-center justify-center">
-          <p className="text-gray-600 text-lg">No more cards to swipe!</p>
-        </div>
-      )}
     </div>
   );
 };
 
-const Card = ({ id, url, setCards, cards }) => {
+const Card = ({ id, url, removeCard, cards }) => {
   const x = useMotionValue(0);
 
-  const rotateRaw = useTransform(x, [-150, 150], [-18, 18]);
-  const opacity = useTransform(x, [-150, 0, 150], [0, 1, 0]);
+  const rotateRaw = useTransform(x, [-100, 100], [-18, 18]);
+  const opacity = useTransform(x, [-100, 0, 100], [0, 1, 0]);
 
   const isFront = id === cards[cards.length - 1].id;
 
@@ -38,8 +48,9 @@ const Card = ({ id, url, setCards, cards }) => {
 
   const handleDragEnd = () => {
     const xValue = x.get();
-    if (Math.abs(xValue) > 100) {
-      setCards((pv) => pv.filter((v) => v.id !== id));
+    // Reduced threshold from 100 to 50 for easier mobile swiping
+    if (Math.abs(xValue) > 50) {
+      removeCard(id);
     }
   };
 
@@ -68,8 +79,8 @@ const Card = ({ id, url, setCards, cards }) => {
         top: 0,
         bottom: 0,
       }}
-      dragElastic={0.2}
-      dragMomentum={false}
+      dragElastic={0.4}
+      dragMomentum={true}
       whileDrag={{
         cursor: 'grabbing',
         scale: 1.05,
