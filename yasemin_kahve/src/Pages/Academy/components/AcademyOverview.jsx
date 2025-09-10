@@ -1,6 +1,7 @@
 import React from 'react';
 import { Heart, Users, Coffee, Award, BookOpen, Star, Play } from 'lucide-react';
 import { useTranslation } from '/src/useTranslation';
+import SwipeCards from './SwipeCards';
 import './AcademyOverview.css';
 
 const AcademyOverview = () => {
@@ -69,31 +70,10 @@ const AcademyOverview = () => {
             </div>
           </div>
 
-          {/* Center Column - Visual Gallery */}
+          {/* Center Column - Swipeable Image Gallery */}
           <div className="gallery-section">
-            <div className="gallery-container">
-              <div className="gallery-item main-image">
-                <div className="image-placeholder">
-                  <BookOpen size={60} />
-                  <div className="image-overlay">
-                    <Play className="play-icon" />
-                    <span>{t('watchOurStory') || 'Watch Our Story'}</span>
-                  </div>
-                </div>
-              </div>
-              
-              <div className="gallery-item small-image">
-                <div className="image-placeholder">
-                  <Users size={30} />
-                </div>
-              </div>
-              
-              <div className="gallery-item small-image">
-                <div className="image-placeholder">
-                  <Coffee size={30} />
-                </div>
-              </div>
-              
+            <div className="swipe-cards-container">
+              <SwipeCards />
               <div className="floating-badge">
                 <Award size={20} />
                 <span>{t('certified') || 'Certified'}</span>

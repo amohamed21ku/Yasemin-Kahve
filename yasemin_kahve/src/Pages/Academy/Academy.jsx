@@ -148,7 +148,7 @@ const Academy = ({ onNavigate }) => {
       <div className="academy-page">
         <Header activeSection="academy" onNavigate={onNavigate} darkContent={true} />
         
-        <AcademyHero />
+        <AcademyHero  />
         {/* <AcademyOverview /> */}
         
         <SwipeCards />

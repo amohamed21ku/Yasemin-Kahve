@@ -5,17 +5,19 @@ const SwipeCards = () => {
   const [cards, setCards] = useState(cardData);
 
   return (
-    <div
-      className="grid h-[500px] w-full place-items-center bg-neutral-100"
-      style={{
-        backgroundImage: `url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32' width='32' height='32' fill='none' stroke-width='2' stroke='%23d4d4d4'%3e%3cpath d='M0 .5H31.5V32'/%3e%3c/svg%3e")`,
-      }}
-    >
-      {cards.map((card) => {
-        return (
-          <Card key={card.id} cards={cards} setCards={setCards} {...card} />
-        );
-      })}
+    <div className="relative h-[500px] w-full flex items-center justify-center overflow-hidden">
+      <div className="relative h-96 w-72">
+        {cards.map((card) => {
+          return (
+            <Card key={card.id} cards={cards} setCards={setCards} {...card} />
+          );
+        })}
+      </div>
+      {cards.length === 0 && (
+        <div className="absolute inset-0 flex items-center justify-center">
+          <p className="text-gray-600 text-lg">No more cards to swipe!</p>
+        </div>
+      )}
     </div>
   );
 };
@@ -35,7 +37,8 @@ const Card = ({ id, url, setCards, cards }) => {
   });
 
   const handleDragEnd = () => {
-    if (Math.abs(x.get()) > 100) {
+    const xValue = x.get();
+    if (Math.abs(xValue) > 100) {
       setCards((pv) => pv.filter((v) => v.id !== id));
     }
   };
@@ -43,18 +46,17 @@ const Card = ({ id, url, setCards, cards }) => {
   return (
     <motion.img
       src={url}
-      alt="Placeholder alt"
-      className="h-96 w-72 origin-bottom rounded-lg bg-white object-cover hover:cursor-grab active:cursor-grabbing"
+      alt="Coffee card"
+      className="absolute top-0 left-0 h-96 w-72 origin-bottom rounded-lg bg-white object-cover select-none"
       style={{
-        gridRow: 1,
-        gridColumn: 1,
         x,
-        opacity,
+        opacity: isFront ? opacity : 0.8,
         rotate,
-        transition: "0.125s transform",
+        cursor: isFront ? 'grab' : 'default',
         boxShadow: isFront
           ? "0 20px 25px -5px rgb(0 0 0 / 0.5), 0 8px 10px -6px rgb(0 0 0 / 0.5)"
-          : undefined,
+          : "0 5px 15px rgba(0, 0, 0, 0.2)",
+        zIndex: isFront ? 10 : cards.length - id,
       }}
       animate={{
         scale: isFront ? 1 : 0.98,
@@ -63,8 +65,18 @@ const Card = ({ id, url, setCards, cards }) => {
       dragConstraints={{
         left: 0,
         right: 0,
+        top: 0,
+        bottom: 0,
+      }}
+      dragElastic={0.2}
+      dragMomentum={false}
+      whileDrag={{
+        cursor: 'grabbing',
+        scale: 1.05,
+        rotate: rotateRaw,
       }}
       onDragEnd={handleDragEnd}
+      initial={{ scale: isFront ? 1 : 0.98 }}
     />
   );
 };
