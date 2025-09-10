@@ -45,9 +45,9 @@ const SwipeCards = () => {
 
   return (
     <div className="relative h-[400px] md:h-[500px] w-full flex items-center justify-center overflow-hidden">
-      <div className="relative h-64 w-48 md:h-96 md:w-72">
+      <div className="relative h-64 w-48 md:h-[500px] md:w-80">
         {!imagesLoaded ? (
-          <div className="absolute top-0 left-0 h-64 w-48 md:h-96 md:w-72 bg-gray-200 rounded-lg flex items-center justify-center">
+          <div className="absolute top-0 left-0 h-64 w-48 md:h-[500px] md:w-80 bg-gray-200 rounded-lg flex items-center justify-center">
             <div className="text-gray-500 text-sm">Loading images...</div>
           </div>
         ) : (
@@ -91,7 +91,7 @@ const Card = ({ id, url, removeCard, cards }) => {
     <motion.img
       src={url}
       alt="Coffee card"
-      className="absolute top-0 left-0 h-64 w-48 md:h-96 md:w-72 origin-bottom rounded-lg bg-white object-cover select-none"
+      className="absolute top-0 left-0 h-64 w-48 md:h-[500px] md:w-80 origin-bottom rounded-lg bg-white object-cover select-none"
       style={{
         x,
         opacity: isFront ? opacity : 0.8,
