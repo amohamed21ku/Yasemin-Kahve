@@ -287,6 +287,8 @@ export const tr = {
 
 
 //Course Card
+"enroll": "Hemen Kaydol",
+
 
 //Course Grid 
 "availableCourses": "Mevcut Kurslar",

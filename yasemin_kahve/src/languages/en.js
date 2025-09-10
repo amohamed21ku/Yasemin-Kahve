@@ -293,6 +293,7 @@ export const en = {
   "watchIntro":"Watch Introduction",
 
   // Course Card
+  "enroll":"Enroll Now",
 
 
 

@@ -59,7 +59,7 @@
 
 .course-badges {
   display: flex;
-  justify-content: space-between;
+  justify-content: flex-start;
   align-items: flex-start;
   gap: 0.5rem;
 }
@@ -73,9 +73,25 @@
   font-weight: 600;
   text-transform: capitalize;
   backdrop-filter: blur(10px);
+  animation: slideInLeft 0.6s ease-out;
+  transform: translateX(0);
+}
+
+@keyframes slideInLeft {
+  0% {
+    transform: translateX(-50px);
+    opacity: 0;
+  }
+  100% {
+    transform: translateX(0);
+    opacity: 1;
+  }
 }
 
 .course-type {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
   display: flex;
   align-items: center;
   gap: 0.25rem;
@@ -84,6 +100,26 @@
   font-size: 0.75rem;
   font-weight: 600;
   backdrop-filter: blur(10px);
+  background: rgba(255, 255, 255, 0.95);
+  color: #8B4513;
+  z-index: 2;
+  animation: slideInRight 0.6s ease-out 0.2s both;
+}
+
+.course-type[data-type="Online"] {
+  background: rgba(59, 130, 246, 0.95);
+  color: white;
+}
+
+@keyframes slideInRight {
+  0% {
+    transform: translateX(50px);
+    opacity: 0;
+  }
+  100% {
+    transform: translateX(0);
+    opacity: 1;
+  }
 }
 
 
@@ -120,6 +156,25 @@
   font-weight: 600;
   backdrop-filter: blur(10px);
   z-index: 3;
+  animation: bounceIn 0.8s ease-out 0.4s both;
+}
+
+@keyframes bounceIn {
+  0% {
+    transform: scale(0.3) translateX(50px);
+    opacity: 0;
+  }
+  50% {
+    transform: scale(1.05) translateX(0);
+    opacity: 1;
+  }
+  70% {
+    transform: scale(0.9);
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
 }
 
 
@@ -201,9 +256,9 @@
 
 .course-footer {
   display: flex;
-  justify-content: space-between;
-  align-items: center;
-  gap: 1rem;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 0.75rem;
   margin-top: auto;
 }
 
@@ -229,10 +284,10 @@
   background: linear-gradient(135deg, #8B4513, #D2691E);
   color: white;
   border: none;
-  padding: 0.75rem 1.25rem;
+  padding: 0.5rem 1rem;
   border-radius: 50px;
   font-weight: 600;
-  font-size: 0.85rem;
+  font-size: 0.8rem;
   cursor: pointer;
   transition: all 0.3s ease;
   display: flex;
@@ -240,7 +295,19 @@
   justify-content: center;
   gap: 0.5rem;
   white-space: nowrap;
-  width: 100%;
+  min-width: fit-content;
+  animation: fadeInUp 0.6s ease-out 0.6s both;
+}
+
+@keyframes fadeInUp {
+  0% {
+    transform: translateY(20px);
+    opacity: 0;
+  }
+  100% {
+    transform: translateY(0);
+    opacity: 1;
+  }
 }
 
 .course-enroll-btn:hover {
@@ -315,6 +382,8 @@
   .course-footer {
     gap: 0.5rem !important;
     margin-top: 0.25rem !important;
+    flex-direction: column !important;
+    align-items: flex-end !important;
   }
 
   .price-current {
@@ -328,6 +397,7 @@
   .course-enroll-btn {
     padding: 0.4rem 0.8rem !important;
     font-size: 0.8rem !important;
+    min-width: fit-content !important;
   }
 
   .course-level {
@@ -413,6 +483,7 @@
   .course-footer {
     flex-direction: column !important;
     gap: 0.2rem !important;
+    align-items: flex-end !important;
   }
 
   .price-current {
@@ -426,7 +497,7 @@
   .course-enroll-btn {
     padding: 0.5rem 0.8rem !important;
     font-size: 0.8rem !important;
-    width: 100% !important;
+    min-width: fit-content !important;
   }
 
   .course-enroll-btn svg {
