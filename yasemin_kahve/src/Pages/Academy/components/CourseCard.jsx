@@ -105,26 +105,6 @@ const CourseCard = ({ course, onClick, onEnroll }) => {
         <h3 className="course-title">{getLocalizedText(course.title)}</h3>
         <p className="course-description">{getLocalizedText(course.shortDescription)}</p>
         
-        <div className="course-meta">
-          <div className="course-meta-item">
-            <Clock size={14} />
-            <span>{course.duration} {t("days") || "days"}</span>
-          </div>
-          <div className="course-meta-item">
-            <Calendar size={14} />
-            <span>{formatDate(course.startDate)}</span>
-          </div>
-          <div className="course-meta-item">
-            <Users size={14} />
-            <span>{course.enrolledStudents?.length || 0}/{course.maxStudents}</span>
-          </div>
-          {course.location && course.courseType !== 'Online' && (
-            <div className="course-meta-item">
-              <MapPin size={14} />
-              <span>{getLocalizedText(course.location)}</span>
-            </div>
-          )}
-        </div>
 
         {course.instructor && (
           <div className="course-instructor">
