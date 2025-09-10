@@ -22,7 +22,7 @@ export const en = {
  "exploreProducts":"Explore Products",
  "PriceList":"Price List",
  "whatsAppPriceListMessage":"Hello! I would like to request the price list for your coffee products. Thank you!",
-  "discoverAcademy":"Yasemin Academy",
+  "discoverAcademy":"Academy",
   // Company Overview
 "HomePageTitle" : "Perfection Starts Green...",
 "OurStory":"Our Story",

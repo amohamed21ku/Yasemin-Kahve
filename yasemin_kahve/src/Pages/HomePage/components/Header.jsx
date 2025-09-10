@@ -209,14 +209,20 @@ const Header = ({ activeSection = "home", onNavigate, darkContent = false }) => 
             )}
           </div>
 
-          <button
-            className="mobile-menu-btn"
-            onClick={() => setIsMenuOpen((v) => !v)}
-            aria-label="Toggle Menu"
-            aria-expanded={isMenuOpen}
-          >
-            {isMenuOpen ? <X size={24} /> : <Menu size={24} />}
-          </button>
+          {/* Mobile actions - Language switcher and menu button */}
+          <div className="mobile-actions">
+            <div className="mobile-header-language-switcher">
+              <LanguageSwitcher />
+            </div>
+            <button
+              className="mobile-menu-btn"
+              onClick={() => setIsMenuOpen((v) => !v)}
+              aria-label="Toggle Menu"
+              aria-expanded={isMenuOpen}
+            >
+              {isMenuOpen ? <X size={24} /> : <Menu size={24} />}
+            </button>
+          </div>
         </div>
       </div>
 
