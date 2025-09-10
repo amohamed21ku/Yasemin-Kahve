@@ -22,6 +22,29 @@ const ShuffleHero = () => {
 
   return (
     <section className="hero-padding">
+      {/* Background decorative elements */}
+      <div className="hero-Academy-background">
+        <div className="coffee-bean coffee-bean-1"></div>
+        <div className="coffee-bean coffee-bean-2"></div>
+        <div className="coffee-bean coffee-bean-3"></div>
+        <div className="coffee-bean coffee-bean-4"></div>
+        <div className="coffee-bean coffee-bean-5"></div>
+        <div className="coffee-steam steam-1"></div>
+        <div className="coffee-steam steam-2"></div>
+        <div className="coffee-steam steam-3"></div>
+        <div className="coffee-steam steam-4"></div>
+        <div className="floating-particle particle-1"></div>
+        <div className="floating-particle particle-2"></div>
+        <div className="floating-particle particle-3"></div>
+        <div className="floating-particle particle-4"></div>
+        <div className="floating-particle particle-5"></div>
+        <div className="floating-particle particle-6"></div>
+        <div className="floating-orb orb-1"></div>
+        <div className="floating-orb orb-2"></div>
+        <div className="shimmer-effect shimmer-1"></div>
+        <div className="shimmer-effect shimmer-2"></div>
+        <div className="shimmer-effect shimmer-3"></div>
+      </div>
       <div className="hero-Academy-content">
         {/* Left side - Content */}
         <div className="hero-text">

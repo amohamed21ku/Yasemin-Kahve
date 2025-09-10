@@ -8,7 +8,6 @@ import OverviewTab from './components/OverviewTab'
 import CurriculumTab from './components/CurriculumTab'
 import InstructorTab from './components/InstructorTab'
 import MediaTab from './components/MediaTab'
-import ReviewsTab from './components/ReviewsTab'
 import EnrollmentCard from './components/EnrollmentCard'
 import ImageViewer from './components/ImageViewer'
 import VideoViewer from './components/VideoViewer'
@@ -171,7 +170,6 @@ const CourseDetail = ({ course, onNavigate, onEnroll }) => {
     ...(courseDetails.instructor 
       ? [{ id: 'instructor', label: t("instructor") || "Instructor" }] 
       : []),
-    { id: 'reviews', label: t("reviews") || "Reviews" },
     { id: 'media', label: t("media") || "Media" }
   ]
 
@@ -259,13 +257,6 @@ const CourseDetail = ({ course, onNavigate, onEnroll }) => {
 
             {activeTab === 'instructor' && (
               <InstructorTab 
-                courseDetails={courseDetails}
-                getLocalizedText={getLocalizedText}
-              />
-            )}
-
-            {activeTab === 'reviews' && (
-              <ReviewsTab 
                 courseDetails={courseDetails}
                 getLocalizedText={getLocalizedText}
               />

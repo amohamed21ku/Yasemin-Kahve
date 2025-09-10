@@ -112,6 +112,24 @@ export const productService = {
     }
   },
 
+  // Get products by category (for category deletion check - no ordering needed)
+  async getProductsByCategorySimple(categoryId) {
+    try {
+      const q = query(
+        collection(db, PRODUCTS_COLLECTION), 
+        where('categoryId', '==', categoryId)
+      );
+      const querySnapshot = await getDocs(q);
+      return querySnapshot.docs.map(doc => ({
+        id: doc.id,
+        ...doc.data()
+      }));
+    } catch (error) {
+      console.error('Error fetching products by category:', error);
+      throw error;
+    }
+  },
+
   // Get single product (transformed for frontend)
   async getProduct(productId) {
     try {
@@ -189,10 +207,11 @@ export const productService = {
     try {
       let updateData = { ...productData };
       
+      // Get current product data once for all image operations
+      const currentProduct = await this.getProductRaw(productId);
+      
       // Handle image update logic
       if (imageFile) {
-        // Get current product data to check for existing image (raw format for admin operations)
-        const currentProduct = await this.getProductRaw(productId);
         
         // Create organized folder structure: products/{productNameEN}/image
         const productNameEN = productData.name?.en || currentProduct.name?.en || 'unnamed';
@@ -255,10 +274,32 @@ export const productService = {
           }
         }
       }
-      // If no imageFile provided, preserve existing image URL
+      // If no imageFile provided, check if image should be removed
       else if (productData.image !== undefined) {
-        // Only update image field if explicitly provided in productData
-        updateData.image = productData.image;
+        // If image is being set to empty/null, delete the current image from storage
+        if (productData.image === '' || productData.image === null) {
+          // Delete current image from storage if it exists
+          if (currentProduct.image && currentProduct.image.includes('firebase')) {
+            try {
+              // Extract the file path from the Firebase Storage URL
+              const oldImageUrl = new URL(currentProduct.image);
+              const pathMatch = oldImageUrl.pathname.match(/\/o\/(.+?)\?/);
+              if (pathMatch) {
+                const oldImagePath = decodeURIComponent(pathMatch[1]);
+                const oldImageRef = ref(storage, oldImagePath);
+                await deleteObject(oldImageRef);
+                console.log('Image deleted from storage when removing:', oldImagePath);
+              }
+            } catch (imageError) {
+              console.warn('Could not delete image when removing:', imageError);
+            }
+          }
+          
+          updateData.image = '';
+        } else {
+          // Only update image field if explicitly provided in productData
+          updateData.image = productData.image;
+        }
       }
 
       updateData.updatedAt = serverTimestamp();
@@ -388,7 +429,7 @@ export const categoryService = {
   async deleteCategory(categoryId) {
     try {
       // Check if category has products
-      const productsWithCategory = await productService.getProductsByCategory(categoryId);
+      const productsWithCategory = await productService.getProductsByCategorySimple(categoryId);
       
       if (productsWithCategory.length > 0) {
         throw new Error('Cannot delete category with existing products');

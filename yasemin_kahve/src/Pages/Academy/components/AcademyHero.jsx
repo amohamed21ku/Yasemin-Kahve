@@ -25,9 +25,18 @@ const AcademyHero = () => {
         <div className="coffee-bean coffee-bean-1"></div>
         <div className="coffee-bean coffee-bean-2"></div>
         <div className="coffee-bean coffee-bean-3"></div>
+        <div className="coffee-bean coffee-bean-4"></div>
+        <div className="coffee-bean coffee-bean-5"></div>
         <div className="coffee-steam steam-1"></div>
         <div className="coffee-steam steam-2"></div>
         <div className="coffee-steam steam-3"></div>
+        <div className="coffee-steam steam-4"></div>
+        <div className="floating-particle particle-1"></div>
+        <div className="floating-particle particle-2"></div>
+        <div className="floating-particle particle-3"></div>
+        <div className="floating-particle particle-4"></div>
+        <div className="floating-orb orb-1"></div>
+        <div className="floating-orb orb-2"></div>
       </div>
 
       <div className="container">

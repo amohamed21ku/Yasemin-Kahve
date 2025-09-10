@@ -3,9 +3,34 @@ import { storage } from '../firebase'
 
 export const uploadCourseImage = async (courseId, imageFile, courseTitle = '', oldImageUrl = null) => {
   try {
-    // Delete old image if it exists
-    if (oldImageUrl) {
-      await deleteFileFromStorage(oldImageUrl)
+    // Validate inputs
+    if (!imageFile) {
+      throw new Error('No image file provided')
+    }
+    
+    if (!courseId) {
+      throw new Error('Course ID is required')
+    }
+
+    // Validate file type
+    if (!imageFile.type.startsWith('image/')) {
+      throw new Error('File must be an image')
+    }
+
+    // Validate file size (5MB max)
+    const maxSize = 5 * 1024 * 1024
+    if (imageFile.size > maxSize) {
+      throw new Error('File size must be less than 5MB')
+    }
+    
+    // Delete old image if it exists (but don't fail upload if deletion fails)
+    if (oldImageUrl && !oldImageUrl.startsWith('blob:') && !oldImageUrl.startsWith('data:')) {
+      try {
+        await deleteFileFromStorage(oldImageUrl)
+        console.log('Old image deleted successfully')
+      } catch (deletionError) {
+        console.warn('Failed to delete old image, but continuing with upload:', deletionError)
+      }
     }
     
     // Generate meaningful filename
@@ -13,14 +38,42 @@ export const uploadCourseImage = async (courseId, imageFile, courseTitle = '', o
       ? courseTitle.toLowerCase().replace(/[^a-z0-9]/g, '_')
       : courseId
     const fileExtension = imageFile.name.split('.').pop()
-    const fileName = `${sanitizedTitle}_main_image.${fileExtension}`
+    const timestamp = Date.now()
+    const fileName = `${sanitizedTitle}_main_image_${timestamp}.${fileExtension}`
     
     const imageRef = ref(storage, `courses/${courseId}/images/${fileName}`)
+    
+    console.log('Uploading image to:', `courses/${courseId}/images/${fileName}`)
     const snapshot = await uploadBytes(imageRef, imageFile)
     const downloadURL = await getDownloadURL(snapshot.ref)
+    
+    console.log('Image uploaded successfully:', downloadURL)
     return downloadURL
   } catch (error) {
     console.error('Error uploading course image:', error)
+    
+    // Provide more specific error messages
+    if (error.code === 'storage/unauthorized') {
+      throw new Error('You do not have permission to upload files. Please check your authentication.')
+    } else if (error.code === 'storage/canceled') {
+      throw new Error('Upload was canceled. Please try again.')
+    } else if (error.code === 'storage/unknown') {
+      throw new Error('An unknown error occurred during upload. Please try again.')
+    }
+    
+    throw error
+  }
+}
+
+// Function to remove course image completely
+export const removeCourseImage = async (imageUrl) => {
+  try {
+    if (imageUrl) {
+      await deleteFileFromStorage(imageUrl)
+      console.log('Course image deleted successfully:', imageUrl)
+    }
+  } catch (error) {
+    console.error('Error removing course image:', error)
     throw error
   }
 }
@@ -82,10 +135,36 @@ export const uploadAdditionalImage = async (courseId, imageFile, courseTitle = '
 
 export const deleteFileFromStorage = async (downloadURL) => {
   try {
-    const fileRef = ref(storage, downloadURL)
+    if (!downloadURL || typeof downloadURL !== 'string') {
+      console.warn('Invalid URL provided for deletion:', downloadURL)
+      return
+    }
+
+    // Extract the file path from the Firebase Storage URL
+    const url = new URL(downloadURL)
+    const pathSegment = url.pathname.split('/v0/b/')[1]
+    if (!pathSegment) {
+      throw new Error('Invalid Firebase Storage URL format')
+    }
+    
+    const filePath = pathSegment.split('/o/')[1]
+    if (!filePath) {
+      throw new Error('Could not extract file path from URL')
+    }
+    
+    // Decode the file path
+    const decodedPath = decodeURIComponent(filePath.split('?')[0])
+    
+    const fileRef = ref(storage, decodedPath)
     await deleteObject(fileRef)
+    console.log('File deleted successfully:', decodedPath)
   } catch (error) {
     console.error('Error deleting file from storage:', error)
+    // Don't throw error for non-existent files to avoid blocking the process
+    if (error.code === 'storage/object-not-found') {
+      console.warn('File not found, may have been already deleted:', downloadURL)
+      return
+    }
     throw error
   }
 }

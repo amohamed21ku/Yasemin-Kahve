@@ -296,8 +296,16 @@ const ProductDetail = ({ onNavigate, product, previousPage }) => {
                     <span className="price-unit">per kg</span>
                   </div>
                 )}
-                <button className="contact-button">
-                  Contact for Wholesale
+                <button 
+                  className="contact-button"
+                  onClick={() => {
+                    const productName = displayProduct.name;
+                    const message = `Hi, I'm interested in ${productName} for wholesale. Could you please provide more details about bulk pricing and availability?`;
+                    const whatsappUrl = `https://wa.me/?text=${encodeURIComponent(message)}`;
+                    window.open(whatsappUrl, '_blank');
+                  }}
+                >
+                  {t('contactForWholesale')}
                 </button>
               </div>
             </div>

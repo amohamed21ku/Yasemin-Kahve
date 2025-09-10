@@ -53,7 +53,6 @@ export const en = {
 
 
 
-
   
   // ProductPreview
 "createNewStory":"Create a new story with best green coffee beans from Yasemin Kahve…",
@@ -283,6 +282,7 @@ export const en = {
   "qualityScore": "Quality Score",
 
 
+
   // Academy 
   //Academy Hero
   "coffeeMastery":"Coffee Mastery",
@@ -397,8 +397,6 @@ export const en = {
   // Product Components
   "unknownProduct": "Unknown Product",
   "roastLabel": "Roast",
-  "backToHome": "Back to Home",
-  "backToProducts": "Back to Products",
   "perKg": "per kg",
   "overallScore": "Overall Score",
 
@@ -435,13 +433,9 @@ export const en = {
   "media": "Media",
   "courseNotFound": "Course not found",
   "backToAcademy": "Back to Academy",
-  "duration": "Duration",
   "students": "Students",
-  "level": "Level",
   "language": "Language",
-  "startDate": "Start Date",
   "location": "Location",
-  "price": "Price",
   "enrolled": "Enrolled",
   "full": "Course Full",
   "enrollNow": "Enroll Now",
@@ -459,6 +453,50 @@ export const en = {
   "noMediaAvailable": "No media available for this course",
   "viewCourse": "View Course",
   "downloadMaterial": "Download Material",
+  
+  // Error Messages
+  "uploadError": "Error uploading files. Please try again.",
+  "errorRemovingImage": "Failed to remove image. Please try again.",
+  "fileTooLarge": "File size must be less than 5MB",
+  "invalidFileType": "Please select a valid image file",
+  "uploadPermissionError": "You do not have permission to upload files. Please check your authentication.",
+  "networkError": "Network error. Please check your connection and try again.",
+  
+  // Admin Course Form
+  "editCourse": "Edit Course",
+  "addNewCourse": "Add New Course",
+  "courseImage": "Course Image",
+  "changeImage": "Change Image",
+  "removeImage": "Remove",
+  "clickToUploadCourseImage": "Click to upload course image",
+  "courseInformation": "Course Information",
+  "enterTitleEnglish": "Enter course title in English",
+  "enterTitleTurkish": "Kurs başlığını Türkçe girin",
+  "courseType": "Course Type",
+  "courseLevel": "Course Level",
+  "maxStudents": "Max Students",
+  "endDate": "End Date",
+  "originalPrice": "Original Price (TRY)",
+  "locationEn": "Location (English)",
+  "locationTr": "Location (Turkish)",
+  "instructorSelection": "Instructor Selection",
+  "selectInstructor": "Select Instructor",
+  "chooseInstructor": "Choose an instructor...",
+  "createNewInstructor": "Create New Instructor",
+  "titleRequired": "Course title is required in both languages",
+  "priceAndCapacityRequired": "Price and max students are required",
+  "instructorRequired": "Please select an instructor",
+  "instructorDetailsRequired": "Please fill all instructor details",
+  "instructorCreatedNote": "Instructor will be created when you save the course.",
+  "updateCourse": "Update Course",
+  "createCourse": "Create Course",
+  "avatar": "Avatar",
+  "selectAvatar": "Select Avatar",
+  "uploading": "Uploading...",
+  "instructorName": "Instructor Name",
+  "titleEn": "Title (English)",
+  "titleTr": "Title (Turkish)",
+  "createInstructor": "Create Instructor",
   
   // General
 };

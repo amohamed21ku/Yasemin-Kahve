@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react'
 import { X, Plus, Trash2, Upload, Image as ImageIcon, User, Camera, Globe } from 'lucide-react'
 import { useTranslation } from '../../../useTranslation'
-import { uploadCourseImage } from '../../../services/courseStorageService'
+import { uploadCourseImage, removeCourseImage } from '../../../services/courseStorageService'
 import { uploadInstructorAvatar } from '../../../services/instructorStorageService'
 import './CourseForm.css'
 
@@ -162,6 +162,29 @@ const CourseForm = ({ course, instructors = [], onSubmit, onCancel }) => {
     }
   }
 
+  const handleImageRemoval = async () => {
+    try {
+      // Clear the form data and pending image first
+      handleInputChange('image', '')
+      setPendingCourseImage(null)
+      
+      // If there's an existing course image in storage, try to delete it
+      // But don't block the UI if deletion fails
+      if (course?.image && !course.image.startsWith('blob:') && !course.image.startsWith('data:')) {
+        try {
+          await removeCourseImage(course.image)
+          console.log('Image removed successfully from storage')
+        } catch (deletionError) {
+          console.warn('Failed to delete image from storage, but continuing:', deletionError)
+          // Don't show error to user for deletion failures as the image is already cleared from form
+        }
+      }
+    } catch (error) {
+      console.error('Error removing image:', error)
+      alert(t('errorRemovingImage') || 'Failed to remove image')
+    }
+  }
+
   const handleSubmit = async (e) => {
     e.preventDefault()
     
@@ -224,7 +247,21 @@ const CourseForm = ({ course, instructors = [], onSubmit, onCancel }) => {
       onSubmit(courseData)
     } catch (error) {
       console.error('Error uploading files:', error)
-      alert(t('uploadError') || 'Error uploading files. Please try again.')
+      
+      // Provide more specific error messages
+      let errorMessage = t('uploadError') || 'Error uploading files. Please try again.'
+      
+      if (error.message.includes('permission') || error.message.includes('unauthorized')) {
+        errorMessage = t('uploadPermissionError') || 'You do not have permission to upload files. Please check your authentication.'
+      } else if (error.message.includes('5MB')) {
+        errorMessage = t('fileTooLarge') || 'File size must be less than 5MB'
+      } else if (error.message.includes('image')) {
+        errorMessage = t('invalidFileType') || 'Please select a valid image file'
+      } else if (error.message.includes('network') || error.message.includes('fetch')) {
+        errorMessage = t('networkError') || 'Network error. Please check your connection and try again.'
+      }
+      
+      alert(errorMessage)
     } finally {
       setImageUploading(false)
     }
@@ -284,7 +321,7 @@ const CourseForm = ({ course, instructors = [], onSubmit, onCancel }) => {
                   <button
                     type="button"
                     className="course-remove-image-btn"
-                    onClick={() => handleInputChange('image', '')}
+                    onClick={handleImageRemoval}
                   >
                     <X size={16} />
                     {t('removeImage') || 'Remove'}

@@ -4,7 +4,6 @@ import AboutUsPage from '../Pages/AboutUs/AboutUs'
 import ProductsPage from '../Pages/Products/Products'
 import ProductDetailPage from '../Pages/ProductDetail/ProductDetail'
 import AcademyPage from '../Pages/Academy/Academy'
-import AcademyV1 from '../Pages/Academy/AcademyV1'
 import AcademyV2 from '../Pages/Academy/AcademyV2'
 
 import CourseDetailPage from '../Pages/CourseDetail/CourseDetail'
