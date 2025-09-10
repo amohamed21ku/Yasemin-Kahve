@@ -1,5 +1,5 @@
 import React, { useRef, useState, useCallback } from "react";
-import { motion } from "framer-motion";
+import { motion, useMotionValue, useAnimation } from "framer-motion";
 import { twMerge } from "tailwind-merge";
 
 export const DragCards = () => {
@@ -84,24 +84,75 @@ const Cards = () => {
 
 const Card = ({ containerRef, getNextZIndex, src, alt, top, left, rotate, className }) => {
   const [zIndex, setZIndex] = useState(0);
+  const [isDragging, setIsDragging] = useState(false);
+  const controls = useAnimation();
+  const x = useMotionValue(0);
+  const y = useMotionValue(0);
 
   const updateZIndex = useCallback(() => {
     const newZIndex = getNextZIndex();
     setZIndex(newZIndex);
   }, [getNextZIndex]);
 
+  const handleTap = useCallback(async () => {
+    if (isDragging) return;
+    
+    // Random swipe direction
+    const directions = [
+      { x: 300, y: -50 },   // Right-up
+      { x: -300, y: -50 },  // Left-up  
+      { x: 200, y: 100 },   // Right-down
+      { x: -200, y: 100 },  // Left-down
+      { x: 0, y: -200 },    // Up
+    ];
+    
+    const randomDirection = directions[Math.floor(Math.random() * directions.length)];
+    
+    // Animate swipe
+    await controls.start({
+      x: randomDirection.x,
+      y: randomDirection.y,
+      rotate: (Math.random() - 0.5) * 60, // Random rotation
+      scale: 0.8,
+      opacity: 0,
+      transition: {
+        duration: 0.6,
+        ease: [0.32, 0.72, 0, 1]
+      }
+    });
+    
+    // Reset position after animation
+    controls.set({
+      x: 0,
+      y: 0,
+      rotate: rotate,
+      scale: 1,
+      opacity: 1
+    });
+  }, [controls, isDragging, rotate]);
+
+  const handleDragStart = useCallback(() => {
+    setIsDragging(true);
+    updateZIndex();
+  }, [updateZIndex]);
+
+  const handleDragEnd = useCallback(() => {
+    setIsDragging(false);
+  }, []);
+
   return (
     <motion.img
-      onMouseDown={updateZIndex}
-      onTouchStart={updateZIndex}
+      animate={controls}
       style={{
         top,
         left,
         rotate,
         zIndex,
+        x,
+        y
       }}
       className={twMerge(
-        "drag-elements absolute bg-neutral-200 p-1 pb-4 rounded-lg shadow-lg select-none touch-none",
+        "drag-elements absolute bg-neutral-200 p-1 pb-4 rounded-lg shadow-lg select-none cursor-pointer",
         className
       )}
       src={src}
@@ -116,6 +167,9 @@ const Card = ({ containerRef, getNextZIndex, src, alt, top, left, rotate, classN
         power: 0.3,
         timeConstant: 200
       }}
+      onDragStart={handleDragStart}
+      onDragEnd={handleDragEnd}
+      onTap={handleTap}
       whileDrag={{ 
         scale: 1.1,
         transition: { duration: 0.1 }
@@ -124,7 +178,11 @@ const Card = ({ containerRef, getNextZIndex, src, alt, top, left, rotate, classN
         scale: 1.05,
         transition: { duration: 0.2 }
       }}
-      animate={{ 
+      whileTap={{ 
+        scale: 0.98,
+        transition: { duration: 0.1 }
+      }}
+      initial={{ 
         transition: { 
           type: "spring", 
           stiffness: 400, 
