@@ -36,6 +36,26 @@ body {
 
 html {
   scroll-behavior: smooth;
+  overflow-x: hidden;
+  max-width: 100%;
+}
+
+/* Prevent horizontal scrolling on all elements */
+*, *::before, *::after {
+  max-width: 100%;
+}
+
+/* Ensure root containers don't overflow */
+#root {
+  width: 100%;
+  overflow-x: hidden;
+  position: relative;
+}
+
+.app {
+  width: 100%;
+  overflow-x: hidden;
+  position: relative;
 }
 
 /* ===== UTILITY CLASSES ===== */
@@ -51,6 +71,14 @@ html {
 
 .text-center {
   text-align: center;
+}
+
+/* Home page container */
+.home-page {
+  width: 100%;
+  overflow-x: hidden;
+  position: relative;
+  min-height: 100vh;
 }
 
 /* ===== HEADER STYLES ===== */
