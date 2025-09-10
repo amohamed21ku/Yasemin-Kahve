@@ -1,5 +1,15 @@
 Academy Hero Component Styles
 
+.hero-section {
+  position: relative;
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 8rem 2rem 2rem;
+  background: linear-gradient(135deg, var(--light-beige) 0%, var(--white) 50%, #faf6f0 100%);
+  overflow: visible;
+}
+
 .academy-hero {
   position: relative;
   min-height: 100vh;
@@ -101,9 +111,11 @@ Academy Hero Component Styles
   z-index: 2;
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 4rem;
-  align-items: center;
+  gap: 2rem;
+  align-items: start;
+  padding: 3rem 0 1rem;
   animation: fadeInUp 1s ease-out;
+  width: 100%;
 }
 
 .hero-text {
@@ -279,6 +291,24 @@ Academy Hero Component Styles
 .hero-visual {
   position: relative;
   animation: slideInRight 1s ease-out;
+  display: block;
+  width: 100%;
+  padding: 1rem;
+}
+
+.shuffle-grid-container {
+  position: relative;
+  display: block;
+  width: 100%;
+  animation: slideInRight 1s ease-out;
+  padding: 1rem;
+  min-height: 400px;
+  z-index: 1;
+}
+
+.shuffle-grid-container > div {
+  width: 100% !important;
+  height: auto !important;
 }
 
 .visual-container {
@@ -542,10 +572,23 @@ Academy Hero Component Styles
 
 /* Responsive design */
 @media (max-width: 1024px) {
+  .hero-section {
+    padding: 6rem 1.5rem 2rem;
+  }
+  
   .hero-Academy-content {
     grid-template-columns: 1fr;
-    gap: 3rem;
+    gap: 2rem;
     text-align: center;
+    padding: 2rem 0 1rem;
+  }
+  
+  .shuffle-grid-container {
+    padding: 0.5rem;
+  }
+  
+  .hero-visual {
+    padding: 0.5rem;
   }
   
   .title-main {
@@ -569,13 +612,26 @@ Academy Hero Component Styles
 }
 
 @media (max-width: 768px) {
+  .hero-section {
+    padding: 5rem 1rem 1.5rem;
+  }
+  
   .academy-hero {
-    padding: 6rem 0 2rem;
+    padding: 4rem 0 1rem;
     min-height: 70vh;
   }
   
   .hero-Academy-content {
-    gap: 2rem;
+    gap: 1.5rem;
+    padding: 1.5rem 0 0.5rem;
+  }
+  
+  .shuffle-grid-container {
+    padding: 0.25rem;
+  }
+  
+  .hero-visual {
+    padding: 0.25rem;
   }
   
   .hero-badge {
@@ -665,8 +721,12 @@ Academy Hero Component Styles
 }
 
 @media (max-width: 480px) {
+  .hero-section {
+    padding: 4rem 0.75rem 1rem;
+  }
+  
   .academy-hero {
-    padding: 5rem 0 1.5rem;
+    padding: 3rem 0 1rem;
     min-height: 60vh;
   }
   
@@ -675,7 +735,16 @@ Academy Hero Component Styles
   }
   
   .hero-Academy-content {
-    gap: 1.5rem;
+    gap: 1rem;
+    padding: 1rem 0 0.5rem;
+  }
+  
+  .shuffle-grid-container {
+    padding: 0;
+  }
+  
+  .hero-visual {
+    padding: 0;
   }
   
   .hero-badge {

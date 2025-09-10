@@ -1,8 +1,12 @@
 import { motion, AnimatePresence } from "framer-motion";
 import { useEffect, useRef, useState, useMemo, useCallback } from "react";
-import { Coffee, ArrowRight, Play } from "lucide-react";
+import { BookOpen, Users, Award, Coffee, ArrowRight, Play } from "lucide-react";
+import React from 'react';
+import { useTranslation } from '../../../useTranslation';
+import './AcademyHero.css';
 
 const ShuffleHero = () => {
+   const { t } = useTranslation();
   const scrollToCourses = () => {
     const coursesSection = document.querySelector('.courses-section');
     if (coursesSection) {
@@ -15,50 +19,41 @@ const ShuffleHero = () => {
   };
 
   return (
-    <section className="relative min-h-[80vh] w-full px-8 py-16 grid grid-cols-1 md:grid-cols-2 items-center gap-12 max-w-6xl mx-auto bg-gradient-to-br from-amber-50 via-white to-orange-50 overflow-hidden">
-      {/* Background decorative elements */}
-      <div className="absolute inset-0 pointer-events-none">
-        <div className="absolute top-20 left-10 w-12 h-16 bg-amber-600/10 rounded-full transform rotate-12 animate-pulse"></div>
-        <div className="absolute bottom-32 right-16 w-8 h-12 bg-orange-500/10 rounded-full transform -rotate-25 animate-pulse delay-1000"></div>
-        <div className="absolute top-1/2 left-1/4 w-6 h-8 bg-amber-500/10 rounded-full transform rotate-45 animate-pulse delay-2000"></div>
-      </div>
-
-      <div className="relative z-10">
-        <div className="inline-flex items-center gap-2 bg-amber-600/15 text-amber-700 px-4 py-2 rounded-full text-sm font-semibold mb-6 border border-amber-200">
-          <Coffee size={16} />
-          <span>Coffee Academy</span>
-        </div>
-        
-        <h1 className="text-5xl md:text-6xl font-bold text-gray-900 mb-4 leading-tight">
-          <span className="block text-amber-700 text-3xl md:text-4xl font-semibold mb-2">Yasemin Coffee Academy</span>
-          Learn the Art of Coffee
-        </h1>
-        
-        <p className="text-lg md:text-xl text-gray-600 mb-8 leading-relaxed max-w-xl">
-          Discover the secrets of brewing the perfect cup with our comprehensive coffee courses and hands-on workshops. Master brewing techniques from industry experts.
-        </p>
-
-        <div className="flex flex-col sm:flex-row gap-4">
-          <button 
-            onClick={scrollToCourses}
-            className="inline-flex items-center gap-3 bg-gradient-to-r from-amber-600 to-orange-600 text-white font-semibold py-4 px-8 rounded-full transition-all duration-300 hover:from-amber-700 hover:to-orange-700 hover:scale-105 hover:shadow-xl shadow-lg transform active:scale-95"
-          >
-            <span>Explore Courses</span>
-            <ArrowRight size={18} className="transition-transform group-hover:translate-x-1" />
-          </button>
+    <section className="w-full max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="hero-Academy-content">
+        {/* Left side - Content */}
+        <div className="hero-text">
+          <div className="hero-badge">
+            <Coffee className="badge-icon" />
+            <span>{t('coffeeMastery') || 'Coffee Mastery'}</span>
+          </div>
           
-          <button 
-            onClick={handleVideoPlay}
-            className="inline-flex items-center gap-3 bg-white text-gray-800 font-semibold py-4 px-8 rounded-full border-2 border-amber-200 transition-all duration-300 hover:bg-amber-50 hover:border-amber-300 hover:scale-105 shadow-md"
-          >
-            <Play size={18} className="text-amber-600" />
-            <span>Watch Introduction</span>
-          </button>
+          <h1 className="hero-title">
+            <span className="title-main">{t('yaseminCoffeeAcademy') || 'Yasemin Coffee Academy'}</span>
+            <span className="title-subtitle">{t('masterTheArtOfCoffee') || 'Master the Art of Coffee'}</span>
+          </h1>
+          
+          <p className="hero-Academy-description">
+            {t('academyDescription') || 'Join our comprehensive coffee education program. Learn from industry experts, master brewing techniques, and discover the secrets behind exceptional coffee. From bean to cup, we\'ll guide your journey to coffee mastery.'}
+          </p>
+
+          {/* Action buttons */}
+          <div className="hero-actions">
+            <button className="btn-Academy-primary" onClick={scrollToCourses}>
+              <span>{t('exploreCourses') || 'Explore Courses'}</span>
+              <ArrowRight className="btn-icon" />
+            </button>
+            <button className="btn-Academy-secondary" onClick={handleVideoPlay}>
+              <Play className="btn-icon" />
+              <span>{t('watchIntro') || 'Watch Introduction'}</span>
+            </button>
+          </div>
         </div>
-      </div>
-      
-      <div className="relative z-10">
-        <ShuffleGrid />
+
+        {/* Right side - Shuffle Grid */}
+        <div className="hero-visual">
+          <ShuffleGrid />
+        </div>
       </div>
     </section>
   );
@@ -126,11 +121,11 @@ const ShuffleGrid = () => {
 
   const shuffleSquares = useCallback(() => {
     setShuffledData(prevData => shuffle([...prevData]));
-    timeoutRef.current = setTimeout(shuffleSquares, 4000);
+    timeoutRef.current = setTimeout(shuffleSquares, 5000);
   }, []);
 
   useEffect(() => {
-    timeoutRef.current = setTimeout(shuffleSquares, 4000);
+    timeoutRef.current = setTimeout(shuffleSquares, 5000);
     return () => clearTimeout(timeoutRef.current);
   }, [shuffleSquares]);
 
@@ -140,12 +135,13 @@ const ShuffleGrid = () => {
         key={sq.id}
         layout
         transition={{ 
-          duration: 0.8, 
+          duration: 1.2, 
           type: "spring",
-          stiffness: 120,
-          damping: 20
+          stiffness: 100,
+          damping: 25,
+          mass: 1
         }}
-        className="w-full h-full rounded-md overflow-hidden"
+        className="w-full h-full rounded-lg overflow-hidden shadow-sm hover:shadow-lg transition-shadow duration-300"
         style={{
           backgroundImage: `url(${sq.src})`,
           backgroundSize: "cover",
@@ -157,7 +153,7 @@ const ShuffleGrid = () => {
   }, [shuffledData]);
 
   return (
-    <div className="grid grid-cols-3 grid-rows-3 h-[400px] gap-3 rounded-lg overflow-hidden">
+    <div className="grid grid-cols-3 grid-rows-3 h-[400px] md:h-[450px] gap-3 rounded-lg overflow-hidden sm:h-[280px] xs:h-[240px]">
       {squares}
     </div>
   );
