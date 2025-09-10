@@ -82,7 +82,7 @@ const Hero = ({ onNavigate }) => {  // Add onNavigate as a prop
             preload="auto"
             poster="data:image/gif,AAAA" // Tiny transparent GIF as placeholder
           >
-            <source src="/public/static/images/assets/broll.mp4" type="video/mp4" />
+            <source src="/static/images/assets/broll.mp4" type="video/mp4" />
           </video>
           <div className="video-overlay"></div>
         </div>
