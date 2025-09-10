@@ -1,6 +1,7 @@
 import { motion, AnimatePresence } from "framer-motion";
 import { useEffect, useRef, useState, useMemo, useCallback } from "react";
 import { BookOpen, Users, Award, Coffee, ArrowRight, Play } from "lucide-react";
+import DragCards from "./DragCards";
 import React from 'react';
 import { useTranslation } from '../../../useTranslation';
 import './AcademyHero.css';
@@ -52,7 +53,8 @@ const ShuffleHero = () => {
 
         {/* Right side - Shuffle Grid */}
         <div className="hero-visual">
-          <ShuffleGrid />
+        <DragCards />
+          {/* <ShuffleGrid /> */}
         </div>
       </div>
     </section>
