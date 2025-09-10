@@ -98,8 +98,8 @@ const Header = ({ activeSection = "home", onNavigate, darkContent = false }) => 
           <div className="logo-section glow-effect floating">
             <div className="logo-container animated-border patterned">
               <img
-                src="/static/images/assets/yasemin.png"
-                alt="Yasemin Kahve Logo"
+                src={activeSection === 'academy' ? "/static/images/assets/Academy_logo.png" : "/static/images/assets/yaso2.png"}
+                alt={activeSection === 'academy' ? "Academy Logo" : "Yasemin Kahve Logo"}
                 className="logo-img high-contrast extra-large"
                 onError={(e) => {
                   e.target.style.display = 'none';

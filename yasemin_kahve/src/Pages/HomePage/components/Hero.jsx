@@ -8,16 +8,45 @@ const Hero = ({ onNavigate }) => {  // Add onNavigate as a prop
   const [currentSlide, setCurrentSlide] = useState(0);
   const [, setIsLoaded] = useState(false);
   const [isVideoLoaded, setIsVideoLoaded] = useState(false);
+  const [isIOS, setIsIOS] = useState(false);
   const videoRef = useRef(null);
 
   useEffect(() => {
     setIsLoaded(true);
+    
+    // Detect iOS
+    const iOS = /iPad|iPhone|iPod/.test(navigator.userAgent);
+    setIsIOS(iOS);
     
     // Preload video
     if (videoRef.current) {
       videoRef.current.addEventListener('loadeddata', () => {
         setIsVideoLoaded(true);
       });
+      
+      // Force play on iOS after user interaction
+      if (iOS && videoRef.current) {
+        const playVideo = async () => {
+          try {
+            await videoRef.current.play();
+          } catch (error) {
+            console.log('Video autoplay failed:', error);
+          }
+        };
+        
+        // Try to play after a short delay
+        setTimeout(playVideo, 500);
+        
+        // Also try to play on any user interaction
+        const handleUserInteraction = () => {
+          playVideo();
+          document.removeEventListener('touchstart', handleUserInteraction);
+          document.removeEventListener('click', handleUserInteraction);
+        };
+        
+        document.addEventListener('touchstart', handleUserInteraction, { passive: true });
+        document.addEventListener('click', handleUserInteraction);
+      }
     }
   }, []);
 
@@ -80,7 +109,10 @@ const Hero = ({ onNavigate }) => {  // Add onNavigate as a prop
             loop
             playsInline
             preload="auto"
-            poster="data:image/gif,AAAA" // Tiny transparent GIF as placeholder
+            poster="data:image/gif,AAAA"
+            webkit-playsinline="true"
+            x5-playsinline="true"
+            crossOrigin="anonymous"
           >
             <source src="/static/images/assets/broll.mp4" type="video/mp4" />
           </video>
