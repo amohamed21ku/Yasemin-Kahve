@@ -113,9 +113,10 @@ Academy Hero Component Styles
   grid-template-columns: 1fr 1fr;
   gap: 2rem;
   align-items: start;
-  padding: 3rem 0 1rem;
+  padding: 5rem 0 1rem;
   animation: fadeInUp 1s ease-out;
   width: 100%;
+  margin-left: 1.3rem;
 }
 
 .hero-text {

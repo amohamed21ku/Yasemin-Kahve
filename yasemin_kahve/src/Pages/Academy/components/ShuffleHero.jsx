@@ -19,7 +19,7 @@ const ShuffleHero = () => {
   };
 
   return (
-    <section className="w-full max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+    <section className="w-full max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8 pl-8 pb-8">
       <div className="hero-Academy-content">
         {/* Left side - Content */}
         <div className="hero-text">
