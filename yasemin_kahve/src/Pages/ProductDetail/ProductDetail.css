@@ -313,8 +313,9 @@
 
 @media (max-width: 768px) {
   .specs-grid-2x3 {
-    grid-template-columns: 1fr;
-    grid-template-rows: auto;
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-rows: repeat(2, auto);
+    gap: 0.5rem;
   }
 }
 
@@ -600,5 +601,84 @@
 
   .final-score-display {
     order: -1;
+  }
+  
+  /* Mobile font size reductions */
+  .back-button {
+    font-size: 0.9rem;
+  }
+  
+  .product-origin {
+    font-size: 1rem;
+  }
+  
+  .product-title {
+    font-size: 1.8rem;
+    margin-bottom: 0.8rem;
+  }
+  
+  .product-description p {
+    font-size: 0.9rem;
+    line-height: 1.6;
+  }
+  
+  .product-specifications h3 {
+    font-size: 1.2rem;
+    margin-bottom: 1rem;
+  }
+  
+  .spec-item {
+    padding: 0.75rem;
+  }
+  
+  .spec-label {
+    font-size: 0.75rem;
+  }
+  
+  .spec-value {
+    font-size: 0.85rem;
+  }
+  
+  .tasting-notes h3 {
+    font-size: 1.2rem;
+    margin-bottom: 0.8rem;
+  }
+  
+  .note-tag {
+    font-size: 0.75rem;
+    padding: 0.4rem 0.8rem;
+  }
+  
+  .price {
+    font-size: 1.6rem;
+  }
+  
+  .price-unit {
+    font-size: 0.75rem;
+  }
+  
+  .contact-button {
+    font-size: 0.9rem;
+    padding: 0.8rem 1.5rem;
+  }
+  
+  .cupping-scores h2 {
+    font-size: 1.8rem;
+  }
+  
+  .final-score-number {
+    font-size: 2rem;
+  }
+  
+  .final-score-label {
+    font-size: 0.75rem;
+  }
+  
+  .score-label {
+    font-size: 0.8rem;
+  }
+  
+  .score-value {
+    font-size: 1rem;
   }
 }
