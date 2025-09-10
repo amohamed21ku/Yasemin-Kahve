@@ -625,6 +625,7 @@ Academy Hero Component Styles
   .hero-Academy-content {
     gap: 1.5rem;
     padding: 1.5rem 0 0.5rem;
+    animation: fadeInUp 1.5s ease-out;
   }
   
   .shuffle-grid-container {
@@ -633,6 +634,7 @@ Academy Hero Component Styles
   
   .hero-visual {
     padding: 0.25rem;
+    animation: slideInRight 1.5s ease-out;
   }
   
   .hero-badge {
@@ -738,6 +740,7 @@ Academy Hero Component Styles
   .hero-Academy-content {
     gap: 1rem;
     padding: 1rem 0 0.5rem;
+    animation: fadeInUp 2s ease-out;
   }
   
   .shuffle-grid-container {
@@ -746,6 +749,7 @@ Academy Hero Component Styles
   
   .hero-visual {
     padding: 0;
+    animation: slideInRight 2s ease-out;
   }
   
   .hero-badge {
