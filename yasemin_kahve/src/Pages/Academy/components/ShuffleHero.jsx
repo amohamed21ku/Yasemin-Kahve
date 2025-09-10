@@ -5,6 +5,7 @@ import DragCards from "./DragCards";
 import React from 'react';
 import { useTranslation } from '../../../useTranslation';
 import './AcademyHero.css';
+import SwipeCards from "./SwipeCards";
 
 const ShuffleHero = () => {
    const { t } = useTranslation();
@@ -53,7 +54,8 @@ const ShuffleHero = () => {
 
         {/* Right side - Shuffle Grid */}
         <div className="hero-visual">
-        <DragCards />
+        {/* <DragCards /> */}
+        <SwipeCards />
           {/* <ShuffleGrid /> */}
         </div>
       </div>
