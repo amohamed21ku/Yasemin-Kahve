@@ -15,6 +15,7 @@ import { useAuth } from '../AuthContext'
 import { useTranslation } from '../useTranslation'
 
 import 'flag-icons/css/flag-icons.min.css'
+import '../index.css'
 
 
 // Placeholder components

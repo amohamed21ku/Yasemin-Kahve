@@ -10,6 +10,7 @@ import { useAuth } from '../../AuthContext'
 import { useTranslation } from '../../useTranslation'
 import './Academy.css'
 import AcademyOverview from './components/AcademyOverview'
+import SwipeCards from './components/SwipeCards'
 
 const Academy = ({ onNavigate }) => {
   const { currentUser } = useAuth()
@@ -149,6 +150,8 @@ const Academy = ({ onNavigate }) => {
         
         <AcademyHero />
         {/* <AcademyOverview /> */}
+        
+        <SwipeCards />
         
         <div className="academy-content">
           <CourseGrid 
