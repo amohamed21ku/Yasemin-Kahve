@@ -1044,26 +1044,26 @@ html {
   }
   
   .features-grid {
-    grid-template-columns: repeat(2, 1fr);
-    gap: 1rem;
+    grid-template-columns: repeat(2, 1fr) !important;
+    gap: 1rem !important;
   }
   
   .feature-icon {
-    width: 48px;
-    height: 48px;
-    background: var(--golden-yellow);
-    border-radius: 10px;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    padding: 12px;
-    color: white;
-    margin-right: 12px;
-    flex-shrink: 0;
+    width: 48px !important;
+    height: 48px !important;
+    background: var(--golden-yellow) !important;
+    border-radius: 10px !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    padding: 12px !important;
+    color: white !important;
+    margin-right: 12px !important;
+    flex-shrink: 0 !important;
   }
   
   .feature-item {
-    padding: 0.5rem;
+    padding: 0.5rem !important;
   }
   
   /* Values card mobile optimization */
@@ -2014,11 +2014,11 @@ html {
 /* ===== RESPONSIVE DESIGN ===== */
 @media (max-width: 767px) {
   .container {
-    padding: 0 1rem;
+    padding: 0 1rem !important;
   }
   
   .section-padding {
-    padding: 2rem 0;
+    padding: 2rem 0 !important;
   }
   
   .hero {
@@ -2969,8 +2969,8 @@ html {
 @media (max-width: 480px) {
   .products-grid {
     grid-template-columns: repeat(2, 1fr);
-    gap: 0.5rem;
-    padding: 0 0.25rem;
+    gap: 0rem;
+    padding: 0 0rem;
   }
 }
 
@@ -2991,7 +2991,7 @@ html {
 
 .product-image {
   position: relative;
-  height: 140px;
+  height: 130px !important;
   overflow: hidden;
 }
 
@@ -3017,7 +3017,7 @@ html {
   backdrop-filter: blur(10px);
   padding: 0.5rem;
   border-radius: 50%;
-  font-size: 1.5rem;
+  font-size: 1rem;
   font-family: "Apple Color Emoji", "Segoe UI Emoji", "Noto Color Emoji", "Android Emoji", "EmojiSymbols", "EmojiOne Mozilla", "Twemoji Mozilla", "Segoe UI Symbol", "Noto Emoji", system-ui, sans-serif;
   display: flex;
   align-items: center;
@@ -3033,12 +3033,12 @@ html {
 }
 
 .product-info {
-  padding: 1.2rem;
+  padding: 0.5rem !important;
 }
 
 .product-name {
   font-family: var(--font-primary);
-  font-size: 1.1rem;
+  font-size: 0.8rem !important;
   font-weight: 700;
   color: var(--almost-black);
   margin-bottom: 0.4rem;
@@ -3047,9 +3047,9 @@ html {
 .product-origin {
   display: flex;
   align-items: center;
-  gap: 0.5rem;
+  gap: 0.3rem !important;
   color: var(--medium-brown);
-  font-size: 0.875rem;
+  font-size: 0.875rem !important;
   margin-bottom: 1rem;
   font-weight: 500;
 }
@@ -3354,6 +3354,40 @@ html {
 }
 
 @media (max-width: 480px) {
+  .container {
+    padding: 0 0.5rem !important;
+  }
+  
+  .features-grid {
+    grid-template-columns: repeat(2, 1fr) !important;
+    gap: 0.5rem !important;
+  }
+  
+  .feature-item {
+    padding: 0.25rem !important;
+  }
+  
+  .feature-icon {
+    width: 40px !important;
+    height: 40px !important;
+    margin-right: 8px !important;
+    padding: 10px !important;
+  }
+  
+  .feature-title {
+    font-size: 0.8rem !important;
+  }
+  
+  .feature-description {
+    font-size: 0.7rem !important;
+    line-height: 1.2 !important;
+  }
+  
+  /* Hide pagination arrows on very small screens where they cause issues */
+  .carousel-controls {
+    display: none !important;
+  }
+  
   .category-tab {
     padding: 0.5rem 1rem;
     font-size: 0.75rem;
