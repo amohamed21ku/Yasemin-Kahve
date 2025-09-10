@@ -113,10 +113,11 @@ Academy Hero Component Styles
   grid-template-columns: 1fr 1fr;
   gap: 2rem;
   align-items: start;
-  padding: 5rem 0 1rem;
+  padding: 5rem 0 3rem;
   animation: fadeInUp 1s ease-out;
   width: 100%;
-  margin-left: 1.3rem;
+  margin-left: 1.1rem;
+ ;
 }
 
 .hero-text {
@@ -626,6 +627,8 @@ Academy Hero Component Styles
     gap: 1.5rem;
     padding: 1.5rem 0 0.5rem;
     animation: fadeInUp 1.5s ease-out;
+    margin-left: 0.75rem;
+    margin-right: 0.75rem !important;
   }
   
   .shuffle-grid-container {
@@ -741,6 +744,8 @@ Academy Hero Component Styles
     gap: 1rem;
     padding: 1rem 0 0.5rem;
     animation: fadeInUp 2s ease-out;
+    margin-left: 0.5rem;
+    margin-right: 0.5rem !important;
   }
   
   .shuffle-grid-container {
