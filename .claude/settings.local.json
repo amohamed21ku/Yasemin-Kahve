@@ -90,7 +90,8 @@
       "Bash(npm start)",
       "Bash(npm run:*)",
       "Bash(npm install:*)",
-      "Bash(del \"C:\\Users\\bodys\\Desktop\\Work\\Yasemin Kahve\\yasemin_kahve\\src\\Pages\\Admin\\components\\DataMigration.jsx\")"
+      "Bash(del \"C:\\Users\\bodys\\Desktop\\Work\\Yasemin Kahve\\yasemin_kahve\\src\\Pages\\Admin\\components\\DataMigration.jsx\")",
+      "Bash(git checkout:*)"
     ],
     "deny": [],
     "ask": []

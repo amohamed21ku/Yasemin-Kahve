@@ -1,0 +1,57 @@
+.react-swipestack-cards__deck {
+  height: 100%; 
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.react-swipestack-cards__card-wrapper {
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  position: absolute;
+  will-change: transform;
+}
+
+.react-swipestack-cards__card {
+  position: relative;
+  overflow: hidden;
+  border-radius: 1rem;
+  user-select: none;
+  background-color: rgb(13, 13, 14);
+  height: 24rem;
+  width: 16rem;
+  transition: all 0.3s ease-in-out;
+  transform-origin: bottom center;
+}
+
+.react-swipestack-cards__active-card {
+  box-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.5), 0 8px 10px -6px rgb(0 0 0 / 0.5);
+  z-index: 10;
+}
+
+.react-swipestack-cards__card:not(.react-swipestack-cards__active-card) {
+  opacity: 0.8;
+  transform: scale(0.98);
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+}
+
+.react-swipestack-cards__card-img {
+  user-select: none;
+  pointer-events: none;
+  object-fit: cover;
+  height: 100%;
+  width: 100%;
+  position: absolute;
+  transform: scale(1.05);
+}
+
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .react-swipestack-cards__card {
+    height: 20rem;
+    width: 14rem;
+  }
+}
