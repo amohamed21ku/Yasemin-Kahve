@@ -89,7 +89,7 @@ const AdminPanel = ({ onNavigate }) => {
           </div>
           
           <div className="brand-section">
-            <img src="/src/assets/yasemin.png" alt="Yasemin Kahve" className="admin-logo" />
+            <img src="./public/static/images/assets/yaso2.png" alt="Yasemin Kahve" className="admin-logo" />
             {!sidebarCollapsed && (
               <div className="admin-brand">
                 <span>{t('adminPanel') || 'Admin Panel'}</span>
