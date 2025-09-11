@@ -11,11 +11,13 @@ import MediaTab from './components/MediaTab'
 import EnrollmentCard from './components/EnrollmentCard'
 import ImageViewer from './components/ImageViewer'
 import VideoViewer from './components/VideoViewer'
+import EnrollmentModal from '/src/Pages/Academy/components/EnrollmentModal'
+import SuccessNotification from '../../Components/SuccessNotification'
+
 import SignInModal from '../../Components/SignInModal'
 import { useTranslate } from '../../useTranslate'
 import { useAuth } from '../../AuthContext'
 import './CourseDetail.css'
-
 const CourseDetail = ({ course, onNavigate, onEnroll }) => {
   const { t, language } = useTranslate()
   const { currentUser } = useAuth()
@@ -25,6 +27,9 @@ const CourseDetail = ({ course, onNavigate, onEnroll }) => {
   const [videoViewerOpen, setVideoViewerOpen] = useState(false)
   const [currentVideoIndex, setCurrentVideoIndex] = useState(0)
   const [signInModalOpen, setSignInModalOpen] = useState(false)
+  const [showEnrollModal, setShowEnrollModal] = useState(false)
+  const [showSuccessNotification, setShowSuccessNotification] = useState(false)
+  const [enrolledCourse, setEnrolledCourse] = useState(null)
   const [isProcessing, setIsProcessing] = useState(false)
 
   // Helper function to get localized content
@@ -61,38 +66,41 @@ const CourseDetail = ({ course, onNavigate, onEnroll }) => {
       return
     }
     
-    if (onEnroll) {
-      try {
-        onEnroll(course)
-      } catch (error) {
-        console.error('Error during direct enrollment:', error)
+    // Show the enrollment modal instead of directly enrolling
+    setShowEnrollModal(true)
+  }
+
+  const handleEnrollComplete = async (course) => {
+    try {
+      console.log('Enrolling user in course:', course.title)
+      
+      // If there's a parent onEnroll function, call it
+      if (onEnroll) {
+        await onEnroll(course)
       }
+      
+      setEnrolledCourse(course)
+      setShowSuccessNotification(true)
+      setShowEnrollModal(false)
+    } catch (error) {
+      console.error('Enrollment error:', error)
+      alert(t("enrollmentError") || "An error occurred during enrollment. Please try again.")
     }
   }
-  
 
   const handleSignInSuccess = () => {
     setIsProcessing(true)
     
-    // Fallback timeout to prevent infinite processing state
-    const fallbackTimeout = setTimeout(() => {
-      setIsProcessing(false)
-    }, 5000)
-    
-    // After successful sign in, automatically enroll the user
-    // Wait a bit to ensure currentUser is updated in the auth context
+    // After successful sign in, show enrollment modal
     setTimeout(() => {
-      clearTimeout(fallbackTimeout) // Clear fallback since we're handling it normally
-      
-      if (onEnroll && course) {
-        try {
-          onEnroll(course)
-        } catch (error) {
-          console.error('Error during enrollment:', error)
-        }
-      }
       setIsProcessing(false)
-    }, 1000) // Increased timeout to ensure auth state is properly updated
+      setSignInModalOpen(false)
+      
+      // Wait a bit more to ensure auth state is updated
+      setTimeout(() => {
+        setShowEnrollModal(true)
+      }, 500)
+    }, 1000)
   }
 
   // Image viewer functions
@@ -160,7 +168,6 @@ const CourseDetail = ({ course, onNavigate, onEnroll }) => {
       tr: "Yasemin Kahve Akademisi, İstanbul"
     }
   }
-
 
   // Show tabs conditionally based on available data
   const tabs = [
@@ -286,9 +293,19 @@ const CourseDetail = ({ course, onNavigate, onEnroll }) => {
                 </div>
               </div>
               
-         
-
-       
+              <div className="enrolled-actions">
+                <button 
+                  className="action-btn"
+                  onClick={() => onNavigate('course-page', null, null, course)}
+                >
+                  <Play size={16} />
+                  {t("continueLearn") || "Continue Learning"}
+                </button>
+                <button className="action-btn secondary">
+                  <Download size={16} />
+                  {t("downloadMaterials") || "Download Materials"}
+                </button>
+              </div>
             </div>
           ) : (
             <EnrollmentCard 
@@ -323,10 +340,27 @@ const CourseDetail = ({ course, onNavigate, onEnroll }) => {
         onPrev={prevVideo}
       />
 
+      {/* Enrollment Modal */}
+      <EnrollmentModal
+        course={course}
+        isOpen={showEnrollModal}
+        onClose={() => {
+          setShowEnrollModal(false)
+        }}
+        onEnroll={handleEnrollComplete}
+      />
+
       <SignInModal
         isOpen={signInModalOpen}
         onClose={() => setSignInModalOpen(false)}
         onSuccess={handleSignInSuccess}
+      />
+
+      <SuccessNotification
+        isVisible={showSuccessNotification}
+        onClose={() => setShowSuccessNotification(false)}
+        title="Successfully Enrolled!"
+        message="Our team will contact you shortly with course details and next steps."
       />
     </div>
   )

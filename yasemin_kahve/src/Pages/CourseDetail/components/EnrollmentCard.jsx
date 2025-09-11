@@ -31,21 +31,7 @@ const EnrollmentCard = ({ course, formatPrice, isEnrolled, isFull, handleEnrollC
         )}
       </button>
 
-      {isEnrolled && (
-        <div className="enrolled-actions">
-          <button 
-            className="action-btn"
-            onClick={() => onNavigate('course-page', null, null, course)}
-          >
-            <Play size={16} />
-            {t("continueLearn") || "Continue Learning"}
-          </button>
-          <button className="action-btn secondary">
-            <Download size={16} />
-            {t("downloadMaterials") || "Download Materials"}
-          </button>
-        </div>
-      )}
+
     </div>
   )
 }
