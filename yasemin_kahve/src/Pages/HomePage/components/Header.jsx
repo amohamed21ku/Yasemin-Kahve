@@ -92,7 +92,7 @@ const Header = ({ activeSection = "home", onNavigate, darkContent = false }) => 
   const isAdmin = userData?.isAdmin === true;
 
   return (
-    <nav className={`header ${scrollY > 50 ? "scrolled" : ""} ${darkContent ? "dark-content" : ""}`}>
+    <nav className={`header ${scrollY > 50 ? "scrolled" : ""} ${darkContent ? "dark-content" : ""} ${activeSection === "productDetail" ? "product-detail-header" : ""}`}>
       <div className="container">
         <div className="header-content">
           <div className="logo-section glow-effect floating">
@@ -250,10 +250,6 @@ const Header = ({ activeSection = "home", onNavigate, darkContent = false }) => 
               {t("adminConsole") || "Admin Console"}
             </a>
           )}
-          
-          <div className="mobile-language-switcher">
-            <LanguageSwitcher />
-          </div>
           
           {/* Mobile Auth Section */}
           <div className="mobile-auth-section">

@@ -252,14 +252,7 @@ const AcademyManagement = () => {
       <div className="academy-management-header">
         <h2>{t('academyManagement') || 'Academy Management'}</h2>
         <div className="header-actions">
-          <button 
-            className="sample-data-btn"
-            onClick={handleAddSampleData}
-            disabled={courses.length > 0}
-          >
-            <Database size={18} />
-            {t('addSampleData') || 'Add Sample Data'}
-          </button>
+         
           <button 
             className="add-course-btn"
             onClick={() => setShowCourseForm(true)}
@@ -317,15 +310,7 @@ const AcademyManagement = () => {
                 </div>
               </div>
 
-              <div className="stat-card">
-                <div className="stat-icon rating">
-                  <TrendingUp size={24} />
-                </div>
-                <div className="stat-info">
-                  <span className="stat-number">{stats.averageRating}</span>
-                  <span className="stat-label">{t('averageRating') || 'Avg. Rating'}</span>
-                </div>
-              </div>
+            
             </div>
 
             <div className="recent-activity">
@@ -388,7 +373,6 @@ const AcademyManagement = () => {
                     <th>{t('type') || 'Type'}</th>
                     <th>{t('price') || 'Price'}</th>
                     <th>{t('enrollments') || 'Enrollments'}</th>
-                    <th>{t('rating') || 'Rating'}</th>
                     <th>{t('actions') || 'Actions'}</th>
                   </tr>
                 </thead>
@@ -429,9 +413,7 @@ const AcademyManagement = () => {
                           {course.enrolledStudents?.length || 0}/{course.maxStudents}
                         </span>
                       </td>
-                      <td>
-                        <span className="rating">⭐ {course.rating || 'N/A'}</span>
-                      </td>
+                    
                       <td>
                         <div className="action-buttons">
                           <button 

@@ -321,6 +321,7 @@ export const en = {
   "priceLowToHigh":"Price: Low to High",
   "priceHighToLow":"Price: High to Low",
   "duration":"Duration",
+  "hours":"days",
   "days":"days",
   "durationDays":"Duration (days)",
   "rating":"Rating",
@@ -412,6 +413,20 @@ export const en = {
   "dashboardToolsConfigured": "Dashboard and management tools configured",
   "justNow": "Just now",
   "today": "Today",
+
+  //Course Management
+  "courseCreatedSuccess":"Course created successfully!",
+  "courseCreateError":"Error creating course. Please try again.",
+
+  "enrollments":"Enrollments",
+  "loadingAcademyData":"Loading Academy Data...",
+  "academyManagement":"Academy Management",
+  "addCourse":"Add Course",
+  "totalCourses":"Total Courses",
+  "totalStudents":"Total Students",
+  "totalRevenue" :"Total Revenue",
+  'recentEnrollments':"Recent Enrollments",
+  "deleteCourse":"Delete Course",
 
   // Auth Missing Keys
   "emailInvalid": "Email format is invalid",

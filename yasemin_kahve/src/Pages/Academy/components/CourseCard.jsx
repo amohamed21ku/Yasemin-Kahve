@@ -106,21 +106,20 @@ const CourseCard = ({ course, onClick, onEnroll }) => {
         <p className="course-description">{getLocalizedText(course.shortDescription)}</p>
         
 
-        {course.instructor && (
-          <div className="course-instructor">
-            <img 
-              src={course.instructor.avatar || "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='40' height='40' viewBox='0 0 40 40'%3E%3Ccircle cx='20' cy='20' r='20' fill='%23D2691E'/%3E%3Ccircle cx='20' cy='15' r='6' fill='white'/%3E%3Cpath d='M8 32c0-6.627 5.373-12 12-12s12 5.373 12 12' fill='white'/%3E%3C/svg%3E"} 
-              alt={course.instructor.name || 'Instructor'}
-              onError={(e) => {
-                e.target.src = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='40' height='40' viewBox='0 0 40 40'%3E%3Ccircle cx='20' cy='20' r='20' fill='%23D2691E'/%3E%3Ccircle cx='20' cy='15' r='6' fill='white'/%3E%3Cpath d='M8 32c0-6.627 5.373-12 12-12s12 5.373 12 12' fill='white'/%3E%3C/svg%3E"
-              }}
-            />
-            <div>
-              <span className="instructor-name">{course.instructor.name || 'Unknown Instructor'}</span>
-              <span className="instructor-title">{getLocalizedText(course.instructor.title, 'Instructor')}</span>
-            </div>
+        <div className="course-meta">
+          <div className="course-meta-item">
+            <Clock size={16} />
+            <span>{course.duration || '4'} {t("hours") || "hours"}</span>
           </div>
-        )}
+          <div className="course-meta-item">
+            <Calendar size={16} />
+            <span>{formatDate(course.startDate) || formatDate(new Date())}</span>
+          </div>
+          <div className="course-meta-item">
+            <Users size={16} />
+            <span>{course.enrolledStudents?.length || 0}/{course.maxStudents || 20}</span>
+          </div>
+        </div>
 
         <div className="course-footer">
           <div className="course-price">

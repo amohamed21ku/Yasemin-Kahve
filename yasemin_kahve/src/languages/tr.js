@@ -417,6 +417,7 @@ export const tr = {
   "courseNotFound": "Kurs bulunamadı",
   "backToAcademy": "Akademiye Dön",
   "duration": "Süre",
+  "hours": "gün",
   "days": "gün",
   "durationDays": "Süre (gün)",
   "students": "Öğrenci",
