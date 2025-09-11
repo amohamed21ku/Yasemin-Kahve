@@ -489,5 +489,32 @@ export const tr = {
   "titleTr": "Başlık (Türkçe)",
   "createInstructor": "Eğitmen Oluştur",
   
+  // Enrollment Modal
+  "personalInformation": "Kişisel Bilgiler",
+  "firstNamePlaceholder": "Adınızı girin",
+  "lastNamePlaceholder": "Soyadınızı girin",
+  "phoneNumberRequired": "Telefon numarası gerekli",
+  "invalidPhoneNumber": "Lütfen geçerli bir telefon numarası girin",
+  "invalidEmail": "Lütfen geçerli bir e-posta adresi girin",
+  "paymentMethod": "Ödeme Yöntemi",
+  "creditCard": "Kredi Kartı",
+  "cardNumber": "Kart Numarası",
+  "expiryDate": "Son Kullanma Tarihi",
+  "cvv": "CVV",
+  "cardName": "Karttaki İsim",
+  "cardNamePlaceholder": "Ahmet Yılmaz",
+  "cardNameRequired": "Lütfen karttaki ismi girin",
+  "invalidCardNumber": "Lütfen geçerli bir kart numarası girin (test için 1234567890123456 kullanın)",
+  "invalidExpiryDate": "Lütfen geçerli bir son kullanma tarihi girin (test için 12/30 kullanın)",
+  "invalidCvv": "Lütfen geçerli bir CVV girin (test için 000 kullanın)",
+  "agreeToTerms": "Lütfen şartlar ve koşulları kabul edin",
+  "agreeToTermsText": "Şartlar ve koşulları ve gizlilik politikasını kabul ediyorum",
+  "securePayment": "Ödeme bilgileriniz güvenli ve şifrelenmiştir",
+  "completeEnrollment": "Kaydı Tamamla",
+  "userNotAuthenticated": "Kullanıcı kimlik doğrulaması yapılmadı. Lütfen tekrar giriş yapın.",
+  "enrollmentError": "Kayıt sırasında bir hata oluştu. Lütfen tekrar deneyin.",
+  "enrollmentSuccess": "Kursa başarıyla kaydoldunuz!",
+  "loadingUserData": "Kullanıcı verileri yükleniyor...",
+
   // General
 };

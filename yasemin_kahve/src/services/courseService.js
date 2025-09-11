@@ -110,20 +110,22 @@ export const deleteCourse = async (courseId) => {
 };
 
 // Enrollment Management Functions
-export const enrollStudent = async (courseId, userId, paymentInfo) => {
+export const enrollStudent = async (courseId, userId, enrollmentInfo) => {
   try {
     // Create enrollment record
     const enrollmentData = {
       courseId,
       userId,
       enrolledAt: new Date(),
-      paymentStatus: 'completed',
+      paymentStatus: enrollmentInfo.enrollmentType === 'free' ? 'free' : 'completed',
       paymentInfo: {
-        amount: paymentInfo.amount,
+        amount: enrollmentInfo.amount || 0,
         currency: 'TRY',
-        method: paymentInfo.method,
-        transactionId: `test_${Date.now()}` // For development
+        method: enrollmentInfo.method || 'free',
+        transactionId: enrollmentInfo.enrollmentType === 'free' ? `free_${Date.now()}` : `test_${Date.now()}`,
+        type: enrollmentInfo.enrollmentType || 'free'
       },
+      studentInfo: enrollmentInfo.studentInfo || {},
       progress: 0,
       completedLessons: [],
       status: 'active'

@@ -16,13 +16,13 @@ const EnrollmentCard = ({ course, formatPrice, isEnrolled, isFull, handleEnrollC
       
       <button 
         className={`enroll-btn ${isEnrolled ? 'enrolled' : isFull ? 'full' : ''}`}
-        onClick={handleEnrollClick}
+        onClick={isEnrolled ? () => onNavigate('course-page', null, null, course) : handleEnrollClick}
         disabled={isFull && !isEnrolled}
       >
         {isEnrolled ? (
           <>
             <CheckCircle size={20} />
-            {t("enrolled") || "Enrolled"}
+            {t("viewCourse") || "View Course"}
           </>
         ) : isFull ? (
           t("courseFull") || "Course Full"

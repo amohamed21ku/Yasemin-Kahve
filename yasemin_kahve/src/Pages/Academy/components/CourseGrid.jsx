@@ -16,8 +16,6 @@ const CourseGrid = ({ onCourseClick, onEnroll, onAddNewCourse }) => {
   const [searchTerm, setSearchTerm] = useState('')
   const [selectedLevel, setSelectedLevel] = useState('all')
   const [selectedCategory, setSelectedCategory] = useState('all')
-  const [minRating, setMinRating] = useState('all')
-  const [sortBy, setSortBy] = useState('popularity')
   const [showFilters, setShowFilters] = useState(false)
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState(null)
@@ -123,38 +121,9 @@ const CourseGrid = ({ onCourseClick, onEnroll, onAddNewCourse }) => {
       filtered = filtered.filter(course => course.category === selectedCategory)
     }
 
-    // Minimum rating filter
-    if (minRating !== 'all') {
-      const minRatingNum = parseFloat(minRating)
-      filtered = filtered.filter(course => {
-        const rating = course.rating || 0
-        return rating >= minRatingNum
-      })
-    }
-
-    // Sort
-    switch (sortBy) {
-      case 'price-low':
-        filtered.sort((a, b) => a.price - b.price)
-        break
-      case 'price-high':
-        filtered.sort((a, b) => b.price - a.price)
-        break
-      case 'duration':
-        filtered.sort((a, b) => a.duration - b.duration)
-        break
-      case 'rating':
-        filtered.sort((a, b) => b.rating - a.rating)
-        break
-      case 'date':
-        filtered.sort((a, b) => new Date(a.startDate) - new Date(b.startDate))
-        break
-      default: // popularity
-        filtered.sort((a, b) => b.rating - a.rating)
-    }
 
     setFilteredCourses(filtered)
-  }, [courses, searchTerm, selectedLevel, selectedCategory, minRating, sortBy])
+  }, [courses, searchTerm, selectedLevel, selectedCategory])
 
   return (
     <div className="course-grid-container">
@@ -209,38 +178,6 @@ const CourseGrid = ({ onCourseClick, onEnroll, onAddNewCourse }) => {
             </select>
           </div>
 
-          <div className="filter-group">
-            <label>{t("courseType") || "Course Type"}</label>
-            <select value={selectedCategory} onChange={(e) => setSelectedCategory(e.target.value)}>
-              <option value="all">{t("allTypes") || "All Types"}</option>
-              <option value="online">{t("online") || "Online"}</option>
-              <option value="face-to-face">{t("faceToFace") || "Face-to-Face"}</option>
-              <option value="hybrid">{t("hybrid") || "Hybrid"}</option>
-            </select>
-          </div>
-
-          <div className="filter-group">
-            <label>{t("minRating") || "Minimum Rating"}</label>
-            <select value={minRating} onChange={(e) => setMinRating(e.target.value)}>
-              <option value="all">{t("anyRating") || "Any Rating"}</option>
-              <option value="4.5">4.5+ {t("stars") || "stars"}</option>
-              <option value="4.0">4.0+ {t("stars") || "stars"}</option>
-              <option value="3.5">3.5+ {t("stars") || "stars"}</option>
-              <option value="3.0">3.0+ {t("stars") || "stars"}</option>
-            </select>
-          </div>
-
-          <div className="filter-group">
-            <label>{t("sortBy") || "Sort By"}</label>
-            <select value={sortBy} onChange={(e) => setSortBy(e.target.value)}>
-              <option value="popularity">{t("popularity") || "Popularity"}</option>
-              <option value="price-low">{t("priceLowToHigh") || "Price: Low to High"}</option>
-              <option value="price-high">{t("priceHighToLow") || "Price: High to Low"}</option>
-              <option value="duration">{t("duration") || "Duration"}</option>
-              <option value="rating">{t("rating") || "Rating"}</option>
-              <option value="date">{t("startDate") || "Start Date"}</option>
-            </select>
-          </div>
         </div>
       )}
 

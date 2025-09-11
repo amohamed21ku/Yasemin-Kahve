@@ -98,8 +98,8 @@ const Hero = ({ onNavigate }) => {  // Add onNavigate as a prop
   };
 
   return (
-    <section className="hero">
-      <div className="hero-background">
+    <section className="hero-home">
+      <div className="hero-home-background">
         {/* Video background */}
         <div className={`video-background ${isVideoLoaded ? 'loaded' : ''}`}>
           <video
@@ -122,25 +122,25 @@ const Hero = ({ onNavigate }) => {  // Add onNavigate as a prop
         <div className="animated-elements"></div>
       </div>
 
-      <div className="hero-content">
-        <div className="hero-text">
-          <h1 className="hero-title">
-            <img src="/static/images/assets/yaso2.png" alt="Yasemin Kahve" className="hero-logo-image" />
+      <div className="hero-home-content">
+        <div className="hero-home-text">
+          <h1 className="hero-home-title">
+            <img src="/static/images/assets/yaso2.png" alt="Yasemin Kahve" className="hero-home-logo-image" />
             <span className="title-highlight">{slide.subtitle}</span>
           </h1>
 
-          <p className="hero-description">{slide.description}</p>
+          <p className="hero-home-description">{slide.description}</p>
 
-          <div className="hero-buttons">
-            <div className="hero-buttons-row">
+          <div className="hero-home-buttons">
+            <div className="hero-home-buttons-row">
               <button 
-                className="btn-primary"
+                className="btn-home-primary"
                 onClick={scrollToProducts}
               >
                 <span>{slide.cta}</span>
               </button>
               <button 
-                className="btn-secondary academy-btn animated-button"
+                className="btn-home-secondary academy-home-btn animated-home-button"
                 onClick={handleAcademyClick}
               >
                 <svg viewBox="0 0 24 24" className="arr-2" >

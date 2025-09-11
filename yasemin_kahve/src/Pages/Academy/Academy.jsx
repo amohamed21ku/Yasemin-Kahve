@@ -112,7 +112,7 @@ const Academy = ({ onNavigate }) => {
   if (hasError) {
     return (
       <div className="academy-page">
-        <Header activeSection="academy" onNavigate={onNavigate} darkContent={true} />
+        <Header activeSection="academy" onNavigate={onNavigate} />
         <div style={{ 
           display: 'flex', 
           flexDirection: 'column', 
@@ -147,7 +147,7 @@ const Academy = ({ onNavigate }) => {
   try {
     return (
       <div className="academy-page">
-        <Header activeSection="academy" onNavigate={onNavigate} darkContent={true} />
+        <Header activeSection="academy" onNavigate={onNavigate} />
         <div className='hero-section-wrapper'>
           {/* Background decorative elements */}
           <div className="hero-Academy-background">

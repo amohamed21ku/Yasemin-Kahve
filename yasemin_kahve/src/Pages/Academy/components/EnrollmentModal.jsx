@@ -1,5 +1,5 @@
-import React, { useState } from 'react'
-import { X, CreditCard, Shield, CheckCircle, AlertCircle } from 'lucide-react'
+import React, { useState, useEffect } from 'react'
+import { X, CheckCircle, AlertCircle, User, Phone } from 'lucide-react'
 import { useTranslation } from '../../../useTranslation'
 import { useAuth } from '../../../AuthContext'
 import { enrollStudent } from '../../../services/courseService'
@@ -7,19 +7,56 @@ import './EnrollmentModal.css'
 
 const EnrollmentModal = ({ course, isOpen, onClose, onEnroll }) => {
   const { t, language } = useTranslation()
-  const { currentUser } = useAuth()
+  const { currentUser, getUserData, updateUserProfile } = useAuth()
   const [isProcessing, setIsProcessing] = useState(false)
-  const [paymentMethod, setPaymentMethod] = useState('card')
   const [formData, setFormData] = useState({
-    cardNumber: '',
-    expiryDate: '',
-    cvv: '',
-    cardName: '',
+    firstName: '',
+    lastName: '',
+    phoneNumber: '',
     email: '',
-    phone: '',
     agreeTerms: false
   })
   const [errors, setErrors] = useState({})
+  const [userDataLoaded, setUserDataLoaded] = useState(false)
+
+  // Populate form with existing user data
+  useEffect(() => {
+    const loadUserData = async () => {
+      if (currentUser && isOpen && !userDataLoaded) {
+        try {
+          const userData = await getUserData(currentUser.uid)
+          if (userData) {
+            setFormData(prev => ({
+              ...prev,
+              firstName: userData.firstName || '',
+              lastName: userData.lastName || '',
+              phoneNumber: userData.phoneNumber || '',
+              email: userData.email || currentUser.email || ''
+            }))
+          } else {
+            // If no user data exists, use basic info from auth
+            setFormData(prev => ({
+              ...prev,
+              email: currentUser.email || ''
+            }))
+          }
+          setUserDataLoaded(true)
+        } catch (error) {
+          console.error('Error loading user data:', error)
+        }
+      }
+    }
+
+    loadUserData()
+  }, [currentUser, isOpen, getUserData, userDataLoaded])
+
+  // Reset form when modal closes
+  useEffect(() => {
+    if (!isOpen) {
+      setUserDataLoaded(false)
+      setErrors({})
+    }
+  }, [isOpen])
 
   const getLocalizedText = (textObj, fallback = '') => {
     if (textObj && typeof textObj === 'object') {
@@ -50,63 +87,41 @@ const EnrollmentModal = ({ course, isOpen, onClose, onEnroll }) => {
     }
   }
 
-  const formatCardNumber = (value) => {
-    // Remove all non-digit characters
-    const v = value.replace(/\s+/g, '').replace(/[^0-9]/gi, '')
-    // Add spaces every 4 digits
-    const matches = v.match(/\d{4,16}/g)
-    const match = matches && matches[0] || ''
-    const parts = []
-    for (let i = 0, len = match.length; i < len; i += 4) {
-      parts.push(match.substring(i, i + 4))
-    }
-    if (parts.length) {
-      return parts.join(' ')
-    } else {
-      return v
-    }
-  }
-
-  const formatExpiryDate = (value) => {
-    const v = value.replace(/\s+/g, '').replace(/[^0-9]/gi, '')
-    if (v.length >= 2) {
-      return v.substring(0, 2) + (v.length > 2 ? '/' + v.substring(2, 4) : '')
-    }
-    return v
-  }
 
   const validateForm = () => {
     const newErrors = {}
 
+    // User information validation
+    if (!formData.firstName.trim()) {
+      newErrors.firstName = t("firstNameRequired") || "First name is required"
+    }
+
+    if (!formData.lastName.trim()) {
+      newErrors.lastName = t("lastNameRequired") || "Last name is required"
+    }
+
+    if (!formData.phoneNumber.trim()) {
+      newErrors.phoneNumber = t("phoneNumberRequired") || "Phone number is required"
+    } else {
+      // Basic phone number validation
+      const phoneRegex = /^\+?[\d\s\-\(\)]{10,}$/
+      if (!phoneRegex.test(formData.phoneNumber.trim())) {
+        newErrors.phoneNumber = t("invalidPhoneNumber") || "Please enter a valid phone number"
+      }
+    }
+
+    if (!formData.email.trim()) {
+      newErrors.email = t("emailRequired") || "Email is required"
+    } else {
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
+      if (!emailRegex.test(formData.email)) {
+        newErrors.email = t("invalidEmail") || "Please enter a valid email address"
+      }
+    }
+
+    // Terms agreement validation
     if (!formData.agreeTerms) {
       newErrors.agreeTerms = t("agreeToTerms") || "Please agree to terms and conditions"
-    }
-
-    if (paymentMethod === 'card') {
-      const cardNumber = formData.cardNumber.replace(/\s/g, '')
-      
-      // Accept test card number 1234567890123456 or any 16-digit number for development
-      if (!cardNumber || cardNumber.length !== 16) {
-        newErrors.cardNumber = t("invalidCardNumber") || "Please enter a valid card number (use 1234567890123456 for testing)"
-      }
-      
-      // Accept test expiry date 12/30 or any valid format
-      if (!formData.expiryDate || formData.expiryDate.length !== 5) {
-        newErrors.expiryDate = t("invalidExpiryDate") || "Please enter a valid expiry date (use 12/30 for testing)"
-      }
-      
-      // Accept test CVV 000 or any 3-4 digit number
-      if (!formData.cvv || (formData.cvv.length < 3 || formData.cvv.length > 4)) {
-        newErrors.cvv = t("invalidCvv") || "Please enter a valid CVV (use 000 for testing)"
-      }
-      
-      if (!formData.cardName.trim()) {
-        newErrors.cardName = t("cardNameRequired") || "Please enter the name on card"
-      }
-    }
-
-    if (!currentUser?.email && !formData.email) {
-      newErrors.email = t("emailRequired") || "Email is required"
     }
 
     setErrors(newErrors)
@@ -125,30 +140,41 @@ const EnrollmentModal = ({ course, isOpen, onClose, onEnroll }) => {
     setIsProcessing(true)
 
     try {
-      // Simulate payment processing delay
-      await new Promise(resolve => setTimeout(resolve, 1500))
+      // Validate course data
+      if (!course || !course.id) {
+        throw new Error("Course information is missing. Please try refreshing the page.")
+      }
+
+      // First, update user profile with the collected information
+      const userProfileData = {
+        firstName: formData.firstName.trim(),
+        lastName: formData.lastName.trim(),
+        phoneNumber: formData.phoneNumber.trim(),
+        displayName: `${formData.firstName.trim()} ${formData.lastName.trim()}`,
+        email: formData.email.trim()
+      }
+
+      // Update user profile in Firebase
+      await updateUserProfile(currentUser.uid, userProfileData)
+
+      // Simulate enrollment processing delay
+      await new Promise(resolve => setTimeout(resolve, 1000))
       
-      // Check if using test credentials for development
-      const cardNumber = formData.cardNumber.replace(/\s/g, '')
-      const isTestPayment = cardNumber === '1234567890123456' || 
-                           cardNumber.startsWith('1234567890') ||
-                           formData.expiryDate === '12/30' || 
-                           formData.cvv === '000'
-      
-      if (!isTestPayment) {
-        // In production, validate with real payment processor
-        console.log('Production payment validation needed')
+      // Process enrollment in Firebase (no payment required)
+      const enrollmentData = {
+        enrollmentType: 'free',
+        amount: course.price || 0,
+        method: 'free',
+        studentInfo: {
+          firstName: formData.firstName.trim(),
+          lastName: formData.lastName.trim(),
+          phoneNumber: formData.phoneNumber.trim(),
+          email: formData.email.trim()
+        }
       }
       
-      // Process enrollment in Firebase
-      const paymentInfo = {
-        amount: course.price,
-        method: 'card',
-        cardLast4: cardNumber.slice(-4),
-        isTest: isTestPayment
-      }
-      
-      await enrollStudent(course.id, currentUser.uid, paymentInfo)
+      console.log('Enrolling with data:', enrollmentData)
+      await enrollStudent(course.id, currentUser.uid, enrollmentData)
       
       // Call parent enrollment handler
       if (onEnroll) {
@@ -158,9 +184,19 @@ const EnrollmentModal = ({ course, isOpen, onClose, onEnroll }) => {
       onClose()
     } catch (error) {
       console.error('Enrollment error:', error)
-      setErrors({ 
-        general: error.message || t("enrollmentError") || "An error occurred during enrollment. Please try again." 
-      })
+      
+      // Provide more specific error messages
+      let errorMessage = t("enrollmentError") || "An error occurred during enrollment. Please try again."
+      
+      if (error.message.includes('permission')) {
+        errorMessage = "You don't have permission to enroll. Please sign in again."
+      } else if (error.message.includes('network')) {
+        errorMessage = "Network error. Please check your connection and try again."
+      } else if (error.message.includes('Course information')) {
+        errorMessage = error.message
+      }
+      
+      setErrors({ general: errorMessage })
     } finally {
       setIsProcessing(false)
     }
@@ -185,140 +221,110 @@ const EnrollmentModal = ({ course, isOpen, onClose, onEnroll }) => {
   return (
     <div className="enrollment-modal-overlay" onClick={onClose}>
       <div className="enrollment-modal" onClick={(e) => e.stopPropagation()}>
+        
+        {/* Header */}
         <div className="modal-header">
           <h2>{t("enrollInCourse") || "Enroll in Course"}</h2>
           <button onClick={onClose} className="close-btn">
             <X size={24} />
           </button>
         </div>
-
-        <div className="modal-content">
-          <div className="course-summary">
-            <img src={course.image} alt={getLocalizedText(course.title)} />
-            <div>
-              <h3>{getLocalizedText(course.title)}</h3>
-              <p className="course-price">{formatPrice(course.price)}</p>
-            </div>
-          </div>
-
-          {errors.general && (
-            <div className="error-message">
-              <AlertCircle size={16} />
-              {errors.general}
-            </div>
-          )}
-
-          <div className="payment-methods">
-            <h4>{t("paymentMethod") || "Payment Method"}</h4>
-            <div className="payment-options">
-              <label className={`payment-option ${paymentMethod === 'card' ? 'active' : ''}`}>
-                <input
-                  type="radio"
-                  value="card"
-                  checked={paymentMethod === 'card'}
-                  onChange={(e) => setPaymentMethod(e.target.value)}
-                />
-                <CreditCard size={20} />
-                <span>{t("creditCard") || "Credit Card"}</span>
-              </label>
-            </div>
-          </div>
-
-          {paymentMethod === 'card' && (
-            <div className="card-form">
-              <div className="form-group">
-                <label>{t("cardNumber") || "Card Number"}</label>
-                <input
-                  type="text"
-                  placeholder="1234 5678 9012 3456"
-                  value={formData.cardNumber}
-                  onChange={(e) => handleInputChange('cardNumber', formatCardNumber(e.target.value))}
-                  maxLength={19}
-                  className={errors.cardNumber ? 'error' : ''}
-                />
-                {errors.cardNumber && <span className="error-text">{errors.cardNumber}</span>}
-              </div>
-
-              <div className="form-row">
-                <div className="form-group">
-                  <label>{t("expiryDate") || "Expiry Date"}</label>
-                  <input
-                    type="text"
-                    placeholder="MM/YY"
-                    value={formData.expiryDate}
-                    onChange={(e) => handleInputChange('expiryDate', formatExpiryDate(e.target.value))}
-                    maxLength={5}
-                    className={errors.expiryDate ? 'error' : ''}
-                  />
-                  {errors.expiryDate && <span className="error-text">{errors.expiryDate}</span>}
-                </div>
-
-                <div className="form-group">
-                  <label>{t("cvv") || "CVV"}</label>
-                  <input
-                    type="text"
-                    placeholder="123"
-                    value={formData.cvv}
-                    onChange={(e) => handleInputChange('cvv', e.target.value.replace(/\D/g, ''))}
-                    maxLength={4}
-                    className={errors.cvv ? 'error' : ''}
-                  />
-                  {errors.cvv && <span className="error-text">{errors.cvv}</span>}
-                </div>
-              </div>
-
-              <div className="form-group">
-                <label>{t("cardName") || "Name on Card"}</label>
-                <input
-                  type="text"
-                  placeholder={t("cardNamePlaceholder") || "John Doe"}
-                  value={formData.cardName}
-                  onChange={(e) => handleInputChange('cardName', e.target.value)}
-                  className={errors.cardName ? 'error' : ''}
-                />
-                {errors.cardName && <span className="error-text">{errors.cardName}</span>}
-              </div>
-            </div>
-          )}
-
-          {!currentUser?.email && (
-            <div className="contact-info">
-              <h4>{t("contactInformation") || "Contact Information"}</h4>
-              <div className="form-group">
-                <label>{t("email") || "Email"}</label>
-                <input
-                  type="email"
-                  placeholder="example@email.com"
-                  value={formData.email}
-                  onChange={(e) => handleInputChange('email', e.target.value)}
-                  className={errors.email ? 'error' : ''}
-                />
-                {errors.email && <span className="error-text">{errors.email}</span>}
-              </div>
-            </div>
-          )}
-
-          <div className="terms-section">
-            <label className="checkbox-label">
-              <input
-                type="checkbox"
-                checked={formData.agreeTerms}
-                onChange={(e) => handleInputChange('agreeTerms', e.target.checked)}
-              />
-              <span className="checkmark"></span>
-              <span className={errors.agreeTerms ? 'error' : ''}>
-                {t("agreeToTermsText") || "I agree to the terms and conditions and privacy policy"}
-              </span>
-            </label>
-            {errors.agreeTerms && <span className="error-text">{errors.agreeTerms}</span>}
-          </div>
-
-          <div className="security-notice">
-            <Shield size={16} />
-            <span>{t("securePayment") || "Your payment information is secure and encrypted"}</span>
+        
+        {/* Course Summary */}
+        <div className="course-summary">
+          <img src={course.image} alt={getLocalizedText(course.title)} />
+          <div>
+            <h3>{getLocalizedText(course.title)}</h3>
+            <p className="course-price">{formatPrice(course.price)}</p>
           </div>
         </div>
 
+        {/* General Error */}
+        {errors.general && (
+          <div className="error-message">
+            <AlertCircle size={16} />
+            {errors.general}
+          </div>
+        )}
+
+        {/* Personal Information Section */}
+        <div className="user-information-section">
+          <h4 className="section-title">
+            <User size={16} />
+            {t("personalInformation") || "Personal Information"}
+          </h4>
+          
+          <div className="form-row">
+            <div className="form-group">
+              <label>{t("firstName") || "First Name"} *</label>
+              <input
+                type="text"
+                placeholder={t("firstNamePlaceholder") || "Enter your first name"}
+                value={formData.firstName}
+                onChange={(e) => handleInputChange('firstName', e.target.value)}
+                className={errors.firstName ? 'error' : ''}
+              />
+              {errors.firstName && <span className="error-text">{errors.firstName}</span>}
+            </div>
+
+            <div className="form-group">
+              <label>{t("lastName") || "Last Name"} *</label>
+              <input
+                type="text"
+                placeholder={t("lastNamePlaceholder") || "Enter your last name"}
+                value={formData.lastName}
+                onChange={(e) => handleInputChange('lastName', e.target.value)}
+                className={errors.lastName ? 'error' : ''}
+              />
+              {errors.lastName && <span className="error-text">{errors.lastName}</span>}
+            </div>
+          </div>
+
+          <div className="form-group">
+            <label>
+              <Phone size={16} />
+              {t("phoneNumber") || "Phone Number"} *
+            </label>
+            <input
+              type="tel"
+              placeholder="+90 555 123 4567"
+              value={formData.phoneNumber}
+              onChange={(e) => handleInputChange('phoneNumber', e.target.value)}
+              className={errors.phoneNumber ? 'error' : ''}
+            />
+            {errors.phoneNumber && <span className="error-text">{errors.phoneNumber}</span>}
+          </div>
+
+          <div className="form-group">
+            <label>{t("email") || "Email Address"} *</label>
+            <input
+              type="email"
+              placeholder="example@email.com"
+              value={formData.email}
+              onChange={(e) => handleInputChange('email', e.target.value)}
+              className={errors.email ? 'error' : ''}
+            />
+            {errors.email && <span className="error-text">{errors.email}</span>}
+          </div>
+        </div>
+
+        {/* Terms Section */}
+        <div className="terms-section">
+          <label className="checkbox-label">
+            <input
+              type="checkbox"
+              checked={formData.agreeTerms}
+              onChange={(e) => handleInputChange('agreeTerms', e.target.checked)}
+            />
+            <span className="checkmark"></span>
+            <span className={errors.agreeTerms ? 'error' : ''}>
+              {t("agreeToTermsText") || "I agree to the terms and conditions and privacy policy"}
+            </span>
+          </label>
+          {errors.agreeTerms && <span className="error-text">{errors.agreeTerms}</span>}
+        </div>
+
+        {/* Footer with Buttons */}
         <div className="modal-footer">
           <button onClick={onClose} className="cancel-btn">
             {t("cancel") || "Cancel"}
@@ -336,7 +342,7 @@ const EnrollmentModal = ({ course, isOpen, onClose, onEnroll }) => {
             ) : (
               <>
                 <CheckCircle size={16} />
-                {t("completeEnrollment") || "Complete Enrollment"}
+                {t("enrollNow") || "Enroll Now"}
               </>
             )}
           </button>

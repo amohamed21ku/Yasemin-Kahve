@@ -301,7 +301,7 @@ const ProductDetail = ({ onNavigate, product, previousPage }) => {
                   onClick={() => {
                     const productName = displayProduct.name;
                     const message = `Hi, I'm interested in ${productName} for wholesale. Could you please provide more details about bulk pricing and availability?`;
-                    const whatsappUrl = `https://wa.me/?text=${encodeURIComponent(message)}`;
+                    const whatsappUrl = `https://wa.me/905395004444?text=${encodeURIComponent(message)}`;
                     window.open(whatsappUrl, '_blank');
                   }}
                 >

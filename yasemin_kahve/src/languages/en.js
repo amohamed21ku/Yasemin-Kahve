@@ -109,6 +109,7 @@ export const en = {
 
 "OurMission":"Our Mission",
 "MissionParagraph":"We are not just here to supply coffee. We are here to shape standards, fuel growth, and elevate the future of coffee in Türkiye.",
+"qualityIntroText":"Will write something here !!!!!!!!!!!!!!",
 
 
   
@@ -497,5 +498,32 @@ export const en = {
   "titleTr": "Title (Turkish)",
   "createInstructor": "Create Instructor",
   
+  // Enrollment Modal
+  "personalInformation": "Personal Information",
+  "firstNamePlaceholder": "Enter your first name",
+  "lastNamePlaceholder": "Enter your last name",
+  "phoneNumberRequired": "Phone number is required",
+  "invalidPhoneNumber": "Please enter a valid phone number",
+  "invalidEmail": "Please enter a valid email address",
+  "paymentMethod": "Payment Method",
+  "creditCard": "Credit Card",
+  "cardNumber": "Card Number",
+  "expiryDate": "Expiry Date",
+  "cvv": "CVV",
+  "cardName": "Name on Card",
+  "cardNamePlaceholder": "John Doe",
+  "cardNameRequired": "Please enter the name on card",
+  "invalidCardNumber": "Please enter a valid card number (use 1234567890123456 for testing)",
+  "invalidExpiryDate": "Please enter a valid expiry date (use 12/30 for testing)",
+  "invalidCvv": "Please enter a valid CVV (use 000 for testing)",
+  "agreeToTerms": "Please agree to terms and conditions",
+  "agreeToTermsText": "I agree to the terms and conditions and privacy policy",
+  "securePayment": "Your payment information is secure and encrypted",
+  "completeEnrollment": "Complete Enrollment",
+  "userNotAuthenticated": "User not authenticated. Please sign in again.",
+  "enrollmentError": "An error occurred during enrollment. Please try again.",
+  "enrollmentSuccess": "Successfully enrolled in the course!",
+  "loadingUserData": "Loading user data...",
+
   // General
 };

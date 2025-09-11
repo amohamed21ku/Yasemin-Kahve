@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { ArrowLeft, Clock, Calendar, Users, Star, MapPin } from 'lucide-react'
+import { ArrowLeft, Clock, Calendar, Users, MapPin } from 'lucide-react'
 import { useTranslate } from '../../../useTranslate'
 import './CourseHero.css'
 
@@ -61,12 +61,6 @@ const CourseHero = ({ course, onNavigate, getLocalizedText, formatDate }) => {
           <h1 className="course-detail-title">{getLocalizedText(course.title)}</h1>
           
           <div className="course-detail-meta">
-            <div className="course-rating">
-              <Star size={16} fill="currentColor" />
-              <span>{course.rating}</span>
-              <span>({course.enrolledStudents?.length || 0} students)</span>
-            </div>
-            
             <div className="course-meta-items">
               <div className="course-detail-meta-item">
                 <Clock size={16} />

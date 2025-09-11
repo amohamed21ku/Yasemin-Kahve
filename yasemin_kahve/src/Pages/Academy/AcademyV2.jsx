@@ -95,7 +95,7 @@ const AcademyV2 = ({ onNavigate }) => {
   if (hasError) {
     return (
       <div className="academy-page">
-        <Header activeSection="academy" onNavigate={onNavigate} darkContent={true} />
+        <Header activeSection="academy" onNavigate={onNavigate} />
         <div style={{ 
           display: 'flex', 
           flexDirection: 'column', 
@@ -130,7 +130,7 @@ const AcademyV2 = ({ onNavigate }) => {
   try {
     return (
       <div className="academy-page">
-        <Header activeSection="academy" onNavigate={onNavigate} darkContent={true} />
+        <Header activeSection="academy" onNavigate={onNavigate} />
         
         <ShuffleHero />
         

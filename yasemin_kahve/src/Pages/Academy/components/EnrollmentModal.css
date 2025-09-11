@@ -22,6 +22,8 @@
   overflow-y: auto;
   box-shadow: 0 20px 60px rgba(139, 69, 19, 0.3);
   border: 1px solid rgba(139, 69, 19, 0.1);
+  display: flex;
+  flex-direction: column;
 }
 
 .modal-header {
@@ -31,6 +33,7 @@
   padding: 1.5rem;
   border-bottom: 1px solid #E5E7EB;
   background: linear-gradient(135deg, #FEF7ED, #FFEDD5);
+  flex-shrink: 0;
 }
 
 .modal-header h2 {
@@ -55,14 +58,12 @@
   color: #8B4513;
 }
 
-.modal-content {
-  padding: 1.5rem;
-}
 
 .course-summary {
   display: flex;
   gap: 1rem;
-  margin-bottom: 1.5rem;
+  margin: 1.5rem;
+  margin-bottom: 1rem;
   padding: 1rem;
   background: #F9FAFB;
   border-radius: 0.75rem;
@@ -99,8 +100,67 @@
   color: #DC2626;
   padding: 0.75rem;
   border-radius: 0.5rem;
-  margin-bottom: 1rem;
+  margin: 0 1.5rem 1rem 1.5rem;
   font-size: 0.9rem;
+}
+
+.user-information-section {
+  margin: 1rem 1.5rem 1.5rem 1.5rem;
+  padding: 1.5rem;
+  background: linear-gradient(135deg, #FFFBEB, #FEF7ED);
+  border: 1px solid #FED7AA;
+  border-radius: 1rem;
+}
+
+.section-title {
+  color: #8B4513;
+  font-size: 1.1rem;
+  font-weight: 600;
+  margin: 0 0 1.5rem 0;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.section-title svg {
+  color: #D2691E;
+}
+
+.user-information-section .form-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.user-information-section .form-group label {
+  color: #8B4513;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.user-information-section .form-group label svg {
+  color: #D2691E;
+}
+
+.user-information-section .form-group input {
+  background: white;
+  border: 2px solid #FED7AA;
+  border-radius: 0.5rem;
+  padding: 0.75rem;
+  transition: all 0.3s ease;
+}
+
+.user-information-section .form-group input:focus {
+  border-color: #D2691E;
+  box-shadow: 0 0 0 3px rgba(210, 105, 30, 0.1);
+}
+
+.user-information-section .form-group input.error {
+  border-color: #DC2626;
+  background: #FEE2E2;
 }
 
 .payment-methods {
@@ -215,7 +275,7 @@
 }
 
 .terms-section {
-  margin-bottom: 1rem;
+  margin: 1rem 1.5rem;
 }
 
 .checkbox-label {
@@ -285,6 +345,8 @@
   padding: 1.5rem;
   border-top: 1px solid #E5E7EB;
   background: #F9FAFB;
+  flex-shrink: 0;
+  margin-top: auto;
 }
 
 .cancel-btn {
