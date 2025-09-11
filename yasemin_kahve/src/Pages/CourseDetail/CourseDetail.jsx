@@ -151,10 +151,7 @@ const CourseDetail = ({ course, onNavigate, onEnroll }) => {
       tr: "Bu kapsamlı kurs size derinlemesine bilgi ve pratik beceriler sağlayacak."
     },
     curriculum: course.curriculum || [],
-    prerequisites: course.prerequisites || {
-      en: "No prior experience required. Just bring your enthusiasm to learn!",
-      tr: "Önceden deneyim gerekmez. Sadece öğrenme hevesini getirin!"
-    },
+
     materials: course.materials || [
       { en: "Course materials", tr: "Kurs materyalleri" },
       { en: "Practical exercises", tr: "Pratik alıştırmalar" }
@@ -292,20 +289,7 @@ const CourseDetail = ({ course, onNavigate, onEnroll }) => {
                   <p>{t("enrolledMessage") || "You have successfully enrolled in this course"}</p>
                 </div>
               </div>
-              
-              <div className="enrolled-actions">
-                <button 
-                  className="action-btn"
-                  onClick={() => onNavigate('course-page', null, null, course)}
-                >
-                  <Play size={16} />
-                  {t("continueLearn") || "Continue Learning"}
-                </button>
-                <button className="action-btn secondary">
-                  <Download size={16} />
-                  {t("downloadMaterials") || "Download Materials"}
-                </button>
-              </div>
+            
             </div>
           ) : (
             <EnrollmentCard 
