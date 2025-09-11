@@ -92,7 +92,8 @@
       "Bash(npm install:*)",
       "Bash(del \"C:\\Users\\bodys\\Desktop\\Work\\Yasemin Kahve\\yasemin_kahve\\src\\Pages\\Admin\\components\\DataMigration.jsx\")",
       "Bash(git checkout:*)",
-      "Read(//c/Users/bodys/Desktop/Work/**)"
+      "Read(//c/Users/bodys/Desktop/Work/**)",
+      "Bash(del \"C:\\Users\\bodys\\Desktop\\Work\\Yasemin-Kahve\\yasemin_kahve\\fix-header-styles.css\")"
     ],
     "deny": [],
     "ask": []

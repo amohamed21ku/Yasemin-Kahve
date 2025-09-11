@@ -92,15 +92,15 @@ const Header = ({ activeSection = "home", onNavigate, darkContent = false }) => 
   const isAdmin = userData?.isAdmin === true;
 
   return (
-    <nav className={`header ${scrollY > 50 ? "scrolled" : ""} ${darkContent ? "dark-content" : ""} ${activeSection === "productDetail" ? "product-detail-header" : ""}`}>
-      <div className="container">
-        <div className="header-content">
-          <div className="logo-section glow-effect floating">
-            <div className="logo-container animated-border patterned">
+    <nav className={`fix-header ${scrollY > 50 ? "scrolled" : ""} ${darkContent ? "dark-content" : ""} ${activeSection === "productDetail" ? "product-detail-header" : ""}`}>
+      <div className="fix-container">
+        <div className="fix-header-content">
+          <div className="fix-logo-section glow-effect floating">
+            <div className="fix-logo-container animated-border patterned">
               <img
                 src={activeSection === 'academy' ? "/static/images/assets/Academy_logo.png" : "/static/images/assets/yaso2.png"}
                 alt={activeSection === 'academy' ? "Academy Logo" : "Yasemin Kahve Logo"}
-                className="logo-img high-contrast extra-large"
+                className="fix-logo-img high-contrast extra-large"
                 onError={(e) => {
                   e.target.style.display = 'none';
                 }}
@@ -108,14 +108,14 @@ const Header = ({ activeSection = "home", onNavigate, darkContent = false }) => 
             </div>
           </div>
 
-          <div className="desktop-nav">
+          <div className="fix-desktop-nav">
             {navItems.map((item) => {
               const isActive = activeSection === item.path;
               return (
                 <a
                   key={item.name}
                   href={`#${item.path}`}
-                  className={`nav-link ${isActive ? "active" : ""}`}
+                  className={`fix-nav-link ${isActive ? "active" : ""}`}
                   onClick={(e) => handleNavClick(item.path, e)}
                 >
                   {item.name}
@@ -127,49 +127,48 @@ const Header = ({ activeSection = "home", onNavigate, darkContent = false }) => 
             {isAdmin && (
               <a
                 href="#admin"
-                className={`nav-link admin-nav-link ${activeSection === 'admin' ? "active" : ""}`}
+                className={`fix-nav-link fix-admin-nav-link ${activeSection === 'admin' ? "active" : ""}`}
                 onClick={(e) => handleNavClick('admin', e)}
               >
-                <Coffee size={16} className="admin-icon" />
+                <Coffee size={16} className="fix-admin-icon" />
                 <span>{t("admin") || "Admin"}</span>
               </a>
             )}
-            
-            <LanguageSwitcher />
           </div>
 
           {/* Authentication Section */}
-          <div className="auth-section">
+          <div className="fix-auth-section">
+            <LanguageSwitcher />
             {currentUser ? (
-              <div className="user-menu-container" ref={userMenuRef}>
+              <div className="fix-user-menu-container" ref={userMenuRef}>
                 <button 
-                  className="user-menu-trigger"
+                  className="fix-user-menu-trigger"
                   onClick={handleUserMenuToggle}
                 >
                   {userData?.photoURL ? (
                     <img 
                       src={userData.photoURL} 
                       alt="Profile" 
-                      className="user-avatar-img"
+                      className="fix-user-avatar-img"
                     />
                   ) : (
                     <User size={18} />
                   )}
-                  <span className="user-name">
-                    {userData?.displayName || userData?.firstName || currentUser.email?.split('@')[0]}
+                  <span className="fix-user-name">
+                    {userData?.firstName || userData?.displayName?.split(' ')[0] || currentUser.email?.split('@')[0]}
                   </span>
-                  {isAdmin && <span className="admin-badge">ADMIN</span>}
+                  {isAdmin && <span className="fix-admin-badge">ADMIN</span>}
                 </button>
                 
                 {isUserMenuOpen && (
-                  <div className="user-dropdown" onClick={handleDropdownClick}>
-                    <div className="user-info">
+                  <div className="fix-user-dropdown" onClick={handleDropdownClick}>
+                    <div className="fix-user-info">
                       <strong>{userData?.displayName || `${userData?.firstName} ${userData?.lastName}`.trim()}</strong>
-                      <span className="user-email">{currentUser.email}</span>
+                      <span className="fix-user-email">{currentUser.email}</span>
                     </div>
-                    <div className="dropdown-divider"></div>
+                    <div className="fix-dropdown-divider"></div>
                     <button 
-                      className="dropdown-item"
+                      className="fix-dropdown-item"
                       onClick={(e) => handleNavClick('profile', e)}
                     >
                       <User size={16} />
@@ -177,14 +176,14 @@ const Header = ({ activeSection = "home", onNavigate, darkContent = false }) => 
                     </button>
                     {isAdmin && (
                       <button 
-                        className="dropdown-item admin-item"
+                        className="fix-dropdown-item fix-admin-item"
                         onClick={(e) => handleNavClick('admin', e)}
                       >
                         <Coffee size={16} />
                         {t("adminConsole") || "Admin Console"}
                       </button>
                     )}
-                    <button className="dropdown-item" onClick={handleLogout}>
+                    <button className="fix-dropdown-item" onClick={handleLogout}>
                       <LogOut size={16} />
                       {t("signOut") || "Sign Out"}
                     </button>
@@ -192,15 +191,15 @@ const Header = ({ activeSection = "home", onNavigate, darkContent = false }) => 
                 )}
               </div>
             ) : (
-              <div className="auth-buttons">
+              <div className="fix-auth-buttons">
                 <button 
-                  className="auth-btn sign-in-btn"
+                  className="fix-auth-btn fix-sign-in-btn"
                   onClick={(e) => handleNavClick('register', e)}
                 >
                   {t("signIn") || "Sign In"}
                 </button>
                 <button 
-                  className="auth-btn register-btn"
+                  className="fix-auth-btn fix-register-btn"
                   onClick={(e) => handleNavClick('register', e)}
                 >
                   {t("register") || "Register"}
@@ -210,12 +209,12 @@ const Header = ({ activeSection = "home", onNavigate, darkContent = false }) => 
           </div>
 
           {/* Mobile actions - Language switcher and menu button */}
-          <div className="mobile-actions">
-            <div className="mobile-header-language-switcher">
+          <div className="fix-mobile-actions">
+            <div className="fix-mobile-header-language-switcher">
               <LanguageSwitcher />
             </div>
             <button
-              className="mobile-menu-btn"
+              className="fix-mobile-menu-btn"
               onClick={() => setIsMenuOpen((v) => !v)}
               aria-label="Toggle Menu"
               aria-expanded={isMenuOpen}
@@ -226,13 +225,13 @@ const Header = ({ activeSection = "home", onNavigate, darkContent = false }) => 
         </div>
       </div>
 
-      <div className={`mobile-menu ${isMenuOpen ? "open" : ""}`}>
-        <div className="mobile-menu-content">
+      <div className={`fix-mobile-menu ${isMenuOpen ? "open" : ""}`}>
+        <div className="fix-mobile-menu-content">
           {navItems.map((item) => (
             <a
               key={item.name}
               href={`#${item.path}`}
-              className="mobile-nav-link"
+              className="fix-mobile-nav-link"
               onClick={(e) => handleNavClick(item.path, e)}
             >
               {item.name}
@@ -243,7 +242,7 @@ const Header = ({ activeSection = "home", onNavigate, darkContent = false }) => 
           {isAdmin && (
             <a
               href="#admin"
-              className={`mobile-nav-link admin-nav-link ${activeSection === 'admin' ? 'active' : ''}`}
+              className={`fix-mobile-nav-link fix-admin-nav-link ${activeSection === 'admin' ? 'active' : ''}`}
               onClick={(e) => handleNavClick('admin', e)}
             >
               <Coffee size={16} />
@@ -252,36 +251,36 @@ const Header = ({ activeSection = "home", onNavigate, darkContent = false }) => 
           )}
           
           {/* Mobile Auth Section */}
-          <div className="mobile-auth-section">
+          <div className="fix-mobile-auth-section">
             {currentUser ? (
               <>
-                <div className="mobile-user-info">
+                <div className="fix-mobile-user-info">
                   <User size={18} />
                   <span>{userData?.displayName || userData?.firstName || currentUser.email?.split('@')[0]}</span>
-                  {isAdmin && <span className="admin-badge">ADMIN</span>}
+                  {isAdmin && <span className="fix-admin-badge">ADMIN</span>}
                 </div>
                 <button 
-                  className="mobile-nav-link"
+                  className="fix-mobile-nav-link"
                   onClick={(e) => handleNavClick('profile', e)}
                 >
                   <User size={16} />
                   {t("myProfile") || "My Profile"}
                 </button>
-                <button className="mobile-logout-btn" onClick={handleLogout}>
+                <button className="fix-mobile-logout-btn" onClick={handleLogout}>
                   <LogOut size={16} />
                   {t("signOut") || "Sign Out"}
                 </button>
               </>
             ) : (
-              <div className="mobile-auth-buttons">
+              <div className="fix-mobile-auth-buttons">
                 <button 
-                  className="mobile-auth-btn sign-in"
+                  className="fix-mobile-auth-btn sign-in"
                   onClick={(e) => handleNavClick('register', e)}
                 >
                   {t("signIn") || "Sign In"}
                 </button>
                 <button 
-                  className="mobile-auth-btn register"
+                  className="fix-mobile-auth-btn register"
                   onClick={(e) => handleNavClick('register', e)}
                 >
                   {t("register") || "Register"}
