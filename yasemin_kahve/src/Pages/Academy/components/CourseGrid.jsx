@@ -202,38 +202,32 @@ const CourseGrid = ({ onCourseClick, onEnroll, onAddNewCourse, refreshTrigger })
           </div>
         ) : (
           <>
-            <div className="course-grid">
-              {filteredCourses && filteredCourses.length > 0 ? (
-                filteredCourses.map((course, index) => (
+            {filteredCourses && filteredCourses.length > 0 ? (
+              <div className="course-grid">
+                {filteredCourses.map((course, index) => (
                   <CourseCard
                     key={course?.id || `course_${index}`}
                     course={course}
                     onClick={onCourseClick}
                     onEnroll={onEnroll}
                   />
-                ))
-              ) : (
-                <div className="no-courses">
-                  <div className="no-courses-icon">📚</div>
-                  <h3>{t("noCoursesFound") || "No courses found"}</h3>
-                  <p>{t("tryDifferentFilters") || "Try adjusting your search or filter criteria"}</p>
-                </div>
-              )}
-            </div>
-
-            {filteredCourses.length === 0 && courses.length > 0 && (
-              <div className="no-courses">
-                <div className="no-courses-icon">📚</div>
-                <h3>{t("noCoursesFound") || "No courses found"}</h3>
-                <p>{t("tryDifferentFilters") || "Try adjusting your search or filter criteria"}</p>
+                ))}
               </div>
-            )}
-
-            {courses.length === 0 && !loading && (
+            ) : (
               <div className="no-courses">
-                <div className="no-courses-icon">🎓</div>
-                <h3>{t("noCoursesAvailable") || "No courses available yet"}</h3>
-                <p>{t("checkBackLater") || "Please check back later for new courses"}</p>
+                {courses.length === 0 ? (
+                  <>
+                    <div className="no-courses-icon">🎓</div>
+                    <h3>{t("noCoursesAvailable") || "No courses available yet"}</h3>
+                    <p>{t("checkBackLater") || "Please check back later for new courses"}</p>
+                  </>
+                ) : (
+                  <>
+                    <div className="no-courses-icon">📚</div>
+                    <h3>{t("noCoursesFound") || "No courses found"}</h3>
+                    <p>{t("tryDifferentFilters") || "Try adjusting your search or filter criteria"}</p>
+                  </>
+                )}
               </div>
             )}
           </>

@@ -1,4 +1,4 @@
-import { ref, uploadBytes, getDownloadURL, deleteObject } from 'firebase/storage'
+import { ref, uploadBytes, getDownloadURL, deleteObject, listAll } from 'firebase/storage'
 import { storage } from '../firebase'
 
 export const uploadCourseImage = async (courseId, imageFile, courseTitle = '', oldImageUrl = null) => {
@@ -206,11 +206,91 @@ export const deleteCourseFiles = async (courseId, courseData) => {
 
     // Wait for all deletions to complete
     await Promise.allSettled(deletionPromises)
-    console.log(`All files for course ${courseId} have been processed for deletion`)
+    
+    // Delete the entire course folder structure to ensure cleanup
+    await deleteCourseFolderStructure(courseId)
+    
+    console.log(`All files and folder structure for course ${courseId} have been deleted`)
 
   } catch (error) {
     console.error('Error deleting course files:', error)
     throw error
+  }
+}
+
+export const deleteCourseFolderStructure = async (courseId) => {
+  try {
+    // List of all possible subfolders for a course
+    const subfolders = ['images', 'videos', 'documents', 'additional-images']
+    const deletionPromises = []
+
+    // Delete all remaining files in each subfolder
+    for (const subfolder of subfolders) {
+      const folderRef = ref(storage, `courses/${courseId}/${subfolder}`)
+      
+      try {
+        const folderList = await listAll(folderRef)
+        
+        // Delete all files in this subfolder
+        folderList.items.forEach(fileRef => {
+          deletionPromises.push(deleteObject(fileRef))
+        })
+        
+        // Recursively delete any nested folders (though unlikely in this structure)
+        folderList.prefixes.forEach(prefixRef => {
+          deletionPromises.push(deleteAllFilesInFolder(prefixRef))
+        })
+      } catch (error) {
+        // Folder might not exist, which is fine
+        if (error.code !== 'storage/object-not-found') {
+          console.warn(`Could not list files in ${subfolder}:`, error.message)
+        }
+      }
+    }
+
+    // Also try to delete any files directly in the course root folder
+    try {
+      const courseRootRef = ref(storage, `courses/${courseId}`)
+      const rootList = await listAll(courseRootRef)
+      
+      rootList.items.forEach(fileRef => {
+        deletionPromises.push(deleteObject(fileRef))
+      })
+    } catch (error) {
+      if (error.code !== 'storage/object-not-found') {
+        console.warn(`Could not list files in course root:`, error.message)
+      }
+    }
+
+    // Wait for all deletions to complete
+    await Promise.allSettled(deletionPromises)
+    console.log(`Course folder structure for ${courseId} has been completely removed`)
+
+  } catch (error) {
+    console.error(`Error deleting course folder structure for ${courseId}:`, error)
+    // Don't throw error to avoid blocking course deletion from database
+  }
+}
+
+// Helper function to recursively delete all files in a folder
+const deleteAllFilesInFolder = async (folderRef) => {
+  try {
+    const folderList = await listAll(folderRef)
+    const deletionPromises = []
+
+    // Delete all files
+    folderList.items.forEach(fileRef => {
+      deletionPromises.push(deleteObject(fileRef))
+    })
+
+    // Recursively delete subfolders
+    folderList.prefixes.forEach(prefixRef => {
+      deletionPromises.push(deleteAllFilesInFolder(prefixRef))
+    })
+
+    await Promise.all(deletionPromises)
+  } catch (error) {
+    console.error('Error deleting files in folder:', error)
   }
 }
 

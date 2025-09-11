@@ -149,7 +149,7 @@ const Auth = ({ onNavigate }) => {
         <div className="auth-card">
           <div className="auth-header">
             <div className="brand-logo">
-              <img src="./public/static/images/assets/yaso2.png" alt="Yasemin Kahve" className="logo-image" />
+              <img src="/static/images/assets/yaso2.png" alt="Yasemin Kahve" className="logo-image" />
             </div>
             <h2>{isLogin ? (t('signIn') || 'Sign In') : (t('signUp') || 'Sign Up')}</h2>
             <p>{isLogin ? (t('signInWelcome') || 'Welcome back! Sign in to your account') : (t('signUpWelcome') || 'Create your account to get started')}</p>

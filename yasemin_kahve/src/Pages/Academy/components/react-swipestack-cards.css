@@ -4,6 +4,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
+  padding: 0 1rem;
 }
 
 .react-swipestack-cards__card-wrapper {
@@ -50,8 +51,34 @@
 
 /* Responsive adjustments */
 @media (max-width: 768px) {
+  .react-swipestack-cards__deck {
+    padding: 0 2rem;
+  }
+  
+  .react-swipestack-cards__card {
+    height: 22rem;
+    width: 16rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .react-swipestack-cards__deck {
+    padding: 0 1rem;
+  }
+  
   .react-swipestack-cards__card {
     height: 20rem;
     width: 14rem;
+  }
+}
+
+@media (max-width: 360px) {
+  .react-swipestack-cards__deck {
+    padding: 0 0.5rem;
+  }
+  
+  .react-swipestack-cards__card {
+    height: 18rem;
+    width: 12rem;
   }
 }
