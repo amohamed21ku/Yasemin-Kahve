@@ -103,6 +103,10 @@ export const en = {
  "LearnArtCoffee":"Learn the Art oh Coffee",
  "masterThe":"Master the techniques to brew the perfect cup with our coffee courses. From basic brewing to advanced barista skills.",
  "exploreOurAcademy":"Explore Our Academy",
+ "freshDelivery":"Fresh Delivery",
+ "freshDeliveryDesc":"Direct from our farms and trusted suppliers to your doorstep",
+ "qualityGuarantee":"Quality Guarantee",
+ "qualityGuaranteeDesc":"100% satisfaction guarantee on all our coffee products",
  // About
 
 "AboutTitle":"From farm to cup...",
@@ -114,7 +118,8 @@ export const en = {
 
 "OurMission":"Our Mission",
 "MissionParagraph":"We are not just here to supply coffee. We are here to shape standards, fuel growth, and elevate the future of coffee in Türkiye.",
-"qualityIntroText":"Will write something here !!!!!!!!!!!!!!",
+"qualityIntroText": "With a deep family heritage and a century of expertise, Yasemin Kahve guarantees excellence on the journey from farm to cup. Carefully selected coffees from around the world are delivered to coffee lovers through our global distribution network.",
+"globalDistribution": "Global Distribution",
 
 
   
@@ -294,7 +299,7 @@ export const en = {
   "coffeeMastery":"Coffee Mastery",
   "yaseminCoffeeAcademy":"Yasemin Coffee Academy",
   "masterTheArtOfCoffee":"Master the Art of Coffee",
-  "academyDescription":"Ask Saadetin what to write here",
+"academyDescription": "At Yasemin Coffee Academy, we turn passion into skill.",
   "exploreCourses":"Explore Courses",
   "watchIntro":"Watch Introduction",
 
@@ -338,6 +343,7 @@ export const en = {
   "noCoursesFound":"No courses found",
   "tryDifferentFilters":"Try adjusting your search or filter criteria",
   "checkBackLater":"Please check back later for new courses",
+  "allCategories":"All Categories",
 
 
 
@@ -475,6 +481,8 @@ export const en = {
   "noMediaAvailable": "No media available for this course",
   "viewCourse": "View Course",
   "downloadMaterial": "Download Material",
+  "enrolledInCourse":"You're Enrolled!",
+  "enrolledMessage":"You have successfully enrolled in this course. We will Contact you for Further Details",
   
   // Error Messages
   "uploadError": "Error uploading files. Please try again.",

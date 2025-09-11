@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { ArrowLeft } from 'lucide-react'
+import { ArrowLeft, CheckCircle, Play, Download } from 'lucide-react'
 import Header from '../HomePage/components/Header'
 import Footer from '../HomePage/components/Footer'
 import CourseHero from './components/CourseHero'
@@ -273,14 +273,32 @@ const CourseDetail = ({ course, onNavigate, onEnroll }) => {
         </div>
 
         <div className="course-sidebar">
-          <EnrollmentCard 
-            course={course}
-            formatPrice={formatPrice}
-            isEnrolled={isEnrolled}
-            isFull={isFull}
-            handleEnrollClick={handleEnrollClick}
-            onNavigate={onNavigate}
-          />
+          {isEnrolled ? (
+            <div className="enrolled-status-card">
+              <div className="enrolled-header">
+                <div className="enrolled-icon">
+                  <CheckCircle size={24} />
+                </div>
+                <div>
+                  <h3>{t("enrolledInCourse") || "You're Enrolled!"}</h3>
+                  <p>{t("enrolledMessage") || "You have successfully enrolled in this course"}</p>
+                </div>
+              </div>
+              
+         
+
+       
+            </div>
+          ) : (
+            <EnrollmentCard 
+              course={course}
+              formatPrice={formatPrice}
+              isEnrolled={isEnrolled}
+              isFull={isFull}
+              handleEnrollClick={handleEnrollClick}
+              onNavigate={onNavigate}
+            />
+          )}
         </div>
       </div>
       

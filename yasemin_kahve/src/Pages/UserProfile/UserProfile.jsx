@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from 'react'
-import { User, Mail, Phone, Edit, Save, X, BookOpen, Calendar, Award, Settings, MapPin, Clock, Shield } from 'lucide-react'
+import { User, Mail, Phone, Edit, Save, X, BookOpen, Calendar, Award, Settings, MapPin, Clock, Shield, ExternalLink, GraduationCap } from 'lucide-react'
 import { useAuth } from '../../AuthContext'
 import { useTranslation } from '../../useTranslation'
 import { useEnrollment } from '../../useEnrollment'
+import { getCourseById } from '../../services/courseService'
+import { getInstructorById } from '../../services/instructorService'
 import Header from '../HomePage/components/Header'
 import Footer from '../HomePage/components/Footer'
 import './UserProfile.css'
@@ -13,6 +15,7 @@ const UserProfile = ({ onNavigate }) => {
   const { t } = useTranslation()
   const [userData, setUserData] = useState(null)
   const [enrollments, setEnrollments] = useState([])
+  const [enrichedEnrollments, setEnrichedEnrollments] = useState([])
   const [loading, setLoading] = useState(true)
   const [editing, setEditing] = useState(false)
   const [formData, setFormData] = useState({
@@ -49,6 +52,48 @@ const UserProfile = ({ onNavigate }) => {
       }
       
       setEnrollments(userEnrollments)
+      
+      // Enrich enrollments with course details and instructor information
+      if (userEnrollments && userEnrollments.length > 0) {
+        console.log('Found user enrollments:', userEnrollments)
+        const enrichedData = await Promise.all(
+          userEnrollments.map(async (enrollment) => {
+            try {
+              console.log('Fetching course details for:', enrollment.courseId)
+              const courseDetails = await getCourseById(enrollment.courseId)
+              console.log('Course details fetched:', courseDetails)
+              
+              // Fetch instructor information if available
+              let instructorDetails = null
+              if (courseDetails.instructorId) {
+                try {
+                  console.log('Fetching instructor details for:', courseDetails.instructorId)
+                  instructorDetails = await getInstructorById(courseDetails.instructorId)
+                  console.log('Instructor details fetched:', instructorDetails)
+                } catch (error) {
+                  console.error('Error fetching instructor details for', courseDetails.instructorId, error)
+                }
+              }
+              
+              return {
+                ...enrollment,
+                courseDetails: {
+                  ...courseDetails,
+                  instructorDetails
+                }
+              }
+            } catch (error) {
+              console.error('Error fetching course details for', enrollment.courseId, error)
+              console.log('Enrollment without course details:', enrollment)
+              return enrollment
+            }
+          })
+        )
+        console.log('Enriched enrollments:', enrichedData)
+        setEnrichedEnrollments(enrichedData)
+      } else {
+        setEnrichedEnrollments([])
+      }
     } catch (error) {
       console.error('Error loading user data:', error)
       setError('Failed to load user data')
@@ -109,7 +154,25 @@ const UserProfile = ({ onNavigate }) => {
     if (enrollment.paymentStatus === 'completed' || enrollment.status === 'active') {
       return 'Active'
     }
-    return 'Pending'
+    // Don't show pending status for enrolled students - they're already enrolled
+    return 'Active'
+  }
+
+  const getLocalizedText = (textObj, fallback = '') => {
+    if (textObj && typeof textObj === 'object') {
+      return textObj.en || textObj.tr || fallback
+    }
+    return textObj || fallback
+  }
+
+  const handleCourseClick = (enrollment) => {
+    // Navigate with course details or at least the courseId
+    const courseData = enrollment.courseDetails || { 
+      id: enrollment.courseId,
+      title: enrollment.courseTitle || 'Course',
+      price: enrollment.coursePrice
+    }
+    onNavigate('course-detail', null, courseData)
   }
 
   if (!currentUser) {
@@ -331,39 +394,89 @@ const UserProfile = ({ onNavigate }) => {
                 </div>
               ) : (
                 <div className="courses-grid">
-                  {enrollments.map((enrollment, index) => (
-                    <div key={index} className="course-card">
-                      <div className="course-header">
-                        <div className="course-title">
-                          <h4>{enrollment.courseTitle}</h4>
-                          <span className={`status-pill ${getEnrollmentStatus(enrollment).toLowerCase()}`}>
-                            {getEnrollmentStatus(enrollment)}
+                  {enrichedEnrollments.map((enrollment, index) => (
+                    <div 
+                      key={index} 
+                      className="course-card-user clickable"
+                      onClick={() => handleCourseClick(enrollment)}
+                    >
+                      <div className="course-image-container">
+                        {enrollment.courseDetails?.image ? (
+                          <img 
+                            src={enrollment.courseDetails.image} 
+                            alt={getLocalizedText(enrollment.courseDetails.title) || enrollment.courseTitle || 'Course'}
+                            className="course-thumbnail"
+                            onError={(e) => {
+                              e.target.style.display = 'none'
+                              const placeholder = e.target.nextElementSibling
+                              if (placeholder && placeholder.classList.contains('course-placeholder-fallback')) {
+                                placeholder.style.display = 'flex'
+                              }
+                            }}
+                          />
+                        ) : null}
+                        <div className={`course-placeholder ${!enrollment.courseDetails?.image ? 'course-placeholder-visible' : 'course-placeholder-fallback'}`} style={{display: enrollment.courseDetails?.image ? 'none' : 'flex'}}>
+                          <BookOpen size={24} />
+                          <span style={{fontSize: '0.8rem', marginTop: '0.5rem', textAlign: 'center', color: '#666'}}>
+                            Course Image
                           </span>
                         </div>
                       </div>
                       
-                      <div className="course-details">
-                        <div className="detail-item">
-                          <Calendar size={14} />
-                          <span>Enrolled {formatDate(enrollment.enrolledAt)}</span>
-                        </div>
-                        
-                        {enrollment.coursePrice && (
-                          <div className="detail-item price">
-                            <span className="course-price">
-                              {new Intl.NumberFormat('tr-TR', {
-                                style: 'currency',
-                                currency: 'TRY'
-                              }).format(enrollment.coursePrice)}
+                      <div className="course-content">
+                        <div className="course-header">
+                          <div className="course-title-user">
+                            <h4>{getLocalizedText(enrollment.courseDetails?.title) || enrollment.courseTitle || 'Course Title Unavailable'}</h4>
+                            <span className={`status-pill ${getEnrollmentStatus(enrollment).toLowerCase()}`}>
+                              {getEnrollmentStatus(enrollment)}
                             </span>
                           </div>
-                        )}
-                      </div>
-                      
-                      <div className="course-actions">
-                        <button className="btn-outline">
-                          Continue Learning
-                        </button>
+                        </div>
+                        
+                        <div className="course-details">
+                          <div className="detail-item">
+                            <Calendar size={14} />
+                            <span>Enrolled {formatDate(enrollment.enrolledAt)}</span>
+                          </div>
+                          
+                          {enrollment.courseDetails?.startDate && (
+                            <div className="detail-item">
+                              <Clock size={14} />
+                              <span>Starts {formatDate(enrollment.courseDetails.startDate)}</span>
+                            </div>
+                          )}
+                          
+                          {enrollment.courseDetails?.instructorDetails && (
+                            <div className="detail-item instructor">
+                              <GraduationCap size={14} />
+                              <span>Instructor: {getLocalizedText(enrollment.courseDetails.instructorDetails.name) || enrollment.courseDetails.instructorDetails.name || 'Unknown'}</span>
+                            </div>
+                          )}
+                          
+                          {enrollment.coursePrice && (
+                            <div className="detail-item price">
+                              <span className="course-price-user">
+                                {new Intl.NumberFormat('tr-TR', {
+                                  style: 'currency',
+                                  currency: 'TRY'
+                                }).format(enrollment.coursePrice)}
+                              </span>
+                            </div>
+                          )}
+                        </div>
+                        
+                        <div className="course-actions">
+                          <button 
+                            className="btn-outline"
+                            onClick={(e) => {
+                              e.stopPropagation()
+                              handleCourseClick(enrollment)
+                            }}
+                          >
+                            <ExternalLink size={16} />
+                            View Course
+                          </button>
+                        </div>
                       </div>
                     </div>
                   ))}

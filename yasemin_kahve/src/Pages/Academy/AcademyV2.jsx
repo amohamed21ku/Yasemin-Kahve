@@ -5,6 +5,7 @@ import CourseGrid from './components/CourseGrid'
 import EnrollmentModal from './components/EnrollmentModal'
 import CourseFormModal from './components/CourseFormModal'
 import SignInModal from '../../Components/SignInModal'
+import SuccessNotification from '../../Components/SuccessNotification'
 import { useAuth } from '../../AuthContext'
 import { useTranslation } from '../../useTranslation'
 import './Academy.css'
@@ -18,6 +19,9 @@ const AcademyV2 = ({ onNavigate }) => {
   const [showCourseFormModal, setShowCourseFormModal] = useState(false)
   const [signInModalOpen, setSignInModalOpen] = useState(false)
   const [hasError, setHasError] = useState(false)
+  const [showSuccessNotification, setShowSuccessNotification] = useState(false)
+  const [enrolledCourse, setEnrolledCourse] = useState(null)
+  const [refreshTrigger, setRefreshTrigger] = useState(0)
 
   useEffect(() => {
     const handleUnhandledRejection = (event) => {
@@ -72,10 +76,11 @@ const AcademyV2 = ({ onNavigate }) => {
     try {
       console.log('Enrolling user in course:', course.title)
       
-      alert(t("enrollmentSuccess") || "Successfully enrolled in the course!")
-      
+      setEnrolledCourse(course)
+      setShowSuccessNotification(true)
       setShowEnrollModal(false)
       setSelectedCourse(null)
+      setRefreshTrigger(prev => prev + 1)
     } catch (error) {
       console.error('Enrollment error:', error)
       alert(t("enrollmentError") || "An error occurred during enrollment. Please try again.")
@@ -138,6 +143,7 @@ const AcademyV2 = ({ onNavigate }) => {
           <CourseGrid 
             onCourseClick={handleCourseClick}
             onEnroll={handleEnroll}
+            refreshTrigger={refreshTrigger}
           />
         </div>
         
@@ -166,6 +172,13 @@ const AcademyV2 = ({ onNavigate }) => {
             setSelectedCourse(null)
           }}
           onSuccess={handleSignInSuccess}
+        />
+
+        <SuccessNotification
+          isVisible={showSuccessNotification}
+          onClose={() => setShowSuccessNotification(false)}
+          title="Successfully Enrolled!"
+          message="Our team will contact you shortly with course details and next steps."
         />
       </div>
     )

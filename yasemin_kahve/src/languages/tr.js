@@ -95,10 +95,14 @@ export const tr = {
 "allRightsReserved": "Tüm hakları saklıdır",
 "footerDescription": "Türk kahvesi ihracatçısı ve premium yeşil kahve çekirdeği tedarikçisi. Guatemala’dan Türkiye’ye, otantik Türk kahvesi ve yüksek kaliteli kakule ile dünya çapında distribütörlere ve kahve dükkânlarına hizmet veriyoruz.",
 
-  
+ // Product Page 
 "LearnArtCoffee": "Kahve Sanatını Öğrenin",
 "masterThe": "Mükemmel bir fincan kahve demlemek için gerekli tekniklerde ustalaşın. Temel demlemeden ileri düzey barista becerilerine kadar tüm kahve kurslarımızla yanınızdayız.",
 "exploreOurAcademy": "Akademimizi Keşfedin",
+"freshDelivery":"Taze Teslimat",
+"freshDeliveryDesc":"Doğrudan çiftliklerimizden ve güvenilir tedarikçilerimizden kapınıza",
+"qualityGuarantee":"Kalite Garantisi",
+"qualityGuaranteeDesc":"Tüm kahve ürünlerimizde %100 memnuniyet garantisi",
 
 
 //About
@@ -110,6 +114,9 @@ export const tr = {
 "aboutParagraph3": "Bugün Yasemin Kahve, bu küresel mirasın başarısını yansıtmaktadır ve Türkiye’nin kahve dünyasının en güçlü ve en hızlı büyüyen pazarlarından biri olmaya devam etmesini sağlama taahhüdündedir. Türkiye, dünyanın en dinamik ve hızla büyüyen kahve pazarlarından biri olarak ortaya çıkarken, Yasemin Kahve, global ağın uzmanlığını yerel bir markanın çevikliğiyle sunarak belirleyici bir rol oynamaya hazırdır.",
 "OurMission": "Misyonumuz",
 "MissionParagraph": "Biz sadece kahve tedarik etmek için burada değiliz. Türkiye’de kahvenin standartlarını belirlemek, büyümeyi desteklemek ve kahvenin geleceğini yükseltmek için buradayız." ,
+"qualityIntroText": "Yasemin Kahve, köklü aile mirası ve yüzyıllık uzmanlığıyla, çiftlikten fincana uzanan yolculukta en yüksek kaliteyi garanti eder. Dünyanın farklı bölgelerinden özenle seçilen kahvelerimizi, küresel dağıtım ağımızla kahveseverlere ulaştırıyoruz.",
+"globalDistribution": "Küresel Dağıtım",
+
 
   // Authentication
   "loading": "Yükleniyor",
@@ -287,7 +294,7 @@ export const tr = {
 "coffeeMastery": "Kahve Ustalığı",
 "yaseminCoffeeAcademy": "Yasemin Kahve Akademisi",
 "masterTheArtOfCoffee": "Kahve Sanatında Ustalaşın",
-"academyDescription": "Buraya ne yazılması gerektiğini Saadettin’e sor",
+"academyDescription": "Yasemin Kahve Akademisi'nde tutkuyu beceriye dönüştürüyoruz.",
 "exploreCourses": "Kursları Keşfet",
 "watchIntro": "Tanıtımı İzle",
 
@@ -330,6 +337,8 @@ export const tr = {
 "noCoursesFound": "Kurs bulunamadı",
 "tryDifferentFilters": "Arama veya filtre kriterlerinizi değiştirerek tekrar deneyin",
 "checkBackLater": "Yeni kurslar için lütfen daha sonra tekrar kontrol edin",
+"allCategories":"Tüm Kategoriler",
+
 
 
 
@@ -442,6 +451,8 @@ export const tr = {
   "noMediaAvailable": "Bu kurs için medya bulunmuyor",
   "viewCourse": "Kursu Görüntüle",
   "downloadMaterial": "Materyali İndir",
+  "enrolledInCourse":"Kaydınız Tamamlandı!",
+"enrolledMessage":"Bu kursa başarıyla kaydoldunuz. Detaylar için sizinle iletişime geçeceğiz",
   
   // Error Messages
   "uploadError": "Dosya yüklenirken hata oluştu. Lütfen tekrar deneyin.",

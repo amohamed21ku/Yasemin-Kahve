@@ -22,7 +22,21 @@ export const useEnrollment = () => {
       const userDoc = await getDoc(doc(db, 'users', currentUser.uid));
       const userData = userDoc.data();
       
-      if (userData?.enrolledCourses?.some(enrollment => enrollment.courseId === courseId)) {
+      const enrolledCourses = userData?.enrolledCourses || [];
+      
+      // Check for enrollment based on data format
+      let isAlreadyEnrolled = false;
+      if (enrolledCourses.length > 0) {
+        if (typeof enrolledCourses[0] === 'object') {
+          // Old format: array of enrollment objects
+          isAlreadyEnrolled = enrolledCourses.some(enrollment => enrollment.courseId === courseId);
+        } else {
+          // New format: array of courseIds
+          isAlreadyEnrolled = enrolledCourses.includes(courseId);
+        }
+      }
+      
+      if (isAlreadyEnrolled) {
         throw new Error('You are already enrolled in this course');
       }
 
@@ -68,9 +82,19 @@ export const useEnrollment = () => {
       const userDoc = await getDoc(doc(db, 'users', currentUser.uid));
       const userData = userDoc.data();
       
-      return userData?.enrolledCourses?.some(enrollment => 
-        enrollment.courseId === courseId && enrollment.status === 'active'
-      ) || false;
+      const enrolledCourses = userData?.enrolledCourses || [];
+      
+      if (enrolledCourses.length === 0) return false;
+      
+      if (typeof enrolledCourses[0] === 'object') {
+        // Old format: array of enrollment objects
+        return enrolledCourses.some(enrollment => 
+          enrollment.courseId === courseId && enrollment.status === 'active'
+        );
+      } else {
+        // New format: array of courseIds
+        return enrolledCourses.includes(courseId);
+      }
     } catch (err) {
       console.error('Error checking enrollment status:', err);
       return false;
@@ -84,7 +108,24 @@ export const useEnrollment = () => {
       const userDoc = await getDoc(doc(db, 'users', currentUser.uid));
       const userData = userDoc.data();
       
-      return userData?.enrolledCourses || [];
+      const enrolledCourses = userData?.enrolledCourses || [];
+      
+      // If enrolledCourses contains objects (old format), return as is
+      if (enrolledCourses.length > 0 && typeof enrolledCourses[0] === 'object') {
+        return enrolledCourses;
+      }
+      
+      // If enrolledCourses contains only courseIds (new format), create enrollment objects
+      if (enrolledCourses.length > 0 && typeof enrolledCourses[0] === 'string') {
+        return enrolledCourses.map(courseId => ({
+          courseId: courseId,
+          enrolledAt: userData.updatedAt || new Date(),
+          status: 'active',
+          paymentStatus: 'completed'
+        }));
+      }
+      
+      return [];
     } catch (err) {
       console.error('Error fetching user enrollments:', err);
       return [];

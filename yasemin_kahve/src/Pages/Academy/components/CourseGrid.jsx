@@ -7,7 +7,7 @@ import { getAllInstructors } from '../../../services/instructorService'
 import { useAuth } from '../../../AuthContext'
 import './CourseGrid.css'
 
-const CourseGrid = ({ onCourseClick, onEnroll, onAddNewCourse }) => {
+const CourseGrid = ({ onCourseClick, onEnroll, onAddNewCourse, refreshTrigger }) => {
   const { t } = useTranslation()
   const { currentUser } = useAuth()
   const [courses, setCourses] = useState([])
@@ -80,7 +80,7 @@ const CourseGrid = ({ onCourseClick, onEnroll, onAddNewCourse }) => {
     }
 
     fetchCourses()
-  }, [])
+  }, [refreshTrigger])
 
   // Filter and search logic
   useEffect(() => {

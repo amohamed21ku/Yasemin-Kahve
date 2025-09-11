@@ -54,7 +54,7 @@ const AcademyHero = () => {
             </h1>
             
             <p className="hero-Academy-description">
-              {t('academyDescription') || 'Join our comprehensive coffee education program. Learn from industry experts, master brewing techniques, and discover the secrets behind exceptional coffee. From bean to cup, we\'ll guide your journey to coffee mastery.'}
+              {t('academyDescription') }
             </p>
 
 

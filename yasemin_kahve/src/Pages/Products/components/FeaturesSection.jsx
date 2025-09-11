@@ -13,13 +13,13 @@ const FeaturesSection = () => {
     },
     {
       icon: <Truck />,
-      title: "Fresh Delivery",
-      description: "Direct from our farms and trusted suppliers to your doorstep"
+      title: t("freshDelivery"),
+      description: t("freshDeliveryDesc")
     },
     {
       icon: <Shield />,
-      title: "Quality Guarantee",
-      description: "100% satisfaction guarantee on all our coffee products"
+      title: t("qualityGuarantee"),
+      description: t("qualityGuaranteeDesc")
     }
   ];
 

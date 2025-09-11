@@ -22,7 +22,12 @@ const CourseCard = ({ course, onClick, onEnroll }) => {
 
   const handleEnrollClick = (e) => {
     e.stopPropagation()
-    if (onEnroll) {
+    if (isEnrolled) {
+      // If enrolled, go to course detail instead of enrollment
+      if (onClick) {
+        onClick(course)
+      }
+    } else if (onEnroll) {
       onEnroll(course)
     }
   }

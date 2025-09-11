@@ -47,6 +47,136 @@
   margin-bottom: 1rem;
 }
 
+/* Enrolled Status Card */
+.enrolled-status-card {
+  background: linear-gradient(135deg, #f0fdf4, #ecfdf5);
+  border: 2px solid #bbf7d0;
+  border-radius: 20px;
+  padding: 2rem;
+  box-shadow: 0 4px 12px rgba(16, 185, 129, 0.1);
+}
+
+.enrolled-header {
+  display: flex;
+  align-items: flex-start;
+  gap: 1rem;
+  margin-bottom: 2rem;
+}
+
+.enrolled-icon {
+  background: linear-gradient(135deg, #10b981, #059669);
+  border-radius: 50%;
+  width: 48px;
+  height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  flex-shrink: 0;
+  box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);
+}
+
+.enrolled-header h3 {
+  color: #065f46;
+  font-size: 1.25rem;
+  font-weight: 700;
+  margin: 0 0 0.5rem 0;
+  line-height: 1.3;
+}
+
+.enrolled-header p {
+  color: #047857;
+  font-size: 0.95rem;
+  margin: 0;
+  line-height: 1.4;
+}
+
+.enrolled-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  margin-bottom: 2rem;
+}
+
+.primary-action-btn {
+  background: linear-gradient(135deg, #8B4513, #D2691E);
+  color: white;
+  border: none;
+  padding: 1rem 1.5rem;
+  border-radius: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  justify-content: center;
+  transition: all 0.3s ease;
+  font-size: 0.95rem;
+}
+
+.primary-action-btn:hover {
+  background: linear-gradient(135deg, #A0522D, #B8591C);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 15px rgba(139, 69, 19, 0.3);
+}
+
+.secondary-action-btn {
+  background: white;
+  color: #8B4513;
+  border: 2px solid #8B4513;
+  padding: 0.875rem 1.5rem;
+  border-radius: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  justify-content: center;
+  transition: all 0.3s ease;
+  font-size: 0.9rem;
+}
+
+.secondary-action-btn:hover {
+  background: #8B4513;
+  color: white;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 15px rgba(139, 69, 19, 0.2);
+}
+
+.course-access-info {
+  border-top: 1px solid #d1fae5;
+  padding-top: 1.5rem;
+}
+
+.course-access-info h4 {
+  color: #065f46;
+  font-size: 1rem;
+  font-weight: 600;
+  margin: 0 0 1rem 0;
+}
+
+.course-access-info ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.course-access-info li {
+  color: #047857;
+  font-size: 0.875rem;
+  padding: 0.5rem 0;
+  position: relative;
+  padding-left: 1.5rem;
+}
+
+.course-access-info li:before {
+  content: "✓";
+  position: absolute;
+  left: 0;
+  color: #10b981;
+  font-weight: bold;
+}
+
 /* Responsive Design */
 @media (max-width: 1024px) {
   .course-detail-body {
