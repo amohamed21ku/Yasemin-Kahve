@@ -3,7 +3,6 @@ import HomePage from '../Pages/HomePage/HomePage'
 import AboutUsPage from '../Pages/AboutUs/AboutUs'
 import ProductsPage from '../Pages/Products/Products'
 import ProductDetailPage from '../Pages/ProductDetail/ProductDetail'
-import AcademyPage from '../Pages/Academy/Academy'
 import AcademyV2 from '../Pages/Academy/AcademyV2'
 
 import CourseDetailPage from '../Pages/CourseDetail/CourseDetail'
