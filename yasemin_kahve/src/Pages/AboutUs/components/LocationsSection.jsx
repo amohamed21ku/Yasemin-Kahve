@@ -1,19 +1,24 @@
 import React from 'react'
 import { MapPin, Phone, Mail, Clock, Truck } from 'lucide-react'
 import './LocationsSection.css'
+import { useTranslation } from "/src/useTranslation";
 
 const LocationsSection = () => {
+    const { t } = useTranslation();
+  
   return (
     <section className="about-locations">
       <div className="container">
-        <h2>Our Locations</h2>
+        <h2>{t("ourLocations")}</h2>
         <div className="locations-grid">
           {/* Head Office */}
           <div className="location-card">
-            <h3><MapPin className="location-icon" /> Head Office</h3>
+            <h3><MapPin className="location-icon" /> {t("headOfficeTitle")}</h3>
             <div className="location-info">
-              <p><strong>Yasemin Kahve Headquarters</strong></p>
-              <p>Istanbul, Türkiye</p>
+              <p><strong>Yasemin Kahve {t("headOfficeTitle")}</strong></p>
+              <p>{t("headOfficeAddress1")}{t("headOfficeAddress2")} {t("headOfficeAddress3")}</p>
+
+
               <div className="contact-info">
                 <p><Phone size={16} /> +90 539 500 44 44</p>
                 <p><Mail size={16} /> info@yaseminkahve.com</p>
@@ -43,10 +48,10 @@ const LocationsSection = () => {
 
           {/* Wholesale Center */}
           <div className="location-card">
-            <h3><Truck className="location-icon" /> Wholesale Center</h3>
+            <h3><Truck className="location-icon" /> {t("wholesaleCenterTitle")}</h3>
             <div className="location-info">
-              <p><strong>Yasemin Kahve Distribution</strong></p>
-              <p>Istanbul, Türkiye</p>
+              <p><strong>Yasemin Kahve {t("wholesaleCenterTitle")}</strong></p>
+              <p>{t("wholesaleAddress1")} {t("wholesaleAddress2")} {t("wholesaleAddress3")} {t("wholesaleAddress4")}</p>
               <div className="contact-info">
                 <p><Phone size={16} /> +90 539 500 44 44</p>
                 <p><Mail size={16} /> wholesale@yaseminkahve.com</p>

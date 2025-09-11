@@ -1,31 +1,37 @@
 import React, { useState, useEffect } from 'react'
-import { Search, Filter, Download, Eye, Ban, CheckCircle, Clock, User } from 'lucide-react'
+import { Search, Filter, Download, Ban, CheckCircle, Clock, User, Mail, MailCheck, DollarSign, Check, X, ChevronUp, ChevronDown } from 'lucide-react'
 import { useTranslation } from '../../../useTranslation'
 import { cancelEnrollment } from '../../../services/courseService'
-import { doc, getDoc } from 'firebase/firestore'
+import { doc, getDoc, updateDoc } from 'firebase/firestore'
 import { db } from '../../../firebase'
 import './EnrollmentList.css'
 
 const EnrollmentList = ({ enrollments, courses, onRefresh }) => {
   const { t, language } = useTranslation()
+  const [localEnrollments, setLocalEnrollments] = useState([])
   const [filteredEnrollments, setFilteredEnrollments] = useState([])
   const [searchTerm, setSearchTerm] = useState('')
   const [statusFilter, setStatusFilter] = useState('all')
+  const [courseSort, setCourseSort] = useState('none')
   const [studentDetails, setStudentDetails] = useState({})
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {
-    fetchStudentDetails()
+    setLocalEnrollments(enrollments)
   }, [enrollments])
 
   useEffect(() => {
+    fetchStudentDetails()
+  }, [localEnrollments])
+
+  useEffect(() => {
     filterEnrollments()
-  }, [enrollments, searchTerm, statusFilter, studentDetails])
+  }, [localEnrollments, searchTerm, statusFilter, courseSort, studentDetails])
 
   const fetchStudentDetails = async () => {
     try {
       setLoading(true)
-      const uniqueUserIds = [...new Set(enrollments.map(e => e.userId))]
+      const uniqueUserIds = [...new Set(localEnrollments.map(e => e.userId))]
       const studentData = {}
 
       await Promise.all(
@@ -63,7 +69,7 @@ const EnrollmentList = ({ enrollments, courses, onRefresh }) => {
   }
 
   const filterEnrollments = () => {
-    let filtered = [...enrollments]
+    let filtered = [...localEnrollments]
 
     // Search filter
     if (searchTerm) {
@@ -87,6 +93,11 @@ const EnrollmentList = ({ enrollments, courses, onRefresh }) => {
       filtered = filtered.filter(enrollment => enrollment.status === statusFilter)
     }
 
+    // Course filtering by specific course
+    if (courseSort !== 'none') {
+      filtered = filtered.filter(enrollment => enrollment.courseId === courseSort)
+    }
+
     setFilteredEnrollments(filtered)
   }
 
@@ -100,6 +111,84 @@ const EnrollmentList = ({ enrollments, courses, onRefresh }) => {
         console.error('Error cancelling enrollment:', error)
         alert(t('cancelEnrollmentError') || 'Error cancelling enrollment. Please try again.')
       }
+    }
+  }
+
+  const handleContactedToggle = async (enrollmentId, currentStatus) => {
+    try {
+      // Update local state immediately for instant UI feedback
+      setLocalEnrollments(prev => 
+        prev.map(enrollment => 
+          enrollment.id === enrollmentId 
+            ? { 
+                ...enrollment, 
+                contacted: !currentStatus,
+                contactedAt: !currentStatus ? new Date() : null
+              }
+            : enrollment
+        )
+      )
+      
+      // Update database in background
+      const enrollmentRef = doc(db, 'enrollments', enrollmentId)
+      await updateDoc(enrollmentRef, {
+        contacted: !currentStatus,
+        contactedAt: !currentStatus ? new Date() : null
+      })
+    } catch (error) {
+      console.error('Error updating contacted status:', error)
+      // Revert local state on error
+      setLocalEnrollments(prev => 
+        prev.map(enrollment => 
+          enrollment.id === enrollmentId 
+            ? { 
+                ...enrollment, 
+                contacted: currentStatus,
+                contactedAt: enrollment.contactedAt
+              }
+            : enrollment
+        )
+      )
+      alert('Error updating contacted status. Please try again.')
+    }
+  }
+
+  const handlePaymentToggle = async (enrollmentId, currentStatus) => {
+    try {
+      // Update local state immediately for instant UI feedback
+      setLocalEnrollments(prev => 
+        prev.map(enrollment => 
+          enrollment.id === enrollmentId 
+            ? { 
+                ...enrollment, 
+                paid: !currentStatus,
+                paidAt: !currentStatus ? new Date() : null
+              }
+            : enrollment
+        )
+      )
+      
+      // Update database in background
+      const enrollmentRef = doc(db, 'enrollments', enrollmentId)
+      await updateDoc(enrollmentRef, {
+        paid: !currentStatus,
+        paidAt: !currentStatus ? new Date() : null
+      })
+    } catch (error) {
+      console.error('Error updating payment status:', error)
+      // Revert local state on error
+      setLocalEnrollments(prev => 
+        prev.map(enrollment => 
+          enrollment.id === enrollmentId 
+            ? { 
+                ...enrollment, 
+                paid: currentStatus,
+                paidAt: enrollment.paidAt
+              }
+            : enrollment
+        )
+      )
+      alert('Error updating payment status. Please try again.')
     }
   }
 
@@ -190,6 +279,19 @@ const EnrollmentList = ({ enrollments, courses, onRefresh }) => {
             <option value="cancelled">{t('cancelled') || 'Cancelled'}</option>
             <option value="completed">{t('completed') || 'Completed'}</option>
           </select>
+
+          <select 
+            value={courseSort} 
+            onChange={(e) => setCourseSort(e.target.value)}
+            className="course-sort"
+          >
+            <option value="none">{t('sortByCourse') || 'Sort by Course'}</option>
+            {courses.map(course => (
+              <option key={course.id} value={course.id}>
+                {getLocalizedText(course.title)}
+              </option>
+            ))}
+          </select>
         </div>
 
         <button onClick={exportEnrollments} className="export-btn">
@@ -200,26 +302,20 @@ const EnrollmentList = ({ enrollments, courses, onRefresh }) => {
 
       <div className="enrollment-stats">
         <div className="stat-item">
-          <span className="stat-number">{enrollments.length}</span>
+          <span className="stat-number">{localEnrollments.length}</span>
           <span className="stat-label">{t('totalEnrollments') || 'Total'}</span>
         </div>
         <div className="stat-item">
           <span className="stat-number">
-            {enrollments.filter(e => e.status === 'active').length}
+            {localEnrollments.filter(e => e.status === 'active').length}
           </span>
           <span className="stat-label">{t('active') || 'Active'}</span>
         </div>
         <div className="stat-item">
           <span className="stat-number">
-            {enrollments.filter(e => e.status === 'cancelled').length}
+            {localEnrollments.filter(e => e.status === 'cancelled').length}
           </span>
           <span className="stat-label">{t('cancelled') || 'Cancelled'}</span>
-        </div>
-        <div className="stat-item">
-          <span className="stat-number">
-            {formatPrice(enrollments.reduce((sum, e) => sum + (e.paymentInfo?.amount || 0), 0))}
-          </span>
-          <span className="stat-label">{t('totalRevenue') || 'Revenue'}</span>
         </div>
       </div>
 
@@ -232,7 +328,8 @@ const EnrollmentList = ({ enrollments, courses, onRefresh }) => {
               <th>{t('enrollmentDate') || 'Enrollment Date'}</th>
               <th>{t('amount') || 'Amount'}</th>
               <th>{t('status') || 'Status'}</th>
-              <th>{t('progress') || 'Progress'}</th>
+              <th>{t('contacted') || 'Contacted'}</th>
+              <th>{t('paid') || 'Paid'}</th>
               <th>{t('actions') || 'Actions'}</th>
             </tr>
           </thead>
@@ -293,25 +390,27 @@ const EnrollmentList = ({ enrollments, courses, onRefresh }) => {
                     </span>
                   </td>
                   <td>
-                    <div className="progress-bar">
-                      <div 
-                        className="progress-fill" 
-                        style={{ width: `${enrollment.progress || 0}%` }}
-                      ></div>
-                      <span className="progress-text">{enrollment.progress || 0}%</span>
-                    </div>
+                    <button 
+                      className={`toggle-btn ${enrollment.contacted ? 'contacted' : 'not-contacted'}`}
+                      onClick={() => handleContactedToggle(enrollment.id, enrollment.contacted)}
+                      title={enrollment.contacted ? t('markAsNotContacted') || 'Mark as Not Contacted' : t('markAsContacted') || 'Mark as Contacted'}
+                    >
+                      {enrollment.contacted ? <MailCheck size={16} /> : <Mail size={16} />}
+                      {enrollment.contacted ? t('yes') || 'Yes' : t('no') || 'No'}
+                    </button>
+                  </td>
+                  <td>
+                    <button 
+                      className={`toggle-btn ${enrollment.paid ? 'paid' : 'not-paid'}`}
+                      onClick={() => handlePaymentToggle(enrollment.id, enrollment.paid)}
+                      title={enrollment.paid ? t('markAsNotPaid') || 'Mark as Not Paid' : t('markAsPaid') || 'Mark as Paid'}
+                    >
+                      {enrollment.paid ? <Check size={16} /> : <X size={16} />}
+                      {enrollment.paid ? t('yes') || 'Yes' : t('no') || 'No'}
+                    </button>
                   </td>
                   <td>
                     <div className="action-buttons">
-                      <button 
-                        className="action-btn view"
-                        title={t('viewDetails') || 'View Details'}
-                        onClick={() => {
-                          alert(`Enrollment ID: ${enrollment.id}\nStudent: ${student ? student.displayName : 'Unknown'}\nCourse: ${course ? getLocalizedText(course.title) : 'Unknown'}`)
-                        }}
-                      >
-                        <Eye size={14} />
-                      </button>
                       {enrollment.status === 'active' && (
                         <button 
                           className="action-btn cancel"

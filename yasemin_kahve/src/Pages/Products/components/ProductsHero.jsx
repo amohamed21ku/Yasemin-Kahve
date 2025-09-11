@@ -36,10 +36,10 @@ const ProductsHero = () => {
 
       <div className="container">
         <div className={`hero-content ${isLoaded ? 'animate-in' : ''}`}>
-          <div className="hero-badge">Premium Collection</div>
+          <div className="hero-badge">{t("premiumProducts")}</div>
           <h1 className="hero-title">
-            <span className="title-line-1">Our Premium</span>
-            <span className="title-line-2">Coffee Collection</span>
+            <span className="title-line-1">{t("ourPremium")}</span>
+            <span className="title-line-2">{t("coffeeProducts")}</span>
           </h1>
           <p className="hero-subtitle">
             {t("createNewStory") || "Discover exceptional coffee beans carefully sourced from around the world. Each blend tells a story of tradition, craftsmanship, and passion for the perfect cup."}

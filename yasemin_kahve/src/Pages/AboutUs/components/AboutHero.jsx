@@ -23,7 +23,7 @@ const AboutHero = () => {
       
       <div className={`about-hero-content ${isLoaded ? 'animate-in' : ''}`}>
         <div className="about-hero-text">
-          <div className="hero-badge">Our Story</div>
+          <div className="hero-badge">{t("ourStory")}</div>
           <h1>
             <span className="title-word word-1">{t('AboutTitle')}</span>
           </h1>

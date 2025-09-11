@@ -107,7 +107,12 @@ export const en = {
  "freshDeliveryDesc":"Direct from our farms and trusted suppliers to your doorstep",
  "qualityGuarantee":"Quality Guarantee",
  "qualityGuaranteeDesc":"100% satisfaction guarantee on all our coffee products",
+
+ "premiumProducts": "Premium Products",
+ "ourPremium": "Our Premium",
+ "coffeeProducts":"Coffee Products",
  // About
+ "ourStory":"Our Story",
 
 "AboutTitle":"From farm to cup...",
 "AboutSubTitle":"Yasemin Kahve - Established in 2021",
@@ -316,7 +321,7 @@ export const en = {
   "allLevels":"All Levels",
   "beginner":"Beginner",
   "intermediate":"Intermediate",
-  "advanced":"Advanced",
+  "advanced":"Professional",
   "basics":"Basics",
   "brewing":"Brewing",
   "tasting":"Tasting",
@@ -367,9 +372,40 @@ export const en = {
 
   
   // Course Management
+    "selectLevel":"Select Level",
+    "course":"Course",
+    "actions":"Actions",
+    "student":"Student",
+    "enrollmentDate":"Enrollement Date",
+    "amount":"Amount",
+    "status":"Status",
+    "contacted":"Contacted",
+    "paid":"Paid",
+
+    "allStatuses":"All Status",
+    "sortByCourse": "Sort By Course",
+    "enrollments":"Enrollements",
+
+
+
+
+//Product Form
+  "includeScore":"Include Score",
+  "includeCuppingScores":"Include Cupping Score",
 
   
   // User Management
+  "userManagement":"User Management",
+  "manageUsersDesc":"Manage registered users and their permissions",
+  "searchUsers":"Search Users",
+
+  //instructor Manegemnt
+
+"instructorManagement":"Instrcutor Management",
+"addInstructor":"Add Instructor",
+
+
+  
  
   
   // Enrollment Management
@@ -429,7 +465,8 @@ export const en = {
   "courseCreatedSuccess":"Course created successfully!",
   "courseCreateError":"Error creating course. Please try again.",
 
-  "enrollments":"Enrollments",
+  "searchEnrollments":"Search Enrollments",
+  
   "loadingAcademyData":"Loading Academy Data...",
   "academyManagement":"Academy Management",
   "addCourse":"Add Course",

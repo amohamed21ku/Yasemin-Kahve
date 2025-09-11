@@ -55,7 +55,6 @@ const AcademyManagement = () => {
   const [stats, setStats] = useState({
     totalCourses: 0,
     totalStudents: 0,
-    totalRevenue: 0,
     averageRating: 0
   })
 
@@ -76,7 +75,6 @@ const AcademyManagement = () => {
       setEnrollments(enrollmentsData)
       
       // Calculate stats
-      const totalRevenue = enrollmentsData.reduce((sum, e) => sum + (e.paymentInfo?.amount || 0), 0)
       const uniqueStudents = new Set(enrollmentsData.map(e => e.userId)).size
       const averageRating = coursesData.length > 0 
         ? coursesData.reduce((sum, c) => sum + (c.rating || 0), 0) / coursesData.length 
@@ -85,7 +83,6 @@ const AcademyManagement = () => {
       setStats({
         totalCourses: coursesData.length,
         totalStudents: uniqueStudents,
-        totalRevenue,
         averageRating: Math.round(averageRating * 10) / 10
       })
     } catch (error) {
@@ -300,15 +297,6 @@ const AcademyManagement = () => {
                 </div>
               </div>
 
-              <div className="stat-card">
-                <div className="stat-icon revenue">
-                  <DollarSign size={24} />
-                </div>
-                <div className="stat-info">
-                  <span className="stat-number">{formatPrice(stats.totalRevenue)}</span>
-                  <span className="stat-label">{t('totalRevenue') || 'Total Revenue'}</span>
-                </div>
-              </div>
 
             
             </div>

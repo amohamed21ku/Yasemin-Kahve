@@ -69,6 +69,7 @@ const CourseDetail = ({ course, onNavigate, onEnroll }) => {
       }
     }
   }
+  
 
   const handleSignInSuccess = () => {
     setIsProcessing(true)

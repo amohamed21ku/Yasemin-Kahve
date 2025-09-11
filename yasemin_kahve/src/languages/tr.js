@@ -104,8 +104,13 @@ export const tr = {
 "qualityGuarantee":"Kalite Garantisi",
 "qualityGuaranteeDesc":"Tüm kahve ürünlerimizde %100 memnuniyet garantisi",
 
+"premiumProducts": "Premium Ürünler",
+"ourPremium": "Bizim Premium",
+"coffeeProducts": "Kahve Ürünleri",
 
 //About
+"ourStory": "Hikayemiz",
+
   "AboutTitle": "Tarladan Fincana...",
 "AboutSubTitle": "Yasemin Kahve - 2021’de Kuruldu",
 "OurJourney": "Bizim Yolculuğumuz",
@@ -311,7 +316,7 @@ export const tr = {
 "allLevels": "Tüm Seviyeler",
 "beginner": "Başlangıç",
 "intermediate": "Orta Düzey",
-"advanced": "İleri Düzey",
+"advanced": "Profesyonel",
 "basics": "Temel Bilgiler",
 "brewing": "Demleme",
 "tasting": "Tadım",
@@ -349,9 +354,49 @@ export const tr = {
  
   
   // Course Management
+"selectLevel": "Seviye Seçin",
+"course": "Kurs",
+"actions": "İşlemler",
+"student": "Öğrenci",
+"enrollmentDate": "Kayıt Tarihi",
+"amount": "Tutar",
+"status": "Durum",
+"contacted": "İletişim Kuruldu",
+"paid": "Ödendi",
+
+"allStatuses": "Tüm Durumlar",
+"sortByCourse": "Kursa Göre Sırala",
+"enrollments": "Kayıtlar",
+"searchEnrollments": "Kayıtlarda Ara",
+
+
+"loadingAcademyData": "Akademi verileri yükleniyor...",
+"academyManagement": "Akademi Yönetimi",
+"addCourse": "Kurs Ekle",
+"totalCourses": "Toplam Kurs",
+"totalStudents": "Toplam Öğrenci",
+"totalRevenue": "Toplam Gelir",
+"recentEnrollments": "Son Kayıtlar",
+"deleteCourse": "Kursu Sil",
+
+
+
+
+
+
  
   
   // User Management
+  "userManagement": "Kullanıcı Yönetimi",
+"manageUsersDesc": "Kayıtlı kullanıcıları ve izinlerini yönetin",
+"searchUsers": "Kullanıcılarda Ara",
+
+//instructor Manegemnt
+
+"instructorManagement": "Eğitmen Yönetimi",
+"addInstructor": "Eğitmen Ekle",
+
+
 
   
   // Enrollment Management
@@ -396,6 +441,13 @@ export const tr = {
  
   "perKg": "kg başına",
   "overallScore": "Genel Puan",
+
+
+  // Product Form
+  "includeScore": "Skoru Dahil Et",
+"includeCuppingScores": "Cupping Skorunu Dahil Et",
+
+
 
   // Admin Dashboard
   "last30Days": "Son 30 gün",

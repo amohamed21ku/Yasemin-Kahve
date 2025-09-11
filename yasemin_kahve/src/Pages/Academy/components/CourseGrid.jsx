@@ -126,7 +126,7 @@ const CourseGrid = ({ onCourseClick, onEnroll, onAddNewCourse, refreshTrigger })
   }, [courses, searchTerm, selectedLevel, selectedCategory])
 
   return (
-    <div className="course-grid-container">
+    <div className="course-grid-container courses-section">
       <div className="course-grid-header">
         <div className="header-title-section">
           <h2 className="course-grid-title">{t("availableCourses") || "Available Courses"}</h2>
