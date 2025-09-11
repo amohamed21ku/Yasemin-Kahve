@@ -99,7 +99,12 @@ export const en = {
 
   
  
+ //Product Page
+ "LearnArtCoffee":"Learn the Art oh Coffee",
+ "masterThe":"Master the techniques to brew the perfect cup with our coffee courses. From basic brewing to advanced barista skills.",
+ "exploreOurAcademy":"Explore Our Academy",
  // About
+
 "AboutTitle":"From farm to cup...",
 "AboutSubTitle":"Yasemin Kahve - Established in 2021",
 "OurJourney":"Our Journey",

@@ -1,20 +1,23 @@
 import React from 'react'
+import { useTranslation } from "/src/useTranslation";
+
 
 const EducationCTA = ({ onNavigate }) => {
+    const { t } = useTranslation();
+  
   return (
     <section className="education-cta">
       <div className="container">
         <div className="cta-content">
-          <h2>Learn the Art of Coffee</h2>
+          <h2>{t("LearnArtCoffee")}</h2>
           <p>
-            Master the techniques to brew the perfect cup with our coffee courses. 
-            From basic brewing to advanced barista skills.
+            {t("masterThe")}
           </p>
           <button 
             className="cta-button"
             onClick={() => onNavigate && onNavigate('academy')}
           >
-            Explore Our Academy
+             {t("exploreOurAcademy")}
           </button>
         </div>
       </div>

@@ -95,7 +95,13 @@ export const tr = {
 "allRightsReserved": "Tüm hakları saklıdır",
 "footerDescription": "Türk kahvesi ihracatçısı ve premium yeşil kahve çekirdeği tedarikçisi. Guatemala’dan Türkiye’ye, otantik Türk kahvesi ve yüksek kaliteli kakule ile dünya çapında distribütörlere ve kahve dükkânlarına hizmet veriyoruz.",
 
-  //About
+  
+"LearnArtCoffee": "Kahve Sanatını Öğrenin",
+"masterThe": "Mükemmel bir fincan kahve demlemek için gerekli tekniklerde ustalaşın. Temel demlemeden ileri düzey barista becerilerine kadar tüm kahve kurslarımızla yanınızdayız.",
+"exploreOurAcademy": "Akademimizi Keşfedin",
+
+
+//About
   "AboutTitle": "Tarladan Fincana...",
 "AboutSubTitle": "Yasemin Kahve - 2021’de Kuruldu",
 "OurJourney": "Bizim Yolculuğumuz",
@@ -378,8 +384,7 @@ export const tr = {
   // Product Components
   "unknownProduct": "Bilinmeyen Ürün",
   "roastLabel": "Kavurma",
-  "backToHome": "Ana Sayfaya Dön",
-  "backToProducts": "Ürünlere Dön",
+ 
   "perKg": "kg başına",
   "overallScore": "Genel Puan",
 
@@ -416,16 +421,10 @@ export const tr = {
   "media": "Medya",
   "courseNotFound": "Kurs bulunamadı",
   "backToAcademy": "Akademiye Dön",
-  "duration": "Süre",
   "hours": "gün",
-  "days": "gün",
-  "durationDays": "Süre (gün)",
   "students": "Öğrenci",
-  "level": "Seviye",
   "language": "Dil",
-  "startDate": "Başlangıç Tarihi",
   "location": "Konum",
-  "price": "Fiyat",
   "enrolled": "Kayıtlı",
   "full": "Kurs Dolu",
   "enrollNow": "Şimdi Kaydol",
@@ -439,8 +438,6 @@ export const tr = {
   "locked": "Kilitli",
   "images": "Görseller",
   "videos": "Videolar",
-  "onSite": "Yerinde",
-  "online": "Çevrimiçi",
   "documents": "Dökümanlar",
   "noMediaAvailable": "Bu kurs için medya bulunmuyor",
   "viewCourse": "Kursu Görüntüle",
@@ -458,8 +455,6 @@ export const tr = {
   "editCourse": "Kursu Düzenle",
   "addNewCourse": "Yeni Kurs Ekle",
   "courseImage": "Kurs Resmi",
-  "changeImage": "Resmi Değiştir",
-  "removeImage": "Kaldır",
   "clickToUploadCourseImage": "Kurs resmi yüklemek için tıklayın",
   "courseInformation": "Kurs Bilgileri",
   "enterTitleEnglish": "Kurs başlığını İngilizce girin",
