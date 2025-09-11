@@ -11,7 +11,7 @@ const CompanyOverview = ({ onNavigate }) => {
         <div className="overview-grid">
           <div className="overview-content">
             <div className="section-badge">{t("OurStory") }</div>
-            <h2 className="section-title">
+            <h2 className="section-home-title">
               {t("HomePageTitle") }
             </h2>
             <p className="section-description">

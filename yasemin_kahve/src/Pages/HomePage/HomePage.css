@@ -169,57 +169,11 @@ nav.header {
   border-color: rgba(139, 69, 19, 0.2);
 }
 
-nav.header.scrolled:not(.product-detail-header) {
-  background: linear-gradient(135deg, #ffffff 0%, #f8f6f3 100%) !important;
-  backdrop-filter: blur(20px) !important;
-  box-shadow: 0 4px 20px rgba(139, 69, 19, 0.15) !important;
-  border-bottom: 2px solid rgba(139, 69, 19, 0.1) !important;
-}
-
-/* Product detail page header: always transparent with dark text */
-nav.header.product-detail-header {
-  background: transparent !important;
-  backdrop-filter: none !important;
-  box-shadow: none !important;
-  border-bottom: none !important;
-}
-
-/* Product detail page text: always dark */
-nav.header.product-detail-header .nav-link {
-  color: #5D4037 !important;
-}
-
-nav.header.product-detail-header .nav-link:hover {
-  color: #8B4513 !important;
-}
-
-nav.header.product-detail-header .nav-link.active {
-  color: #8B4513 !important;
-}
-
-nav.header.product-detail-header .mobile-menu-btn {
-  color: #3E2723 !important;
-}
-
-nav.header.product-detail-header .language-switcher {
-  color: #8B4513 !important;
-  border-color: rgba(139, 69, 19, 0.2) !important;
-}
-
-nav.header.product-detail-header .language-switcher:hover {
-  background: rgba(139, 69, 19, 0.05) !important;
-  border-color: rgba(139, 69, 19, 0.4) !important;
-}
-
-nav.header.product-detail-header .company-name {
-  background: linear-gradient(135deg, #5D4037, #A0522D) !important;
-  -webkit-background-clip: text !important;
-  -webkit-text-fill-color: transparent !important;
-  background-clip: text !important;
-}
-
-nav.header.product-detail-header .company-tagline {
-  color: #8D6E63 !important;
+.header.scrolled {
+  background: linear-gradient(135deg, #ffffff 0%, #f8f6f3 100%);
+  backdrop-filter: blur(20px);
+  box-shadow: 0 4px 20px rgba(139, 69, 19, 0.15);
+  border-bottom: 2px solid rgba(139, 69, 19, 0.1);
 }
 
 .header-content {
@@ -256,18 +210,18 @@ nav.header.product-detail-header .company-tagline {
 nav.header .company-name {
   font-size: 1.5rem !important;
   font-weight: 800 !important;
-  background: linear-gradient(135deg, #ffffff, #f0f0f0) !important;
+  background: linear-gradient(135deg, #5D4037, #A0522D) !important;
   -webkit-background-clip: text !important;
   -webkit-text-fill-color: transparent !important;
   background-clip: text !important;
   transition: all 0.3s ease !important;
 }
 
-nav.header.scrolled:not(.product-detail-header) .company-name {
-  background: linear-gradient(135deg, #5D4037, #A0522D) !important;
-  -webkit-background-clip: text !important;
-  -webkit-text-fill-color: transparent !important;
-  background-clip: text !important;
+.header.scrolled .company-name {
+  background: linear-gradient(135deg, #5D4037, #A0522D);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
 }
 
 nav.header .company-tagline {
@@ -276,11 +230,11 @@ nav.header .company-tagline {
   letter-spacing: 0.5px !important;
   text-transform: uppercase !important;
   transition: color 0.3s ease !important;
-  color: rgba(255, 255, 255, 0.8) !important;
+  color: #8D6E63 !important;
 }
 
-nav.header.scrolled:not(.product-detail-header) .company-tagline {
-  color: #8D6E63 !important;
+.header.scrolled .company-tagline {
+  color: #8D6E63;
 }
 
 .desktop-nav {
@@ -306,8 +260,8 @@ nav.header .nav-link {
   letter-spacing: 0.3px !important;
 }
 
-nav.header.scrolled:not(.product-detail-header) .nav-link {
-  color: #5D4037 !important;
+.header.scrolled .nav-link {
+  color: #5D4037;
 }
 
 .nav-link::before {
@@ -329,19 +283,19 @@ nav.header.scrolled:not(.product-detail-header) .nav-link {
 }
 
 nav.header .nav-link:hover {
-  color: rgba(255, 255, 255, 1) !important;
+  color: #8B4513 !important;
   transform: translateY(-2px) !important;
 }
 
-nav.header.scrolled:not(.product-detail-header) .nav-link:hover {
-  color: #8B4513 !important;
+.header.scrolled .nav-link:hover {
+  color: #8B4513;
 }
 
 nav.header .nav-link.active {
-  color: rgba(255, 255, 255, 1) !important;
+  color: #8B4513 !important;
 }
 
-nav.header.scrolled:not(.product-detail-header) .nav-link.active {
+nav.header.scrolled .nav-link.active {
   color: #8B4513 !important;
 }
 
@@ -353,11 +307,11 @@ nav.header .mobile-menu-btn {
   padding: 0.75rem !important;
   border-radius: 0.5rem !important;
   transition: all 0.3s ease !important;
-  color: rgba(255, 255, 255, 0.9) !important;
+  color: #3E2723 !important;
 }
 
-nav.header.scrolled:not(.product-detail-header) .mobile-menu-btn {
-  color: #3E2723 !important;
+.header.scrolled .mobile-menu-btn {
+  color: #3E2723;
 }
 
 .mobile-menu-btn:hover {
@@ -365,8 +319,8 @@ nav.header.scrolled:not(.product-detail-header) .mobile-menu-btn {
   transform: scale(1.1);
 }
 
-nav.header.scrolled:not(.product-detail-header) .mobile-menu-btn:hover {
-  background: rgba(139, 69, 19, 0.1) !important;
+.header.scrolled .mobile-menu-btn:hover {
+  background: rgba(139, 69, 19, 0.1);
 }
 
 /* Mobile actions container */
@@ -1122,15 +1076,14 @@ nav.header.scrolled:not(.product-detail-header) .mobile-menu-btn:hover {
   border: 2px solid rgba(139, 69, 19, 0.1);
 }
 
-.section-title {
-  font-size: clamp(2.5rem, 6vw, 3.5rem);
+.section-home-title {
+  font-size: clamp(2rem, 5vw, 3.5rem);
   font-weight: 900;
-  color: #3E2723;
+  color: var(--dark-brown);
   margin-bottom: 2rem;
-  line-height: 1.1;
-  letter-spacing: -0.02em;
+  line-height: 1.2;
+  font-family: var(--font-primary);
 }
-
 .text-highlight {
   background: linear-gradient(135deg, var(--medium-brown), var(--golden-yellow));
   -webkit-background-clip: text;
@@ -1166,7 +1119,7 @@ nav.header.scrolled:not(.product-detail-header) .mobile-menu-btn:hover {
 
 /* Mobile optimizations for CompanyOverview */
 @media (max-width: 768px) {
-  .section-title {
+  .section-home-title {
     font-size: 1.4rem;
   }
   
@@ -2250,7 +2203,7 @@ nav.header.scrolled:not(.product-detail-header) .mobile-menu-btn:hover {
     font-size: 1rem;
   }
   
-  .section-title {
+  .section-home-title {
     font-size: 1.4rem;
   }
   
@@ -2383,36 +2336,45 @@ nav.header.scrolled:not(.product-detail-header) .mobile-menu-btn:hover {
 }
 
 /* Language Switcher Styles */
-nav.header .language-switcher {
-  display: flex !important;
-  align-items: center !important;
-  gap: 0.5rem !important;
-  padding: 0.5rem 1rem !important;
-  background: transparent !important;
-  border: 1px solid rgba(255, 255, 255, 0.2) !important;
-  border-radius: 4px !important;
-  color: rgba(255, 255, 255, 0.9) !important;
-  cursor: pointer !important;
-  transition: all 0.3s ease !important;
+.language-switcher {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 1rem;
+  background: transparent;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 4px;
+  color: white;
+  cursor: pointer;
+  transition: all 0.3s ease;
   font-size: 0.875rem;
 }
 
-nav.header .language-switcher:hover {
-  background: rgba(255, 255, 255, 0.1) !important;
-  border-color: rgba(255, 255, 255, 0.4) !important;
+.language-switcher:hover {
+  background: rgba(255, 255, 255, 0.1);
+  border-color: rgba(255, 255, 255, 0.4);
 }
 
-nav.header.scrolled:not(.product-detail-header) .language-switcher {
-  color: #8B4513 !important;
-  border-color: rgba(139, 69, 19, 0.2) !important;
+.header.scrolled .language-switcher {
+  color: #8B4513;
+  border-color: rgba(139, 69, 19, 0.2);
 }
 
-nav.header.scrolled:not(.product-detail-header) .language-switcher:hover {
-  background: rgba(139, 69, 19, 0.05) !important;
-  border-color: rgba(139, 69, 19, 0.4) !important;
+.header.scrolled .language-switcher:hover {
+  background: rgba(139, 69, 19, 0.05);
+  border-color: rgba(139, 69, 19, 0.4);
 }
 
-/* Mobile language switcher removed - using header version only */
+.mobile-language-switcher {
+  padding: 1rem;
+  display: flex;
+  justify-content: center;
+}
+
+.mobile-language-switcher .language-switcher {
+  width: 100%;
+  justify-content: center;
+}
 
 
 /* Authentication Header Styles */
@@ -3112,7 +3074,7 @@ nav.header.scrolled:not(.product-detail-header) .language-switcher:hover {
     padding: 0 0.5rem;
   }
   
-  .section-title {
+  .section-home-title {
     font-size: 1.8rem;
   }
   
@@ -3563,9 +3525,8 @@ nav.header.scrolled:not(.product-detail-header) .language-switcher:hover {
   background-clip: text;
 }
 
-.section-title {
+.section-home-title {
   font-family: var(--font-primary);
-  color: var(--almost-black);
 }
 
 .text-highlight {
@@ -3718,109 +3679,28 @@ nav.header.scrolled:not(.product-detail-header) .language-switcher:hover {
 }
 
 /* CRITICAL: Override any Tailwind CSS defaults for header */
-/* Default header: transparent background with light text */
 nav.header.header {
-  background: transparent !important;
-  backdrop-filter: none !important;
-  box-shadow: none !important;
-  border-bottom: none !important;
-}
-
-nav.header .nav-link,
-nav.header a.nav-link {
-  color: rgba(255, 255, 255, 0.9) !important;
-}
-
-nav.header .nav-link:hover,
-nav.header a.nav-link:hover {
-  color: rgba(255, 255, 255, 1) !important;
-}
-
-nav.header .nav-link.active,
-nav.header a.nav-link.active {
-  color: rgba(255, 255, 255, 1) !important;
-}
-
-nav.header .mobile-menu-btn {
-  color: rgba(255, 255, 255, 0.9) !important;
-}
-
-nav.header .language-switcher {
-  color: rgba(255, 255, 255, 0.9) !important;
-  border-color: rgba(255, 255, 255, 0.2) !important;
-}
-
-/* Scrolled header: white background with dark text (except product detail) */
-nav.header.scrolled:not(.product-detail-header).header {
   background: rgba(255, 255, 255, 0.95) !important;
   backdrop-filter: blur(10px) !important;
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1) !important;
   border-bottom: 1px solid rgba(0, 0, 0, 0.05) !important;
 }
 
-nav.header.scrolled:not(.product-detail-header) .nav-link,
-nav.header.scrolled:not(.product-detail-header) a.nav-link {
+nav.header .nav-link,
+nav.header a.nav-link {
   color: #5D4037 !important;
 }
 
-nav.header.scrolled:not(.product-detail-header) .nav-link:hover,
-nav.header.scrolled:not(.product-detail-header) a.nav-link:hover {
+nav.header .nav-link:hover,
+nav.header a.nav-link:hover {
   color: #8B4513 !important;
 }
 
-nav.header.scrolled:not(.product-detail-header) .nav-link.active,
-nav.header.scrolled:not(.product-detail-header) a.nav-link.active {
+nav.header .nav-link.active,
+nav.header a.nav-link.active {
   color: #8B4513 !important;
 }
 
-nav.header.scrolled:not(.product-detail-header) .mobile-menu-btn {
+nav.header .mobile-menu-btn {
   color: #3E2723 !important;
-}
-
-nav.header.scrolled:not(.product-detail-header) .language-switcher {
-  color: #8B4513 !important;
-  border-color: rgba(139, 69, 19, 0.2) !important;
-}
-
-/* PRODUCT DETAIL PAGE: Always transparent background with dark text */
-nav.header.product-detail-header.header {
-  background: transparent !important;
-  backdrop-filter: none !important;
-  box-shadow: none !important;
-  border-bottom: none !important;
-}
-
-nav.header.product-detail-header .nav-link,
-nav.header.product-detail-header a.nav-link {
-  color: #5D4037 !important;
-}
-
-nav.header.product-detail-header .nav-link:hover,
-nav.header.product-detail-header a.nav-link:hover {
-  color: #8B4513 !important;
-}
-
-nav.header.product-detail-header .nav-link.active,
-nav.header.product-detail-header a.nav-link.active {
-  color: #8B4513 !important;
-}
-
-nav.header.product-detail-header .mobile-menu-btn {
-  color: #3E2723 !important;
-}
-
-nav.header.product-detail-header .language-switcher {
-  color: #8B4513 !important;
-  border-color: rgba(139, 69, 19, 0.2) !important;
-}
-
-nav.header.product-detail-header .company-name {
-  background: linear-gradient(135deg, #5D4037, #A0522D) !important;
-  -webkit-background-clip: text !important;
-  -webkit-text-fill-color: transparent !important;
-  background-clip: text !important;
-}
-
-nav.header.product-detail-header .company-tagline {
-  color: #8D6E63 !important;
 }
