@@ -16,6 +16,8 @@ export const tr = {
   "myProfile": "Profilim",
   "clickToChat": "Sohbete Başla",
 
+  "whatsAppTooltip":"Bize WhatsApp'tan yazın!",
+
 
   
   // Hero

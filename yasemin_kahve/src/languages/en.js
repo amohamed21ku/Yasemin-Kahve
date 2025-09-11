@@ -15,6 +15,8 @@ export const en = {
   "myProfile":"My Profile",
   "clickToChat":"Click To Chat",
 
+  "whatsAppTooltip": "Message us on WhatsApp!",
+
 
   
   // Hero
