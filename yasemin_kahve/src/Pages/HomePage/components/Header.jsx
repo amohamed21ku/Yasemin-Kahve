@@ -122,18 +122,6 @@ const Header = ({ activeSection = "home", onNavigate, darkContent = false }) => 
                 </a>
               );
             })}
-            
-            {/* Admin link with improved design */}
-            {isAdmin && (
-              <a
-                href="#admin"
-                className={`fix-nav-link fix-admin-nav-link ${activeSection === 'admin' ? "active" : ""}`}
-                onClick={(e) => handleNavClick('admin', e)}
-              >
-                <Coffee size={16} className="fix-admin-icon" />
-                <span>{t("admin") || "Admin"}</span>
-              </a>
-            )}
           </div>
 
           {/* Authentication Section */}
@@ -237,18 +225,6 @@ const Header = ({ activeSection = "home", onNavigate, darkContent = false }) => 
               {item.name}
             </a>
           ))}
-          
-          {/* Mobile admin link */}
-          {isAdmin && (
-            <a
-              href="#admin"
-              className={`fix-mobile-nav-link fix-admin-nav-link ${activeSection === 'admin' ? 'active' : ''}`}
-              onClick={(e) => handleNavClick('admin', e)}
-            >
-              <Coffee size={16} />
-              {t("adminConsole") || "Admin Console"}
-            </a>
-          )}
           
           {/* Mobile Auth Section */}
           <div className="fix-mobile-auth-section">
