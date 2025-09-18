@@ -1,7 +1,7 @@
 import React, { useState, useRef } from 'react';
 import { useTranslation } from '../../../useTranslation';
 import { Camera, Upload, X, Eye, EyeOff, Globe, DollarSign, AlertCircle, Plus } from 'lucide-react';
-import { categoryService } from '../../../services/productService';
+import { categoryService, PRODUCT_TYPES } from '../../../services/productService';
 import CountrySelector from './CountrySelector';
 import './ProductForm.css';
 
@@ -19,6 +19,7 @@ const ProductForm = ({ product, categories = [], onSave, onCancel }) => {
       tr: product?.description?.tr || ''
     },
     categoryId: product?.categoryId || (categories[0]?.id || ''),
+    productType: product?.productType || PRODUCT_TYPES.COFFEE,
     origin: product?.origin || '',
     badge: product?.badge || '',
     price: product?.price || '',
@@ -26,7 +27,7 @@ const ProductForm = ({ product, categories = [], onSave, onCancel }) => {
     score: product?.score !== null && product?.score !== undefined ? product.score : 8.5,
     images: product?.images || (product?.image ? [product.image] : []),
     isVisible: product?.isVisible !== false,
-    // Additional product specifications
+    // Coffee specifications
     region: product?.region || '',
     classification: product?.classification || '',
     processing: product?.processing || '',
@@ -42,7 +43,23 @@ const ProductForm = ({ product, categories = [], onSave, onCancel }) => {
       acidity: product?.cupping?.acidity || 8.0,
       body: product?.cupping?.body || 8.0,
       balance: product?.cupping?.balance || 8.0
-    }
+    },
+    // Machine specifications
+    brand: product?.brand || '',
+    model: product?.model || '',
+    powerWattage: product?.powerWattage || '',
+    voltage: product?.voltage || '',
+    capacity: product?.capacity || '',
+    dimensions: product?.dimensions || '',
+    weight: product?.weight || '',
+    features: product?.features || [],
+    warrantyPeriod: product?.warrantyPeriod || '',
+    // Cardamom specifications
+    grade: product?.grade || '',
+    size: product?.size || '',
+    color: product?.color || '',
+    moisture: product?.moisture || '',
+    packagingType: product?.packagingType || ''
   });
 
   const [imageFiles, setImageFiles] = useState([]);
@@ -467,6 +484,22 @@ const ProductForm = ({ product, categories = [], onSave, onCancel }) => {
           )}
         </div>
 
+        {/* Product Type */}
+        <div className="form-section">
+          <h3>{t('productType') || 'Product Type'}</h3>
+
+          <select
+            value={formData.productType}
+            onChange={(e) => handleInputChange('productType', e.target.value)}
+            className="product-type-select"
+          >
+            <option value={PRODUCT_TYPES.COFFEE}>{t('coffee') || 'Coffee'}</option>
+            <option value={PRODUCT_TYPES.MACHINE}>{t('coffeeMachines') || 'Coffee Machines'}</option>
+            <option value={PRODUCT_TYPES.CARDAMOM}>{t('cardamom') || 'Cardamom'}</option>
+          </select>
+          <small>{t('productTypeHelp') || 'Choose the type of product you are adding'}</small>
+        </div>
+
         {/* Category & Origin */}
         <div className="form-section">
           <h3>{t('categoryAndOrigin') || 'Category & Origin'}</h3>
@@ -653,12 +686,17 @@ const ProductForm = ({ product, categories = [], onSave, onCancel }) => {
 
         {/* Product Specifications */}
         <div className="form-section">
-          <h3>{t('productSpecifications') || 'Product Specifications'}</h3>
+          <h3>
+            {formData.productType === PRODUCT_TYPES.COFFEE && (t('coffeeSpecifications') || 'Coffee Specifications')}
+            {formData.productType === PRODUCT_TYPES.MACHINE && (t('machineSpecifications') || 'Machine Specifications')}
+            {formData.productType === PRODUCT_TYPES.CARDAMOM && (t('cardamomSpecifications') || 'Cardamom Specifications')}
+          </h3>
           
           <div className="specs-input-grid">
+            {/* Common score field for all product types */}
             <div className="productform-form-group">
               <label>{t('score') || 'Score'}</label>
-              
+
               <div className="score-toggle">
                 <label className="checkbox-label">
                   <input
@@ -671,7 +709,7 @@ const ProductForm = ({ product, categories = [], onSave, onCancel }) => {
                   </span>
                 </label>
               </div>
-              
+
               {showScore && (
                 <input
                   type="number"
@@ -684,106 +722,273 @@ const ProductForm = ({ product, categories = [], onSave, onCancel }) => {
               )}
               <small>{t('scoreHelp') || 'Quality score is optional. Only enable for products that have been evaluated.'}</small>
             </div>
-            
-            <div className="productform-form-group">
-              <label>{t('region') || 'Region'}</label>
-              <input
-                type="text"
-                value={formData.region}
-                onChange={(e) => handleInputChange('region', e.target.value)}
-                placeholder={t('regionPlaceholder') || 'e.g., Huila, Nariño, Cauca'}
-              />
-            </div>
-            
-            <div className="productform-form-group">
-              <label>{t('classification') || 'Classification'}</label>
-              <select
-                value={formData.classification}
-                onChange={(e) => handleInputChange('classification', e.target.value)}
-              >
-                <option value="">{t('selectClassification') || 'Select Classification'}</option>
-                <option value="Specialty">Specialty</option>
-                <option value="Premium">Premium</option>
-                <option value="Commercial">Commercial</option>
-                <option value="Organic">Organic</option>
-                <option value="Fair Trade">Fair Trade</option>
-              </select>
-            </div>
-            
-            <div className="productform-form-group">
-              <label>{t('processing') || 'Processing'}</label>
-              <select
-                value={formData.processing}
-                onChange={(e) => handleInputChange('processing', e.target.value)}
-              >
-                <option value="">{t('selectProcessing') || 'Select Processing Method'}</option>
-                <option value="Washed">Washed</option>
-                <option value="Natural">Natural</option>
-                <option value="Honey">Honey</option>
-                <option value="Pulped Natural">Pulped Natural</option>
-                <option value="Semi-Washed">Semi-Washed</option>
-                <option value="Wet Hulled">Wet Hulled</option>
-              </select>
-            </div>
-            
-            <div className="productform-form-group">
-              <label>{t('type') || 'Type'}</label>
-              <select
-                value={formData.type}
-                onChange={(e) => handleInputChange('type', e.target.value)}
-              >
-                <option value="">{t('selectType') || 'Select Coffee Type'}</option>
-                <option value="Arabica">Arabica</option>
-                <option value="Robusta">Robusta</option>
-                <option value="Liberica">Liberica</option>
-                <option value="Excelsa">Excelsa</option>
-                <option value="Blend">Blend</option>
-              </select>
-            </div>
-            
-            <div className="productform-form-group">
-              <label>{t('altitude') || 'Altitude'}</label>
-              <input
-                type="text"
-                value={formData.altitude}
-                onChange={(e) => handleInputChange('altitude', e.target.value)}
-                placeholder={t('altitudePlaceholder') || 'e.g., 1,200-1,800m'}
-              />
-            </div>
-            
-            <div className="productform-form-group">
-              <label>{t('bagType') || 'Bag Type'}</label>
-              <select
-                value={formData.bagType}
-                onChange={(e) => handleInputChange('bagType', e.target.value)}
-              >
-                <option value="">{t('selectBagType') || 'Select Bag Type'}</option>
-                <option value="Jute">Jute</option>
-                <option value="Burlap">Burlap</option>
-                <option value="GrainPro">GrainPro</option>
-                <option value="Vacuum">Vacuum</option>
-                <option value="Ecotact">Ecotact</option>
-                <option value="Standard">Standard</option>
-              </select>
-            </div>
 
-            <div className="productform-form-group">
-              <label>{t('bagSize') || 'Bag Size (kg)'}</label>
-              <input
-                type="number"
-                step="0.1"
-                min="0"
-                value={formData.bagSize}
-                onChange={(e) => handleInputChange('bagSize', e.target.value)}
-                placeholder={t('bagSizePlaceholder') || 'e.g., 60, 30, 1'}
-              />
-            </div>
+            {/* Coffee-specific fields */}
+            {formData.productType === PRODUCT_TYPES.COFFEE && (
+              <>
+                <div className="productform-form-group">
+                  <label>{t('region') || 'Region'}</label>
+                  <input
+                    type="text"
+                    value={formData.region}
+                    onChange={(e) => handleInputChange('region', e.target.value)}
+                    placeholder={t('regionPlaceholder') || 'e.g., Huila, Nariño, Cauca'}
+                  />
+                </div>
+
+                <div className="productform-form-group">
+                  <label>{t('classification') || 'Classification'}</label>
+                  <select
+                    value={formData.classification}
+                    onChange={(e) => handleInputChange('classification', e.target.value)}
+                  >
+                    <option value="">{t('selectClassification') || 'Select Classification'}</option>
+                    <option value="Specialty">Specialty</option>
+                    <option value="Premium">Premium</option>
+                    <option value="Commercial">Commercial</option>
+                    <option value="Organic">Organic</option>
+                    <option value="Fair Trade">Fair Trade</option>
+                  </select>
+                </div>
+
+                <div className="productform-form-group">
+                  <label>{t('processing') || 'Processing'}</label>
+                  <select
+                    value={formData.processing}
+                    onChange={(e) => handleInputChange('processing', e.target.value)}
+                  >
+                    <option value="">{t('selectProcessing') || 'Select Processing Method'}</option>
+                    <option value="Washed">Washed</option>
+                    <option value="Natural">Natural</option>
+                    <option value="Honey">Honey</option>
+                    <option value="Pulped Natural">Pulped Natural</option>
+                    <option value="Semi-Washed">Semi-Washed</option>
+                    <option value="Wet Hulled">Wet Hulled</option>
+                  </select>
+                </div>
+
+                <div className="productform-form-group">
+                  <label>{t('type') || 'Coffee Type'}</label>
+                  <select
+                    value={formData.type}
+                    onChange={(e) => handleInputChange('type', e.target.value)}
+                  >
+                    <option value="">{t('selectType') || 'Select Coffee Type'}</option>
+                    <option value="Arabica">Arabica</option>
+                    <option value="Robusta">Robusta</option>
+                    <option value="Liberica">Liberica</option>
+                    <option value="Excelsa">Excelsa</option>
+                    <option value="Blend">Blend</option>
+                  </select>
+                </div>
+
+                <div className="productform-form-group">
+                  <label>{t('altitude') || 'Altitude'}</label>
+                  <input
+                    type="text"
+                    value={formData.altitude}
+                    onChange={(e) => handleInputChange('altitude', e.target.value)}
+                    placeholder={t('altitudePlaceholder') || 'e.g., 1,200-1,800m'}
+                  />
+                </div>
+
+                <div className="productform-form-group">
+                  <label>{t('bagType') || 'Bag Type'}</label>
+                  <select
+                    value={formData.bagType}
+                    onChange={(e) => handleInputChange('bagType', e.target.value)}
+                  >
+                    <option value="">{t('selectBagType') || 'Select Bag Type'}</option>
+                    <option value="Jute">Jute</option>
+                    <option value="Burlap">Burlap</option>
+                    <option value="GrainPro">GrainPro</option>
+                    <option value="Vacuum">Vacuum</option>
+                    <option value="Ecotact">Ecotact</option>
+                    <option value="Standard">Standard</option>
+                  </select>
+                </div>
+
+                <div className="productform-form-group">
+                  <label>{t('bagSize') || 'Bag Size (kg)'}</label>
+                  <input
+                    type="number"
+                    step="0.1"
+                    min="0"
+                    value={formData.bagSize}
+                    onChange={(e) => handleInputChange('bagSize', e.target.value)}
+                    placeholder={t('bagSizePlaceholder') || 'e.g., 60, 30, 1'}
+                  />
+                </div>
+              </>
+            )}
+
+            {/* Machine-specific fields */}
+            {formData.productType === PRODUCT_TYPES.MACHINE && (
+              <>
+                <div className="productform-form-group">
+                  <label>{t('brand') || 'Brand'}</label>
+                  <input
+                    type="text"
+                    value={formData.brand}
+                    onChange={(e) => handleInputChange('brand', e.target.value)}
+                    placeholder={t('brandPlaceholder') || 'e.g., Breville, De\'Longhi, Jura'}
+                  />
+                </div>
+
+                <div className="productform-form-group">
+                  <label>{t('model') || 'Model'}</label>
+                  <input
+                    type="text"
+                    value={formData.model}
+                    onChange={(e) => handleInputChange('model', e.target.value)}
+                    placeholder={t('modelPlaceholder') || 'e.g., BES870XL, ECAM22110B'}
+                  />
+                </div>
+
+                <div className="productform-form-group">
+                  <label>{t('powerWattage') || 'Power (Wattage)'}</label>
+                  <input
+                    type="text"
+                    value={formData.powerWattage}
+                    onChange={(e) => handleInputChange('powerWattage', e.target.value)}
+                    placeholder={t('powerPlaceholder') || 'e.g., 1450W, 1350W'}
+                  />
+                </div>
+
+                <div className="productform-form-group">
+                  <label>{t('voltage') || 'Voltage'}</label>
+                  <input
+                    type="text"
+                    value={formData.voltage}
+                    onChange={(e) => handleInputChange('voltage', e.target.value)}
+                    placeholder={t('voltagePlaceholder') || 'e.g., 220V, 110-240V'}
+                  />
+                </div>
+
+                <div className="productform-form-group">
+                  <label>{t('capacity') || 'Water Tank Capacity'}</label>
+                  <input
+                    type="text"
+                    value={formData.capacity}
+                    onChange={(e) => handleInputChange('capacity', e.target.value)}
+                    placeholder={t('capacityPlaceholder') || 'e.g., 2.5L, 1.8L'}
+                  />
+                </div>
+
+                <div className="productform-form-group">
+                  <label>{t('dimensions') || 'Dimensions (W x D x H)'}</label>
+                  <input
+                    type="text"
+                    value={formData.dimensions}
+                    onChange={(e) => handleInputChange('dimensions', e.target.value)}
+                    placeholder={t('dimensionsPlaceholder') || 'e.g., 31 x 33 x 40 cm'}
+                  />
+                </div>
+
+                <div className="productform-form-group">
+                  <label>{t('weight') || 'Weight'}</label>
+                  <input
+                    type="text"
+                    value={formData.weight}
+                    onChange={(e) => handleInputChange('weight', e.target.value)}
+                    placeholder={t('weightPlaceholder') || 'e.g., 8.5 kg'}
+                  />
+                </div>
+
+                <div className="productform-form-group">
+                  <label>{t('warrantyPeriod') || 'Warranty Period'}</label>
+                  <input
+                    type="text"
+                    value={formData.warrantyPeriod}
+                    onChange={(e) => handleInputChange('warrantyPeriod', e.target.value)}
+                    placeholder={t('warrantyPlaceholder') || 'e.g., 2 years, 1 year'}
+                  />
+                </div>
+              </>
+            )}
+
+            {/* Cardamom-specific fields */}
+            {formData.productType === PRODUCT_TYPES.CARDAMOM && (
+              <>
+                <div className="productform-form-group">
+                  <label>{t('grade') || 'Grade'}</label>
+                  <select
+                    value={formData.grade}
+                    onChange={(e) => handleInputChange('grade', e.target.value)}
+                  >
+                    <option value="">{t('selectGrade') || 'Select Grade'}</option>
+                    <option value="Extra Jade">Extra Jade</option>
+                    <option value="Pale Green">Pale Green</option>
+                    <option value="Medium Dark Green">Medium Dark Green</option>
+                    <option value="Small Pale Green">Small Pale Green</option>
+                    <option value="Trips">Trips</option>
+                    <option value="Super Trips">Super Trips</option>
+                    <option value="Seeds">Seeds</option>
+                    <option value="Delux">Delux</option>
+                  </select>
+                </div>
+
+                <div className="productform-form-group">
+                  <label>{t('size') || 'Size'}</label>
+                  <input
+                    type="text"
+                    value={formData.size}
+                    onChange={(e) => handleInputChange('size', e.target.value)}
+                    placeholder={t('sizePlaceholder') || 'e.g., 6mm, 7mm, 8mm+'}
+                  />
+                </div>
+
+                <div className="productform-form-group">
+                  <label>{t('color') || 'Color'}</label>
+                  <select
+                    value={formData.color}
+                    onChange={(e) => handleInputChange('color', e.target.value)}
+                  >
+                    <option value="">{t('selectColor') || 'Select Color'}</option>
+                    <option value="Light Green">Light Green</option>
+                    <option value="Green">Green</option>
+                    <option value="Dark Green">Dark Green</option>
+                    <option value="Yellowish Green">Yellowish Green</option>
+                    <option value="Brown">Brown</option>
+                  </select>
+                </div>
+
+                <div className="productform-form-group">
+                  <label>{t('moisture') || 'Moisture Content (%)'}</label>
+                  <input
+                    type="number"
+                    step="0.1"
+                    min="0"
+                    max="100"
+                    value={formData.moisture}
+                    onChange={(e) => handleInputChange('moisture', e.target.value)}
+                    placeholder={t('moisturePlaceholder') || 'e.g., 8.5, 12.0'}
+                  />
+                </div>
+
+                <div className="productform-form-group">
+                  <label>{t('packagingType') || 'Packaging Type'}</label>
+                  <select
+                    value={formData.packagingType}
+                    onChange={(e) => handleInputChange('packagingType', e.target.value)}
+                  >
+                    <option value="">{t('selectPackaging') || 'Select Packaging'}</option>
+                    <option value="Jute Bags">Jute Bags</option>
+                    <option value="Polypropylene Bags">Polypropylene Bags</option>
+                    <option value="Cardboard Boxes">Cardboard Boxes</option>
+                    <option value="Vacuum Packed">Vacuum Packed</option>
+                    <option value="Bulk">Bulk</option>
+                  </select>
+                </div>
+              </>
+            )}
           </div>
         </div>
 
-        {/* Tasting Notes */}
-        <div className="form-section">
-          <h3>{t('tastingNotes') || 'Tasting Notes'}</h3>
+        {/* Tasting Notes - Coffee Only */}
+        {formData.productType === PRODUCT_TYPES.COFFEE && (
+          <div className="form-section">
+            <h3>{t('tastingNotes') || 'Tasting Notes'}</h3>
 
           <div className="tasting-notes-input">
             <input
@@ -798,10 +1003,12 @@ const ProductForm = ({ product, categories = [], onSave, onCancel }) => {
             <small>{t('tastingNotesHelp') || 'Separate multiple tasting notes with commas. Spaces around commas are automatically handled.'}</small>
           </div>
         </div>
+        )}
 
-        {/* Brewing Methods */}
-        <div className="form-section">
-          <h3>{t('brewingMethods') || 'Good for use in'}</h3>
+        {/* Brewing Methods - Coffee Only */}
+        {formData.productType === PRODUCT_TYPES.COFFEE && (
+          <div className="form-section">
+            <h3>{t('brewingMethods') || 'Good for use in'}</h3>
 
           <div className="brewing-methods-selection">
             <div className="brewing-methods-grid">
@@ -835,10 +1042,32 @@ const ProductForm = ({ product, categories = [], onSave, onCancel }) => {
             <small>{t('brewingMethodsHelp') || 'Select all brewing methods that work well with this coffee.'}</small>
           </div>
         </div>
+        )}
 
-        {/* Cupping Scores */}
-        <div className="form-section">
-          <h3>{t('cuppingScores') || 'Cupping Scores'}</h3>
+        {/* Machine Features - Machine Only */}
+        {formData.productType === PRODUCT_TYPES.MACHINE && (
+          <div className="form-section">
+            <h3>{t('machineFeatures') || 'Machine Features'}</h3>
+
+            <div className="machine-features-input">
+              <input
+                type="text"
+                value={formData.features.join(', ')}
+                onChange={(e) => {
+                  const features = e.target.value.split(',').map(feature => feature.trim()).filter(feature => feature);
+                  handleInputChange('features', features);
+                }}
+                placeholder={t('machineFeaturesPlaceholder') || 'e.g., Built-in Grinder, Milk Frother, Programmable, Touch Screen (separate with commas)'}
+              />
+              <small>{t('machineFeaturesHelp') || 'Separate multiple features with commas. Spaces around commas are automatically handled.'}</small>
+            </div>
+          </div>
+        )}
+
+        {/* Cupping Scores - Coffee Only */}
+        {formData.productType === PRODUCT_TYPES.COFFEE && (
+          <div className="form-section">
+            <h3>{t('cuppingScores') || 'Cupping Scores'}</h3>
           
           <div className="cupping-toggle">
             <label className="checkbox-label">
@@ -919,6 +1148,7 @@ const ProductForm = ({ product, categories = [], onSave, onCancel }) => {
           )}
           <small>{t('cuppingScoresHelp') || 'Cupping scores are rated from 0 to 10. Only enable if this product is a coffee that has been cupped.'}</small>
         </div>
+        )}
 
         {/* Visibility */}
         <div className="form-section">

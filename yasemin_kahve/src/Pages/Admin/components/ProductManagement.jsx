@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { useTranslation } from '../../../useTranslation';
-import { Plus, Search, Coffee, Edit3, Trash2, Eye, EyeOff, Settings } from 'lucide-react';
-import { productService, categoryService } from '../../../services/productService';
-import ProductForm from './ProductForm';
+import { Plus, Search, Coffee, Edit3, Trash2, Eye, EyeOff, Settings, X } from 'lucide-react';
+import { productService, categoryService, PRODUCT_TYPES } from '../../../services/productService';
+import CoffeeForm from './CoffeeForm';
+import MachineForm from './MachineForm';
+import CardamomForm from './CardamomForm';
 import CategoryManager from './CategoryManager';
 import './ProductManagement.css';
 
@@ -12,9 +14,12 @@ const ProductManagement = () => {
   const [loading, setLoading] = useState(true);
   const [showForm, setShowForm] = useState(false);
   const [showCategoryManager, setShowCategoryManager] = useState(false);
+  const [showProductTypeSelector, setShowProductTypeSelector] = useState(false);
+  const [selectedFormProductType, setSelectedFormProductType] = useState(null);
   const [editingProduct, setEditingProduct] = useState(null);
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedCategory, setSelectedCategory] = useState('all');
+  const [selectedProductType, setSelectedProductType] = useState('all');
   const { t } = useTranslation();
 
   useEffect(() => {
@@ -89,11 +94,12 @@ const ProductManagement = () => {
     }
   };
 
-  const handleAddProduct = async (productData, imageFile) => {
+  const handleSaveProduct = async (productData, imageFile) => {
     try {
       await productService.addProduct(productData, imageFile);
       await fetchProducts();
       setShowForm(false);
+      setSelectedFormProductType(null);
       return { success: true };
     } catch (error) {
       console.error('Error adding product:', error);
@@ -107,6 +113,7 @@ const ProductManagement = () => {
       await fetchProducts();
       setShowForm(false);
       setEditingProduct(null);
+      setSelectedFormProductType(null);
       return { success: true };
     } catch (error) {
       console.error('Error updating product:', error);
@@ -138,15 +145,62 @@ const ProductManagement = () => {
     }
   };
 
+  const handleAddProduct = () => {
+    setEditingProduct(null);
+    setShowProductTypeSelector(true);
+  };
+
+  const handleEditProduct = (product) => {
+    setEditingProduct(product);
+    setSelectedFormProductType(product.productType || PRODUCT_TYPES.COFFEE);
+    setShowForm(true);
+  };
+
+  const handleProductTypeSelected = (productType) => {
+    setSelectedFormProductType(productType);
+    setShowProductTypeSelector(false);
+    setShowForm(true);
+  };
+
+  const handleFormCancel = () => {
+    setShowForm(false);
+    setShowProductTypeSelector(false);
+    setEditingProduct(null);
+    setSelectedFormProductType(null);
+  };
+
+  const renderProductForm = () => {
+    const formProps = {
+      product: editingProduct,
+      categories: categories.filter(c => c.id !== 'all'),
+      onSave: editingProduct ? handleUpdateProduct : handleSaveProduct,
+      onCancel: handleFormCancel
+    };
+
+    switch (selectedFormProductType) {
+      case PRODUCT_TYPES.COFFEE:
+        return <CoffeeForm {...formProps} />;
+      case PRODUCT_TYPES.MACHINE:
+        return <MachineForm {...formProps} />;
+      case PRODUCT_TYPES.CARDAMOM:
+        return <CardamomForm {...formProps} />;
+      default:
+        return <CoffeeForm {...formProps} />;
+    }
+  };
+
   const filteredProducts = products.filter(product => {
-    const matchesSearch = 
+    const matchesSearch =
       product.name?.en?.toLowerCase().includes(searchTerm.toLowerCase()) ||
       product.name?.tr?.toLowerCase().includes(searchTerm.toLowerCase()) ||
       product.categoryId?.toLowerCase().includes(searchTerm.toLowerCase());
-    
+
     const matchesCategory = selectedCategory === 'all' || product.categoryId === selectedCategory;
-    
-    return matchesSearch && matchesCategory;
+
+    const matchesProductType = selectedProductType === 'all' ||
+      (product.productType || PRODUCT_TYPES.COFFEE) === selectedProductType;
+
+    return matchesSearch && matchesCategory && matchesProductType;
   });
 
   if (loading) {
@@ -167,16 +221,53 @@ const ProductManagement = () => {
           onClose={() => setShowCategoryManager(false)}
           onCategoriesUpdate={fetchCategories}
         />
+      ) : showProductTypeSelector ? (
+        <div className="product-type-selector-container">
+          <div className="product-type-selector">
+            <div className="selector-header">
+              <h2>{t('selectProductType') || 'Select Product Type'}</h2>
+              <button
+                className="close-btn"
+                onClick={handleFormCancel}
+                type="button"
+              >
+                <X size={20} />
+              </button>
+            </div>
+            <p>{t('selectProductTypeDesc') || 'Choose the type of product you want to add'}</p>
+
+            <div className="product-type-options">
+              <div
+                className="product-type-option"
+                onClick={() => handleProductTypeSelected(PRODUCT_TYPES.COFFEE)}
+              >
+                <div className="option-icon">☕</div>
+                <h3>{t('coffee') || 'Coffee'}</h3>
+                <p>{t('coffeeDescription') || 'Green coffee beans from around the world'}</p>
+              </div>
+
+              <div
+                className="product-type-option"
+                onClick={() => handleProductTypeSelected(PRODUCT_TYPES.MACHINE)}
+              >
+                <div className="option-icon">⚙️</div>
+                <h3>{t('coffeeMachines') || 'Coffee Machines'}</h3>
+                <p>{t('machineDescription') || 'Coffee brewing equipment and machines'}</p>
+              </div>
+
+              <div
+                className="product-type-option"
+                onClick={() => handleProductTypeSelected(PRODUCT_TYPES.CARDAMOM)}
+              >
+                <div className="option-icon">🌿</div>
+                <h3>{t('cardamom') || 'Cardamom'}</h3>
+                <p>{t('cardamomDescription') || 'Premium quality cardamom and spices'}</p>
+              </div>
+            </div>
+          </div>
+        </div>
       ) : showForm ? (
-        <ProductForm
-          product={editingProduct}
-          categories={categories.filter(c => c.id !== 'all')}
-          onSave={editingProduct ? handleUpdateProduct : handleAddProduct}
-          onCancel={() => {
-            setShowForm(false);
-            setEditingProduct(null);
-          }}
-        />
+        renderProductForm()
       ) : (
         <>
           <div className="product-management-header">
@@ -195,7 +286,7 @@ const ProductManagement = () => {
               </button>
               <button
                 className="add-product-btn"
-                onClick={() => setShowForm(true)}
+                onClick={handleAddProduct}
               >
                 <Plus size={18} />
                 {t('addNewProduct') || 'Add New Product'}
@@ -245,6 +336,17 @@ const ProductManagement = () => {
                 <option value="all">All Categories</option>
               )}
             </select>
+
+            <select
+              value={selectedProductType}
+              onChange={(e) => setSelectedProductType(e.target.value)}
+              className="product-type-filter"
+            >
+              <option value="all">{t('allProductTypes') || 'All Product Types'}</option>
+              <option value={PRODUCT_TYPES.COFFEE}>{t('coffee') || 'Coffee'}</option>
+              <option value={PRODUCT_TYPES.MACHINE}>{t('coffeeMachines') || 'Coffee Machines'}</option>
+              <option value={PRODUCT_TYPES.CARDAMOM}>{t('cardamom') || 'Cardamom'}</option>
+            </select>
           </div>
 
           {filteredProducts.length === 0 ? (
@@ -267,7 +369,7 @@ const ProductManagement = () => {
               {!searchTerm && selectedCategory === 'all' && (
                 <button
                   className="add-first-product-btn"
-                  onClick={() => setShowForm(true)}
+                  onClick={handleAddProduct}
                 >
                   {t('addFirstProduct2') || 'Add First Product'}
                 </button>
@@ -278,8 +380,8 @@ const ProductManagement = () => {
               {filteredProducts.map((product) => (
                 <div key={product.id} className={`product-Admin-card ${product.isVisible === false ? 'hidden' : ''}`}>
                   <div className="admin-product-image">
-                    {product.image ? (
-                      <img src={product.image} alt={product.name?.en || product.name?.tr} />
+                    {(product.images && product.images.length > 0) || product.image ? (
+                      <img src={product.images && product.images.length > 0 ? product.images[0] : product.image} alt={product.name?.en || product.name?.tr} />
                     ) : (
                       <div className="no-image">
                         <Coffee size={48} />
@@ -288,10 +390,7 @@ const ProductManagement = () => {
                     <div className="product-admin-overlay">
                       <button
                         className="edit-btn"
-                        onClick={() => {
-                          setEditingProduct(product);
-                          setShowForm(true);
-                        }}
+                        onClick={() => handleEditProduct(product)}
                         title={t('editProduct') || 'Edit Product'}
                       >
                         <Edit3 size={18} />
@@ -311,11 +410,19 @@ const ProductManagement = () => {
                       <h3 className="product-admin-name">
                         {product.name?.en || product.name?.tr || 'Untitled Product'}
                       </h3>
-                      <span className={`category-badge ${product.categoryId || 'default'}`}>
-                        {categories.find(c => c.id === product.categoryId)?.name?.en || 
-                         categories.find(c => c.id === product.categoryId)?.name || 
-                         product.categoryId}
-                      </span>
+                      <div className="product-badges">
+                        <span className={`category-badge ${product.categoryId || 'default'}`}>
+                          {categories.find(c => c.id === product.categoryId)?.name?.en ||
+                           categories.find(c => c.id === product.categoryId)?.name ||
+                           product.categoryId}
+                        </span>
+                        <span className={`product-type-badge ${product.productType || PRODUCT_TYPES.COFFEE}`}>
+                          {product.productType === PRODUCT_TYPES.COFFEE && (t('coffee') || 'Coffee')}
+                          {product.productType === PRODUCT_TYPES.MACHINE && (t('machine') || 'Machine')}
+                          {product.productType === PRODUCT_TYPES.CARDAMOM && (t('cardamom') || 'Cardamom')}
+                          {!product.productType && (t('coffee') || 'Coffee')}
+                        </span>
+                      </div>
                     </div>
                     
                     <p className="product-admin-description">

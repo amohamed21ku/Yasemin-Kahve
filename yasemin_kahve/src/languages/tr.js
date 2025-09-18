@@ -180,8 +180,14 @@ export const tr = {
 
 
   // Authentication
+"skipForNow":"Şimdilik Geç",
+"savePhoneNumber":"Telefon Numarasını Kaydet",
+"addPhoneNumber":"Telefon Numarası Ekle",
+"phoneNumberHelp": "Hesap kurulumunuzu tamamlamak için lütfen telefon numaranızı girin.",
+
+
+
   "loading": "Yükleniyor",
-  "accessDenied": "Erişim Reddedildi",
   "signInRequired": "Yönetici paneline erişmek için giriş yapmanız gerekiyor.",
   "adminAccessRequired": "Yönetici Erişimi Gerekli",
   "adminAccessMessage": "Bu alana erişim için yönetici yetkileriniz bulunmuyor.",
@@ -211,8 +217,6 @@ export const tr = {
   "continueWithGoogle": "Google ile Devam Et",
   
 // Admin Panel
-"dashboard": "Kontrol Paneli",
-"dashboardDesc": "Genel bakış ve analizler",
 "productsDesc": "Kahve ürünlerini yönetin",
 "dataMigration": "Veri Taşıma",
 "migrationDesc": "Örnek verileri içe aktarın",
@@ -245,7 +249,6 @@ export const tr = {
 "addFirstCategory2": "İlk Kategoriyi Ekle",
 "deleteCategory": "Kategoriyi Sil",
 
-//Dashboard
 "totalProducts": "Toplam Ürün",
 "totalUsers": "Toplam Kullanıcı",
 "recentSignUps": "Son Kayıtlar",
@@ -258,8 +261,6 @@ export const tr = {
 "viewUsersDesc": "Kayıtlı tüm kullanıcıları görün",
 "siteSettings": "Site Ayarları",
 "siteSettingsDesc": "Web sitesi ayarlarını yapılandırın",
-"loadingDashboard": "Kontrol paneli yükleniyor...",
-"dashboardWelcome": "Yönetici kontrol panelinize hoş geldiniz",
 "quickActions": "Hızlı İşlemler",
 "recentActivity": "Son Etkinlik",
 
@@ -274,6 +275,8 @@ export const tr = {
 "hiddenProducts": "Gizli Ürünler",
 "searchProducts": "Ürünlerde ara...",
 "noProductsFound": "Ürün bulunamadı",
+"noProductsMessage": "Bu kategoride ürün bulunmamaktadır.",
+
 "noProductsYet": "Henüz ürün yok",
 "tryDifferentSearch": "Aramanızı veya filtrelerinizi değiştirerek tekrar deneyin",
 "addFirstProduct": "Başlamak için ilk ürününüzü ekleyin",
@@ -508,14 +511,12 @@ export const tr = {
 
 
 
-  // Admin Dashboard
   "last30Days": "Son 30 gün",
   "allVisible": "Tümü görünür",
   "comingSoon": "Çok Yakında",
   "systemInitialized": "Sistem başlatıldı",
   "productsUserManagementReady": "Ürün ve kullanıcı yönetimi hazır",
   "adminPanelSetup": "Yönetici paneli kurulumu",
-  "dashboardToolsConfigured": "Kontrol paneli ve yönetim araçları yapılandırıldı",
   "justNow": "Az önce",
   "today": "Bugün",
 
@@ -633,6 +634,67 @@ export const tr = {
   "enrollmentError": "Kayıt sırasında bir hata oluştu. Lütfen tekrar deneyin.",
   "enrollmentSuccess": "Kursa başarıyla kaydoldunuz!",
   "loadingUserData": "Kullanıcı verileri yükleniyor...",
+
+  // Product types
+  allProductTypes: "Tüm Ürün Türleri",
+  coffee: "Kahve",
+  coffeeMachines: "Kahve Makineleri",
+  machine: "Makine",
+  cardamom: "Kakule",
+  productType: "Ürün Türü",
+  productTypeHelp: "Ekleyeceğiniz ürünün türünü seçin",
+
+  // Coffee-specific
+  coffeeSpecifications: "Kahve Özellikleri",
+  tastingNotesPlaceholder: "örn. Çikolata, Narenciye, Karamel, Fındık (virgülle ayırın)",
+  tastingNotesHelp: "Birden fazla tat notunu virgülle ayırın. Virgül çevresindeki boşluklar otomatik olarak işlenir.",
+  brewingMethods: "Kullanım Alanları",
+  brewingMethodsHelp: "Bu kahveyle iyi çalışan tüm demleme yöntemlerini seçin.",
+  includeCuppingScores: "Bu ürün için cupping puanlarını dahil et",
+  cuppingToggleHelp: "Bu ürünün cupping puanları varsa bu seçeneği işaretleyin. Kakule, aksesuar veya kahve olmayan ürünlerin cupping puanlarına ihtiyacı olmayabilir.",
+  cuppingScoresHelp: "Cupping puanları 0 ile 10 arasında değerlendirilir. Yalnızca cupping yapılmış kahveler için etkinleştirin.",
+
+  // Machine-specific
+  machineSpecifications: "Makine Özellikleri",
+  machineFeatures: "Makine Özellikleri",
+  machineFeaturesPlaceholder: "örn. Entegre Değirmen, Süt Köpürtücü, Programlanabilir, Dokunmatik Ekran (virgülle ayırın)",
+  machineFeaturesHelp: "Birden fazla özelliği virgülle ayırın. Virgül çevresindeki boşluklar otomatik olarak işlenir.",
+  brand: "Marka",
+  brandPlaceholder: "örn. Breville, De'Longhi, Jura",
+  model: "Model",
+  modelPlaceholder: "örn. BES870XL, ECAM22110B",
+  powerWattage: "Güç (Watt)",
+  powerPlaceholder: "örn. 1450W, 1350W",
+  voltage: "Voltaj",
+  voltagePlaceholder: "örn. 220V, 110-240V",
+  capacity: "Su Tankı Kapasitesi",
+  capacityPlaceholder: "örn. 2.5L, 1.8L",
+  dimensions: "Boyutlar (G x D x Y)",
+  dimensionsPlaceholder: "örn. 31 x 33 x 40 cm",
+  weight: "Ağırlık",
+  weightPlaceholder: "örn. 8.5 kg",
+  warrantyPeriod: "Garanti Süresi",
+  warrantyPlaceholder: "örn. 2 yıl, 1 yıl",
+
+  // Cardamom-specific
+  cardamomSpecifications: "Kakule Özellikleri",
+  grade: "Kalite",
+  selectGrade: "Kalite Seçin",
+  size: "Boyut",
+  sizePlaceholder: "örn. 6mm, 7mm, 8mm+",
+  color: "Renk",
+  selectColor: "Renk Seçin",
+  moisture: "Nem Oranı (%)",
+  moisturePlaceholder: "örn. 8.5, 12.0",
+  packagingType: "Ambalaj Türü",
+  selectPackaging: "Ambalaj Seçin",
+
+  // Product Type Selector
+  selectProductType: "Ürün Türü Seçin",
+  selectProductTypeDesc: "Eklemek istediğiniz ürünün türünü seçin",
+  coffeeDescription: "Dünyanın dört bir yanından yeşil kahve çekirdekleri",
+  machineDescription: "Kahve demleme ekipmanları ve makineleri",
+  cardamomDescription: "Premium kalite kakule ve baharatlar",
 
   // General
 };

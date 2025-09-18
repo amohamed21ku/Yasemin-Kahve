@@ -3,15 +3,17 @@ import Header from '../HomePage/components/Header'
 import Footer from '../HomePage/components/Footer'
 import ProductsHero from './components/ProductsHero'
 import ProductsGrid from './components/ProductsGrid'
+import ProductFilterTabs from './components/ProductFilterTabs'
 import FeaturesSection from './components/FeaturesSection'
 import EducationCTA from './components/EducationCTA'
 import { useTranslation } from '../../useTranslation'
-import { productService, categoryService } from '../../services/productService'
+import { productService, categoryService, PRODUCT_TYPES } from '../../services/productService'
 import './Products.css'
 
 const Products = ({ onNavigate }) => {
   const { t } = useTranslation();
   const [selectedCategory, setSelectedCategory] = useState('All');
+  const [selectedProductType, setSelectedProductType] = useState('All');
   const [products, setProducts] = useState([]);
   const [categories, setCategories] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -264,27 +266,29 @@ const Products = ({ onNavigate }) => {
   // Use fetched products or fallback products if no products available
   const allProducts = products.length > 0 ? products : fallbackProducts;
 
-  // Filter products based on selected category
-  const filteredProducts = selectedCategory === 'All' 
-    ? allProducts 
-    : allProducts.filter(product => {
-        // For Firebase products, use categoryId
-        if (product._firebaseData?.categoryId) {
-          return product._firebaseData.categoryId === selectedCategory;
-        }
-        // For fallback products, match category name with Firebase category name
-        if (product.category && categories.length > 0) {
-          const matchingCategory = categories.find(cat => 
-            cat.name?.en?.toLowerCase().includes(product.category.toLowerCase()) ||
-            cat.name?.tr?.toLowerCase().includes(product.category.toLowerCase())
-          );
-          return matchingCategory?.id === selectedCategory;
-        }
-        return false;
-      });
+  // Filter products based on selected category and product type
+  const filteredProducts = allProducts.filter(product => {
+    // Category filter
+    const matchesCategory = selectedCategory === 'All' ||
+      (product.categoryId && product.categoryId === selectedCategory) ||
+      (product.category && categories.length > 0 && categories.find(cat =>
+        cat.name?.en?.toLowerCase().includes(product.category.toLowerCase()) ||
+        cat.name?.tr?.toLowerCase().includes(product.category.toLowerCase())
+      )?.id === selectedCategory);
+
+    // Product type filter
+    const matchesProductType = selectedProductType === 'All' ||
+      (product.productType || PRODUCT_TYPES.COFFEE) === selectedProductType;
+
+    return matchesCategory && matchesProductType;
+  });
 
   const handleCategoryChange = (category) => {
     setSelectedCategory(category);
+  };
+
+  const handleProductTypeChange = (productType) => {
+    setSelectedProductType(productType);
   };
  
   const handleProductClick = (product) => {
@@ -298,15 +302,29 @@ const Products = ({ onNavigate }) => {
       
       <ProductsHero />
 
-      {/* Category Tabs */}
-   
+      {/* Product Filter Tabs */}
+      <section className="product-filter-section">
+        <div className="container">
+          <ProductFilterTabs
+            categories={categories}
+            selectedCategory={selectedCategory}
+            selectedProductType={selectedProductType}
+            onCategoryChange={handleCategoryChange}
+            onProductTypeChange={handleProductTypeChange}
+            showProductTypes={true}
+            compact={false}
+          />
+        </div>
+      </section>
 
-      <ProductsGrid 
+      <ProductsGrid
         products={filteredProducts}
         categories={categories}
         selectedCategory={selectedCategory}
+        selectedProductType={selectedProductType}
         onProductClick={handleProductClick}
         onCategoryChange={handleCategoryChange}
+        onProductTypeChange={handleProductTypeChange}
         loading={loading}
       />
 

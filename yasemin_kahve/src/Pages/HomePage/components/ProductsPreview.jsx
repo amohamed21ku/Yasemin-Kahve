@@ -2,10 +2,13 @@ import React, { useState, useEffect } from "react";
 import { Coffee, Star, ChevronLeft, ChevronRight } from "lucide-react";
 import { useTranslation } from "/src/useTranslation";
 import { productService, categoryService } from "../../../services/productService";
+import { getCountryFlagCode } from "../../../utils/countryFlags";
+import ProductFilterTabs from "../../Products/components/ProductFilterTabs";
 const ProductsPreview = ({ onNavigate }) => {
   const { t, language } = useTranslation();
   const [currentPage, setCurrentPage] = useState(0);
   const [selectedCategory, setSelectedCategory] = useState('All');
+  const [selectedProductType, setSelectedProductType] = useState('All');
   const [products, setProducts] = useState([]);
   const [categories, setCategories] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -51,14 +54,6 @@ const ProductsPreview = ({ onNavigate }) => {
 
   // Use fetched products from Firebase
   const allProducts = products;
-  const [randomizedProducts] = useState(() => []);
-  
-  // Update randomized products when products change
-  useEffect(() => {
-    if (allProducts.length > 0) {
-      setCurrentPage(0); // Reset to first page when products change
-    }
-  }, [allProducts]);
   
   // Helper function to get localized category name
   const getLocalizedCategoryName = (category) => {
@@ -84,40 +79,23 @@ const ProductsPreview = ({ onNavigate }) => {
     return product.description || '';
   };
 
-  // Create categories list with All option - use Firebase categories
-  const categoriesToShow = [
-    { key: 'All', label: t("all") || "All" },
-    ...categories.map(cat => ({ 
-      key: cat.id, 
-      label: getLocalizedCategoryName(cat)
-    }))
-  ];
-  
-  // Filter products based on selected category  
-  const filteredProducts = selectedCategory === 'All' 
-    ? allProducts 
-    : allProducts.filter(product => {
-        // For Firebase products, use categoryId
-        if (product._firebaseData?.categoryId) {
-          return product._firebaseData.categoryId === selectedCategory;
-        }
-        return false;
-      });
+  // Filter products based on selected category and product type
+  const filteredProducts = allProducts.filter(product => {
+    // Category filter
+    const matchesCategory = selectedCategory === 'All' ||
+      (product.categoryId && product.categoryId === selectedCategory);
+
+    // Product type filter
+    const matchesProductType = selectedProductType === 'All' ||
+      (product.productType || 'coffee') === selectedProductType;
+
+    return matchesCategory && matchesProductType;
+  });
 
   // Country flag mapping using flag-icons
   const getCountryFlag = (origin) => {
-    const flagCodeMap = {
-      'Colombia': 'co',
-      'India': 'in', 
-      'Brazil': 'br',
-      'Kenya': 'ke',
-      'Nicaragua': 'ni',
-      'Guatemala': 'gt',
-      'Turkey': 'tr',
-      'Ethiopia': 'et'
-    };
-    const flagCode = flagCodeMap[origin];
-    
+    const flagCode = getCountryFlagCode(origin);
+
     if (flagCode) {
       return <span className={`fi fi-${flagCode}`} style={{ fontSize: '1.2em' }}></span>;
     }
@@ -144,6 +122,11 @@ const ProductsPreview = ({ onNavigate }) => {
   const handleCategoryChange = (categoryKey) => {
     setSelectedCategory(categoryKey);
     setCurrentPage(0); // Reset to first page when changing category
+  };
+
+  const handleProductTypeChange = (productType) => {
+    setSelectedProductType(productType);
+    setCurrentPage(0); // Reset to first page when changing product type
   };
 
   // Show loading state
@@ -179,19 +162,17 @@ const ProductsPreview = ({ onNavigate }) => {
           </h2>
         </div>
 
-        {/* Category Tabs Section - moved after title */}
-        <section className="category-section">
-          <div className="category-tabs">
-            {categoriesToShow.map((category) => (
-              <button
-                key={category.key}
-                className={`category-tab ${selectedCategory === category.key ? 'active' : ''}`}
-                onClick={() => handleCategoryChange(category.key)}
-              >
-                {category.label}
-              </button>
-            ))}
-          </div>
+        {/* Product Filter Tabs Section */}
+        <section className="filter-section">
+          <ProductFilterTabs
+            categories={categories}
+            selectedCategory={selectedCategory}
+            selectedProductType={selectedProductType}
+            onCategoryChange={handleCategoryChange}
+            onProductTypeChange={handleProductTypeChange}
+            showProductTypes={true}
+            compact={true}
+          />
         </section>
 
         <div className="products-carousel">
@@ -222,7 +203,7 @@ const ProductsPreview = ({ onNavigate }) => {
               >
               <div className="product-image">
                 <img
-                  src={product.image}
+                  src={product.images && product.images.length > 0 ? product.images[0] : product.image}
                   alt={getLocalizedProductName(product)}
                   onError={(e) => {
                     e.target.src = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200' viewBox='0 0 200 200'%3E%3Crect width='200' height='200' fill='%23f8f3ed'/%3E%3Cg fill='%23e6b555'%3E%3Ccircle cx='100' cy='80' r='15'/%3E%3Cellipse cx='100' cy='120' rx='25' ry='15'/%3E%3C/g%3E%3Ctext x='100' y='160' text-anchor='middle' fill='%23503c2b' font-size='12'%3ECoffee%3C/text%3E%3C/svg%3E";

@@ -1,8 +1,10 @@
 import React, { useState, useEffect, useRef } from 'react'
-import { Star, Coffee, ArrowLeft, Package, Globe, Award, ChevronLeft, ChevronRight, X, ShoppingCart } from 'lucide-react'
+import { Star, Coffee, ArrowLeft, Package, Globe, Award, ChevronLeft, ChevronRight, X, ShoppingCart, Zap, Settings, Palette } from 'lucide-react'
 import Header from '../HomePage/components/Header'
 import Footer from '../HomePage/components/Footer'
 import { useTranslation } from '../../useTranslation'
+import { getCountryFlagCode } from '../../utils/countryFlags'
+import { PRODUCT_TYPES } from '../../services/productService'
 import './ProductDetail.css'
 
 const ProductDetail = ({ onNavigate, product, previousPage }) => {
@@ -121,6 +123,26 @@ const ProductDetail = ({ onNavigate, product, previousPage }) => {
   const productImages = displayProduct.images || (displayProduct.image ? [displayProduct.image] : []);
   const hasMultipleImages = productImages.length > 1;
 
+  // Helper function to get currency symbol
+  const getCurrencySymbol = (currency) => {
+    switch (currency) {
+      case 'USD':
+        return '$';
+      case 'EUR':
+        return '€';
+      case 'TRY':
+      default:
+        return '₺';
+    }
+  };
+
+  // Helper function to format price with currency
+  const formatPrice = (price, currency) => {
+    if (!price) return null;
+    const symbol = getCurrencySymbol(currency);
+    return `${symbol}${price}`;
+  };
+
   const nextImage = () => {
     setCurrentImageIndex((prev) => (prev + 1) % productImages.length);
   };
@@ -139,18 +161,8 @@ const ProductDetail = ({ onNavigate, product, previousPage }) => {
   };
 
   const getCountryFlag = (origin) => {
-    const flagCodeMap = {
-      'Colombia': 'co',
-      'India': 'in', 
-      'Brazil': 'br',
-      'Kenya': 'ke',
-      'Nicaragua': 'ni',
-      'Guatemala': 'gt',
-      'Turkey': 'tr',
-      'Ethiopia': 'et'
-    };
-    const flagCode = flagCodeMap[origin];
-    
+    const flagCode = getCountryFlagCode(origin);
+
     if (flagCode) {
       return <span className={`fi fi-${flagCode}`} style={{ fontSize: '1.2em' }}></span>;
     }
@@ -339,78 +351,235 @@ const ProductDetail = ({ onNavigate, product, previousPage }) => {
               <div className="product-specifications">
                 <h3>{t('productSpecifications') || 'Product Specifications'}</h3>
                 <div className="specs-grid specs-grid-2x3">
-                  {displayProduct.region && (
-                    <div className="spec-item">
-                      <Coffee size={18} />
-                      <div>
-                        <span className="spec-label">{t('region') || 'Region'}</span>
-                        <span className="spec-value">{displayProduct.region}</span>
-                      </div>
-                    </div>
-                  )}
-                  
-                  {displayProduct.classification && (
-                    <div className="spec-item">
-                      <Award size={18} />
-                      <div>
-                        <span className="spec-label">{t('classification') || 'Classification'}</span>
-                        <span className="spec-value">{displayProduct.classification}</span>
-                      </div>
-                    </div>
-                  )}
-                  
-                  {displayProduct.processing && (
-                    <div className="spec-item">
-                      <Package size={18} />
-                      <div>
-                        <span className="spec-label">{t('processing') || 'Processing'}</span>
-                        <span className="spec-value">{displayProduct.processing}</span>
-                      </div>
-                    </div>
-                  )}
-                  
-                  {displayProduct.type && (
-                    <div className="spec-item">
-                      <Coffee size={18} />
-                      <div>
-                        <span className="spec-label">{t('type') || 'Type'}</span>
-                        <span className="spec-value">{displayProduct.type}</span>
-                      </div>
-                    </div>
-                  )}
-                  
-                  {displayProduct.altitude && (
-                    <div className="spec-item">
-                      <Globe size={18} />
-                      <div>
-                        <span className="spec-label">{t('altitude') || 'Altitude'}</span>
-                        <span className="spec-value">{displayProduct.altitude}</span>
-                      </div>
-                    </div>
-                  )}
-                  
-                  {displayProduct.bagType && (
-                    <div className="spec-item">
-                      <Package size={18} />
-                      <div>
-                        <span className="spec-label">{t('bagType') || 'Bag Type'}</span>
-                        <span className="spec-value">{displayProduct.bagType}</span>
-                      </div>
-                    </div>
+                  {/* Coffee product specifications */}
+                  {(!displayProduct.productType || displayProduct.productType === PRODUCT_TYPES.COFFEE) && (
+                    <>
+                      {displayProduct.region && (
+                        <div className="spec-item">
+                          <Coffee size={18} />
+                          <div>
+                            <span className="spec-label">{t('region') || 'Region'}</span>
+                            <span className="spec-value">{displayProduct.region}</span>
+                          </div>
+                        </div>
+                      )}
+
+                      {displayProduct.classification && (
+                        <div className="spec-item">
+                          <Award size={18} />
+                          <div>
+                            <span className="spec-label">{t('classification') || 'Classification'}</span>
+                            <span className="spec-value">{displayProduct.classification}</span>
+                          </div>
+                        </div>
+                      )}
+
+                      {displayProduct.processing && (
+                        <div className="spec-item">
+                          <Package size={18} />
+                          <div>
+                            <span className="spec-label">{t('processing') || 'Processing'}</span>
+                            <span className="spec-value">{displayProduct.processing}</span>
+                          </div>
+                        </div>
+                      )}
+
+                      {displayProduct.type && (
+                        <div className="spec-item">
+                          <Coffee size={18} />
+                          <div>
+                            <span className="spec-label">{t('type') || 'Type'}</span>
+                            <span className="spec-value">{displayProduct.type}</span>
+                          </div>
+                        </div>
+                      )}
+
+                      {displayProduct.altitude && (
+                        <div className="spec-item">
+                          <Globe size={18} />
+                          <div>
+                            <span className="spec-label">{t('altitude') || 'Altitude'}</span>
+                            <span className="spec-value">{displayProduct.altitude}</span>
+                          </div>
+                        </div>
+                      )}
+
+                      {displayProduct.bagType && (
+                        <div className="spec-item">
+                          <Package size={18} />
+                          <div>
+                            <span className="spec-label">{t('bagType') || 'Bag Type'}</span>
+                            <span className="spec-value">{displayProduct.bagType}</span>
+                          </div>
+                        </div>
+                      )}
+
+                      {displayProduct.bagSize && (
+                        <div className="spec-item">
+                          <Package size={18} />
+                          <div>
+                            <span className="spec-label">{t('bagSize') || 'Bag Size'}</span>
+                            <span className="spec-value">{displayProduct.bagSize} kg</span>
+                          </div>
+                        </div>
+                      )}
+                    </>
                   )}
 
-                  {displayProduct.bagSize && (
-                    <div className="spec-item">
-                      <Package size={18} />
-                      <div>
-                        <span className="spec-label">{t('bagSize') || 'Bag Size'}</span>
-                        <span className="spec-value">{displayProduct.bagSize} kg</span>
-                      </div>
-                    </div>
+                  {/* Coffee Machine specifications */}
+                  {displayProduct.productType === PRODUCT_TYPES.MACHINE && (
+                    <>
+                      {displayProduct.brand && (
+                        <div className="spec-item">
+                          <Award size={18} />
+                          <div>
+                            <span className="spec-label">{t('brand') || 'Brand'}</span>
+                            <span className="spec-value">{displayProduct.brand}</span>
+                          </div>
+                        </div>
+                      )}
+
+                      {displayProduct.model && (
+                        <div className="spec-item">
+                          <Settings size={18} />
+                          <div>
+                            <span className="spec-label">{t('model') || 'Model'}</span>
+                            <span className="spec-value">{displayProduct.model}</span>
+                          </div>
+                        </div>
+                      )}
+
+                      {displayProduct.powerWattage && (
+                        <div className="spec-item">
+                          <Zap size={18} />
+                          <div>
+                            <span className="spec-label">{t('powerWattage') || 'Power'}</span>
+                            <span className="spec-value">{displayProduct.powerWattage}</span>
+                          </div>
+                        </div>
+                      )}
+
+                      {displayProduct.voltage && (
+                        <div className="spec-item">
+                          <Zap size={18} />
+                          <div>
+                            <span className="spec-label">{t('voltage') || 'Voltage'}</span>
+                            <span className="spec-value">{displayProduct.voltage}</span>
+                          </div>
+                        </div>
+                      )}
+
+                      {displayProduct.capacity && (
+                        <div className="spec-item">
+                          <Package size={18} />
+                          <div>
+                            <span className="spec-label">{t('capacity') || 'Capacity'}</span>
+                            <span className="spec-value">{displayProduct.capacity}</span>
+                          </div>
+                        </div>
+                      )}
+
+                      {displayProduct.dimensions && (
+                        <div className="spec-item">
+                          <Package size={18} />
+                          <div>
+                            <span className="spec-label">{t('dimensions') || 'Dimensions'}</span>
+                            <span className="spec-value">{displayProduct.dimensions}</span>
+                          </div>
+                        </div>
+                      )}
+
+                      {displayProduct.weight && (
+                        <div className="spec-item">
+                          <Package size={18} />
+                          <div>
+                            <span className="spec-label">{t('weight') || 'Weight'}</span>
+                            <span className="spec-value">{displayProduct.weight}</span>
+                          </div>
+                        </div>
+                      )}
+
+                      {displayProduct.warrantyPeriod && (
+                        <div className="spec-item">
+                          <Award size={18} />
+                          <div>
+                            <span className="spec-label">{t('warrantyPeriod') || 'Warranty'}</span>
+                            <span className="spec-value">{displayProduct.warrantyPeriod}</span>
+                          </div>
+                        </div>
+                      )}
+                    </>
+                  )}
+
+                  {/* Cardamom specifications */}
+                  {displayProduct.productType === PRODUCT_TYPES.CARDAMOM && (
+                    <>
+                      {displayProduct.grade && (
+                        <div className="spec-item">
+                          <Award size={18} />
+                          <div>
+                            <span className="spec-label">{t('grade') || 'Grade'}</span>
+                            <span className="spec-value">{displayProduct.grade}</span>
+                          </div>
+                        </div>
+                      )}
+
+                      {displayProduct.size && (
+                        <div className="spec-item">
+                          <Package size={18} />
+                          <div>
+                            <span className="spec-label">{t('size') || 'Size'}</span>
+                            <span className="spec-value">{displayProduct.size}</span>
+                          </div>
+                        </div>
+                      )}
+
+                      {displayProduct.color && (
+                        <div className="spec-item">
+                          <Palette size={18} />
+                          <div>
+                            <span className="spec-label">{t('color') || 'Color'}</span>
+                            <span className="spec-value">{displayProduct.color}</span>
+                          </div>
+                        </div>
+                      )}
+
+                      {displayProduct.moisture && (
+                        <div className="spec-item">
+                          <Globe size={18} />
+                          <div>
+                            <span className="spec-label">{t('moisture') || 'Moisture Content'}</span>
+                            <span className="spec-value">{displayProduct.moisture}%</span>
+                          </div>
+                        </div>
+                      )}
+
+                      {displayProduct.packagingType && (
+                        <div className="spec-item">
+                          <Package size={18} />
+                          <div>
+                            <span className="spec-label">{t('packagingType') || 'Packaging'}</span>
+                            <span className="spec-value">{displayProduct.packagingType}</span>
+                          </div>
+                        </div>
+                      )}
+                    </>
                   )}
                 </div>
               </div>
-              
+
+              {/* Machine Features for Coffee Machines */}
+              {displayProduct.productType === PRODUCT_TYPES.MACHINE && displayProduct.features && displayProduct.features.length > 0 && (
+                <div className="machine-features">
+                  <h3>{t('machineFeatures') || 'Machine Features'}</h3>
+                  <div className="features-list">
+                    {displayProduct.features.map((feature, index) => (
+                      <span key={index} className="feature-tag">{feature}</span>
+                    ))}
+                  </div>
+                </div>
+              )}
+
               {displayProduct.tastingNotes && displayProduct.tastingNotes.length > 0 && (
                 <div className="tasting-notes">
                   <h3>{t('tastingNotes') || 'Tasting Notes'}</h3>
@@ -538,18 +707,21 @@ const ProductDetail = ({ onNavigate, product, previousPage }) => {
               <div className="product-actions">
                 {displayProduct.price && displayProduct.price !== null && displayProduct.price.toString().trim() !== '' && (
                   <div className="price-section">
-                    <span className="price">{displayProduct.price}</span>
+                    <span className="price">{formatPrice(displayProduct.price, displayProduct.currency) || displayProduct.price}</span>
                     <span className="price-unit">per kg</span>
                   </div>
                 )}
                 <div className="action-buttons">
-                  <button
-                    className="sample-button"
-                    onClick={addToSampleCart}
-                  >
-                    <ShoppingCart size={18} />
-                    {t('orderFreeSample') || 'Order Free Sample'}
-                  </button>
+                  {/* Only show free sample button if product is NOT a coffee machine */}
+                  {displayProduct.productType !== PRODUCT_TYPES.MACHINE && (
+                    <button
+                      className="sample-button"
+                      onClick={addToSampleCart}
+                    >
+                      <ShoppingCart size={18} />
+                      {t('orderFreeSample') || 'Order Free Sample'}
+                    </button>
+                  )}
                   <button
                     className="contact-button"
                     onClick={() => {

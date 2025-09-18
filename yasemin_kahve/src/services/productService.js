@@ -17,9 +17,16 @@ import { ref, uploadBytes, getDownloadURL, deleteObject } from 'firebase/storage
 const PRODUCTS_COLLECTION = 'products';
 const CATEGORIES_COLLECTION = 'categories';
 
+// Product types enum
+const PRODUCT_TYPES = {
+  COFFEE: 'coffee',
+  MACHINE: 'machine',
+  CARDAMOM: 'cardamom'
+};
+
 // Helper function to transform Firebase product data to frontend format
 const transformFirebaseToFrontend = (firebaseProduct) => {
-  return {
+  const transformed = {
     id: firebaseProduct.id,
     // Keep multilingual data intact for dynamic language switching
     name: firebaseProduct.name || 'Untitled Product',
@@ -28,15 +35,18 @@ const transformFirebaseToFrontend = (firebaseProduct) => {
     image: firebaseProduct.images?.[0] || firebaseProduct.image || '', // Use first image for backward compatibility
     images: firebaseProduct.images || (firebaseProduct.image ? [firebaseProduct.image] : []),
     category: firebaseProduct.categoryId || 'Other',
-    price: firebaseProduct.price && firebaseProduct.currency ?
-           `${firebaseProduct.currency === 'TRY' ? '₺' : firebaseProduct.currency === 'USD' ? '$' : '€'}${firebaseProduct.price}` :
-           '₺0.00',
-    rating: firebaseProduct.rating || 4.5,
+    categoryId: firebaseProduct.categoryId || 'Other', // Add this for direct access
+    productType: firebaseProduct.productType || PRODUCT_TYPES.COFFEE, // Default to coffee for backward compatibility
+    price: '₺0.00',
+    rating: firebaseProduct.score || 4.5,
     badge: firebaseProduct.badge || '',
     isVisible: firebaseProduct.isVisible !== false,
+    // Include all Firebase fields directly for access
+    ...firebaseProduct,
     // Keep original Firebase data for admin/editing purposes
     _firebaseData: firebaseProduct
   };
+  return transformed;
 };
 
 // Helper function to get category name by ID
@@ -462,3 +472,6 @@ export const categoryService = {
     }
   }
 };
+
+// Export product types for use in components
+export { PRODUCT_TYPES };

@@ -1,16 +1,15 @@
 import React, { useState, useEffect } from 'react';
 import { useAuth } from '../../AuthContext';
 import { useTranslation } from '../../useTranslation';
-import { BarChart3, Coffee, Users, GraduationCap, Home, LogOut, User, ChevronLeft, ChevronRight, Package } from 'lucide-react';
+import { Coffee, Users, GraduationCap, Home, LogOut, User, ChevronLeft, ChevronRight, Package } from 'lucide-react';
 import ProductManagement from './components/ProductManagement';
-import Dashboard from './components/Dashboard';
 import UserManagement from './components/UserManagement';
 import AcademyManagement from './components/AcademyManagement';
 import SampleOrderManagement from './components/SampleOrderManagement';
 import './AdminPanel.css';
 
 const AdminPanel = ({ onNavigate }) => {
-  const [activeTab, setActiveTab] = useState('dashboard');
+  const [activeTab, setActiveTab] = useState('products');
   const [userData, setUserData] = useState(null);
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
   const { currentUser, getUserData, logout } = useAuth();
@@ -32,12 +31,6 @@ const AdminPanel = ({ onNavigate }) => {
   };
 
   const menuItems = [
-    {
-      id: 'dashboard',
-      label: t('dashboard') || 'Dashboard',
-      icon: BarChart3,
-      description: t('dashboardDesc') || 'Overview and analytics'
-    },
     {
       id: 'products',
       label: t('products') || 'Products',
@@ -67,8 +60,6 @@ const AdminPanel = ({ onNavigate }) => {
 
   const renderContent = () => {
     switch (activeTab) {
-      case 'dashboard':
-        return <Dashboard />;
       case 'products':
         return <ProductManagement />;
       case 'sample-orders':
@@ -78,7 +69,7 @@ const AdminPanel = ({ onNavigate }) => {
       case 'academy':
         return <AcademyManagement />;
       default:
-        return <Dashboard />;
+        return <ProductManagement />;
     }
   };
 

@@ -127,7 +127,7 @@ public/static/images/assets/
 ### Phase 3
 - Mobile app development
 - Offline course downloads
-- Advanced analytics dashboard
+- Advanced analytics panel
 - Affiliate marketing system
 - Corporate training packages
 

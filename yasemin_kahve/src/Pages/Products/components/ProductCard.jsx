@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import { Coffee, ChevronLeft, ChevronRight } from 'lucide-react'
 import { useTranslation } from '../../../useTranslation'
+import { getCountryFlagCode } from '../../../utils/countryFlags'
 import './ProductCard.css'
 
 const ProductCard = ({ product, onClick }) => {
@@ -21,19 +22,10 @@ const ProductCard = ({ product, onClick }) => {
     setCurrentImageIndex((prev) => (prev - 1 + productImages.length) % productImages.length);
   };
 
+
   const getCountryFlag = (origin) => {
-    const flagCodeMap = {
-      'Colombia': 'co',
-      'India': 'in', 
-      'Brazil': 'br',
-      'Kenya': 'ke',
-      'Nicaragua': 'ni',
-      'Guatemala': 'gt',
-      'Turkey': 'tr',
-      'Ethiopia': 'et'
-    };
-    const flagCode = flagCodeMap[origin];
-    
+    const flagCode = getCountryFlagCode(origin);
+
     if (flagCode) {
       return <span className={`fi fi-${flagCode}`} style={{ fontSize: '1.2em' }}></span>;
     }
@@ -126,11 +118,6 @@ const ProductCard = ({ product, onClick }) => {
 
       <div className="product-info">
         <h3 className="product-name">{getLocalizedName()}</h3>
-        <div className="product-origin">
-          <Coffee size={14} />
-          <span>{product.origin}</span>
-        </div>
-        <p className="product-description">{getLocalizedDescription()}</p>
         
         
         {product.roastLevel && (

@@ -477,12 +477,13 @@
   line-height: 1.6;
 }
 
-/* Category Section */
-.category-section {
-  padding: 1rem 0.5rem;
-  background: rgba(255, 255, 255, 0);
+/* Product Filter Section */
+.product-filter-section {
+  padding: 1rem 0;
+  background: white;
   border-bottom: 1px solid #f0f0f0;
 }
+
 
 /* Products Section */
 .products-section {
@@ -847,5 +848,10 @@
   .cta-button {
     padding: 0.8rem 1.5rem;
     font-size: 1rem;
+  }
+
+  /* Product Filter Mobile */
+  .product-filter-section {
+    padding: 0.75rem 0;
   }
 }

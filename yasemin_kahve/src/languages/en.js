@@ -185,8 +185,12 @@ export const en = {
 
   
   // Authentication
+"skipForNow":"Skip For Now",
+"savePhoneNumber":"Save Phone Number",
+"addPhoneNumber":"Add Phone Number",
+"phoneNumberHelp":"Please provide your phone number to complete your account setup. ",
+
   "loading": "Loading",
-  "accessDenied": "Access Denied",
   "signInRequired": "You need to sign in to access the admin console.",
   "adminAccessRequired": "Admin Access Required",
   "adminAccessMessage": "You don't have administrator privileges to access this area.",
@@ -216,8 +220,6 @@ export const en = {
   "continueWithGoogle": "Continue with Google",
   
   // Admin Panel
-  "dashboard":"Dashboard",
-  "dashboardDesc":"Overview and analytics",
   "productsDesc":"Manage coffee products",
   "dataMigration":"Data Migration",
   "migrationDesc":"Import sample data",
@@ -250,7 +252,6 @@ export const en = {
   "addFirstCategory2":"Add First Category",
   "deleteCategory":"Delete Category",
 
-  //DashBoard
   "totalProducts":"Total Products",
   "totalUsers":"Total Users",
   "recentSignUps":"Recent Sign-ups",
@@ -263,8 +264,6 @@ export const en = {
   "viewUsersDesc":"See all registered users",
   "siteSettings":"Site Settings",
   "siteSettingsDesc":"Configure website settings",
-  "loadingDashboard":"Loading dashboard...",
-  "dashboardWelcome":"Welcome to your admin control panel",
   "quickActions":"Quick Actions",
   "recentActivity":"Recent Activity",
 
@@ -279,6 +278,7 @@ export const en = {
   "hiddenProducts":"Hidden Products",
   "searchProducts":"Search products...",
   "noProductsFound":"No products found",
+  "noProductsMessage":"No products available in this category.",
   "noProductsYet":"No products yet",
   "tryDifferentSearch":"Try adjusting your search or filters",
   "addFirstProduct":"Add your first product to get started",
@@ -509,14 +509,12 @@ export const en = {
   "perKg": "per kg",
   "overallScore": "Overall Score",
 
-  // Admin Dashboard
   "last30Days": "Last 30 days",
   "allVisible": "All visible",
   "comingSoon": "Coming Soon",
   "systemInitialized": "System initialized",
   "productsUserManagementReady": "Products and user management ready",
   "adminPanelSetup": "Admin panel setup",
-  "dashboardToolsConfigured": "Dashboard and management tools configured",
   "justNow": "Just now",
   "today": "Today",
 
@@ -648,6 +646,67 @@ export const en = {
   "enrollmentError": "An error occurred during enrollment. Please try again.",
   "enrollmentSuccess": "Successfully enrolled in the course!",
   "loadingUserData": "Loading user data...",
+
+  // Product types
+  allProductTypes: "All Product Types",
+  coffee: "Coffee",
+  coffeeMachines: "Coffee Machines",
+  machine: "Machine",
+  cardamom: "Cardamom",
+  productType: "Product Type",
+  productTypeHelp: "Choose the type of product you are adding",
+
+  // Coffee-specific
+  coffeeSpecifications: "Coffee Specifications",
+  tastingNotesPlaceholder: "e.g., Chocolate, Citrus, Caramel, Nutty (separate with commas)",
+  tastingNotesHelp: "Separate multiple tasting notes with commas. Spaces around commas are automatically handled.",
+  brewingMethods: "Good for use in",
+  brewingMethodsHelp: "Select all brewing methods that work well with this coffee.",
+  includeCuppingScores: "Include cupping scores for this product",
+  cuppingToggleHelp: "Check this option if this product has cupping scores. Some products like cardamom, accessories, or non-coffee items may not need cupping scores.",
+  cuppingScoresHelp: "Cupping scores are rated from 0 to 10. Only enable if this product is a coffee that has been cupped.",
+
+  // Machine-specific
+  machineSpecifications: "Machine Specifications",
+  machineFeatures: "Machine Features",
+  machineFeaturesPlaceholder: "e.g., Built-in Grinder, Milk Frother, Programmable, Touch Screen (separate with commas)",
+  machineFeaturesHelp: "Separate multiple features with commas. Spaces around commas are automatically handled.",
+  brand: "Brand",
+  brandPlaceholder: "e.g., Breville, De'Longhi, Jura",
+  model: "Model",
+  modelPlaceholder: "e.g., BES870XL, ECAM22110B",
+  powerWattage: "Power (Wattage)",
+  powerPlaceholder: "e.g., 1450W, 1350W",
+  voltage: "Voltage",
+  voltagePlaceholder: "e.g., 220V, 110-240V",
+  capacity: "Water Tank Capacity",
+  capacityPlaceholder: "e.g., 2.5L, 1.8L",
+  dimensions: "Dimensions (W x D x H)",
+  dimensionsPlaceholder: "e.g., 31 x 33 x 40 cm",
+  weight: "Weight",
+  weightPlaceholder: "e.g., 8.5 kg",
+  warrantyPeriod: "Warranty Period",
+  warrantyPlaceholder: "e.g., 2 years, 1 year",
+
+  // Cardamom-specific
+  cardamomSpecifications: "Cardamom Specifications",
+  grade: "Grade",
+  selectGrade: "Select Grade",
+  size: "Size",
+  sizePlaceholder: "e.g., 6mm, 7mm, 8mm+",
+  color: "Color",
+  selectColor: "Select Color",
+  moisture: "Moisture Content (%)",
+  moisturePlaceholder: "e.g., 8.5, 12.0",
+  packagingType: "Packaging Type",
+  selectPackaging: "Select Packaging",
+
+  // Product Type Selector
+  selectProductType: "Select Product Type",
+  selectProductTypeDesc: "Choose the type of product you want to add",
+  coffeeDescription: "Green coffee beans from around the world",
+  machineDescription: "Coffee brewing equipment and machines",
+  cardamomDescription: "Premium quality cardamom and spices",
 
   // General
 };

@@ -3304,6 +3304,17 @@ nav.header .mobile-menu-btn {
   transform: scale(1.2);
 }
 
+/* Desktop optimization for product images */
+@media (min-width: 769px) {
+  .product-image {
+    height: 200px !important;
+  }
+
+  .product-image img {
+    object-fit: cover;
+  }
+}
+
 /* Mobile carousel adjustments */
 @media (max-width: 768px) {
   .carousel-controls {
@@ -3422,78 +3433,16 @@ nav.header .mobile-menu-btn {
   }
 }
 
-/* ===== CATEGORY SECTION ===== */
-.category-section {
-  padding: 1rem;
+/* ===== FILTER SECTION ===== */
+.filter-section {
+  padding: 0.75rem;
   background: rgba(255, 255, 255, 0);
   border-bottom: 1px solid #f0f0f0;
 }
 
-/* ===== CATEGORY TABS ===== */
-.category-tabs {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center !important;
-  gap: 0.5rem;
-  margin-bottom: 0rem !important;
-}
-
-.category-tab {
-  background: white;
-  border: 1px solid #e0e0e0;
-  color: #8B4513;
-  padding: 0.6rem 1.2rem;
-  border-radius: 1.5rem;
-  font-weight: 600;
-  font-size: 0.8rem;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  text-transform: uppercase;
-  letter-spacing: 0.3px;
-  white-space: nowrap;
-}
-
-.category-tab:hover {
-  border-color: #e6b555;
-  background: #fefcf8;
-  transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(230, 181, 85, 0.2);
-}
-
-.category-tab.active {
-  background: linear-gradient(135deg, #e6b555, #d4a644);
-  border-color: #e6b555;
-  color: white;
-  box-shadow: 0 4px 15px rgba(230, 181, 85, 0.3);
-}
-
-.category-tab.active:hover {
-  background: linear-gradient(135deg, #d4a644, #c19633);
-  transform: translateY(-2px);
-  box-shadow: 0 6px 20px rgba(230, 181, 85, 0.4);
-}
-
 @media (max-width: 768px) {
-  .category-tabs {
-    justify-content: flex-start;
-    overflow-x: auto;
-    padding: 0.25rem;
-    gap: 0.3rem;
-    scrollbar-width: none;
-    -ms-overflow-style: none;
-    scroll-behavior: smooth;
-    flex-wrap: nowrap;
-  }
-
-  .category-tabs::-webkit-scrollbar {
-    display: none;
-  }
-
-  .category-tab {
-    flex-shrink: 0;
-    padding: 0.5rem 1rem;
-    font-size: 0.75rem;
-    min-width: fit-content;
+  .filter-section {
+    padding: 0.5rem;
   }
 }
 
@@ -3532,10 +3481,6 @@ nav.header .mobile-menu-btn {
     display: none !important;
   }
   
-  .category-tab {
-    padding: 0.5rem 1rem;
-    font-size: 0.75rem;
-  }
 }
 
 /* ===== UPDATE SECTION TITLES AND BADGES ===== */

@@ -95,7 +95,10 @@
       "Read(//c/Users/bodys/Desktop/Work/**)",
       "Bash(del \"C:\\Users\\bodys\\Desktop\\Work\\Yasemin-Kahve\\yasemin_kahve\\fix-header-styles.css\")",
       "Bash(git restore:*)",
-      "Bash(start http://localhost:5175)"
+      "Bash(start http://localhost:5175)",
+      "Bash(del srcfirebaseTest.js)",
+      "Bash(del \"C:\\Users\\bodys\\Desktop\\Work\\Yasemin-Kahve\\yasemin_kahve\\src\\Pages\\Admin\\components\\Dashboard.jsx\")",
+      "Bash(del \"C:\\Users\\bodys\\Desktop\\Work\\Yasemin-Kahve\\yasemin_kahve\\src\\Pages\\Products\\components\\CategoryTabs.jsx\")"
     ],
     "deny": [],
     "ask": []
