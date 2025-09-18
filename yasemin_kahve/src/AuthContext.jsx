@@ -39,7 +39,10 @@ export const AuthProvider = ({ children }) => {
         firstName: userData.firstName || '',
         lastName: userData.lastName || '',
         phoneNumber: userData.phoneNumber || '',
+        companyName: userData.companyName || '',
+        shippingAddress: userData.shippingAddress || '',
         enrolledCourses: [],
+        sampleOrders: [],
         createdAt: new Date(),
         lastLogin: new Date(),
         provider: 'email'
@@ -91,7 +94,10 @@ export const AuthProvider = ({ children }) => {
           lastName: result.user.displayName ? result.user.displayName.split(' ').slice(1).join(' ') : '',
           photoURL: result.user.photoURL || '',
           phoneNumber: '', // Initialize empty phone number
+          companyName: '',
+          shippingAddress: '',
           enrolledCourses: [],
+          sampleOrders: [],
           createdAt: new Date(),
           lastLogin: new Date(),
           provider: 'google'

@@ -1,9 +1,10 @@
 // Header.jsx with fixed user menu dropdown behavior
 import React, { useEffect, useState, useRef } from "react";
-import { Menu, X, User, Settings, LogOut, Shield, Coffee } from "lucide-react";
+import { Menu, X, User, Settings, LogOut, Shield, Coffee, ShoppingCart } from "lucide-react";
 import { useTranslation } from "/src/useTranslation";
 import { useAuth } from "/src/AuthContext";
 import LanguageSwitcher from "/src/Pages/HomePage/components/LanguageSwitcher";
+import SampleCart from "/src/Components/SampleCart";
 
 const Header = ({ activeSection = "home", onNavigate, darkContent = false }) => {
   const { t } = useTranslation();
@@ -12,6 +13,8 @@ const Header = ({ activeSection = "home", onNavigate, darkContent = false }) => 
   const [isUserMenuOpen, setIsUserMenuOpen] = useState(false);
   const [userData, setUserData] = useState(null);
   const [scrollY, setScrollY] = useState(0);
+  const [isSampleCartOpen, setIsSampleCartOpen] = useState(false);
+  const [sampleCartCount, setSampleCartCount] = useState(0);
   const userMenuRef = useRef(null);
 
   useEffect(() => {
@@ -49,6 +52,18 @@ const Header = ({ activeSection = "home", onNavigate, darkContent = false }) => 
       setUserData(null);
     }
   }, [currentUser, getUserData]);
+
+  // Track sample cart count
+  useEffect(() => {
+    const updateCartCount = () => {
+      const cart = JSON.parse(localStorage.getItem('sampleCart') || '[]');
+      setSampleCartCount(cart.length);
+    };
+
+    updateCartCount();
+    window.addEventListener('sampleCartUpdated', updateCartCount);
+    return () => window.removeEventListener('sampleCartUpdated', updateCartCount);
+  }, []);
 
   const navItems = [
     { name: t("home") || "Home", path: "home" },
@@ -122,6 +137,20 @@ const Header = ({ activeSection = "home", onNavigate, darkContent = false }) => 
                 </a>
               );
             })}
+          </div>
+
+          {/* Sample Cart Section */}
+          <div className="fix-sample-cart-section">
+            <button
+              className="fix-sample-cart-btn"
+              onClick={() => setIsSampleCartOpen(true)}
+              title={t('sampleCart') || 'Sample Cart'}
+            >
+              <ShoppingCart size={20} />
+              {sampleCartCount > 0 && (
+                <span className="fix-cart-badge">{sampleCartCount}</span>
+              )}
+            </button>
           </div>
 
           {/* Authentication Section */}
@@ -266,6 +295,13 @@ const Header = ({ activeSection = "home", onNavigate, darkContent = false }) => 
           </div>
         </div>
       </div>
+
+      {/* Sample Cart Modal */}
+      <SampleCart
+        isOpen={isSampleCartOpen}
+        onClose={() => setIsSampleCartOpen(false)}
+        onNavigate={onNavigate}
+      />
     </nav>
   );
 };

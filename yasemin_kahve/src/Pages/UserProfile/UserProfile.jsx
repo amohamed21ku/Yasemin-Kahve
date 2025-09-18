@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from 'react'
-import { User, Mail, Phone, Edit, Save, X, BookOpen, Calendar, Award, Settings, MapPin, Clock, Shield, ExternalLink, GraduationCap } from 'lucide-react'
+import { User, Mail, Phone, Edit, Save, X, BookOpen, Calendar, Award, Settings, MapPin, Clock, Shield, ExternalLink, GraduationCap, Package, Truck } from 'lucide-react'
 import { useAuth } from '../../AuthContext'
 import { useTranslation } from '../../useTranslation'
 import { useEnrollment } from '../../useEnrollment'
 import { getCourseById } from '../../services/courseService'
 import { getInstructorById } from '../../services/instructorService'
+import { sampleOrderService } from '../../services/sampleOrderService'
 import Header from '../HomePage/components/Header'
 import Footer from '../HomePage/components/Footer'
 import './UserProfile.css'
@@ -16,13 +17,16 @@ const UserProfile = ({ onNavigate }) => {
   const [userData, setUserData] = useState(null)
   const [enrollments, setEnrollments] = useState([])
   const [enrichedEnrollments, setEnrichedEnrollments] = useState([])
+  const [sampleOrders, setSampleOrders] = useState([])
   const [loading, setLoading] = useState(true)
   const [editing, setEditing] = useState(false)
   const [formData, setFormData] = useState({
     firstName: '',
     lastName: '',
     email: '',
-    phoneNumber: ''
+    phoneNumber: '',
+    companyName: '',
+    shippingAddress: ''
   })
   const [saving, setSaving] = useState(false)
   const [error, setError] = useState(null)
@@ -40,6 +44,17 @@ const UserProfile = ({ onNavigate }) => {
         getUserData(currentUser.uid),
         getUserEnrollments()
       ])
+
+      // Load sample orders
+      let userSampleOrders = []
+      if (userData?.sampleOrders && userData.sampleOrders.length > 0) {
+        try {
+          userSampleOrders = await sampleOrderService.getSampleOrdersByIds(userData.sampleOrders)
+        } catch (error) {
+          console.error('Error loading sample orders:', error)
+        }
+      }
+      setSampleOrders(userSampleOrders)
       
       if (userData) {
         setUserData(userData)
@@ -47,7 +62,9 @@ const UserProfile = ({ onNavigate }) => {
           firstName: userData.firstName || '',
           lastName: userData.lastName || '',
           email: userData.email || currentUser.email || '',
-          phoneNumber: userData.phoneNumber || ''
+          phoneNumber: userData.phoneNumber || '',
+          companyName: userData.companyName || '',
+          shippingAddress: userData.shippingAddress || ''
         })
       }
       
@@ -118,6 +135,8 @@ const UserProfile = ({ onNavigate }) => {
         firstName: formData.firstName,
         lastName: formData.lastName,
         phoneNumber: formData.phoneNumber,
+        companyName: formData.companyName,
+        shippingAddress: formData.shippingAddress,
         displayName: `${formData.firstName} ${formData.lastName}`.trim()
       })
       
@@ -137,7 +156,9 @@ const UserProfile = ({ onNavigate }) => {
         firstName: userData.firstName || '',
         lastName: userData.lastName || '',
         email: userData.email || currentUser.email || '',
-        phoneNumber: userData.phoneNumber || ''
+        phoneNumber: userData.phoneNumber || '',
+        companyName: userData.companyName || '',
+        shippingAddress: userData.shippingAddress || ''
       })
     }
     setEditing(false)
@@ -324,6 +345,37 @@ const UserProfile = ({ onNavigate }) => {
                     <div className="form-value">{userData?.phoneNumber || 'Not provided'}</div>
                   )}
                 </div>
+
+                <div className="form-group">
+                  <label>Company Name</label>
+                  {editing ? (
+                    <input
+                      type="text"
+                      value={formData.companyName}
+                      onChange={(e) => handleInputChange('companyName', e.target.value)}
+                      placeholder="Enter your company name"
+                    />
+                  ) : (
+                    <div className="form-value">{userData?.companyName || 'Not provided'}</div>
+                  )}
+                </div>
+
+                <div className="form-group">
+                  <label>
+                    <MapPin size={16} />
+                    Shipping Address
+                  </label>
+                  {editing ? (
+                    <textarea
+                      value={formData.shippingAddress}
+                      onChange={(e) => handleInputChange('shippingAddress', e.target.value)}
+                      placeholder="Enter your complete shipping address"
+                      rows="3"
+                    />
+                  ) : (
+                    <div className="form-value">{userData?.shippingAddress || 'Not provided'}</div>
+                  )}
+                </div>
               </div>
 
               {editing && (
@@ -484,8 +536,117 @@ const UserProfile = ({ onNavigate }) => {
               )}
             </div>
           </div>
+
+          <div className="sample-orders-card">
+            <div className="section-header">
+              <div className="header-left">
+                <div className="orders-icon">
+                  <Package size={20} />
+                </div>
+                <div>
+                  <h3>Sample Orders</h3>
+                  <p>Track your free sample requests and their status</p>
+                </div>
+              </div>
+              <div className="orders-stats">
+                <span className="stat">
+                  <strong>{sampleOrders.length}</strong>
+                  <span>Order{sampleOrders.length !== 1 ? 's' : ''}</span>
+                </span>
+              </div>
+            </div>
+
+            <div className="orders-content">
+              {sampleOrders.length === 0 ? (
+                <div className="no-orders">
+                  <div className="empty-state">
+                    <Package size={40} />
+                    <h4>No Sample Orders Yet</h4>
+                    <p>Start exploring our coffee collection and order free samples to discover your perfect blend</p>
+                    <button
+                      onClick={() => onNavigate('products')}
+                      className="btn-profile-primary"
+                    >
+                      <Package size={16} />
+                      Browse Products
+                    </button>
+                  </div>
+                </div>
+              ) : (
+                <div className="orders-grid">
+                  {sampleOrders.map((order, index) => (
+                    <div key={index} className="order-card">
+                      <div className="order-header">
+                        <div className="order-id">#{order.orderId || order.id}</div>
+                        <div className={`status-badge ${(order.status || 'pending').toLowerCase()}`}>
+                          {order.status === 'pending' && <Clock size={14} />}
+                          {order.status === 'shipped' && <Truck size={14} />}
+                          {order.status === 'delivered' && <Package size={14} />}
+                          <span>{order.status || 'Pending'}</span>
+                        </div>
+                      </div>
+
+                      <div className="order-details">
+                        <div className="detail-item">
+                          <Calendar size={14} />
+                          <span>Ordered {formatDate(order.createdAt)}</span>
+                        </div>
+
+                        {order.samples && (
+                          <div className="detail-item">
+                            <Package size={14} />
+                            <span>{order.samples.length} Sample{order.samples.length !== 1 ? 's' : ''}</span>
+                          </div>
+                        )}
+
+                        {order.orderDetails?.shippingAddress && (
+                          <div className="detail-item">
+                            <MapPin size={14} />
+                            <span className="address-preview">
+                              {order.orderDetails.shippingAddress.length > 50
+                                ? `${order.orderDetails.shippingAddress.substring(0, 50)}...`
+                                : order.orderDetails.shippingAddress}
+                            </span>
+                          </div>
+                        )}
+                      </div>
+
+                      {order.samples && order.samples.length > 0 && (
+                        <div className="order-samples">
+                          <h5>Samples:</h5>
+                          <div className="samples-list">
+                            {order.samples.slice(0, 3).map((sample, sampleIndex) => (
+                              <div key={sampleIndex} className="sample-item-small">
+                                <img
+                                  src={sample.image}
+                                  alt={sample.name}
+                                  onError={(e) => {
+                                    e.target.src = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='30' height='30' viewBox='0 0 30 30'%3E%3Crect width='30' height='30' fill='%23f8f3ed'/%3E%3Cg fill='%23e6b555'%3E%3Ccircle cx='15' cy='12' r='3'/%3E%3Cellipse cx='15' cy='18' rx='5' ry='3'/%3E%3C/g%3E%3C/svg%3E";
+                                  }}
+                                />
+                                <span>{sample.name}</span>
+                              </div>
+                            ))}
+                            {order.samples.length > 3 && (
+                              <div className="more-samples">+{order.samples.length - 3} more</div>
+                            )}
+                          </div>
+                        </div>
+                      )}
+
+                      {order.adminNote && (
+                        <div className="order-note">
+                          <p><strong>Note:</strong> {order.adminNote}</p>
+                        </div>
+                      )}
+                    </div>
+                  ))}
+                </div>
+              )}
+            </div>
+          </div>
         </div>
-        
+
         <div className="sidebar">
 
           <div className="account-info-card">

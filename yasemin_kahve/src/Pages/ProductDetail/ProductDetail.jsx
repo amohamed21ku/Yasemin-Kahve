@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react'
-import { Star, Coffee, ArrowLeft, Package, Globe, Award } from 'lucide-react'
+import { Star, Coffee, ArrowLeft, Package, Globe, Award, ChevronLeft, ChevronRight, X, ShoppingCart } from 'lucide-react'
 import Header from '../HomePage/components/Header'
 import Footer from '../HomePage/components/Footer'
 import { useTranslation } from '../../useTranslation'
@@ -8,6 +8,9 @@ import './ProductDetail.css'
 const ProductDetail = ({ onNavigate, product, previousPage }) => {
   const { t, language } = useTranslation();
   const [scrollProgress, setScrollProgress] = useState(0);
+  const [currentImageIndex, setCurrentImageIndex] = useState(0);
+  const [isImageModalOpen, setIsImageModalOpen] = useState(false);
+  const [showSampleSuccess, setShowSampleSuccess] = useState(false);
   const scoreRef = useRef(null);
   const cuppingRef = useRef(null);
   
@@ -96,6 +99,8 @@ const ProductDetail = ({ onNavigate, product, previousPage }) => {
         type: firebaseData.type,
         altitude: firebaseData.altitude,
         bagType: firebaseData.bagType,
+        bagSize: firebaseData.bagSize,
+        brewingMethods: firebaseData.brewingMethods || [],
         score: firebaseData.score,
         cupping: firebaseData.cupping,
         tastingNotes: firebaseData.tastingNotes || []
@@ -111,6 +116,27 @@ const ProductDetail = ({ onNavigate, product, previousPage }) => {
   };
 
   const displayProduct = getProductDetail(product);
+
+  // Get all product images
+  const productImages = displayProduct.images || (displayProduct.image ? [displayProduct.image] : []);
+  const hasMultipleImages = productImages.length > 1;
+
+  const nextImage = () => {
+    setCurrentImageIndex((prev) => (prev + 1) % productImages.length);
+  };
+
+  const prevImage = () => {
+    setCurrentImageIndex((prev) => (prev - 1 + productImages.length) % productImages.length);
+  };
+
+  const openImageModal = (index = currentImageIndex) => {
+    setCurrentImageIndex(index);
+    setIsImageModalOpen(true);
+  };
+
+  const closeImageModal = () => {
+    setIsImageModalOpen(false);
+  };
 
   const getCountryFlag = (origin) => {
     const flagCodeMap = {
@@ -138,6 +164,41 @@ const ProductDetail = ({ onNavigate, product, previousPage }) => {
       const targetPage = previousPage === 'home' ? 'home' : 'products';
       onNavigate(targetPage);
     }
+  };
+
+  const addToSampleCart = () => {
+    // Get existing sample cart from localStorage
+    const existingCart = JSON.parse(localStorage.getItem('sampleCart') || '[]');
+
+    // Check if product is already in cart
+    const existingItem = existingCart.find(item => item.id === displayProduct.id);
+
+    if (existingItem) {
+      // Product already in sample cart
+      setShowSampleSuccess(true);
+      setTimeout(() => setShowSampleSuccess(false), 3000);
+      return;
+    }
+
+    // Add product to sample cart
+    const sampleItem = {
+      id: displayProduct.id,
+      name: displayProduct.name,
+      image: displayProduct.image || displayProduct.images?.[0],
+      origin: displayProduct.origin,
+      region: displayProduct.region,
+      addedAt: new Date().toISOString()
+    };
+
+    existingCart.push(sampleItem);
+    localStorage.setItem('sampleCart', JSON.stringify(existingCart));
+
+    // Show success message
+    setShowSampleSuccess(true);
+    setTimeout(() => setShowSampleSuccess(false), 3000);
+
+    // Dispatch custom event to notify other components
+    window.dispatchEvent(new Event('sampleCartUpdated'));
   };
 
   return (
@@ -179,17 +240,79 @@ const ProductDetail = ({ onNavigate, product, previousPage }) => {
           <div className="product-detail-content">
             <div className="product-image-section">
               <div className="product-image-container">
-                <img
-                  src={displayProduct.image}
-                  alt={displayProduct.name}
-                  onError={(e) => {
-                    e.target.src = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='400' viewBox='0 0 400 400'%3E%3Crect width='400' height='400' fill='%23f8f3ed'/%3E%3Cg fill='%23e6b555'%3E%3Ccircle cx='200' cy='160' r='30'/%3E%3Cellipse cx='200' cy='240' rx='50' ry='30'/%3E%3C/g%3E%3Ctext x='200' y='320' text-anchor='middle' fill='%23503c2b' font-size='24'%3ECoffee%3C/text%3E%3C/svg%3E";
-                  }}
-                />
-                {displayProduct.badge && (
-                  <div className="productdetail-product-badge">{displayProduct.badge}</div>
+                {productImages.length > 0 ? (
+                  <>
+                    <img
+                      src={productImages[currentImageIndex]}
+                      alt={`${displayProduct.name} - Image ${currentImageIndex + 1}`}
+                      onClick={() => openImageModal(currentImageIndex)}
+                      style={{ cursor: productImages.length > 1 ? 'pointer' : 'default' }}
+                      onError={(e) => {
+                        e.target.src = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='400' viewBox='0 0 400 400'%3E%3Crect width='400' height='400' fill='%23f8f3ed'/%3E%3Cg fill='%23e6b555'%3E%3Ccircle cx='200' cy='160' r='30'/%3E%3Cellipse cx='200' cy='240' rx='50' ry='30'/%3E%3C/g%3E%3Ctext x='200' y='320' text-anchor='middle' fill='%23503c2b' font-size='24'%3ECoffee%3C/text%3E%3C/svg%3E";
+                      }}
+                    />
+
+                    {hasMultipleImages && (
+                      <>
+                        <button
+                          className="productdetail-image-nav-btn prev-btn"
+                          onClick={prevImage}
+                          title="Previous image"
+                        >
+                          <ChevronLeft size={20} />
+                        </button>
+                        <button
+                          className="productdetail-image-nav-btn next-btn"
+                          onClick={nextImage}
+                          title="Next image"
+                        >
+                          <ChevronRight size={20} />
+                        </button>
+
+                        <div className="productdetail-image-counter">
+                          {currentImageIndex + 1} / {productImages.length}
+                        </div>
+                      </>
+                    )}
+
+                    {displayProduct.badge && (
+                      <div className="productdetail-product-badge">{displayProduct.badge}</div>
+                    )}
+                  </>
+                ) : (
+                  <img
+                    src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='400' viewBox='0 0 400 400'%3E%3Crect width='400' height='400' fill='%23f8f3ed'/%3E%3Cg fill='%23e6b555'%3E%3Ccircle cx='200' cy='160' r='30'/%3E%3Cellipse cx='200' cy='240' rx='50' ry='30'/%3E%3C/g%3E%3Ctext x='200' y='320' text-anchor='middle' fill='%23503c2b' font-size='24'%3ECoffee%3C/text%3E%3C/svg%3E"
+                    alt={displayProduct.name}
+                  />
                 )}
               </div>
+
+              {/* Image Thumbnails */}
+              {hasMultipleImages && (
+                <div className="image-thumbnails">
+                  {productImages.map((image, index) => (
+                    <button
+                      key={index}
+                      className={`thumbnail ${index === currentImageIndex ? 'active' : ''}`}
+                      onClick={() => setCurrentImageIndex(index)}
+                      title={`View image ${index + 1}`}
+                    >
+                      <img
+                        src={image}
+                        alt={`${displayProduct.name} thumbnail ${index + 1}`}
+                        onError={(e) => {
+                          e.target.src = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='80' height='80' viewBox='0 0 80 80'%3E%3Crect width='80' height='80' fill='%23f8f3ed'/%3E%3Cg fill='%23e6b555'%3E%3Ccircle cx='40' cy='32' r='6'/%3E%3Cellipse cx='40' cy='48' rx='10' ry='6'/%3E%3C/g%3E%3C/svg%3E";
+                        }}
+                      />
+                      {index === 0 && (
+                        <div className="primary-label">
+                          {t('primary') || 'Primary'}
+                        </div>
+                      )}
+                    </button>
+                  ))}
+                </div>
+              )}
             </div>
             
             <div className="product-info-section">
@@ -275,6 +398,16 @@ const ProductDetail = ({ onNavigate, product, previousPage }) => {
                       </div>
                     </div>
                   )}
+
+                  {displayProduct.bagSize && (
+                    <div className="spec-item">
+                      <Package size={18} />
+                      <div>
+                        <span className="spec-label">{t('bagSize') || 'Bag Size'}</span>
+                        <span className="spec-value">{displayProduct.bagSize} kg</span>
+                      </div>
+                    </div>
+                  )}
                 </div>
               </div>
               
@@ -288,25 +421,147 @@ const ProductDetail = ({ onNavigate, product, previousPage }) => {
                   </div>
                 </div>
               )}
+
+              {displayProduct.brewingMethods && displayProduct.brewingMethods.length > 0 && (
+                <div className="brewing-methods">
+                  <h3 className="brewing-methods-title">Best for use in</h3>
+                  <div className="brewing-methods-grid">
+                    {displayProduct.brewingMethods.map((method, index) => {
+                      const methodConfig = {
+                        'espresso': {
+                          icon: (
+                            <svg viewBox="0 0 100 100" className="brewing-icon">
+                              <circle cx="50" cy="35" r="25" fill="#5a4104ff"/>
+                              <rect x="35" y="55" width="30" height="15" rx="5" fill="#f5d991ff"/>
+                              <rect x="25" y="70" width="50" height="8" rx="4" fill="#eabf40ff"/>
+                            </svg>
+                          ),
+                          label: 'Espresso'
+                        },
+                        'moka': {
+                          icon: (
+                            <svg viewBox="0 0 100 100" className="brewing-icon">
+                              <polygon points="30,20 70,20 65,40 35,40" fill="#5a4104ff"/>
+                              <rect x="25" y="40" width="50" height="30" fill="#f5d991ff"/>
+                              <polygon points="35,70 65,70 60,85 40,85" fill="#eabf40ff"/>
+                            </svg>
+                          ),
+                          label: 'Moka'
+                        },
+                        'cappuccino': {
+                          icon: (
+                            <svg viewBox="0 0 100 100" className="brewing-icon">
+                              <circle cx="50" cy="45" r="30" fill="#5a4104ff"/>
+                              <rect x="30" y="65" width="40" height="10" rx="5" fill="#f5d991ff"/>
+                              <circle cx="50" cy="35" r="15" fill="#eabf40ff" opacity="0.3"/>
+                            </svg>
+                          ),
+                          label: 'Cappuccino'
+                        },
+                        'french-press': {
+                          icon: (
+                            <svg viewBox="0 0 100 100" className="brewing-icon">
+                              <rect x="30" y="35" width="40" height="45" rx="8" fill="#5a4104ff"/>
+                              <circle cx="50" cy="25" r="8" fill="#f5d991ff"/>
+                              <line x1="50" y1="15" x2="50" y2="65" stroke="#eabf40ff" strokeWidth="3"/>
+                            </svg>
+                          ),
+                          label: 'French Press'
+                        },
+                        'pour-over': {
+                          icon: (
+                            <svg viewBox="0 0 100 100" className="brewing-icon">
+                              <polygon points="35,25 65,25 55,55 45,55" fill="#5a4104ff"/>
+                              <circle cx="50" cy="65" r="20" fill="#f5d991ff"/>
+                              <circle cx="50" cy="35" r="8" fill="#eabf40ff" opacity="0.3"/>
+                            </svg>
+                          ),
+                          label: 'Pour Over'
+                        },
+                        'drip': {
+                          icon: (
+                            <svg viewBox="0 0 100 100" className="brewing-icon">
+                              <rect x="25" y="40" width="50" height="35" rx="10" fill="#5a4104ff"/>
+                              <rect x="20" y="30" width="60" height="15" rx="7" fill="#f5d991ff"/>
+                              <circle cx="40" cy="20" r="3" fill="#eabf40ff"/>
+                              <circle cx="50" cy="15" r="3" fill="#eabf40ff"/>
+                              <circle cx="60" cy="20" r="3" fill="#eabf40ff"/>
+                            </svg>
+                          ),
+                          label: 'Drip Coffee'
+                        },
+                        'cold-brew': {
+                          icon: (
+                            <svg viewBox="0 0 100 100" className="brewing-icon">
+                              <rect x="35" y="25" width="30" height="50" rx="15" fill="#5a4104ff"/>
+                              <circle cx="45" cy="35" r="3" fill="#87CEEB"/>
+                              <circle cx="55" cy="40" r="3" fill="#87CEEB"/>
+                              <circle cx="50" cy="50" r="3" fill="#87CEEB"/>
+                            </svg>
+                          ),
+                          label: 'Cold Brew'
+                        },
+                        'turkish': {
+                          icon: (
+                            <svg viewBox="0 0 100 100" className="brewing-icon">
+                              <polygon points="40,30 60,30 65,70 35,70" fill="#5a4104ff"/>
+                              <rect x="60" y="45" width="20" height="4" fill="#5a4104ff"/>
+                              <circle cx="50" cy="25" r="5" fill="#f5d991ff"/>
+                            </svg>
+                          ),
+                          label: 'Turkish Coffee'
+                        }
+                      };
+
+                      const config = methodConfig[method] || {
+                        icon: (
+                          <svg viewBox="0 0 100 100" className="brewing-icon">
+                            <circle cx="50" cy="50" r="30" fill="#FFD700"/>
+                          </svg>
+                        ),
+                        label: method
+                      };
+
+                      return (
+                        <div key={index} className="brewing-method-column">
+                          <div className="brewing-method-icon">
+                            {config.icon}
+                          </div>
+                          <div className="brewing-method-label">{config.label}</div>
+                        </div>
+                      );
+                    })}
+                  </div>
+                </div>
+              )}
               
               <div className="product-actions">
-                {displayProduct.price && (
+                {displayProduct.price && displayProduct.price !== null && displayProduct.price.toString().trim() !== '' && (
                   <div className="price-section">
                     <span className="price">{displayProduct.price}</span>
                     <span className="price-unit">per kg</span>
                   </div>
                 )}
-                <button 
-                  className="contact-button"
-                  onClick={() => {
-                    const productName = displayProduct.name;
-                    const message = `Hi, I'm interested in ${productName} for wholesale. Could you please provide more details about bulk pricing and availability?`;
-                    const whatsappUrl = `https://wa.me/905395004444?text=${encodeURIComponent(message)}`;
-                    window.open(whatsappUrl, '_blank');
-                  }}
-                >
-                  {t('contactForWholesale')}
-                </button>
+                <div className="action-buttons">
+                  <button
+                    className="sample-button"
+                    onClick={addToSampleCart}
+                  >
+                    <ShoppingCart size={18} />
+                    {t('orderFreeSample') || 'Order Free Sample'}
+                  </button>
+                  <button
+                    className="contact-button"
+                    onClick={() => {
+                      const productName = displayProduct.name;
+                      const message = `Hi, I'm interested in ${productName} for wholesale. Could you please provide more details about bulk pricing and availability?`;
+                      const whatsappUrl = `https://wa.me/905395004444?text=${encodeURIComponent(message)}`;
+                      window.open(whatsappUrl, '_blank');
+                    }}
+                  >
+                    {t('contactForWholesale')}
+                  </button>
+                </div>
               </div>
             </div>
           </div>
@@ -371,6 +626,81 @@ const ProductDetail = ({ onNavigate, product, previousPage }) => {
       )}
 
       <Footer />
+
+      {/* Sample Success Notification */}
+      {showSampleSuccess && (
+        <div className="sample-success-notification">
+          <div className="sample-success-content">
+            <ShoppingCart size={20} />
+            <span>{t('sampleAddedToCart') || 'Sample added to cart!'}</span>
+          </div>
+        </div>
+      )}
+
+      {/* Image Modal */}
+      {isImageModalOpen && productImages.length > 0 && (
+        <div className="image-modal" onClick={closeImageModal}>
+          <div className="image-modal-content" onClick={(e) => e.stopPropagation()}>
+            <button className="modal-close" onClick={closeImageModal}>
+              <X size={24} />
+            </button>
+
+            <div className="modal-image-container">
+              <img
+                src={productImages[currentImageIndex]}
+                alt={`${displayProduct.name} - Image ${currentImageIndex + 1}`}
+                onError={(e) => {
+                  e.target.src = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='600' height='400' viewBox='0 0 600 400'%3E%3Crect width='600' height='400' fill='%23f8f3ed'/%3E%3Cg fill='%23e6b555'%3E%3Ccircle cx='300' cy='160' r='40'/%3E%3Cellipse cx='300' cy='240' rx='60' ry='40'/%3E%3C/g%3E%3Ctext x='300' y='320' text-anchor='middle' fill='%23503c2b' font-size='32'%3ECoffee%3C/text%3E%3C/svg%3E";
+                }}
+              />
+
+              {hasMultipleImages && (
+                <>
+                  <button
+                    className="modal-nav-btn prev-btn"
+                    onClick={prevImage}
+                    title="Previous image"
+                  >
+                    <ChevronLeft size={24} />
+                  </button>
+                  <button
+                    className="modal-nav-btn next-btn"
+                    onClick={nextImage}
+                    title="Next image"
+                  >
+                    <ChevronRight size={24} />
+                  </button>
+                </>
+              )}
+            </div>
+
+            {hasMultipleImages && (
+              <div className="modal-thumbnails">
+                {productImages.map((image, index) => (
+                  <button
+                    key={index}
+                    className={`modal-thumbnail ${index === currentImageIndex ? 'active' : ''}`}
+                    onClick={() => setCurrentImageIndex(index)}
+                  >
+                    <img
+                      src={image}
+                      alt={`Thumbnail ${index + 1}`}
+                      onError={(e) => {
+                        e.target.src = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='60' height='60' viewBox='0 0 60 60'%3E%3Crect width='60' height='60' fill='%23f8f3ed'/%3E%3Cg fill='%23e6b555'%3E%3Ccircle cx='30' cy='24' r='4'/%3E%3Cellipse cx='30' cy='36' rx='8' ry='4'/%3E%3C/g%3E%3C/svg%3E";
+                      }}
+                    />
+                  </button>
+                ))}
+              </div>
+            )}
+
+            <div className="modal-info">
+              <span className="modal-counter">{currentImageIndex + 1} / {productImages.length}</span>
+              <span className="modal-title">{displayProduct.name}</span>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   )
 }

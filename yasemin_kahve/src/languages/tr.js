@@ -18,6 +18,59 @@ export const tr = {
 
   "whatsAppTooltip":"Bize WhatsApp'tan yazın!",
 
+  // Sample Cart
+  "orderFreeSample": "Ücretsiz Numune Sipariş Et",
+  "sampleAddedToCart": "Numune sepete eklendi!",
+  "sampleCart": "Numune Sepeti",
+  "freeSamples": "Ücretsiz Numuneler",
+  "proceedToCheckout": "Ödemeye Geç",
+  "sampleOrderDetails": "Numune Sipariş Detayları",
+  "companyName": "Şirket Adı",
+  "shippingAddress": "Teslimat Adresi",
+  "optionalMessage": "İsteğe Bağlı Mesaj",
+  "submitSampleOrder": "Numune Siparişi Ver",
+  "sampleOrderSubmitted": "Numune siparişiniz başarıyla gönderildi!",
+  "clearCart": "Sepeti Temizle",
+  "noSamplesInCart": "Sepette numune yok",
+  "signInToOrder": "Sipariş için Giriş Yapın",
+  "back": "Geri",
+  "submitting": "Gönderiliyor...",
+  "optionalMessagePlaceholder": "Özel istekler veya notlar...",
+
+  // Admin Sample Orders
+  "sampleOrders": "Numune Siparişleri",
+  "sampleOrdersDesc": "Numune taleplerini yönet",
+
+  // Updated Sample Cart Flow
+  "proceedToOrder": "Siparişe Devam Et",
+  "registerToOrder": "Sipariş için Kayıt Ol",
+  "fullName": "Ad Soyad",
+  "phoneNumber": "Telefon Numarası",
+  "email": "E-posta",
+  "companyNameOptional": "İsteğe Bağlı",
+  "shippingAddressPlaceholder": "Şehir, posta kodu ve ülke dahil tam adres",
+
+  // Profile Page
+  "personalInformation": "Kişisel Bilgiler",
+  "edit": "Düzenle",
+  "save": "Kaydet",
+  "saving": "Kaydediliyor...",
+  "cancel": "İptal",
+  "lastShippingAddress": "Son Teslimat Adresi",
+  "sampleOrderHistory": "Numune Sipariş Geçmişi",
+  "accessDenied": "Erişim Reddedildi",
+  "pleaseSignIn": "Profilinizi görmek için lütfen giriş yapın",
+  "enterFullName": "Ad soyadınızı girin",
+  "enterPhoneNumber": "Telefon numaranızı girin",
+  "enterCompanyName": "Şirket adınızı girin",
+  "enterShippingAddress": "Teslimat adresinizi girin",
+  "loadingOrders": "Siparişleriniz yükleniyor...",
+  "noOrdersYet": "Henüz numune siparişiniz bulunmuyor",
+  "browseProducts": "Ürünlere Göz At",
+  "requestedSamples": "Talep Edilen Numuneler",
+  "shippingTo": "Teslimat Adresi",
+  "yourMessage": "Mesajınız",
+
 
   
   // Hero
@@ -95,7 +148,8 @@ export const tr = {
 "headOffice": "Merkez Ofis",
 "wholesale2": "Toptan Satış",
 "allRightsReserved": "Tüm hakları saklıdır",
-"footerDescription": "Türk kahvesi ihracatçısı ve premium yeşil kahve çekirdeği tedarikçisi. Guatemala’dan Türkiye’ye, otantik Türk kahvesi ve yüksek kaliteli kakule ile dünya çapında distribütörlere ve kahve dükkânlarına hizmet veriyoruz.",
+"footerDescription": "Türk kahvesi ihracatçısı ve premium yeşil kahve çekirdeği tedarikçisi. Guatemala'dan Türkiye'ye, otantik Türk kahvesi ve yüksek kaliteli kakule ile dünya çapında distribütörlere ve kahve dükkânlarına hizmet veriyoruz.",
+"developedBy":"Geliştirildi:",
 
  // Product Page 
 "LearnArtCoffee": "Kahve Sanatını Öğrenin",
@@ -134,7 +188,7 @@ export const tr = {
   "backToHome": "Ana Sayfaya Dön",
   "signInToEnroll": "Kayıt Olmak İçin Giriş Yapın",
   "signUpToEnroll": "Kayıt Olmak İçin Hesap Oluşturun",
-  "processing": "İşleniyor...",
+  "processing": "İşleniyor",
   "enrollInCourse": "Katıl",
   "firstNameRequired": "Ad gerekli",
   "lastNameRequired": "Soyad gerekli",
@@ -293,6 +347,7 @@ export const tr = {
 "score": "Puan",
 "scoreHelp": "Kahve kalite puanı 100 üzerinden",
 "qualityScore": "Kalite Puanı",
+"bagSize": "Paket Boyutu",
 
 
 
@@ -406,6 +461,8 @@ export const tr = {
   // Academy
   "academyTitle": "Yasemin Kahve Akademisi",
   "contentComingSoon": "İçerik çok yakında...",
+  "noCoursesAvailable": "Henüz Kurs Yok",
+
 
   // Footer Additional
   "since1921": "1921'den beri",

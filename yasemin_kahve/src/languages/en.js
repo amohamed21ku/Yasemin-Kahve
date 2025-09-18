@@ -17,6 +17,59 @@ export const en = {
 
   "whatsAppTooltip": "Message us on WhatsApp!",
 
+  // Sample Cart
+  "orderFreeSample": "Order Free Sample",
+  "sampleAddedToCart": "Sample added to cart!",
+  "sampleCart": "Sample Cart",
+  "freeSamples": "Free Samples",
+  "proceedToCheckout": "Proceed to Checkout",
+  "sampleOrderDetails": "Sample Order Details",
+  "companyName": "Company Name",
+  "shippingAddress": "Shipping Address",
+  "optionalMessage": "Optional Message",
+  "submitSampleOrder": "Submit Sample Order",
+  "sampleOrderSubmitted": "Sample order submitted successfully!",
+  "clearCart": "Clear Cart",
+  "noSamplesInCart": "No samples in cart",
+  "signInToOrder": "Sign In to Order",
+  "back": "Back",
+  "submitting": "Submitting...",
+  "optionalMessagePlaceholder": "Any special requests or notes...",
+
+  // Admin Sample Orders
+  "sampleOrders": "Sample Orders",
+  "sampleOrdersDesc": "Manage sample requests",
+
+  // Updated Sample Cart Flow
+  "proceedToOrder": "Proceed to Order",
+  "registerToOrder": "Register to Order",
+  "fullName": "Full Name",
+  "phoneNumber": "Phone Number",
+  "email": "Email",
+  "companyNameOptional": "Optional",
+  "shippingAddressPlaceholder": "Full address including city, postal code, and country",
+
+  // Profile Page
+  "personalInformation": "Personal Information",
+  "edit": "Edit",
+  "save": "Save",
+  "saving": "Saving...",
+  "cancel": "Cancel",
+  "lastShippingAddress": "Last Shipping Address",
+  "sampleOrderHistory": "Sample Order History",
+  "accessDenied": "Access Denied",
+  "pleaseSignIn": "Please sign in to view your profile",
+  "enterFullName": "Enter your full name",
+  "enterPhoneNumber": "Enter your phone number",
+  "enterCompanyName": "Enter your company name",
+  "enterShippingAddress": "Enter your shipping address",
+  "loadingOrders": "Loading your orders...",
+  "noOrdersYet": "You haven't placed any sample orders yet",
+  "browseProducts": "Browse Products",
+  "requestedSamples": "Requested Samples",
+  "shippingTo": "Shipping To",
+  "yourMessage": "Your Message",
+
 
   
   // Hero
@@ -98,6 +151,7 @@ export const en = {
  "wholesale2":"Wholesale",
  "allRightsReserved":"All rights reserved",
  "footerDescription":"Turkish coffee exporter and premium green coffee bean supplier. From Guatemala to Turkey, serving distributors and coffee shops worldwide with authentic Turkish coffee and high-quality cardamom.",
+ "developedBy":"Developed by",
 
   
  
@@ -139,7 +193,7 @@ export const en = {
   "backToHome": "Back to Home",
   "signInToEnroll": "Sign In to Enroll",
   "signUpToEnroll": "Create Account to Enroll",
-  "processing": "Processing...",
+  "processing": "Processing",
   "enrollInCourse": "Join",
   "firstNameRequired": "First name is required",
   "lastNameRequired": "Last name is required",
@@ -274,6 +328,7 @@ export const en = {
   "createProduct":"Create Product",
   
   // Product Detail
+
   "productSpecifications": "Product Specifications",
   "roastLevel": "Roast Level",
   "altitude": "Altitude",
@@ -298,6 +353,7 @@ export const en = {
   "score": "Score",
   "scoreHelp": "Coffee quality score out of 100 points",
   "qualityScore": "Quality Score",
+  "bagSize": "Bag Size",
 
 
 
@@ -415,6 +471,7 @@ export const en = {
   // Academy
   "academyTitle": "Yasemin Kahve Academy",
   "contentComingSoon": "Content coming soon...",
+  "noCoursesAvailable":"No Courses Available Yet",
 
   // Footer Additional
   "since1921": "Since 1921",

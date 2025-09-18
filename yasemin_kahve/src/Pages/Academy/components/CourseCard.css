@@ -272,45 +272,52 @@
 /* Mobile Responsive Design */
 @media (max-width: 768px) {
   .course-card {
-    min-height: auto !important;
+    min-height: 400px !important;
   }
 
   .course-image {
-    height: 140px !important;
+    height: 160px !important;
   }
 
   .course-info {
-    padding: 0.5rem !important;
+    padding: 1rem !important;
   }
 
   .course-title {
     font-size: 1.1rem !important;
-    margin-bottom: 0rem !important;
-    line-height: 1 !important;
+    margin-bottom: 0.1rem !important;
+    margin-top: 0.5rem !important;
+    line-height: 1.2 !important;
   }
 
 
 
 
+  .course-description {
+    margin-bottom: 1rem !important;
+    font-size: 0.85rem !important;
+    line-height: 1.4 !important;
+  }
+
   .course-meta {
-    margin-bottom: 0.5rem !important;
-    padding-bottom: 0.5rem !important;
-    gap: 0.3rem !important;
+    margin-bottom: 1rem !important;
+    padding-bottom: 0.75rem !important;
+    gap: 0.5rem !important;
   }
 
   .course-meta-item {
-    font-size: 0.75rem !important;
-    gap: 0.3rem !important;
+    font-size: 0.8rem !important;
+    gap: 0.4rem !important;
   }
 
   .course-meta-item svg {
-    width: 14px !important;
-    height: 14px !important;
+    width: 15px !important;
+    height: 15px !important;
   }
 
   .course-footer {
-    gap: 1.4rem !important;
-    margin-top: 0.4rem !important;
+    gap: 1rem !important;
+    margin-top: 1rem !important;
     flex-direction: column !important;
     align-items: center !important;
   }
@@ -324,9 +331,10 @@
   }
 
   .course-enroll-btn {
-    padding: 0.4rem 0.8rem !important;
-    font-size: 0.8rem !important;
+    padding: 0.6rem 1.2rem !important;
+    font-size: 0.85rem !important;
     min-width: fit-content !important;
+    margin-bottom: 0.75rem !important;
   }
 
   .course-level {
@@ -352,42 +360,54 @@
 }
 
 @media (max-width: 480px) {
+  .course-card {
+    min-height: 420px !important;
+  }
+
   .course-image {
-    height: 120px !important;
+    height: 150px !important;
   }
 
   .course-info {
-    padding: 0rem !important;
+    padding: 0.75rem !important;
   }
 
   .course-title {
     font-size: 1rem !important;
-    margin-bottom: 0.2rem !important;
+    margin-bottom: 0.05rem !important;
+    margin-top: 0.6rem !important;
   }
 
 
 
+  .course-description {
+    margin-bottom: 0.8rem !important;
+    font-size: 0.8rem !important;
+    line-height: 1.4 !important;
+  }
+
   .course-meta {
-    margin-bottom: 0.3rem !important;
-    padding-bottom: 0.3rem !important;
-    gap: 0.25rem !important;
-    border-bottom: none !important;
+    margin-bottom: 0.75rem !important;
+    padding-bottom: 0.5rem !important;
+    gap: 0.4rem !important;
+    border-bottom: 1px solid #F3F4F6 !important;
   }
 
   .course-meta-item {
-    font-size: 0.7rem !important;
-    gap: 0.25rem !important;
+    font-size: 0.75rem !important;
+    gap: 0.35rem !important;
   }
 
   .course-meta-item svg {
-    width: 12px !important;
-    height: 12px !important;
+    width: 13px !important;
+    height: 13px !important;
   }
 
   .course-footer {
     flex-direction: column !important;
-    gap: 0.2rem !important;
+    gap: 0.75rem !important;
     align-items: center !important;
+    margin-top: 1rem !important;
   }
 
   .price-current {
@@ -399,9 +419,10 @@
   }
 
   .course-enroll-btn {
-    padding: 0.5rem 0.8rem !important;
+    padding: 0.6rem 1rem !important;
     font-size: 0.8rem !important;
     min-width: fit-content !important;
+    margin-bottom: 1rem !important;
   }
 
   .course-enroll-btn svg {

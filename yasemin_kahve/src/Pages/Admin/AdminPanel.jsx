@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { useAuth } from '../../AuthContext';
 import { useTranslation } from '../../useTranslation';
-import { BarChart3, Coffee, Users, GraduationCap, Home, LogOut, User, ChevronLeft, ChevronRight } from 'lucide-react';
+import { BarChart3, Coffee, Users, GraduationCap, Home, LogOut, User, ChevronLeft, ChevronRight, Package } from 'lucide-react';
 import ProductManagement from './components/ProductManagement';
 import Dashboard from './components/Dashboard';
 import UserManagement from './components/UserManagement';
 import AcademyManagement from './components/AcademyManagement';
+import SampleOrderManagement from './components/SampleOrderManagement';
 import './AdminPanel.css';
 
 const AdminPanel = ({ onNavigate }) => {
@@ -44,6 +45,12 @@ const AdminPanel = ({ onNavigate }) => {
       description: t('productsDesc') || 'Manage coffee products'
     },
     {
+      id: 'sample-orders',
+      label: t('sampleOrders') || 'Sample Orders',
+      icon: Package,
+      description: t('sampleOrdersDesc') || 'Manage sample requests'
+    },
+    {
       id: 'users',
       label: t('users') || 'Users',
       icon: Users,
@@ -64,6 +71,8 @@ const AdminPanel = ({ onNavigate }) => {
         return <Dashboard />;
       case 'products':
         return <ProductManagement />;
+      case 'sample-orders':
+        return <SampleOrderManagement />;
       case 'users':
         return <UserManagement />;
       case 'academy':

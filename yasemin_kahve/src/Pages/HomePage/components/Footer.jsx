@@ -129,6 +129,17 @@ const Footer = () => {
 
         <div className="footer-bottom">
           <p>&copy; 2025 Yasemin Kahve. {t("allRightsReserved") || "All rights reserved"} </p>
+          <p>
+            {t("developedBy") || "Developed by"}{" "}
+            <a 
+              href="https://www.mexcode.net" 
+              target="_blank" 
+              rel="noopener noreferrer"
+              className="footer-company-link"
+            >
+              MexCode
+            </a>
+          </p>
         </div>
       </div>
     </footer>

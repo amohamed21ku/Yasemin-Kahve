@@ -24,7 +24,7 @@ const ProductForm = ({ product, categories = [], onSave, onCancel }) => {
     price: product?.price || '',
     currency: product?.currency || 'TRY',
     score: product?.score !== null && product?.score !== undefined ? product.score : 8.5,
-    image: product?.image || '',
+    images: product?.images || (product?.image ? [product.image] : []),
     isVisible: product?.isVisible !== false,
     // Additional product specifications
     region: product?.region || '',
@@ -33,6 +33,8 @@ const ProductForm = ({ product, categories = [], onSave, onCancel }) => {
     type: product?.type || '',
     altitude: product?.altitude || '',
     bagType: product?.bagType || '',
+    bagSize: product?.bagSize || '',
+    brewingMethods: product?.brewingMethods || [],
     tastingNotes: product?.tastingNotes || [],
     cupping: {
       aroma: product?.cupping?.aroma || 8.0,
@@ -42,9 +44,9 @@ const ProductForm = ({ product, categories = [], onSave, onCancel }) => {
       balance: product?.cupping?.balance || 8.0
     }
   });
-  
-  const [imageFile, setImageFile] = useState(null);
-  const [imagePreview, setImagePreview] = useState(product?.image || null);
+
+  const [imageFiles, setImageFiles] = useState([]);
+  const [imagePreviews, setImagePreviews] = useState(product?.images || (product?.image ? [product.image] : []));
   const [uploading, setUploading] = useState(false);
   const [errors, setErrors] = useState({});
   const [showNewCategoryForm, setShowNewCategoryForm] = useState(false);
@@ -90,41 +92,107 @@ const ProductForm = ({ product, categories = [], onSave, onCancel }) => {
   };
 
   const handleImageChange = (e) => {
-    const file = e.target.files[0];
-    if (file) {
+    const files = Array.from(e.target.files);
+    if (files.length === 0) return;
+
+    // Check if adding these files would exceed the limit (max 5 images)
+    if (imagePreviews.length + files.length > 5) {
+      setErrors(prev => ({
+        ...prev,
+        images: t('tooManyImages') || 'Maximum 5 images allowed'
+      }));
+      return;
+    }
+
+    const validFiles = [];
+    const newPreviews = [];
+
+    for (const file of files) {
       // Validate file size (max 5MB)
       if (file.size > 5 * 1024 * 1024) {
         setErrors(prev => ({
           ...prev,
-          image: t('imageTooLarge') || 'Image file is too large (max 5MB)'
+          images: t('imageTooLarge') || 'One or more image files are too large (max 5MB each)'
         }));
-        return;
+        continue;
       }
-      
+
       // Validate file type
       if (!file.type.startsWith('image/')) {
         setErrors(prev => ({
           ...prev,
-          image: t('invalidImageType') || 'Please select a valid image file'
+          images: t('invalidImageType') || 'Please select valid image files only'
         }));
-        return;
+        continue;
       }
-      
-      setImageFile(file);
-      
+
+      validFiles.push(file);
+
       // Create preview URL
       const reader = new FileReader();
       reader.onload = (e) => {
-        setImagePreview(e.target.result);
+        newPreviews.push(e.target.result);
+
+        // Update previews when all files are loaded
+        if (newPreviews.length === validFiles.length) {
+          setImagePreviews(prev => [...prev, ...newPreviews]);
+        }
       };
       reader.readAsDataURL(file);
-      
+    }
+
+    if (validFiles.length > 0) {
+      setImageFiles(prev => [...prev, ...validFiles]);
+
       // Clear any previous errors
       setErrors(prev => ({
         ...prev,
-        image: undefined
+        images: undefined
       }));
     }
+
+    // Reset the file input
+    e.target.value = '';
+  };
+
+  const removeImage = (index) => {
+    setImagePreviews(prev => prev.filter((_, i) => i !== index));
+    setImageFiles(prev => prev.filter((_, i) => i !== index));
+
+    // Update form data
+    setFormData(prev => ({
+      ...prev,
+      images: prev.images.filter((_, i) => i !== index)
+    }));
+  };
+
+  const moveImage = (fromIndex, toIndex) => {
+    const newPreviews = [...imagePreviews];
+    const newFiles = [...imageFiles];
+    const newFormImages = [...formData.images];
+
+    // Move preview
+    const [movedPreview] = newPreviews.splice(fromIndex, 1);
+    newPreviews.splice(toIndex, 0, movedPreview);
+
+    // Move file if it exists
+    if (newFiles[fromIndex]) {
+      const [movedFile] = newFiles.splice(fromIndex, 1);
+      newFiles.splice(toIndex, 0, movedFile);
+    }
+
+    // Move form data image
+    if (newFormImages[fromIndex]) {
+      const [movedFormImage] = newFormImages.splice(fromIndex, 1);
+      newFormImages.splice(toIndex, 0, movedFormImage);
+    }
+
+    setImagePreviews(newPreviews);
+    setImageFiles(newFiles);
+    setFormData(prev => ({
+      ...prev,
+      images: newFormImages
+    }));
   };
 
   const handleAddNewCategory = async () => {
@@ -198,9 +266,6 @@ const ProductForm = ({ product, categories = [], onSave, onCancel }) => {
       newErrors.categoryId = t('categoryRequired') || 'Category is required';
     }
     
-    if (!formData.price || isNaN(formData.price) || parseFloat(formData.price) <= 0) {
-      newErrors.price = t('priceRequired') || 'Valid price is required';
-    }
     
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
@@ -209,32 +274,37 @@ const ProductForm = ({ product, categories = [], onSave, onCancel }) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    
+
     if (!validateForm()) {
       return;
     }
-    
+
     setUploading(true);
-    
+
     try {
       const productData = {
         ...formData
       };
-      
+
       // If cupping scores are not enabled, remove cupping data or set to null
       if (!showCuppingScores) {
         productData.cupping = null;
       }
-      
+
       // If score is not enabled, set to null
       if (!showScore) {
         productData.score = null;
       }
-      
-      // Only pass imageFile if a new image was selected
+
+      // If price is empty, set to null or empty string
+      if (!formData.price || formData.price.trim() === '') {
+        productData.price = null;
+      }
+
+      // Pass imageFiles array if new images were selected
       // The service will handle image preservation automatically
-      const result = await onSave(productData, imageFile);
-      
+      const result = await onSave(productData, imageFiles);
+
       if (result.success) {
         // Form will be closed by parent component
       } else {
@@ -276,56 +346,85 @@ const ProductForm = ({ product, categories = [], onSave, onCancel }) => {
       <form onSubmit={handleSubmit} className="product-form">
         {/* Image Upload */}
         <div className="form-section">
-          <h3>{t('productImage') || 'Product Image'}</h3>
-          
+          <h3>{t('productImages') || 'Product Images'} <span className="optional-label">({t('max5Images') || 'Max 5 images'})</span></h3>
+
           <div className="image-upload-area">
             <input
               type="file"
               ref={fileInputRef}
               onChange={handleImageChange}
               accept="image/*"
+              multiple
               style={{ display: 'none' }}
             />
-            
-            {imagePreview ? (
-              <div className="image-preview">
-                <img src={imagePreview} alt="Product preview" />
-                <div className="image-overlay">
-                  <button
-                    type="button"
-                    className="change-image-btn"
-                    onClick={() => fileInputRef.current?.click()}
-                  >
-                    <Camera size={16} />
-                    {t('changeImage') || 'Change Image'}
-                  </button>
-                  <button
-                    type="button"
-                    className="remove-image-btn"
-                    onClick={() => {
-                      setImageFile(null);
-                      setImagePreview(null);
-                      setFormData(prev => ({ ...prev, image: '' }));
-                    }}
-                  >
-                    <X size={16} />
-                    {t('removeImage') || 'Remove'}
-                  </button>
-                </div>
+
+            {imagePreviews.length > 0 ? (
+              <div className="images-grid">
+                {imagePreviews.map((preview, index) => (
+                  <div key={index} className="image-preview-item">
+                    <img src={preview} alt={`Product preview ${index + 1}`} />
+                    <div className="image-overlay">
+                      <div className="image-controls">
+                        {index > 0 && (
+                          <button
+                            type="button"
+                            className="move-image-btn move-left"
+                            onClick={() => moveImage(index, index - 1)}
+                            title="Move left"
+                          >
+                            ←
+                          </button>
+                        )}
+                        {index < imagePreviews.length - 1 && (
+                          <button
+                            type="button"
+                            className="move-image-btn move-right"
+                            onClick={() => moveImage(index, index + 1)}
+                            title="Move right"
+                          >
+                            →
+                          </button>
+                        )}
+                        <button
+                          type="button"
+                          className="remove-image-btn"
+                          onClick={() => removeImage(index)}
+                          title="Remove image"
+                        >
+                          <X size={14} />
+                        </button>
+                      </div>
+                    </div>
+                    {index === 0 && (
+                      <div className="primary-badge">
+                        {t('primary') || 'Primary'}
+                      </div>
+                    )}
+                  </div>
+                ))}
+
+                {imagePreviews.length < 5 && (
+                  <div className="add-more-images" onClick={() => fileInputRef.current?.click()}>
+                    <div className="add-icon">
+                      <Plus size={24} />
+                    </div>
+                    <p>{t('addMoreImages') || 'Add More Images'}</p>
+                  </div>
+                )}
               </div>
             ) : (
               <div className="upload-placeholder" onClick={() => fileInputRef.current?.click()}>
                 <div className="upload-icon">
                   <Upload size={48} />
                 </div>
-                <p>{t('clickToUploadImage') || 'Click to upload product image'}</p>
-                <span>{t('supportedFormats') || 'JPG, PNG, GIF up to 5MB'}</span>
+                <p>{t('clickToUploadImages') || 'Click to upload product images'}</p>
+                <span>{t('supportedFormats') || 'JPG, PNG, GIF up to 5MB each, maximum 5 images'}</span>
               </div>
             )}
           </div>
-          
-          {errors.image && (
-            <span className="field-error">{errors.image}</span>
+
+          {errors.images && (
+            <span className="field-error">{errors.images}</span>
           )}
         </div>
 
@@ -667,21 +766,73 @@ const ProductForm = ({ product, categories = [], onSave, onCancel }) => {
                 <option value="Standard">Standard</option>
               </select>
             </div>
+
+            <div className="productform-form-group">
+              <label>{t('bagSize') || 'Bag Size (kg)'}</label>
+              <input
+                type="number"
+                step="0.1"
+                min="0"
+                value={formData.bagSize}
+                onChange={(e) => handleInputChange('bagSize', e.target.value)}
+                placeholder={t('bagSizePlaceholder') || 'e.g., 60, 30, 1'}
+              />
+            </div>
           </div>
         </div>
 
         {/* Tasting Notes */}
         <div className="form-section">
           <h3>{t('tastingNotes') || 'Tasting Notes'}</h3>
-          
+
           <div className="tasting-notes-input">
             <input
               type="text"
               value={formData.tastingNotes.join(', ')}
-              onChange={(e) => handleInputChange('tastingNotes', e.target.value.split(',').map(note => note.trim()).filter(note => note))}
+              onChange={(e) => {
+                const notes = e.target.value.split(',').map(note => note.trim()).filter(note => note);
+                handleInputChange('tastingNotes', notes);
+              }}
               placeholder={t('tastingNotesPlaceholder') || 'e.g., Chocolate, Citrus, Caramel, Nutty (separate with commas)'}
             />
-            <small>{t('tastingNotesHelp') || 'Separate multiple tasting notes with commas'}</small>
+            <small>{t('tastingNotesHelp') || 'Separate multiple tasting notes with commas. Spaces around commas are automatically handled.'}</small>
+          </div>
+        </div>
+
+        {/* Brewing Methods */}
+        <div className="form-section">
+          <h3>{t('brewingMethods') || 'Good for use in'}</h3>
+
+          <div className="brewing-methods-selection">
+            <div className="brewing-methods-grid">
+              {[
+                { value: 'espresso', label: t('espresso') || 'Espresso' },
+                { value: 'moka', label: t('moka') || 'Moka Pot' },
+                { value: 'cappuccino', label: t('cappuccino') || 'Cappuccino' },
+                { value: 'french-press', label: t('frenchPress') || 'French Press' },
+                { value: 'pour-over', label: t('pourOver') || 'Pour Over' },
+                { value: 'drip', label: t('drip') || 'Drip Coffee' },
+                { value: 'cold-brew', label: t('coldBrew') || 'Cold Brew' },
+                { value: 'turkish', label: t('turkish') || 'Turkish Coffee' }
+              ].map(method => (
+                <label key={method.value} className="brewing-method-checkbox">
+                  <input
+                    type="checkbox"
+                    checked={formData.brewingMethods.includes(method.value)}
+                    onChange={(e) => {
+                      if (e.target.checked) {
+                        handleInputChange('brewingMethods', [...formData.brewingMethods, method.value]);
+                      } else {
+                        handleInputChange('brewingMethods', formData.brewingMethods.filter(m => m !== method.value));
+                      }
+                    }}
+                  />
+                  <span className="checkbox-custom"></span>
+                  <span className="method-label">{method.label}</span>
+                </label>
+              ))}
+            </div>
+            <small>{t('brewingMethodsHelp') || 'Select all brewing methods that work well with this coffee.'}</small>
           </div>
         </div>
 
@@ -709,7 +860,7 @@ const ProductForm = ({ product, categories = [], onSave, onCancel }) => {
                 <label>{t('aroma') || 'Aroma'}</label>
                 <input
                   type="number"
-                  step="0.1"
+                  step="0.01"
                   min="0"
                   max="10"
                   value={formData.cupping.aroma}
@@ -721,7 +872,7 @@ const ProductForm = ({ product, categories = [], onSave, onCancel }) => {
                 <label>{t('flavor') || 'Flavor'}</label>
                 <input
                   type="number"
-                  step="0.1"
+                  step="0.01"
                   min="0"
                   max="10"
                   value={formData.cupping.flavor}
@@ -733,7 +884,7 @@ const ProductForm = ({ product, categories = [], onSave, onCancel }) => {
                 <label>{t('acidity') || 'Acidity'}</label>
                 <input
                   type="number"
-                  step="0.1"
+                  step="0.01"
                   min="0"
                   max="10"
                   value={formData.cupping.acidity}
@@ -745,7 +896,7 @@ const ProductForm = ({ product, categories = [], onSave, onCancel }) => {
                 <label>{t('body') || 'Body'}</label>
                 <input
                   type="number"
-                  step="0.1"
+                  step="0.01"
                   min="0"
                   max="10"
                   value={formData.cupping.body}
@@ -757,7 +908,7 @@ const ProductForm = ({ product, categories = [], onSave, onCancel }) => {
                 <label>{t('balance') || 'Balance'}</label>
                 <input
                   type="number"
-                  step="0.1"
+                  step="0.01"
                   min="0"
                   max="10"
                   value={formData.cupping.balance}

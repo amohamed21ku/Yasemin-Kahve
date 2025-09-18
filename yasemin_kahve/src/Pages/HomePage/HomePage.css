@@ -1132,6 +1132,10 @@ nav.header .mobile-menu-btn {
 
 /* Mobile optimizations for CompanyOverview */
 @media (max-width: 768px) {
+  .company-overview .container {
+    padding: 0 1.5rem !important;
+  }
+  
   .section-home-title {
     font-size: 1.4rem;
   }
@@ -3884,9 +3888,9 @@ nav.header .mobile-menu-btn {
 
 .fix-header-content {
   display: grid;
-  grid-template-columns: auto 1fr auto auto;
+  grid-template-columns: auto 1fr auto auto auto;
   align-items: center;
-  gap: 1rem;
+  gap: 0.5rem;
   height: 4.5rem;
   position: relative;
   padding: 0 1rem;
@@ -3894,10 +3898,10 @@ nav.header .mobile-menu-btn {
 
 @media (min-width: 768px) {
   .fix-header-content {
-    grid-template-columns: auto 1fr auto;
+    grid-template-columns: auto 1fr auto auto;
     padding: 0 1.5rem;
     height: 5rem;
-    gap: 3rem;
+    gap: 2rem;
   }
 }
 
@@ -4014,6 +4018,7 @@ nav.fix-header .fix-mobile-menu-btn {
   color: rgba(255, 255, 255, 0.9) !important;
   justify-self: end !important;
   min-width: 44px !important;
+  order: 5;
   min-height: 44px !important;
   display: flex !important;
   align-items: center !important;
@@ -4043,8 +4048,10 @@ nav.fix-header .fix-mobile-menu-btn {
 /* Mobile actions are now separated into individual grid items */
 
 .fix-mobile-header-language-switcher {
-  display: block;
+  display: flex;
+  align-items: center;
   justify-self: end;
+  order: 4;
 }
 
 .fix-mobile-header-language-switcher .language-switcher {
@@ -4444,4 +4451,83 @@ nav.fix-header:not(.scrolled) .fix-mobile-menu-btn {
 
 nav.fix-header.scrolled .fix-mobile-menu-btn {
   color: #3E2723 !important;
+}
+
+/* Sample Cart Button Styles */
+.fix-sample-cart-section {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  order: 3;
+}
+
+.fix-sample-cart-btn {
+  position: relative;
+  background: linear-gradient(135deg, #28a745, #20c997);
+  border: none;
+  color: white;
+  padding: 0.75rem;
+  border-radius: 50%;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  box-shadow: 0 2px 8px rgba(40, 167, 69, 0.2);
+}
+
+.fix-sample-cart-btn:hover {
+  background: linear-gradient(135deg, #218838, #1bb88a);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(40, 167, 69, 0.3);
+}
+
+.fix-cart-badge {
+  position: absolute;
+  top: -5px;
+  right: -5px;
+  background: #ff4757;
+  color: white;
+  border-radius: 50%;
+  width: 20px;
+  height: 20px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 2px solid white;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .fix-sample-cart-section {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    order: 3;
+  }
+
+  .fix-sample-cart-btn {
+    padding: 0.6rem;
+  }
+}
+
+/* Footer Company Link Styling */
+.footer-company-link {
+  color: #D2691E !important;
+  text-decoration: none !important;
+  font-weight: 600 !important;
+  transition: all 0.3s ease !important;
+  border-bottom: 1px solid transparent !important;
+}
+
+.footer-company-link:hover {
+  color: #FFB74D !important;
+  text-decoration: none !important;
+  border-bottom: 1px solid #FFB74D !important;
+  transform: translateY(-1px) !important;
 }

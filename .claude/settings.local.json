@@ -93,7 +93,9 @@
       "Bash(del \"C:\\Users\\bodys\\Desktop\\Work\\Yasemin Kahve\\yasemin_kahve\\src\\Pages\\Admin\\components\\DataMigration.jsx\")",
       "Bash(git checkout:*)",
       "Read(//c/Users/bodys/Desktop/Work/**)",
-      "Bash(del \"C:\\Users\\bodys\\Desktop\\Work\\Yasemin-Kahve\\yasemin_kahve\\fix-header-styles.css\")"
+      "Bash(del \"C:\\Users\\bodys\\Desktop\\Work\\Yasemin-Kahve\\yasemin_kahve\\fix-header-styles.css\")",
+      "Bash(git restore:*)",
+      "Bash(start http://localhost:5175)"
     ],
     "deny": [],
     "ask": []

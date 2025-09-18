@@ -419,7 +419,7 @@ const SwipeStackCards = () => {
 
   if (!imagesLoaded) {
     return (
-      <div className="relative h-[400px] md:h-[500px] w-full flex items-center justify-center overflow-hidden">
+      <div className="relative h-[500px] md:h-[500px] w-full flex items-center justify-center overflow-hidden">
         <div className="absolute top-0 left-0 h-64 w-48 md:h-96 md:w-72 bg-gradient-to-br from-amber-50 to-amber-100 rounded-lg flex items-center justify-center border border-amber-200 shadow-lg">
           <div className="flex flex-col items-center space-y-3">
             <div className="w-8 h-8 border-3 border-amber-600 border-t-transparent rounded-full animate-spin"></div>
@@ -431,7 +431,7 @@ const SwipeStackCards = () => {
   }
 
   return (
-    <div className="relative h-[400px] md:h-[500px] w-full flex flex-col items-center justify-center overflow-hidden px-4 md:px-0">
+    <div className="relative h-[500px] md:h-[500px] w-full flex flex-col items-center justify-center overflow-hidden px-4 md:px-0">
       <Deck
         cards={cards}
         onCardout={handleCardOut}
