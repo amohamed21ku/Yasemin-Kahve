@@ -4,6 +4,7 @@ import { sampleOrderService } from '../../../services/sampleOrderService';
 import { useTranslation } from '../../../useTranslation';
 import './SampleOrderManagement.css';
 
+
 const SampleOrderManagement = () => {
   const { t } = useTranslation();
   const [sampleOrders, setSampleOrders] = useState([]);
@@ -271,6 +272,7 @@ const SampleOrderManagement = () => {
               <div className="detail-section">
                 <h4>Customer Information</h4>
                 <p><strong>Email:</strong> {selectedOrder.userEmail}</p>
+                <p><strong>Phone:</strong> {selectedOrder.orderDetails?.phone || 'Not provided'}</p>
                 <p><strong>Company:</strong> {selectedOrder.orderDetails?.companyName || 'Not provided'}</p>
                 <p><strong>Order Date:</strong> {formatDate(selectedOrder.createdAt)}</p>
                 <p><strong>Status:</strong> {selectedOrder.status}</p>

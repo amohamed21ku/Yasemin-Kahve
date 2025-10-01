@@ -111,6 +111,7 @@ const SampleCart = ({ isOpen, onClose, onNavigate }) => {
         samples: sampleItems,
         orderDetails: {
           companyName: orderData.companyName,
+          phone: orderData.phoneNumber,
           shippingAddress: orderData.shippingAddress,
           optionalMessage: orderData.optionalMessage
         },

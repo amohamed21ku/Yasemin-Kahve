@@ -98,7 +98,12 @@
       "Bash(start http://localhost:5175)",
       "Bash(del srcfirebaseTest.js)",
       "Bash(del \"C:\\Users\\bodys\\Desktop\\Work\\Yasemin-Kahve\\yasemin_kahve\\src\\Pages\\Admin\\components\\Dashboard.jsx\")",
-      "Bash(del \"C:\\Users\\bodys\\Desktop\\Work\\Yasemin-Kahve\\yasemin_kahve\\src\\Pages\\Products\\components\\CategoryTabs.jsx\")"
+      "Bash(del \"C:\\Users\\bodys\\Desktop\\Work\\Yasemin-Kahve\\yasemin_kahve\\src\\Pages\\Products\\components\\CategoryTabs.jsx\")",
+      "Bash(firebase --version)",
+      "Bash(firebase deploy:*)",
+      "Bash(firebase functions:delete:*)",
+      "Bash(firebase functions:artifacts:setpolicy:*)",
+      "Bash(gcloud app create:*)"
     ],
     "deny": [],
     "ask": []
