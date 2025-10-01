@@ -275,12 +275,12 @@
   box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12);
 }
 
-.product-Admin-card.hidden {
+.product-Admin-card.product-hidden {
   opacity: 0.6;
   border: 2px dashed #e2e8f0;
 }
 
-.product-Admin-card.hidden::after {
+.product-Admin-card.product-hidden::after {
   content: 'HIDDEN';
   position: absolute;
   top: 1rem;
@@ -492,12 +492,12 @@
   border-color: #16a34a;
 }
 
-.visibility-btn.hidden {
+.visibility-btn.product-hidden {
   color: #dc2626;
   border-color: rgba(239, 68, 68, 0.3);
 }
 
-.visibility-btn.hidden:hover {
+.visibility-btn.product-hidden:hover {
   background: #fef2f2;
   border-color: #dc2626;
 }

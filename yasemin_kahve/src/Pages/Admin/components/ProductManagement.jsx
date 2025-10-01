@@ -20,6 +20,7 @@ const ProductManagement = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedCategory, setSelectedCategory] = useState('all');
   const [selectedProductType, setSelectedProductType] = useState('all');
+  const [visibilityFilter, setVisibilityFilter] = useState('all');
   const { t } = useTranslation();
 
   useEffect(() => {
@@ -200,7 +201,11 @@ const ProductManagement = () => {
     const matchesProductType = selectedProductType === 'all' ||
       (product.productType || PRODUCT_TYPES.COFFEE) === selectedProductType;
 
-    return matchesSearch && matchesCategory && matchesProductType;
+    const matchesVisibility = visibilityFilter === 'all' ||
+      (visibilityFilter === 'visible' && product.isVisible !== false) ||
+      (visibilityFilter === 'hidden' && product.isVisible === false);
+
+    return matchesSearch && matchesCategory && matchesProductType && matchesVisibility;
   });
 
   if (loading) {
@@ -347,6 +352,16 @@ const ProductManagement = () => {
               <option value={PRODUCT_TYPES.MACHINE}>{t('coffeeMachines') || 'Coffee Machines'}</option>
               <option value={PRODUCT_TYPES.CARDAMOM}>{t('cardamom') || 'Cardamom'}</option>
             </select>
+
+            <select
+              value={visibilityFilter}
+              onChange={(e) => setVisibilityFilter(e.target.value)}
+              className="visibility-filter"
+            >
+              <option value="all">{t('allProducts') || 'All Products'}</option>
+              <option value="visible">{t('visibleOnly') || 'Visible Only'}</option>
+              <option value="hidden">{t('hiddenOnly') || 'Hidden Only'}</option>
+            </select>
           </div>
 
           {filteredProducts.length === 0 ? (
@@ -378,7 +393,7 @@ const ProductManagement = () => {
           ) : (
             <div className="products-Admin-grid">
               {filteredProducts.map((product) => (
-                <div key={product.id} className={`product-Admin-card ${product.isVisible === false ? 'hidden' : ''}`}>
+                <div key={product.id} className={`product-Admin-card ${product.isVisible === false ? 'product-hidden' : ''}`}>
                   <div className="admin-product-image">
                     {(product.images && product.images.length > 0) || product.image ? (
                       <img src={product.images && product.images.length > 0 ? product.images[0] : product.image} alt={product.name?.en || product.name?.tr} />
@@ -432,7 +447,7 @@ const ProductManagement = () => {
                     
                     <div className="product-admin-actions">
                       <button
-                        className={`visibility-btn ${product.isVisible !== false ? 'visible' : 'hidden'}`}
+                        className={`visibility-btn ${product.isVisible !== false ? 'visible' : 'product-hidden'}`}
                         onClick={() => handleToggleVisibility(product.id, product.isVisible !== false)}
                         title={product.isVisible !== false ? (t('hideProduct') || 'Hide Product') : (t('showProduct') || 'Show Product')}
                       >

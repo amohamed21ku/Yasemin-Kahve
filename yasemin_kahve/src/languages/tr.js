@@ -132,7 +132,6 @@ export const tr = {
 "firstName": "Ad",
 "lastName": "Soyad",
 "emailAddress": "E-posta Adresi",
-"phoneNumber": "Telefon Numarası",
 "company": "Şirket (Opsiyonel)",
 "selectInquiryType": "Soru Türünü Seçin",
 "wholesale": "Toptan Satış Ortaklığı",
@@ -140,7 +139,6 @@ export const tr = {
 "productInfo": "Ürün Bilgisi",
 "qualityQuestions": "Kalite Soruları",
 "other": "Diğer",
-"yourMessage": "Mesajınız",
 "emailUs": "Bize E-posta Gönderin",
 "callUs": "Bizi Arayın",
   
@@ -240,8 +238,6 @@ export const tr = {
 "categoryNameTr": "Kategori Adı (Türkçe)",
 "categoryDescEn": "Açıklama (İngilizce)",
 "categoryDescTr": "Açıklama (Türkçe)",
-"cancel": "İptal",
-"saving": "Kaydediliyor...",
 "updateCategory": "Kategoriyi Güncelle",
 "addCategory": "Kategori Ekle",
 "noCategoriesYet": "Henüz kategori yok",
@@ -279,7 +275,7 @@ export const tr = {
 
 "noProductsYet": "Henüz ürün yok",
 "tryDifferentSearch": "Aramanızı veya filtrelerinizi değiştirerek tekrar deneyin",
-"addFirstProduct": "Başlamak için ilk ürününüzü ekleyin",
+"addFirstProduct": "Başlamak için ilk ürününüzü ekleyi n",
 "addFirstProduct2": "İlk Ürünü Ekle",
 "editProduct": "Ürünü Düzenle",
 "deleteProduct": "Ürünü Sil",
@@ -609,7 +605,6 @@ export const tr = {
   "createInstructor": "Eğitmen Oluştur",
   
   // Enrollment Modal
-  "personalInformation": "Kişisel Bilgiler",
   "firstNamePlaceholder": "Adınızı girin",
   "lastNamePlaceholder": "Soyadınızı girin",
   "phoneNumberRequired": "Telefon numarası gerekli",
@@ -640,7 +635,6 @@ export const tr = {
   coffee: "Kahve",
   coffeeMachines: "Kahve Makineleri",
   machine: "Makine",
-  cardamom: "Kakule",
   productType: "Ürün Türü",
   productTypeHelp: "Ekleyeceğiniz ürünün türünü seçin",
 
@@ -650,7 +644,6 @@ export const tr = {
   tastingNotesHelp: "Birden fazla tat notunu virgülle ayırın. Virgül çevresindeki boşluklar otomatik olarak işlenir.",
   brewingMethods: "Kullanım Alanları",
   brewingMethodsHelp: "Bu kahveyle iyi çalışan tüm demleme yöntemlerini seçin.",
-  includeCuppingScores: "Bu ürün için cupping puanlarını dahil et",
   cuppingToggleHelp: "Bu ürünün cupping puanları varsa bu seçeneği işaretleyin. Kakule, aksesuar veya kahve olmayan ürünlerin cupping puanlarına ihtiyacı olmayabilir.",
   cuppingScoresHelp: "Cupping puanları 0 ile 10 arasında değerlendirilir. Yalnızca cupping yapılmış kahveler için etkinleştirin.",
 
