@@ -103,7 +103,12 @@
       "Bash(firebase deploy:*)",
       "Bash(firebase functions:delete:*)",
       "Bash(firebase functions:artifacts:setpolicy:*)",
-      "Bash(gcloud app create:*)"
+      "Bash(gcloud app create:*)",
+      "Bash(firebase login:*)",
+      "Bash(firebase init:*)",
+      "Bash(printf \"Y\\n\\n\")",
+      "Bash(firebase apps:sdkconfig:*)",
+      "Bash(gcloud projects get-iam-policy:*)"
     ],
     "deny": [],
     "ask": []

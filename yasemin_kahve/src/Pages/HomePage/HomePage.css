@@ -3772,6 +3772,25 @@ nav.header .mobile-menu-btn {
   color: #8B4513;
 }
 
+/* Ensure dark-content nav-links stay dark even when not scrolled - higher specificity */
+nav.fix-header.dark-content .fix-nav-link,
+nav.fix-header.dark-content:not(.scrolled) .fix-nav-link,
+nav.fix-header.dark-content:not(.scrolled) a.fix-nav-link {
+  color: #5D4037 !important;
+}
+
+nav.fix-header.dark-content .fix-nav-link:hover,
+nav.fix-header.dark-content:not(.scrolled) .fix-nav-link:hover,
+nav.fix-header.dark-content:not(.scrolled) a.fix-nav-link:hover {
+  color: #8B4513 !important;
+}
+
+nav.fix-header.dark-content .fix-nav-link.active,
+nav.fix-header.dark-content:not(.scrolled) .fix-nav-link.active,
+nav.fix-header.dark-content:not(.scrolled) a.fix-nav-link.active {
+  color: #8B4513 !important;
+}
+
 .fix-header.dark-content .fix-mobile-menu-btn {
   color: #3E2723;
 }
