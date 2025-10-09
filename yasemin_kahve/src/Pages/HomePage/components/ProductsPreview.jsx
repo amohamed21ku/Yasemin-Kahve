@@ -1,14 +1,14 @@
 import React, { useState, useEffect } from "react";
 import { Coffee, Star, ChevronLeft, ChevronRight } from "lucide-react";
 import { useTranslation } from "/src/useTranslation";
-import { productService, categoryService } from "../../../services/productService";
+import { productService, categoryService, PRODUCT_TYPES } from "../../../services/productService";
 import { getCountryFlagCode } from "../../../utils/countryFlags";
 import ProductFilterTabs from "../../Products/components/ProductFilterTabs";
 const ProductsPreview = ({ onNavigate }) => {
   const { t, language } = useTranslation();
   const [currentPage, setCurrentPage] = useState(0);
   const [selectedCategory, setSelectedCategory] = useState('All');
-  const [selectedProductType, setSelectedProductType] = useState('All');
+  const [selectedProductType, setSelectedProductType] = useState(PRODUCT_TYPES.WHOLESALE);
   const [products, setProducts] = useState([]);
   const [categories, setCategories] = useState([]);
   const [loading, setLoading] = useState(true);

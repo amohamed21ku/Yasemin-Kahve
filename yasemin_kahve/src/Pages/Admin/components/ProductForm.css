@@ -1,5 +1,111 @@
 /* ProductForm.css - Product form component styles */
 
+/* Coffee Type Selection (Retail/Wholesale) Radio Cards */
+.coffee-type-selection {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1rem;
+  margin-bottom: 0.5rem;
+}
+
+.radio-card {
+  position: relative;
+  display: block;
+  cursor: pointer;
+}
+
+.radio-card input[type="radio"] {
+  position: absolute;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.radio-card-content {
+  background: white;
+  border: 2px solid #e8e8e8;
+  border-radius: 10px;
+  padding: 1.25rem;
+  transition: all 0.3s ease;
+}
+
+.radio-card input[type="radio"]:checked + .radio-card-content {
+  border-color: #e6b555;
+  background: #fefcf8;
+  box-shadow: 0 2px 12px rgba(230, 181, 85, 0.15);
+}
+
+.radio-card:hover .radio-card-content {
+  border-color: #e6b555;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 15px rgba(230, 181, 85, 0.1);
+}
+
+.radio-card-header {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-bottom: 0.5rem;
+}
+
+.radio-card-header strong {
+  font-size: 1rem;
+  color: #3c2e26;
+  font-weight: 600;
+}
+
+.radio-custom {
+  width: 20px;
+  height: 20px;
+  border: 2px solid #d0d0d0;
+  border-radius: 50%;
+  position: relative;
+  transition: all 0.3s ease;
+  flex-shrink: 0;
+}
+
+.radio-card input[type="radio"]:checked + .radio-card-content .radio-custom {
+  border-color: #e6b555;
+}
+
+.radio-card input[type="radio"]:checked + .radio-card-content .radio-custom::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 10px;
+  height: 10px;
+  background: #e6b555;
+  border-radius: 50%;
+}
+
+.radio-card-description {
+  font-size: 0.85rem;
+  color: #666;
+  line-height: 1.4;
+  margin: 0;
+  padding-left: 1.95rem;
+}
+
+@media (max-width: 768px) {
+  .coffee-type-selection {
+    grid-template-columns: 1fr;
+    gap: 0.75rem;
+  }
+
+  .radio-card-content {
+    padding: 1rem;
+  }
+
+  .radio-card-header strong {
+    font-size: 0.9rem;
+  }
+
+  .radio-card-description {
+    font-size: 0.8rem;
+  }
+}
+
 /* Product Type Selector Styles */
 .product-type-selector-container {
   position: fixed;

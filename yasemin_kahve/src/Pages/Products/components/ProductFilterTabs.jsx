@@ -32,8 +32,14 @@ const ProductFilterTabs = ({
     }))
   ];
 
-  // Product types with icons - Professional design
+  // Product types with icons - Professional design (Wholesale first)
   const productTypesToShow = [
+    {
+      key: PRODUCT_TYPES.WHOLESALE,
+      label: t('wholesaleGreenCoffee') || 'Wholesale',
+      icon: <Leaf size={18} />,
+      description: t('wholesaleGreenCoffeeDesc') || 'Green Coffee Beans - Bulk'
+    },
     {
       key: PRODUCT_TYPES.COFFEE,
       label: t('retailGreenCoffee') || 'Retail',
@@ -42,12 +48,6 @@ const ProductFilterTabs = ({
     },
     {
       key: PRODUCT_TYPES.MACHINE,
-      label: t('wholesaleGreenCoffee') || 'Wholesale',
-      icon: <Leaf size={18} />,
-      description: t('wholesaleGreenCoffeeDesc') || 'Green Coffee Beans - Bulk'
-    },
-    {
-      key: 'machines',
       label: t('coffeeMachines') || 'Coffee Machines',
       icon: <Coffee size={18} />,
       description: t('coffeeMachinesDesc') || 'Professional Equipment'

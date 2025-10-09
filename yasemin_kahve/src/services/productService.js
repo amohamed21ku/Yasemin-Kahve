@@ -20,6 +20,7 @@ const CATEGORIES_COLLECTION = 'categories';
 // Product types enum
 const PRODUCT_TYPES = {
   COFFEE: 'coffee',
+  WHOLESALE: 'wholesale',
   MACHINE: 'machine',
   CARDAMOM: 'cardamom'
 };

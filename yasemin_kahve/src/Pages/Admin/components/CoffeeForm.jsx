@@ -19,7 +19,7 @@ const CoffeeForm = ({ product, categories = [], onSave, onCancel }) => {
       tr: product?.description?.tr || ''
     },
     categoryId: product?.categoryId || (categories[0]?.id || ''),
-    productType: PRODUCT_TYPES.COFFEE,
+    productType: product?.productType || PRODUCT_TYPES.COFFEE,
     origin: product?.origin || '',
     badge: product?.badge || '',
     price: product?.price || '',
@@ -433,6 +433,52 @@ const CoffeeForm = ({ product, categories = [], onSave, onCancel }) => {
           {errors.name && (
             <span className="field-error">{errors.name}</span>
           )}
+        </div>
+
+        {/* Coffee Type Selection (Retail/Wholesale) */}
+        <div className="form-section">
+          <h3>{t('coffeeBusinessType') || 'Coffee Business Type'}</h3>
+
+          <div className="coffee-type-selection">
+            <label className="radio-card">
+              <input
+                type="radio"
+                name="productType"
+                value={PRODUCT_TYPES.COFFEE}
+                checked={formData.productType === PRODUCT_TYPES.COFFEE}
+                onChange={(e) => handleInputChange('productType', e.target.value)}
+              />
+              <div className="radio-card-content">
+                <div className="radio-card-header">
+                  <span className="radio-custom"></span>
+                  <strong>{t('retail') || 'Retail'}</strong>
+                </div>
+                <p className="radio-card-description">
+                  {t('retailDescription') || 'Green coffee beans for retail customers'}
+                </p>
+              </div>
+            </label>
+
+            <label className="radio-card">
+              <input
+                type="radio"
+                name="productType"
+                value={PRODUCT_TYPES.WHOLESALE}
+                checked={formData.productType === PRODUCT_TYPES.WHOLESALE}
+                onChange={(e) => handleInputChange('productType', e.target.value)}
+              />
+              <div className="radio-card-content">
+                <div className="radio-card-header">
+                  <span className="radio-custom"></span>
+                  <strong>{t('wholesale') || 'Wholesale'}</strong>
+                </div>
+                <p className="radio-card-description">
+                  {t('wholesaleDescription') || 'Green coffee beans in bulk for wholesale'}
+                </p>
+              </div>
+            </label>
+          </div>
+          <small>{t('coffeeTypeHelp') || 'Select whether this product is for retail or wholesale customers'}</small>
         </div>
 
         {/* Category & Origin */}

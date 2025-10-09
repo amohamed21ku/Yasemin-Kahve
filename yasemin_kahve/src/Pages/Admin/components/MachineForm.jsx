@@ -19,7 +19,7 @@ const MachineForm = ({ product, categories = [], onSave, onCancel }) => {
       tr: product?.description?.tr || ''
     },
     categoryId: product?.categoryId || (categories[0]?.id || ''),
-    productType: PRODUCT_TYPES.MACHINE,
+    productType: 'equipment', // Use 'equipment' for actual coffee machines
     origin: product?.origin || '',
     badge: product?.badge || '',
     price: product?.price || '',

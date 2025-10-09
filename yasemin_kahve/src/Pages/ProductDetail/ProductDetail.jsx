@@ -365,8 +365,8 @@ const ProductDetail = ({ onNavigate, product, previousPage }) => {
               <div className="product-specifications">
                 <h3>{t('productSpecifications') || 'Product Specifications'}</h3>
                 <div className="specs-grid specs-grid-2x3">
-                  {/* Coffee product specifications */}
-                  {(!displayProduct.productType || displayProduct.productType === PRODUCT_TYPES.COFFEE) && (
+                  {/* Coffee product specifications - for both retail and wholesale coffee */}
+                  {(!displayProduct.productType || displayProduct.productType === PRODUCT_TYPES.COFFEE || displayProduct.productType === PRODUCT_TYPES.WHOLESALE) && (
                     <>
                       {displayProduct.region && (
                         <div className="spec-item">
@@ -726,8 +726,8 @@ const ProductDetail = ({ onNavigate, product, previousPage }) => {
                   </div>
                 )}
                 <div className="action-buttons">
-                  {/* Only show free sample button if product is NOT a coffee machine */}
-                  {displayProduct.productType !== PRODUCT_TYPES.MACHINE && (
+                  {/* Show free sample button for coffee products (both retail and wholesale), but not for machines or cardamom */}
+                  {(displayProduct.productType === PRODUCT_TYPES.COFFEE || displayProduct.productType === PRODUCT_TYPES.WHOLESALE) && (
                     <button
                       className="sample-button"
                       onClick={addToSampleCart}

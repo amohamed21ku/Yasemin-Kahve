@@ -178,10 +178,14 @@ const ProductManagement = () => {
       onCancel: handleFormCancel
     };
 
+    // Both COFFEE (retail) and WHOLESALE types use CoffeeForm
+    // MACHINE is for actual coffee machines/equipment
     switch (selectedFormProductType) {
       case PRODUCT_TYPES.COFFEE:
+      case PRODUCT_TYPES.WHOLESALE:
         return <CoffeeForm {...formProps} />;
       case PRODUCT_TYPES.MACHINE:
+      case 'equipment':
         return <MachineForm {...formProps} />;
       case PRODUCT_TYPES.CARDAMOM:
         return <CardamomForm {...formProps} />;
@@ -247,13 +251,13 @@ const ProductManagement = () => {
                 onClick={() => handleProductTypeSelected(PRODUCT_TYPES.COFFEE)}
               >
                 <div className="option-icon">☕</div>
-                <h3>{t('coffee') || 'Coffee'}</h3>
-                <p>{t('coffeeDescription') || 'Green coffee beans from around the world'}</p>
+                <h3>{t('coffee') || 'Green Coffee'}</h3>
+                <p>{t('coffeeDescription') || 'Green coffee beans - retail or wholesale'}</p>
               </div>
 
               <div
                 className="product-type-option"
-                onClick={() => handleProductTypeSelected(PRODUCT_TYPES.MACHINE)}
+                onClick={() => handleProductTypeSelected('equipment')}
               >
                 <div className="option-icon">⚙️</div>
                 <h3>{t('coffeeMachines') || 'Coffee Machines'}</h3>
@@ -348,7 +352,8 @@ const ProductManagement = () => {
               className="product-type-filter"
             >
               <option value="all">{t('allProductTypes') || 'All Product Types'}</option>
-              <option value={PRODUCT_TYPES.COFFEE}>{t('coffee') || 'Coffee'}</option>
+              <option value={PRODUCT_TYPES.COFFEE}>{t('retailCoffee') || 'Retail Coffee'}</option>
+              <option value={PRODUCT_TYPES.WHOLESALE}>{t('wholesaleCoffee') || 'Wholesale Coffee'}</option>
               <option value={PRODUCT_TYPES.MACHINE}>{t('coffeeMachines') || 'Coffee Machines'}</option>
               <option value={PRODUCT_TYPES.CARDAMOM}>{t('cardamom') || 'Cardamom'}</option>
             </select>
@@ -432,10 +437,12 @@ const ProductManagement = () => {
                            product.categoryId}
                         </span>
                         <span className={`product-type-badge ${product.productType || PRODUCT_TYPES.COFFEE}`}>
-                          {product.productType === PRODUCT_TYPES.COFFEE && (t('coffee') || 'Coffee')}
+                          {product.productType === PRODUCT_TYPES.COFFEE && (t('retail') || 'Retail')}
+                          {product.productType === PRODUCT_TYPES.WHOLESALE && (t('wholesale') || 'Wholesale')}
                           {product.productType === PRODUCT_TYPES.MACHINE && (t('machine') || 'Machine')}
+                          {product.productType === 'equipment' && (t('machine') || 'Machine')}
                           {product.productType === PRODUCT_TYPES.CARDAMOM && (t('cardamom') || 'Cardamom')}
-                          {!product.productType && (t('coffee') || 'Coffee')}
+                          {!product.productType && (t('retail') || 'Retail')}
                         </span>
                       </div>
                     </div>

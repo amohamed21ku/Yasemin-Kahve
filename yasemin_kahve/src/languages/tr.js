@@ -690,4 +690,15 @@ export const tr = {
   cardamomDescription: "Premium kalite kakule ve baharatlar",
 
   // General
+
+
+
+  // ProductsFilter 
+wholesaleGreenCoffee: "Toptan",
+wholesaleGreenCoffeeDesc: "Yeşil Kahve",
+retailGreenCoffee: "Perakende",
+retailGreenCoffeeDesc: "Yeşil Kahve",
+coffeeMachinesDesc: "Eversys Kahve Makineleri",
+spicesProducts: "Premium Baharatlar",
+
 };

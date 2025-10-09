@@ -709,4 +709,16 @@ export const en = {
   cardamomDescription: "Premium quality cardamom and spices",
 
   // General
+
+
+
+  // ProductsFilter
+  wholesaleGreenCoffee:"WholeSale",
+  wholesaleGreenCoffeeDesc:"Green Coffee",
+  retailGreenCoffee:"Retail",
+  retailGreenCoffeeDesc:"Green Coffee",
+  coffeeMachinesDesc:"Eversys Coffee Machines",
+  spicesProducts:"Premium Spices",
+
+
 };

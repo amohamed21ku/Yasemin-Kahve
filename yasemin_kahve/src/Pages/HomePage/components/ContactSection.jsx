@@ -1,16 +1,66 @@
 // ContactSection.jsx with translations
-import React from "react";
+import React, { useState } from "react";
 import { Phone, Mail, Clock, Send } from "lucide-react";
 import { useTranslation } from "/src/useTranslation";
+import { contactService } from "/src/services/contactService";
 
 const ContactSection = () => {
   const { t } = useTranslation();
+  const [formData, setFormData] = useState({
+    firstName: '',
+    lastName: '',
+    email: '',
+    phone: '',
+    company: '',
+    inquiryType: '',
+    message: ''
+  });
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitStatus, setSubmitStatus] = useState(null); // 'success' or 'error'
 
   const handleWhatsAppClick = () => {
     const phoneNumber = '+905395004444';
     const message = encodeURIComponent('Hello! I would like to get information about your coffee products.');
     const whatsappUrl = `https://wa.me/${phoneNumber}?text=${message}`;
     window.open(whatsappUrl, '_blank');
+  };
+
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setFormData(prev => ({
+      ...prev,
+      [name]: value
+    }));
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setIsSubmitting(true);
+    setSubmitStatus(null);
+
+    try {
+      await contactService.submitMessage(formData);
+      setSubmitStatus('success');
+      // Reset form
+      setFormData({
+        firstName: '',
+        lastName: '',
+        email: '',
+        phone: '',
+        company: '',
+        inquiryType: '',
+        message: ''
+      });
+      // Clear success message after 5 seconds
+      setTimeout(() => setSubmitStatus(null), 5000);
+    } catch (error) {
+      console.error('Error submitting message:', error);
+      setSubmitStatus('error');
+      // Clear error message after 5 seconds
+      setTimeout(() => setSubmitStatus(null), 5000);
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
@@ -76,39 +126,90 @@ const ContactSection = () => {
 
           <div className="contact-form-container">
             <h3 className="form-title">{t("sendMessage") || "Send us a message"}</h3>
-            <form className="contact-form">
+            {submitStatus === 'success' && (
+              <div style={{
+                padding: '12px',
+                marginBottom: '16px',
+                backgroundColor: '#10b981',
+                color: 'white',
+                borderRadius: '8px',
+                textAlign: 'center'
+              }}>
+                {t("messageSentSuccess") || "Message sent successfully! We'll get back to you soon."}
+              </div>
+            )}
+            {submitStatus === 'error' && (
+              <div style={{
+                padding: '12px',
+                marginBottom: '16px',
+                backgroundColor: '#ef4444',
+                color: 'white',
+                borderRadius: '8px',
+                textAlign: 'center'
+              }}>
+                {t("messageSentError") || "Failed to send message. Please try again."}
+              </div>
+            )}
+            <form className="contact-form" onSubmit={handleSubmit}>
               <div className="form-row">
-                <input 
-                  type="text" 
-                  placeholder={t("firstName") || "First Name"} 
-                  className="form-input" 
-                  required 
+                <input
+                  type="text"
+                  name="firstName"
+                  value={formData.firstName}
+                  onChange={handleInputChange}
+                  placeholder={t("firstName") || "First Name"}
+                  className="form-input"
+                  required
+                  disabled={isSubmitting}
                 />
-                <input 
-                  type="text" 
-                  placeholder={t("lastName") || "Last Name"} 
-                  className="form-input" 
-                  required 
+                <input
+                  type="text"
+                  name="lastName"
+                  value={formData.lastName}
+                  onChange={handleInputChange}
+                  placeholder={t("lastName") || "Last Name"}
+                  className="form-input"
+                  required
+                  disabled={isSubmitting}
                 />
               </div>
-              <input 
-                type="email" 
-                placeholder={t("emailAddress") || "Email Address"} 
-                className="form-input" 
-                required 
+              <input
+                type="email"
+                name="email"
+                value={formData.email}
+                onChange={handleInputChange}
+                placeholder={t("emailAddress") || "Email Address"}
+                className="form-input"
+                required
+                disabled={isSubmitting}
               />
-              <input 
-                type="tel" 
-                placeholder={t("phoneNumber") || "Phone Number"} 
-                className="form-input" 
-                required 
+              <input
+                type="tel"
+                name="phone"
+                value={formData.phone}
+                onChange={handleInputChange}
+                placeholder={t("phoneNumber") || "Phone Number"}
+                className="form-input"
+                required
+                disabled={isSubmitting}
               />
-              <input 
-                type="text" 
-                placeholder={t("company") || "Company (Optional)"} 
-                className="form-input" 
+              <input
+                type="text"
+                name="company"
+                value={formData.company}
+                onChange={handleInputChange}
+                placeholder={t("company") || "Company (Optional)"}
+                className="form-input"
+                disabled={isSubmitting}
               />
-              <select className="form-input" required>
+              <select
+                name="inquiryType"
+                value={formData.inquiryType}
+                onChange={handleInputChange}
+                className="form-input"
+                required
+                disabled={isSubmitting}
+              >
                 <option value="">{t("selectInquiryType") || "Select Inquiry Type"}</option>
                 <option value="wholesale">{t("wholesale") || "Wholesale Partnership"}</option>
                 <option value="distribution">{t("distribution") || "Distribution Inquiry"}</option>
@@ -116,15 +217,19 @@ const ContactSection = () => {
                 <option value="quality-questions">{t("qualityQuestions") || "Quality Questions"}</option>
                 <option value="other">{t("other") || "Other"}</option>
               </select>
-              <textarea 
-                placeholder={t("yourMessage") || "Your Message"} 
-                rows="4" 
-                className="form-textarea" 
-                required 
+              <textarea
+                name="message"
+                value={formData.message}
+                onChange={handleInputChange}
+                placeholder={t("yourMessage") || "Your Message"}
+                rows="4"
+                className="form-textarea"
+                required
+                disabled={isSubmitting}
               />
-              <button type="submit" className="form-submit">
+              <button type="submit" className="form-submit" disabled={isSubmitting}>
                 <Send />
-                <span>{t("sendMessage") || "Send Message"}</span>
+                <span>{isSubmitting ? (t("sending") || "Sending...") : (t("sendMessage") || "Send Message")}</span>
               </button>
             </form>
           </div>

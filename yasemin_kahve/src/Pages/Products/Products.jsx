@@ -13,7 +13,7 @@ import './Products.css'
 const Products = ({ onNavigate }) => {
   const { t } = useTranslation();
   const [selectedCategory, setSelectedCategory] = useState('All');
-  const [selectedProductType, setSelectedProductType] = useState(PRODUCT_TYPES.COFFEE);
+  const [selectedProductType, setSelectedProductType] = useState(PRODUCT_TYPES.WHOLESALE);
   const [products, setProducts] = useState([]);
   const [categories, setCategories] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -276,7 +276,8 @@ const Products = ({ onNavigate }) => {
         cat.name?.tr?.toLowerCase().includes(product.category.toLowerCase())
       )?.id === selectedCategory);
 
-    // Product type filter - handle both PRODUCT_TYPES values and 'machines'
+    // Product type filter
+    // Handle: COFFEE (retail), WHOLESALE (wholesale coffee), MACHINE (equipment/machines), CARDAMOM
     const productType = product.productType || PRODUCT_TYPES.COFFEE;
     const matchesProductType = productType === selectedProductType;
 
