@@ -1,6 +1,7 @@
 import React from 'react'
 import { useTranslation } from '../../../useTranslation'
 import { PRODUCT_TYPES } from '../../../services/productService'
+import { Coffee, ShoppingCart, Leaf } from 'lucide-react'
 import './ProductFilterTabs.css'
 
 const ProductFilterTabs = ({
@@ -22,70 +23,84 @@ const ProductFilterTabs = ({
     return category.name || 'Unknown Category';
   };
 
-  // Filter categories based on selected product type
-  const getFilteredCategories = () => {
-    if (selectedProductType === 'All') {
-      return categories;
-    }
-
-    return categories.filter(category => {
-      // Check if category belongs to the selected product type
-      return category.productType === selectedProductType;
-    });
-  };
-
-  const filteredCategories = getFilteredCategories();
-
-  // Create categories list with All option
+  // Show all categories regardless of product type
   const categoriesToShow = [
     { key: 'All', label: t("all") || "All" },
-    ...filteredCategories.map(cat => ({
+    ...categories.map(cat => ({
       key: cat.id,
       label: getLocalizedCategoryName(cat)
     }))
   ];
 
-  // Product types list
+  // Product types with icons - Professional design
   const productTypesToShow = [
-    { key: 'All', label: t('allProducts') || 'All Products' },
-    { key: PRODUCT_TYPES.COFFEE, label: t('coffee') || 'Coffee' },
-    { key: PRODUCT_TYPES.MACHINE, label: t('coffeeMachines') || 'Coffee Machines' },
-    { key: PRODUCT_TYPES.CARDAMOM, label: t('cardamom') || 'Cardamom' }
+    {
+      key: PRODUCT_TYPES.COFFEE,
+      label: t('retailGreenCoffee') || 'Retail',
+      icon: <Leaf size={18} />,
+      description: t('retailGreenCoffeeDesc') || 'Green Coffee Beans'
+    },
+    {
+      key: PRODUCT_TYPES.MACHINE,
+      label: t('wholesaleGreenCoffee') || 'Wholesale',
+      icon: <Leaf size={18} />,
+      description: t('wholesaleGreenCoffeeDesc') || 'Green Coffee Beans - Bulk'
+    },
+    {
+      key: 'machines',
+      label: t('coffeeMachines') || 'Coffee Machines',
+      icon: <Coffee size={18} />,
+      description: t('coffeeMachinesDesc') || 'Professional Equipment'
+    },
+    {
+      key: PRODUCT_TYPES.CARDAMOM,
+      label: t('cardamom') || 'Cardamom',
+      icon: <ShoppingCart size={18} />,
+      description: t('spicesProducts') || 'Premium Spices'
+    }
   ];
 
   return (
     <div className={`product-filter-tabs ${compact ? 'compact' : ''}`}>
       {showProductTypes && (
-        <div className="filter-section">
-          <div className="filter-label">{t('productType') || 'Product Type'}:</div>
-          <div className="filter-tabs">
+        <div className="filter-section product-type-section">
+          <div className="product-type-cards">
             {productTypesToShow.map((type) => (
               <button
                 key={type.key}
-                className={`filter-tab product-type ${selectedProductType === type.key ? 'active' : ''}`}
+                className={`product-type-card ${selectedProductType === type.key ? 'active' : ''}`}
                 onClick={() => onProductTypeChange(type.key)}
               >
-                {type.label}
+                <div className="product-type-icon">{type.icon}</div>
+                <div className="product-type-content">
+                  <h3 className="product-type-label">{type.label}</h3>
+                  <p className="product-type-description">{type.description}</p>
+                </div>
               </button>
             ))}
           </div>
         </div>
       )}
 
-      {filteredCategories.length > 0 && (
-        <div className="filter-section">
-          <div className="filter-label">{t('categories') || 'Categories'}:</div>
-          <div className="filter-tabs">
-            {categoriesToShow.map((category) => (
-              <button
-                key={category.key}
-                className={`filter-tab category ${selectedCategory === category.key ? 'active' : ''}`}
-                onClick={() => onCategoryChange(category.key)}
-              >
-                {category.label}
-              </button>
-            ))}
-          </div>
+      {categories.length > 0 && (
+        <div className="filter-section category-section">
+          <details className="category-filter-dropdown" open>
+            <summary className="category-dropdown-summary">
+              <span className="filter-label-inline">{t('filterByOrigin') || 'Filter by Origin'}</span>
+              <span className="dropdown-icon">▼</span>
+            </summary>
+            <div className="filter-tabs">
+              {categoriesToShow.map((category) => (
+                <button
+                  key={category.key}
+                  className={`filter-tab category ${selectedCategory === category.key ? 'active' : ''}`}
+                  onClick={() => onCategoryChange(category.key)}
+                >
+                  {category.label}
+                </button>
+              ))}
+            </div>
+          </details>
         </div>
       )}
     </div>
