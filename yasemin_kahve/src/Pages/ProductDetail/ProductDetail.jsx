@@ -15,26 +15,40 @@ const ProductDetail = ({ onNavigate, product, previousPage }) => {
   const [showSampleSuccess, setShowSampleSuccess] = useState(false);
   const scoreRef = useRef(null);
   const cuppingRef = useRef(null);
-  
+
+  // Scroll to top BEFORE component renders
   useEffect(() => {
+    // Immediately scroll to top with no smooth behavior
+    window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
+
+    // Also set it again after a tiny delay to ensure it sticks
+    const timeoutId = setTimeout(() => {
+      window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
+    }, 0);
+
+    return () => clearTimeout(timeoutId);
+  }, [product]); // Re-run when product changes
+
+  useEffect(() => {
+
     const handleScroll = () => {
       if (!scoreRef.current || !cuppingRef.current) return;
-      
+
       const scrollTop = window.pageYOffset;
       const windowHeight = window.innerHeight;
       const cuppingTop = cuppingRef.current.offsetTop;
-      
+
       // Start animation immediately when scrolling, complete much earlier
       const startPoint = 50; // Start after just 50px of scroll
       const endPoint = cuppingTop - windowHeight * 0.8; // End when cupping section is still 80% away from viewport
-      
+
       const progress = Math.min(Math.max((scrollTop - startPoint) / (endPoint - startPoint), 0), 1);
       setScrollProgress(progress);
     };
-    
+
     window.addEventListener('scroll', handleScroll);
     handleScroll();
-    
+
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 

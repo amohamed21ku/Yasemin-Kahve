@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react'
+import { BrowserRouter as Router, Routes, Route, Navigate, useNavigate, useLocation } from 'react-router-dom'
 import HomePage from '../Pages/HomePage/HomePage'
 import AboutUsPage from '../Pages/AboutUs/AboutUs'
 import ProductsPage from '../Pages/Products/Products'
@@ -108,9 +109,10 @@ const AdminConsole = ({ onNavigate }) => (
 
 
 // Protected Route Component for Admin Access
-const ProtectedAdminRoute = ({ children, currentPage, onNavigate }) => {
+const ProtectedAdminRoute = ({ children }) => {
   const { currentUser, getUserData } = useAuth();
   const { t } = useTranslation();
+  const navigate = useNavigate();
   const [userData, setUserData] = React.useState(null);
   const [loading, setLoading] = React.useState(true);
 
@@ -127,10 +129,10 @@ const ProtectedAdminRoute = ({ children, currentPage, onNavigate }) => {
 
   if (loading) {
     return (
-      <div style={{ 
-        minHeight: '100vh', 
-        display: 'flex', 
-        alignItems: 'center', 
+      <div style={{
+        minHeight: '100vh',
+        display: 'flex',
+        alignItems: 'center',
         justifyContent: 'center',
         background: 'linear-gradient(135deg, #FFF8E1 0%, #FFECB3 100%)',
         color: '#8B4513',
@@ -156,11 +158,11 @@ const ProtectedAdminRoute = ({ children, currentPage, onNavigate }) => {
   // Check if user is signed in
   if (!currentUser) {
     return (
-      <div style={{ 
-        minHeight: '100vh', 
-        display: 'flex', 
+      <div style={{
+        minHeight: '100vh',
+        display: 'flex',
         flexDirection: 'column',
-        alignItems: 'center', 
+        alignItems: 'center',
         justifyContent: 'center',
         background: 'linear-gradient(135deg, #FFF8E1 0%, #FFECB3 100%)',
         color: '#8B4513',
@@ -181,8 +183,8 @@ const ProtectedAdminRoute = ({ children, currentPage, onNavigate }) => {
           <p style={{ marginBottom: '2rem', color: '#8D6E63' }}>
             {t("signInRequired") || "You need to sign in to access the admin console."}
           </p>
-          <button 
-            onClick={() => onNavigate('register')}
+          <button
+            onClick={() => navigate('/auth')}
             style={{
               background: 'linear-gradient(135deg, #8B4513, #D2691E)',
               color: 'white',
@@ -213,11 +215,11 @@ const ProtectedAdminRoute = ({ children, currentPage, onNavigate }) => {
   // Check if user is admin
   if (!userData?.isAdmin) {
     return (
-      <div style={{ 
-        minHeight: '100vh', 
-        display: 'flex', 
+      <div style={{
+        minHeight: '100vh',
+        display: 'flex',
         flexDirection: 'column',
-        alignItems: 'center', 
+        alignItems: 'center',
         justifyContent: 'center',
         background: 'linear-gradient(135deg, #FFF8E1 0%, #FFECB3 100%)',
         color: '#8B4513',
@@ -251,8 +253,8 @@ const ProtectedAdminRoute = ({ children, currentPage, onNavigate }) => {
           <p style={{ marginBottom: '2rem', color: '#8D6E63' }}>
             {t("adminAccessMessage") || "You don't have administrator privileges to access this area."}
           </p>
-          <button 
-            onClick={() => onNavigate('home')}
+          <button
+            onClick={() => navigate('/')}
             style={{
               background: 'linear-gradient(135deg, #8B4513, #D2691E)',
               color: 'white',
@@ -283,151 +285,202 @@ const ProtectedAdminRoute = ({ children, currentPage, onNavigate }) => {
   return children;
 };
 
-function App() {
-  const [currentPage, setCurrentPage] = useState('home');
-  const [currentScrollSection, setCurrentScrollSection] = useState(null);
-  const [selectedProduct, setSelectedProduct] = useState(null);
-  const [productsScrollPosition, setProductsScrollPosition] = useState(0);
-  const [homeScrollPosition, setHomeScrollPosition] = useState(0);
-  const [previousPage, setPreviousPage] = useState(null);
-
-  const handleNavigate = (page, scrollToSection = null, product = null) => {
-    // Store scroll position if navigating away from current page
-    if (currentPage === 'products' && page !== 'products') {
-      setProductsScrollPosition(window.scrollY);
-    }
-    if (currentPage === 'home' && page !== 'home') {
-      setHomeScrollPosition(window.scrollY);
-    }
-    
-    // Track previous page before changing current page
-    setPreviousPage(currentPage);
-    setCurrentPage(page);
-    setCurrentScrollSection(scrollToSection);
-    if (product) {
-      setSelectedProduct(product);
-    }
-    
-    // Restore scroll position when navigating back to saved pages
-    if (page === 'products' && currentPage !== 'products') {
-      setTimeout(() => {
-        window.scrollTo({ top: productsScrollPosition, behavior: 'smooth' });
-      }, 100);
-    } else if (page === 'home' && currentPage !== 'home') {
-      setTimeout(() => {
-        window.scrollTo({ top: homeScrollPosition, behavior: 'smooth' });
-      }, 100);
+// Wrapper components to convert navigation props
+const HomePageWrapper = () => {
+  const navigate = useNavigate();
+  const handleNavigate = (page, scrollToSection, product) => {
+    if (page === 'product-detail' && product) {
+      navigate('/product-detail', { state: { product, previousPage: 'home' } });
     } else {
-      // Scroll to top for all other page navigations, especially product-detail
-      setTimeout(() => {
-        window.scrollTo({ top: 0, behavior: 'auto' });
-      }, 50);
+      navigate(`/${page === 'home' ? '' : page}`);
     }
   };
+  return <HomePage onNavigate={handleNavigate} />;
+};
 
-  // Handle course enrollment
+const AboutPageWrapper = () => {
+  const navigate = useNavigate();
+  const handleNavigate = (page) => {
+    navigate(`/${page === 'home' ? '' : page}`);
+  };
+  return <AboutUsPage onNavigate={handleNavigate} />;
+};
+
+const ProductsPageWrapper = () => {
+  const navigate = useNavigate();
+  const handleNavigate = (page, scrollToSection, product) => {
+    if (page === 'product-detail' && product) {
+      navigate('/product-detail', { state: { product, previousPage: 'products' } });
+    } else {
+      navigate(`/${page === 'home' ? '' : page}`);
+    }
+  };
+  return <ProductsPage onNavigate={handleNavigate} />;
+};
+
+const ProductDetailWrapper = () => {
+  const navigate = useNavigate();
+  const location = useLocation();
+  const product = location.state?.product;
+
+  // Force scroll to top immediately
+  React.useEffect(() => {
+    window.history.scrollRestoration = 'manual';
+    window.scrollTo(0, 0);
+  }, []);
+
+  const handleNavigate = (page) => {
+    navigate(`/${page === 'home' ? '' : page}`);
+  };
+
+  return <ProductDetailPage onNavigate={handleNavigate} product={product} previousPage={location.state?.previousPage} />;
+};
+
+const AcademyWrapper = () => {
+  const navigate = useNavigate();
+  const handleNavigate = (page, scrollToSection, course) => {
+    if (page === 'course-detail' && course) {
+      navigate('/course-detail', { state: { course } });
+    } else {
+      navigate(`/${page === 'home' ? '' : page}`);
+    }
+  };
+  return <AcademyV2 onNavigate={handleNavigate} />;
+};
+
+const CourseDetailWrapper = () => {
+  const navigate = useNavigate();
+  const location = useLocation();
+  const course = location.state?.course;
+
+  const handleNavigate = (page) => {
+    navigate(`/${page === 'home' ? '' : page}`);
+  };
+
   const handleCourseEnroll = async (course) => {
     try {
-      console.log('Enrolling in course:', course)
-      // In a real application, this would:
-      // 1. Call API to enroll user in course
-      // 2. Update user's enrolled courses
-      // 3. Send confirmation email
-      // 4. Redirect to course content or show success message
-      
-      // For now, we'll simulate the enrollment and show a success message
-      alert(`Successfully enrolled in: ${course.title?.en || course.title}!`)
-      
-      // Navigate back to academy or show enrollment success
-      handleNavigate('academy')
+      console.log('Enrolling in course:', course);
+      alert(`Successfully enrolled in: ${course.title?.en || course.title}!`);
+      navigate('/academy');
     } catch (error) {
-      console.error('Enrollment error:', error)
-      alert('An error occurred during enrollment. Please try again.')
+      console.error('Enrollment error:', error);
+      alert('An error occurred during enrollment. Please try again.');
     }
   };
 
-  useEffect(() => {
-    // Reset scroll section after it's been used
-    if (currentScrollSection) {
-      setCurrentScrollSection(null);
-    }
-  }, [currentScrollSection]);
+  return <CourseDetailPage onNavigate={handleNavigate} course={course} onEnroll={handleCourseEnroll} />;
+};
 
-  const renderCurrentPage = () => {
-    switch (currentPage) {
-      case 'home':
-        return <HomePage onNavigate={handleNavigate} />;
-      case 'about':
-        return <AboutUsPage onNavigate={handleNavigate} />;
-      case 'products':
-        return <ProductsPage onNavigate={handleNavigate} />;
-      case 'product-detail':
-        return <ProductDetailPage onNavigate={handleNavigate} product={selectedProduct} previousPage={previousPage} />;
-      case 'academy':
-        return <AcademyV2 onNavigate={handleNavigate} />;
-      case 'course-detail':
-        return <CourseDetailPage onNavigate={handleNavigate} course={selectedProduct} onEnroll={handleCourseEnroll} />;
-      case 'register':
-        return <Auth onNavigate={handleNavigate} />;
-      case 'profile':
-        return <UserProfile onNavigate={handleNavigate} />;
-      case 'admin':
-        return (
-          <ProtectedAdminRoute currentPage={currentPage} onNavigate={handleNavigate}>
-            <AdminPanel onNavigate={handleNavigate} />
-          </ProtectedAdminRoute>
-        );
-      case 'contact':
-        return (
-          <div style={{ 
-            minHeight: '100vh', 
-            display: 'flex', 
-            alignItems: 'center', 
-            justifyContent: 'center',
-            background: 'linear-gradient(135deg, #FFF8E1 0%, #FFECB3 100%)',
-            color: '#8B4513',
-            fontSize: '1.5rem',
-            fontWeight: '600',
-            textAlign: 'center',
-            padding: '2rem'
-          }}>
-            <div style={{
-              background: 'white',
-              padding: '3rem',
-              borderRadius: '2rem',
-              boxShadow: '0 10px 40px rgba(0, 0, 0, 0.1)'
-            }}>
-              <div style={{
-                fontSize: '4rem',
-                marginBottom: '1rem'
-              }}>
-                ðŸ“ž
-              </div>
-              Contact Page - Coming Soon
-              <div style={{
-                marginTop: '1rem',
-                fontSize: '1rem',
-                color: '#8D6E63',
-                fontWeight: '400'
-              }}>
-                Get in touch with our coffee experts
-              </div>
-            </div>
-          </div>
-        );
-      default:
-        return <HomePage onNavigate={handleNavigate} />;
-    }
+const AuthWrapper = () => {
+  const navigate = useNavigate();
+  const handleNavigate = (page) => {
+    navigate(`/${page === 'home' ? '' : page}`);
   };
+  return <Auth onNavigate={handleNavigate} />;
+};
 
+const UserProfileWrapper = () => {
+  const navigate = useNavigate();
+  const handleNavigate = (page) => {
+    navigate(`/${page === 'home' ? '' : page}`);
+  };
+  return <UserProfile onNavigate={handleNavigate} />;
+};
+
+const AdminPanelWrapper = () => {
+  const navigate = useNavigate();
+  const handleNavigate = (page) => {
+    navigate(`/${page === 'home' ? '' : page}`);
+  };
   return (
-    <LanguageProvider>
-      <AuthProvider>
-        <div className="app">
-          {renderCurrentPage()}
-        </div>
-      </AuthProvider>
-    </LanguageProvider>
+    <ProtectedAdminRoute>
+      <AdminPanel onNavigate={handleNavigate} />
+    </ProtectedAdminRoute>
+  );
+};
+
+const ContactPage = () => (
+  <div style={{
+    minHeight: '100vh',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    background: 'linear-gradient(135deg, #FFF8E1 0%, #FFECB3 100%)',
+    color: '#8B4513',
+    fontSize: '1.5rem',
+    fontWeight: '600',
+    textAlign: 'center',
+    padding: '2rem'
+  }}>
+    <div style={{
+      background: 'white',
+      padding: '3rem',
+      borderRadius: '2rem',
+      boxShadow: '0 10px 40px rgba(0, 0, 0, 0.1)'
+    }}>
+      <div style={{
+        fontSize: '4rem',
+        marginBottom: '1rem'
+      }}>
+        ðŸ"ž
+      </div>
+      Contact Page - Coming Soon
+      <div style={{
+        marginTop: '1rem',
+        fontSize: '1rem',
+        color: '#8D6E63',
+        fontWeight: '400'
+      }}>
+        Get in touch with our coffee experts
+      </div>
+    </div>
+  </div>
+);
+
+// Scroll to top component for route changes
+const ScrollToTop = () => {
+  const location = useLocation();
+
+  React.useEffect(() => {
+    // Disable automatic scroll restoration by browser
+    if ('scrollRestoration' in window.history) {
+      window.history.scrollRestoration = 'manual';
+    }
+  }, []);
+
+  React.useEffect(() => {
+    // Scroll to top instantly on every route change
+    window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
+  }, [location.pathname]);
+
+  return null;
+};
+
+function App() {
+  return (
+    <Router>
+      <ScrollToTop />
+      <LanguageProvider>
+        <AuthProvider>
+          <div className="app">
+            <Routes>
+              <Route path="/" element={<HomePageWrapper />} />
+              <Route path="/about" element={<AboutPageWrapper />} />
+              <Route path="/products" element={<ProductsPageWrapper />} />
+              <Route path="/product-detail" element={<ProductDetailWrapper />} />
+              <Route path="/academy" element={<AcademyWrapper />} />
+              <Route path="/course-detail" element={<CourseDetailWrapper />} />
+              <Route path="/auth" element={<AuthWrapper />} />
+              <Route path="/register" element={<AuthWrapper />} />
+              <Route path="/profile" element={<UserProfileWrapper />} />
+              <Route path="/admin" element={<AdminPanelWrapper />} />
+              <Route path="/contact" element={<ContactPage />} />
+              <Route path="*" element={<Navigate to="/" replace />} />
+            </Routes>
+          </div>
+        </AuthProvider>
+      </LanguageProvider>
+    </Router>
   )
 }
 
