@@ -108,7 +108,8 @@
       "Bash(firebase init:*)",
       "Bash(printf \"Y\\n\\n\")",
       "Bash(firebase apps:sdkconfig:*)",
-      "Bash(gcloud projects get-iam-policy:*)"
+      "Bash(gcloud projects get-iam-policy:*)",
+      "Bash(where:*)"
     ],
     "deny": [],
     "ask": []

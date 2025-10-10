@@ -1,7 +1,7 @@
 import React from 'react'
 import { useTranslation } from '../../../useTranslation'
 import { PRODUCT_TYPES } from '../../../services/productService'
-import { Coffee, ShoppingCart, Leaf } from 'lucide-react'
+import { ShoppingCart, ShoppingBag, Settings, Leaf } from 'lucide-react'
 import './ProductFilterTabs.css'
 
 const ProductFilterTabs = ({
@@ -37,25 +37,25 @@ const ProductFilterTabs = ({
     {
       key: PRODUCT_TYPES.WHOLESALE,
       label: t('wholesaleGreenCoffee') || 'Wholesale',
-      icon: <Leaf size={18} />,
+      icon: <ShoppingBag size={18} />,
       description: t('wholesaleGreenCoffeeDesc') || 'Green Coffee Beans - Bulk'
     },
     {
       key: PRODUCT_TYPES.COFFEE,
       label: t('retailGreenCoffee') || 'Retail',
-      icon: <Leaf size={18} />,
+      icon: <ShoppingCart size={18} />,
       description: t('retailGreenCoffeeDesc') || 'Green Coffee Beans'
     },
     {
       key: PRODUCT_TYPES.MACHINE,
       label: t('coffeeMachines') || 'Coffee Machines',
-      icon: <Coffee size={18} />,
+      icon: <Settings size={18} />,
       description: t('coffeeMachinesDesc') || 'Professional Equipment'
     },
     {
       key: PRODUCT_TYPES.CARDAMOM,
       label: t('cardamom') || 'Cardamom',
-      icon: <ShoppingCart size={18} />,
+      icon: <Leaf size={18} />,
       description: t('spicesProducts') || 'Premium Spices'
     }
   ];

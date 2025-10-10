@@ -16,6 +16,7 @@ export const en = {
   "clickToChat":"Click To Chat",
 
   "whatsAppTooltip": "Message us on WhatsApp!",
+  "whatsAppGeneralMessage":"",
 
   // Sample Cart
   "orderFreeSample": "Order Free Sample",
@@ -114,6 +115,7 @@ export const en = {
 "allProducts":"All Products",
 "ourProducts":"Our Products",
 
+
   // Product Categories
   "all": "All",
   "colombian": "Colombian",
@@ -133,7 +135,6 @@ export const en = {
 "firstName":"First Name",
 "lastName":"Last Name",
 "emailAddress":"Email Address",
-"phoneNumber":"Phone Number",
 "company":"Company (Optional)",
 "selectInquiryType":"Select Inquiry Type",
 "wholesale":"Wholesale Partnership",
@@ -141,7 +142,6 @@ export const en = {
 "productInfo":"Product Information",
 "qualityQuestions":"Quality Questions",
 "other":"Other",
-"yourMessage":"Your Message",
 "emailUs":"Email Us",
 "callUs":"Call Us",
 
@@ -621,7 +621,6 @@ export const en = {
   "createInstructor": "Create Instructor",
   
   // Enrollment Modal
-  "personalInformation": "Personal Information",
   "firstNamePlaceholder": "Enter your first name",
   "lastNamePlaceholder": "Enter your last name",
   "phoneNumberRequired": "Phone number is required",
@@ -652,7 +651,6 @@ export const en = {
   coffee: "Coffee",
   coffeeMachines: "Coffee Machines",
   machine: "Machine",
-  cardamom: "Cardamom",
   productType: "Product Type",
   productTypeHelp: "Choose the type of product you are adding",
 
@@ -662,7 +660,6 @@ export const en = {
   tastingNotesHelp: "Separate multiple tasting notes with commas. Spaces around commas are automatically handled.",
   brewingMethods: "Good for use in",
   brewingMethodsHelp: "Select all brewing methods that work well with this coffee.",
-  includeCuppingScores: "Include cupping scores for this product",
   cuppingToggleHelp: "Check this option if this product has cupping scores. Some products like cardamom, accessories, or non-coffee items may not need cupping scores.",
   cuppingScoresHelp: "Cupping scores are rated from 0 to 10. Only enable if this product is a coffee that has been cupped.",
 
@@ -719,6 +716,8 @@ export const en = {
   retailGreenCoffeeDesc:"Green Coffee",
   coffeeMachinesDesc:"Eversys Coffee Machines",
   spicesProducts:"Premium Spices",
+  filterByOrigin:"Filter By Origin",
+
 
 
 };

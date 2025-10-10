@@ -6,9 +6,12 @@ import React from 'react';
 import { useTranslation } from '../../../useTranslation';
 import './AcademyHero.css';
 import SwipeStackCards from "./SwipeStackCards";
+import CustomVideoPlayer from './CustomVideoPlayer';
 
 const ShuffleHero = () => {
    const { t } = useTranslation();
+  const [isVideoOpen, setIsVideoOpen] = useState(false);
+
   const scrollToCourses = () => {
     const coursesSection = document.querySelector('.courses-section');
     if (coursesSection) {
@@ -17,7 +20,11 @@ const ShuffleHero = () => {
   };
 
   const handleVideoPlay = () => {
-    console.log('Play academy introduction video');
+    setIsVideoOpen(true);
+  };
+
+  const closeVideo = () => {
+    setIsVideoOpen(false);
   };
 
   return (
@@ -82,6 +89,24 @@ const ShuffleHero = () => {
           {/* <ShuffleGrid /> */}
         </div>
       </div>
+
+      {/* Custom Video Modal */}
+      {isVideoOpen && (
+        <div
+          className="video-modal-overlay"
+          onClick={closeVideo}
+        >
+          <div
+            className="video-modal-content"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <CustomVideoPlayer
+              videoUrl="/static/images/assets/Academy_video.mp4"
+              onClose={closeVideo}
+            />
+          </div>
+        </div>
+      )}
     </section>
   );
 };
@@ -120,24 +145,21 @@ const squareData = [
     id: 4,
     src: "https://res.cloudinary.com/dc6ajvbs2/image/upload/v1757501765/2_cvqxzm.jpg",
   },
+ 
   {
     id: 5,
-    src: "https://res.cloudinary.com/dc6ajvbs2/image/upload/v1757501761/Academy_logo_k39bjk.png",
-  },
-  {
-    id: 6,
     src: "https://res.cloudinary.com/dc6ajvbs2/image/upload/v1757501813/3_vr23kr.jpg",
   },
   {
-    id: 7,
+    id: 6,
     src: "https://res.cloudinary.com/dc6ajvbs2/image/upload/v1757501811/5_jvecjx.jpg",
   },
   {
-    id: 8,
+    id: 7,
     src: "https://res.cloudinary.com/dc6ajvbs2/image/upload/v1757501768/4_ir2mzj.jpg",
   },
   {
-    id: 9,
+    id: 8,
     src: "https://res.cloudinary.com/dc6ajvbs2/image/upload/v1757501765/2_cvqxzm.jpg",
   },
 ];

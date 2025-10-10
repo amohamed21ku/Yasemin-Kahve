@@ -692,7 +692,6 @@ export const tr = {
   // General
 
 
-
   // ProductsFilter 
 wholesaleGreenCoffee: "Toptan",
 wholesaleGreenCoffeeDesc: "Yeşil Kahve",
@@ -700,5 +699,8 @@ retailGreenCoffee: "Perakende",
 retailGreenCoffeeDesc: "Yeşil Kahve",
 coffeeMachinesDesc: "Eversys Kahve Makineleri",
 spicesProducts: "Premium Baharatlar",
+
+filterByOrigin: "Menşeine Göre Filtrele",
+
 
 };

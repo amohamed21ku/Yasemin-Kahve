@@ -485,8 +485,5 @@ const cardData = [
     id: 4,
     url: "https://res.cloudinary.com/dc6ajvbs2/image/upload/v1757501765/2_cvqxzm.jpg",
   },
-  {
-    id: 5,
-    url: "https://res.cloudinary.com/dc6ajvbs2/image/upload/v1757501761/Academy_logo_k39bjk.png",
-  },
+
 ];

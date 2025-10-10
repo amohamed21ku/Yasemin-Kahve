@@ -45,7 +45,7 @@ const WhatsAppFloat = () => {
 
   const handleWhatsAppClick = () => {
     const phoneNumber = "+90 539 500 44 44";
-    const message = t("whatsAppGeneralMessage") || "Merhaba, size nasıl yardımcı olabilirim?";
+    const message = "";
     const whatsAppUrl = `https://wa.me/${phoneNumber.replace(/\s/g, '')}?text=${encodeURIComponent(message)}`;
     window.open(whatsAppUrl, '_blank');
   };
