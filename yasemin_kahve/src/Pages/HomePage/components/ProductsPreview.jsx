@@ -1,9 +1,160 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { Coffee, Star, ChevronLeft, ChevronRight } from "lucide-react";
 import { useTranslation } from "/src/useTranslation";
 import { productService, categoryService, PRODUCT_TYPES } from "../../../services/productService";
 import { getCountryFlagCode } from "../../../utils/countryFlags";
 import ProductFilterTabs from "../../Products/components/ProductFilterTabs";
+
+const ProductCard = ({ product, onNavigate, language }) => {
+  const [currentImageIndex, setCurrentImageIndex] = useState(0);
+  const [isHovering, setIsHovering] = useState(false);
+  const [touchStart, setTouchStart] = useState(null);
+  const [touchEnd, setTouchEnd] = useState(null);
+  const [imagesLoaded, setImagesLoaded] = useState(false);
+  const autoSlideTimerRef = useRef(null);
+
+  const productImages = product?.images || (product?.image ? [product.image] : []);
+  const hasMultipleImages = productImages.length > 1;
+
+  // Preload all images for smooth transitions
+  useEffect(() => {
+    if (productImages.length === 0) return;
+
+    const preloadImages = async () => {
+      const imagePromises = productImages.map((src) => {
+        return new Promise((resolve, reject) => {
+          const img = new Image();
+          img.src = src;
+          img.onload = resolve;
+          img.onerror = resolve; // Still resolve on error to not block other images
+        });
+      });
+
+      await Promise.all(imagePromises);
+      setImagesLoaded(true);
+    };
+
+    preloadImages();
+  }, [productImages]);
+
+  // Helper function to get localized product name
+  const getLocalizedProductName = (product) => {
+    if (product.name && typeof product.name === 'object') {
+      return product.name[language] || product.name.en || product.name.tr || 'Unknown Product';
+    }
+    return product.name || 'Unknown Product';
+  };
+
+  // Helper function to get localized product description
+  const getLocalizedProductDescription = (product) => {
+    if (product.description && typeof product.description === 'object') {
+      return product.description[language] || product.description.en || product.description.tr || '';
+    }
+    return product.description || '';
+  };
+
+  const getCountryFlag = (origin) => {
+    const flagCode = getCountryFlagCode(origin);
+    if (flagCode) {
+      return <span className={`fi fi-${flagCode}`} style={{ fontSize: '1.2em' }}></span>;
+    }
+    return <span style={{ fontSize: '1.2em' }}>🌍</span>;
+  };
+
+  // Show second image immediately on hover, then auto-slide
+  useEffect(() => {
+    if (hasMultipleImages && isHovering && imagesLoaded) {
+      setCurrentImageIndex(1);
+
+      const timeoutId = setTimeout(() => {
+        autoSlideTimerRef.current = setInterval(() => {
+          setCurrentImageIndex((prev) => (prev + 1) % productImages.length);
+        }, 2500);
+      }, 2500);
+
+      return () => {
+        clearTimeout(timeoutId);
+        if (autoSlideTimerRef.current) {
+          clearInterval(autoSlideTimerRef.current);
+        }
+      };
+    }
+  }, [hasMultipleImages, isHovering, productImages.length, imagesLoaded]);
+
+  // Swipe functionality
+  const minSwipeDistance = 50;
+
+  const onTouchStart = (e) => {
+    setTouchEnd(null);
+    setTouchStart(e.targetTouches[0].clientX);
+  };
+
+  const onTouchMove = (e) => {
+    setTouchEnd(e.targetTouches[0].clientX);
+  };
+
+  const onTouchEnd = (e) => {
+    if (!touchStart || !touchEnd) return;
+
+    const distance = touchStart - touchEnd;
+    const isLeftSwipe = distance > minSwipeDistance;
+    const isRightSwipe = distance < -minSwipeDistance;
+
+    if (isLeftSwipe) {
+      e.stopPropagation();
+      setCurrentImageIndex((prev) => (prev + 1) % productImages.length);
+    }
+    if (isRightSwipe) {
+      e.stopPropagation();
+      setCurrentImageIndex((prev) => (prev - 1 + productImages.length) % productImages.length);
+    }
+  };
+
+  return (
+    <div
+      className="product-card"
+      onClick={() => onNavigate('product-detail', null, product)}
+      style={{ cursor: 'pointer' }}
+      onMouseEnter={() => setIsHovering(true)}
+      onMouseLeave={() => {
+        setIsHovering(false);
+        setCurrentImageIndex(0);
+      }}
+    >
+      <div
+        className="product-image"
+        onTouchStart={onTouchStart}
+        onTouchMove={onTouchMove}
+        onTouchEnd={onTouchEnd}
+      >
+        {productImages.map((image, index) => (
+          <img
+            key={index}
+            src={image}
+            alt={`${getLocalizedProductName(product)} - Image ${index + 1}`}
+            className={`product-image-item ${index === currentImageIndex ? 'active' : ''}`}
+            onError={(e) => {
+              e.target.src = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200' viewBox='0 0 200 200'%3E%3Crect width='200' height='200' fill='%23f8f3ed'/%3E%3Cg fill='%23e6b555'%3E%3Ccircle cx='100' cy='80' r='15'/%3E%3Cellipse cx='100' cy='120' rx='25' ry='15'/%3E%3C/g%3E%3Ctext x='100' y='160' text-anchor='middle' fill='%23503c2b' font-size='12'%3ECoffee%3C/text%3E%3C/svg%3E";
+            }}
+          />
+        ))}
+        <div className="product-overlay">
+          <div className="product-flag">{getCountryFlag(product.origin)}</div>
+        </div>
+      </div>
+
+      <div className="product-info">
+        <h3 className="product-name">{getLocalizedProductName(product)}</h3>
+        <div className="product-origin">
+          <Coffee size={14} />
+          <span>{product.origin}</span>
+        </div>
+        <p className="product-description">{getLocalizedProductDescription(product)}</p>
+      </div>
+    </div>
+  );
+};
+
 const ProductsPreview = ({ onNavigate }) => {
   const { t, language } = useTranslation();
   const [currentPage, setCurrentPage] = useState(0);
@@ -195,36 +346,13 @@ const ProductsPreview = ({ onNavigate }) => {
 
           <div className="products-grid">
             {currentProducts.map((product, index) => (
-              <div 
-                key={startIndex + index} 
-                className="product-card"
-                onClick={() => onNavigate('product-detail', null, product)}
-                style={{ cursor: 'pointer' }}
-              >
-              <div className="product-image">
-                <img
-                  src={product.images && product.images.length > 0 ? product.images[0] : product.image}
-                  alt={getLocalizedProductName(product)}
-                  onError={(e) => {
-                    e.target.src = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200' viewBox='0 0 200 200'%3E%3Crect width='200' height='200' fill='%23f8f3ed'/%3E%3Cg fill='%23e6b555'%3E%3Ccircle cx='100' cy='80' r='15'/%3E%3Cellipse cx='100' cy='120' rx='25' ry='15'/%3E%3C/g%3E%3Ctext x='100' y='160' text-anchor='middle' fill='%23503c2b' font-size='12'%3ECoffee%3C/text%3E%3C/svg%3E";
-                  }}
-                />
-                <div className="product-overlay">
-                  <div className="product-flag">{getCountryFlag(product.origin)}</div>
-                </div>
-              </div>
-
-              <div className="product-info">
-                <h3 className="product-name">{getLocalizedProductName(product)}</h3>
-                <div className="product-origin">
-                  <Coffee size={14} />
-                  <span>{product.origin}</span>
-                </div>
-                <p className="product-description">{getLocalizedProductDescription(product)}</p>
-                
-              </div>
-            </div>
-          ))}
+              <ProductCard
+                key={startIndex + index}
+                product={product}
+                onNavigate={onNavigate}
+                language={language}
+              />
+            ))}
           </div>
 
           <div className="pagination-dots">

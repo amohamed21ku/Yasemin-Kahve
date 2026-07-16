@@ -9,11 +9,12 @@ import './ProductDetail.css'
 
 const ProductDetail = ({ onNavigate, product, previousPage }) => {
   const { t, language } = useTranslation();
-  const [scrollProgress, setScrollProgress] = useState(0);
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const [isImageModalOpen, setIsImageModalOpen] = useState(false);
   const [showSampleSuccess, setShowSampleSuccess] = useState(false);
-  const scoreRef = useRef(null);
+  const [touchStart, setTouchStart] = useState(null);
+  const [touchEnd, setTouchEnd] = useState(null);
+  const [hideTopScore, setHideTopScore] = useState(false);
   const cuppingRef = useRef(null);
 
   // Scroll to top BEFORE component renders
@@ -29,25 +30,24 @@ const ProductDetail = ({ onNavigate, product, previousPage }) => {
     return () => clearTimeout(timeoutId);
   }, [product]); // Re-run when product changes
 
+  // Hide top score when cupping section is in view
   useEffect(() => {
-
     const handleScroll = () => {
-      if (!scoreRef.current || !cuppingRef.current) return;
+      if (!cuppingRef.current) return;
 
-      const scrollTop = window.pageYOffset;
+      const cuppingRect = cuppingRef.current.getBoundingClientRect();
       const windowHeight = window.innerHeight;
-      const cuppingTop = cuppingRef.current.offsetTop;
 
-      // Start animation immediately when scrolling, complete much earlier
-      const startPoint = 50; // Start after just 50px of scroll
-      const endPoint = cuppingTop - windowHeight * 0.8; // End when cupping section is still 80% away from viewport
-
-      const progress = Math.min(Math.max((scrollTop - startPoint) / (endPoint - startPoint), 0), 1);
-      setScrollProgress(progress);
+      // Hide top score when cupping section is visible in viewport
+      if (cuppingRect.top < windowHeight && cuppingRect.bottom > 0) {
+        setHideTopScore(true);
+      } else {
+        setHideTopScore(false);
+      }
     };
 
     window.addEventListener('scroll', handleScroll);
-    handleScroll();
+    handleScroll(); // Check initial state
 
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
@@ -136,6 +136,33 @@ const ProductDetail = ({ onNavigate, product, previousPage }) => {
   // Get all product images
   const productImages = displayProduct.images || (displayProduct.image ? [displayProduct.image] : []);
   const hasMultipleImages = productImages.length > 1;
+
+  // Minimum swipe distance (in px)
+  const minSwipeDistance = 50;
+
+  const onTouchStart = (e) => {
+    setTouchEnd(null);
+    setTouchStart(e.targetTouches[0].clientX);
+  };
+
+  const onTouchMove = (e) => {
+    setTouchEnd(e.targetTouches[0].clientX);
+  };
+
+  const onTouchEnd = () => {
+    if (!touchStart || !touchEnd) return;
+
+    const distance = touchStart - touchEnd;
+    const isLeftSwipe = distance > minSwipeDistance;
+    const isRightSwipe = distance < -minSwipeDistance;
+
+    if (isLeftSwipe) {
+      nextImage();
+    }
+    if (isRightSwipe) {
+      prevImage();
+    }
+  };
 
   // Helper function to get currency symbol
   const getCurrencySymbol = (currency) => {
@@ -233,30 +260,13 @@ const ProductDetail = ({ onNavigate, product, previousPage }) => {
       
       {/* Hero Section */}
       <section className="product-detail-hero">
-        {/* Score positioned absolutely on the right */}
+        {/* Score positioned fixed on the right - desktop only */}
         {displayProduct.score !== null && displayProduct.score !== undefined && (
-          <div 
-            ref={scoreRef}
-            className="product-score-animated"
-            style={{
-              transform: `
-                translate3d(
-                  ${scrollProgress * -300}px,
-                  ${scrollProgress * 400}px,
-                  ${scrollProgress * 50}px
-                )
-                rotateY(${scrollProgress * 360}deg)
-                rotateX(${scrollProgress * 15}deg)
-                scale(${1 - scrollProgress * 0.3})
-              `,
-              opacity: scrollProgress > 0.75 ? 0 : 1,
-              transition: 'opacity 0.3s ease'
-            }}
-          >
+          <div className={`product-score-fixed-top ${hideTopScore ? 'hidden' : ''}`}>
             <div className="score-number">{displayProduct.score}</div>
           </div>
         )}
-        
+
         <div className="productdetail-container">
           <button className="back-button" onClick={handleBackClick}>
             <ArrowLeft size={20} />
@@ -265,7 +275,12 @@ const ProductDetail = ({ onNavigate, product, previousPage }) => {
           
           <div className="product-detail-content">
             <div className="product-image-section">
-              <div className="product-image-container">
+              <div
+                className="product-image-container"
+                onTouchStart={onTouchStart}
+                onTouchMove={onTouchMove}
+                onTouchEnd={onTouchEnd}
+              >
                 {productImages.length > 0 ? (
                   <>
                     <img
@@ -759,7 +774,7 @@ const ProductDetail = ({ onNavigate, product, previousPage }) => {
           <div className="productdetail-container">
             <div className="cupping-header">
               <h2>Cupping Scores</h2>
-              {displayProduct.score !== null && displayProduct.score !== undefined && scrollProgress > 0.75 && (
+              {displayProduct.score !== null && displayProduct.score !== undefined && (
                 <div className="final-score-display">
                   <span className="final-score-number">{displayProduct.score}</span>
                   <span className="final-score-label">Overall Score</span>

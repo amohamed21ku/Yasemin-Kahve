@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 import { Coffee, ChevronLeft, ChevronRight } from 'lucide-react'
 import { useTranslation } from '../../../useTranslation'
 import { getCountryFlagCode } from '../../../utils/countryFlags'
@@ -7,10 +7,58 @@ import './ProductCard.css'
 const ProductCard = ({ product, onClick }) => {
   const { language } = useTranslation();
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
+  const [isHovering, setIsHovering] = useState(false);
+  const [touchStart, setTouchStart] = useState(null);
+  const [touchEnd, setTouchEnd] = useState(null);
+  const [imagesLoaded, setImagesLoaded] = useState(false);
+  const autoSlideTimerRef = useRef(null);
 
   // Get all product images
   const productImages = product?.images || (product?.image ? [product.image] : []);
   const hasMultipleImages = productImages.length > 1;
+
+  // Preload all images for smooth transitions
+  useEffect(() => {
+    if (productImages.length === 0) return;
+
+    const preloadImages = async () => {
+      const imagePromises = productImages.map((src) => {
+        return new Promise((resolve, reject) => {
+          const img = new Image();
+          img.src = src;
+          img.onload = resolve;
+          img.onerror = resolve; // Still resolve on error to not block other images
+        });
+      });
+
+      await Promise.all(imagePromises);
+      setImagesLoaded(true);
+    };
+
+    preloadImages();
+  }, [productImages]);
+
+  // Show second image immediately on hover, then auto-slide
+  useEffect(() => {
+    if (hasMultipleImages && isHovering && imagesLoaded) {
+      // Immediately show second image
+      setCurrentImageIndex(1);
+
+      // Then continue auto-sliding after a delay
+      const timeoutId = setTimeout(() => {
+        autoSlideTimerRef.current = setInterval(() => {
+          setCurrentImageIndex((prev) => (prev + 1) % productImages.length);
+        }, 2500); // Change image every 2.5 seconds
+      }, 2500); // Wait 2.5 seconds before starting auto-slide
+
+      return () => {
+        clearTimeout(timeoutId);
+        if (autoSlideTimerRef.current) {
+          clearInterval(autoSlideTimerRef.current);
+        }
+      };
+    }
+  }, [hasMultipleImages, isHovering, productImages.length, imagesLoaded]);
 
   const nextImage = (e) => {
     e.stopPropagation();
@@ -22,6 +70,34 @@ const ProductCard = ({ product, onClick }) => {
     setCurrentImageIndex((prev) => (prev - 1 + productImages.length) % productImages.length);
   };
 
+  // Swipe functionality
+  const minSwipeDistance = 50;
+
+  const onTouchStart = (e) => {
+    setTouchEnd(null);
+    setTouchStart(e.targetTouches[0].clientX);
+  };
+
+  const onTouchMove = (e) => {
+    setTouchEnd(e.targetTouches[0].clientX);
+  };
+
+  const onTouchEnd = (e) => {
+    if (!touchStart || !touchEnd) return;
+
+    const distance = touchStart - touchEnd;
+    const isLeftSwipe = distance > minSwipeDistance;
+    const isRightSwipe = distance < -minSwipeDistance;
+
+    if (isLeftSwipe) {
+      e.stopPropagation();
+      setCurrentImageIndex((prev) => (prev + 1) % productImages.length);
+    }
+    if (isRightSwipe) {
+      e.stopPropagation();
+      setCurrentImageIndex((prev) => (prev - 1 + productImages.length) % productImages.length);
+    }
+  };
 
   const getCountryFlag = (origin) => {
     const flagCode = getCountryFlagCode(origin);
@@ -55,17 +131,34 @@ const ProductCard = ({ product, onClick }) => {
   };
 
   return (
-    <div className="product-card" onClick={handleClick}>
-      <div className="product-image">
+    <div
+      className="product-card"
+      onClick={handleClick}
+      onMouseEnter={() => setIsHovering(true)}
+      onMouseLeave={() => {
+        setIsHovering(false);
+        setCurrentImageIndex(0); // Reset to first image when not hovering
+      }}
+    >
+      <div
+        className="product-image"
+        onTouchStart={onTouchStart}
+        onTouchMove={onTouchMove}
+        onTouchEnd={onTouchEnd}
+      >
         {productImages.length > 0 ? (
           <>
-            <img
-              src={productImages[currentImageIndex]}
-              alt={`${getLocalizedName()} - Image ${currentImageIndex + 1}`}
-              onError={(e) => {
-                e.target.src = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200' viewBox='0 0 200 200'%3E%3Crect width='200' height='200' fill='%23f8f3ed'/%3E%3Cg fill='%23e6b555'%3E%3Ccircle cx='100' cy='80' r='15'/%3E%3Cellipse cx='100' cy='120' rx='25' ry='15'/%3E%3C/g%3E%3Ctext x='100' y='160' text-anchor='middle' fill='%23503c2b' font-size='12'%3ECoffee%3C/text%3E%3C/svg%3E";
-              }}
-            />
+            {productImages.map((image, index) => (
+              <img
+                key={index}
+                src={image}
+                alt={`${getLocalizedName()} - Image ${index + 1}`}
+                className={`product-image-item ${index === currentImageIndex ? 'active' : ''}`}
+                onError={(e) => {
+                  e.target.src = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200' viewBox='0 0 200 200'%3E%3Crect width='200' height='200' fill='%23f8f3ed'/%3E%3Cg fill='%23e6b555'%3E%3Ccircle cx='100' cy='80' r='15'/%3E%3Cellipse cx='100' cy='120' rx='25' ry='15'/%3E%3C/g%3E%3Ctext x='100' y='160' text-anchor='middle' fill='%23503c2b' font-size='12'%3ECoffee%3C/text%3E%3C/svg%3E";
+                }}
+              />
+            ))}
 
             {hasMultipleImages && (
               <>
