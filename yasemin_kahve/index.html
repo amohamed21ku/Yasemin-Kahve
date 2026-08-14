@@ -1,132 +1,16 @@
-## What this does
-
-Your homepage is a client-rendered React (Vite) app — the served HTML is just an empty `<div id="root">` shell. AI crawlers and search engines that don't run your JavaScript therefore see **no** information about who Yasemin Kahve is. This change writes your identity directly into the static `index.html <head>`, where every crawler reads it, as a **valid Organization + EducationalOrganization JSON-LD** block plus baseline **canonical / Open Graph / Twitter-card** tags.
-
-Every value below was taken from **your own site and repository** (footer, contact section, locations section) — nothing was invented.
-
----
-
-## 1. The JSON-LD block
-
-```html
-<script type="application/ld+json">
-{
-  "@context": "https://schema.org",
-  "@type": ["Organization", "EducationalOrganization"],
-  "@id": "https://yaseminkahve.com/#organization",
-  "name": "Yasemin Kahve",
-  "alternateName": "Yasemin Kahve Academy",
-  "url": "https://yaseminkahve.com",
-  "logo": "https://yaseminkahve.com/static/images/assets/yaso1.png",
-  "image": "https://yaseminkahve.com/static/images/assets/yaso1.png",
-  "description": "Yasemin Kahve is an İstanbul-based coffee importer, producer and wholesale supplier, and the operator of Yasemin Kahve Academy, a barista and coffee-training school. Founded in 1921, the company serves the specialty and wholesale coffee market across Türkiye.",
-  "foundingDate": "1921",
-  "telephone": "+90-539-500-44-44",
-  "email": "info@yaseminkahve.com",
-  "address": {
-    "@type": "PostalAddress",
-    "streetAddress": "Kayabaşı Mah. Adnan Menderes Blv. No. 44",
-    "addressLocality": "Başakşehir",
-    "addressRegion": "İstanbul",
-    "addressCountry": "TR"
-  },
-  "location": [
-    {
-      "@type": "Place",
-      "name": "Yasemin Kahve Head Office",
-      "address": {
-        "@type": "PostalAddress",
-        "streetAddress": "Kayabaşı Mah. Adnan Menderes Blv. No. 44",
-        "addressLocality": "Başakşehir",
-        "addressRegion": "İstanbul",
-        "addressCountry": "TR"
-      },
-      "geo": { "@type": "GeoCoordinates", "latitude": 41.1199293, "longitude": 28.7746597 }
-    },
-    {
-      "@type": "Place",
-      "name": "Yasemin Kahve Deposu (Wholesale Depot)",
-      "address": {
-        "@type": "PostalAddress",
-        "streetAddress": "Şahintepe Mah. Şehit Polis Fethi Sekin Cad.",
-        "addressLocality": "Başakşehir",
-        "addressRegion": "İstanbul",
-        "addressCountry": "TR"
-      },
-      "geo": { "@type": "GeoCoordinates", "latitude": 41.0833439, "longitude": 28.7181657 }
-    }
-  ],
-  "areaServed": { "@type": "Country", "name": "Türkiye" },
-  "knowsAbout": ["Coffee importing", "Coffee roasting", "Wholesale coffee supply", "Barista training", "Specialty coffee"],
-  "sameAs": [
-    "https://www.facebook.com/Yasemin.Kahve",
-    "https://www.instagram.com/yasemin.kahve.tr/",
-    "https://www.linkedin.com/company/yasemin-kahve",
-    "https://x.com/Yasemin_Kahve"
-  ],
-  "contactPoint": [
-    {
-      "@type": "ContactPoint",
-      "telephone": "+90-539-500-44-44",
-      "email": "info@yaseminkahve.com",
-      "contactType": "customer service",
-      "areaServed": "TR",
-      "availableLanguage": ["Turkish", "English"]
-    },
-    {
-      "@type": "ContactPoint",
-      "email": "wholesale@yaseminkahve.com",
-      "contactType": "sales",
-      "areaServed": "TR",
-      "availableLanguage": ["Turkish", "English"]
-    }
-  ]
-}
-</script>
-```
-
-## 2. Canonical + Open Graph + Twitter-card tags (baseline, site-wide)
-
-```html
-<link rel="canonical" href="https://yaseminkahve.com/" />
-<meta name="description" content="Yasemin Kahve — İstanbul-based coffee importer, producer and wholesale supplier, and home of Yasemin Kahve Academy. Founded 1921." />
-<meta property="og:type" content="website" />
-<meta property="og:site_name" content="Yasemin Kahve" />
-<meta property="og:title" content="Yasemin Kahve — Coffee Importer, Producer, Wholesaler & Academy" />
-<meta property="og:description" content="İstanbul-based coffee importer, producer and wholesale supplier, and home of Yasemin Kahve Academy. Founded 1921." />
-<meta property="og:url" content="https://yaseminkahve.com/" />
-<meta property="og:image" content="https://yaseminkahve.com/static/images/assets/yaso1.png" />
-<meta property="og:locale" content="tr_TR" />
-<meta name="twitter:card" content="summary_large_image" />
-<meta name="twitter:title" content="Yasemin Kahve — Coffee Importer, Producer, Wholesaler & Academy" />
-<meta name="twitter:description" content="İstanbul-based coffee importer, producer and wholesale supplier, and home of Yasemin Kahve Academy. Founded 1921." />
-<meta name="twitter:image" content="https://yaseminkahve.com/static/images/assets/yaso1.png" />
-```
-
-## 3. Where it goes
-
-Both blocks are inserted just before `</head>` in **`yasemin_kahve/index.html`**. See the diff tab for the exact placement.
-
----
-
-## Verified facts (provenance)
-
-| Field | Value | Source (your own site) |
-|---|---|---|
-| Founding year | 1921 | Footer tagline "Since 1921" |
-| Head office | Kayabaşı Mah. Adnan Menderes Blv. No. 44, Başakşehir/İstanbul | Footer + Locations section |
-| Wholesale depot | Şahintepe Mah, Şehit Polis Fethi Sekin Cad, Başakşehir/İstanbul | Footer + Locations section |
-| Phone | +90 539 500 44 44 | Contact section |
-| Email | info@ / wholesale@yaseminkahve.com | Contact + Locations sections |
-| Facebook | facebook.com/Yasemin.Kahve | Footer social links |
-| Instagram | instagram.com/yasemin.kahve.tr | Footer social links |
-| LinkedIn | linkedin.com/company/yasemin-kahve | Footer social links |
-| X (Twitter) | x.com/Yasemin_Kahve | Footer social links |
-| Logo | /static/images/assets/yaso1.png | index.html favicon asset |
-
-## Two things worth your call
-
-1. **`areaServed` is set to Türkiye** — that's what your profile confirms. If you actively export/sell wholesale to specific other countries, tell me which and I'll widen `areaServed` accordingly (the task flagged "international wholesale markets", but I won't claim markets I can't verify).
-2. **Per-page OG images:** because the site is a single-page app, these tags are one site-wide default served on every route. Getting a *unique* title/description/image per page (products, academy, about, contact) needs a small follow-up (e.g. `react-helmet-async`) — I can open that as a separate action if you want it.
-
-**Validation:** the JSON-LD parses cleanly and carries every required field (name, url, description, address, areaServed, sameAs). After merge + Vercel deploy, it should pass Google's Rich Results Test with no errors — I'll run that check and confirm before I close this out.
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/png" href="/static/images/assets/yaso1.png" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=0.5, maximum-scale=5.0, user-scalable=yes" />
+    <title>Yasemin Kahve</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.jsx"></script>
+  </body>
+</html>
