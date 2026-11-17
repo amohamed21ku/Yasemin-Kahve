@@ -1,12 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import { useAuth } from '../../AuthContext';
 import { useTranslation } from '../../useTranslation';
-import { Coffee, Users, GraduationCap, Home, LogOut, User, ChevronLeft, ChevronRight, Package, Mail } from 'lucide-react';
+import { Coffee, Users, GraduationCap, Home, LogOut, User, ChevronLeft, ChevronRight, Package, Mail, Award } from 'lucide-react';
 import ProductManagement from './components/ProductManagement';
 import UserManagement from './components/UserManagement';
 import AcademyManagement from './components/AcademyManagement';
 import SampleOrderManagement from './components/SampleOrderManagement';
 import ContactMessages from './components/ContactMessages';
+import CertificateManagement from './components/CertificateManagement';
 import './AdminPanel.css';
 
 const AdminPanel = ({ onNavigate }) => {
@@ -62,6 +63,12 @@ const AdminPanel = ({ onNavigate }) => {
       icon: GraduationCap,
       description: t('academyDesc') || 'Manage courses and enrollments',
       disabled: false
+    },
+    {
+      id: 'certificates',
+      label: 'Certificates',
+      icon: Award,
+      description: 'Issue and verify course certificates'
     }
   ];
 
@@ -77,6 +84,8 @@ const AdminPanel = ({ onNavigate }) => {
         return <UserManagement />;
       case 'academy':
         return <AcademyManagement />;
+      case 'certificates':
+        return <CertificateManagement />;
       default:
         return <ProductManagement />;
     }

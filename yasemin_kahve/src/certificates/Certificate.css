@@ -1,0 +1,73 @@
+/* Certificate.css - printable certificate. Fixed pixel sizes: 794x1123 (portrait) / 1123x794 (landscape) = A4 at 96dpi */
+.ykc, .ykc * { box-sizing: border-box; margin: 0; padding: 0; }
+.ykc { position: relative; overflow: hidden; color: #231A13; -webkit-font-smoothing: antialiased; text-align: left; line-height: 1.3; }
+.ykc img { max-width: none; display: block; }
+
+/* QR block (shared) */
+.ykc-qr-cap, .ykc-qr-code { display: block; text-align: center; white-space: nowrap; }
+.ykc-qr-empty { background: repeating-linear-gradient(45deg, #eee 0 6px, #f8f8f8 6px 12px) !important; }
+
+/* ---------------- Modern (portrait) ---------------- */
+.ykc-modern { width: 794px; height: 1123px; background: #FFFDF9; font-family: 'Montserrat', 'Helvetica Neue', Arial, sans-serif; }
+.ykc-m-bg { position: absolute; left: 0; top: 0; width: 794px; height: 1123px; }
+.ykc-m-logo { position: absolute; left: 56px; top: 54px; height: 104px; width: auto; }
+.ykc-m-verified { position: absolute; left: 58px; top: 168px; font-size: 10px; line-height: 14px; font-weight: 600; letter-spacing: .15em; text-transform: uppercase; white-space: nowrap; }
+.ykc-m-qr { position: absolute; right: 56px; top: 50px; width: 112px; display: flex; flex-direction: column; align-items: center; gap: 5px; }
+.ykc-m-qr img, .ykc-m-qr .ykc-qr-empty { width: 104px; height: 104px; background: #fff; padding: 6px; border: 1px solid rgba(35, 26, 19, .15); }
+.ykc-m-qr .ykc-qr-cap { font-size: 9px; font-weight: 600; letter-spacing: .16em; text-transform: uppercase; margin-top: 2px; }
+.ykc-m-qr .ykc-qr-code { font-size: 9.5px; font-weight: 600; letter-spacing: .08em; color: #5B4A3B; }
+.ykc-m-head { position: absolute; left: 72px; right: 72px; top: 262px; }
+.ykc-m-eyebrow { font-size: 13px; font-weight: 600; letter-spacing: .32em; text-transform: uppercase; }
+.ykc-m-title { font-size: 60px; font-weight: 500; line-height: 1.02; margin-top: 16px; text-transform: uppercase; letter-spacing: -.005em; }
+.ykc-m-fields { position: absolute; left: 72px; right: 72px; top: 508px; display: flex; flex-direction: column; gap: 26px; }
+.ykc-m-lbl { font-size: 14px; color: #3D2F24; }
+.ykc-m-val { text-align: center; font-weight: 500; white-space: nowrap; border-bottom: 1px solid rgba(35, 26, 19, .4); padding: 10px 0 10px; line-height: 1.25; }
+.ykc-m-name { font-size: 32px; min-height: 62px; }
+.ykc-m-course { font-size: 25px; min-height: 52px; }
+.ykc-m-grid { position: absolute; left: 72px; right: 72px; top: 742px; display: grid; grid-template-columns: 1fr 1fr; column-gap: 56px; row-gap: 30px; }
+.ykc-m-grid .v { text-align: center; font-size: 17px; line-height: 24px; height: 36px; padding: 2px 0 10px; font-weight: 500; border-bottom: 1px solid rgba(35, 26, 19, .4); white-space: nowrap; }
+.ykc-m-grid .l { font-size: 11px; margin-top: 8px; color: #5B4A3B; }
+.ykc-m-icon { position: absolute; right: 64px; bottom: 56px; height: 156px; width: auto; }
+
+/* ---------------- Classic (landscape) ---------------- */
+.ykc-classic { width: 1123px; height: 794px; font-family: 'Cormorant Garamond', Garamond, 'Times New Roman', serif;
+  background: radial-gradient(ellipse 75% 70% at 50% 45%, #FFFEFA 0%, #FBF5E8 60%, #F3E8D2 100%); color: #2B2018; }
+.ykc-c-f1 { position: absolute; inset: 18px; border: 9px solid #2B2018; }
+.ykc-c-f2 { position: absolute; inset: 34px; border: 1.5px solid #C9973F; }
+.ykc-c-f3 { position: absolute; inset: 40px; border: .75px solid #C9973F; opacity: .75; }
+.ykc-c-cn { position: absolute; width: 96px; height: 96px; }
+.ykc-c-cn.tl { left: 44px; top: 44px; }
+.ykc-c-cn.tr { right: 44px; top: 44px; transform: scaleX(-1); }
+.ykc-c-cn.bl { left: 44px; bottom: 44px; transform: scaleY(-1); }
+.ykc-c-cn.br { right: 44px; bottom: 44px; transform: scale(-1, -1); }
+.ykc-c-body { position: absolute; left: 0; right: 0; top: 60px; display: flex; flex-direction: column; align-items: center; text-align: center; }
+.ykc-c-logo { height: 90px; width: auto; }
+.ykc-c-verified { font-family: 'Cinzel', serif; font-weight: 700; font-size: 11px; letter-spacing: .28em; color: #725C44; margin-top: 8px; padding-left: .28em; text-transform: uppercase; }
+.ykc-c-title { font-family: 'Cinzel', serif; font-weight: 600; font-size: 50px; letter-spacing: .2em; margin-top: 10px; padding-left: .2em; line-height: 1; text-transform: uppercase; }
+.ykc-c-sub { display: flex; align-items: center; gap: 16px; margin-top: 10px; font-family: 'Cinzel', serif; font-weight: 600; font-size: 15px; letter-spacing: .45em; color: #C9973F; }
+.ykc-c-sub i { display: block; width: 70px; height: 1px; background: #C9973F; }
+.ykc-c-sub span { padding-left: .45em; }
+.ykc-c-lead { font-style: italic; font-size: 22px; color: #725C44; margin-top: 20px; }
+.ykc-c-name { font-family: 'Great Vibes', 'Brush Script MT', cursive; font-size: 76px; line-height: 1.12; margin-top: 2px; white-space: nowrap; min-height: 85px; padding: 0 20px; }
+.ykc-c-rule { position: relative; width: 540px; height: 12px; margin-top: -4px; }
+.ykc-c-rule::before { content: ""; position: absolute; left: 0; right: 0; top: 5.5px; height: 1px; background: linear-gradient(90deg, rgba(201, 151, 63, 0), #C9973F 18%, #C9973F 82%, rgba(201, 151, 63, 0)); }
+.ykc-c-rule::after { content: ""; position: absolute; left: 50%; top: 2px; width: 8px; height: 8px; margin-left: -4px; background: #C9973F; transform: rotate(45deg); }
+.ykc-c-lead2 { font-style: italic; font-size: 21px; color: #725C44; margin-top: 10px; }
+.ykc-c-course { font-family: 'Cinzel', serif; font-weight: 700; font-size: 31px; letter-spacing: .07em; color: #4F3C2B; margin-top: 4px; white-space: nowrap; padding: 0 20px; }
+.ykc-c-desc { font-size: 18px; line-height: 1.3; color: #725C44; max-width: 610px; margin-top: 8px; font-weight: 500; }
+.ykc-c-qr { position: absolute; right: 66px; top: 150px; width: 96px; display: flex; flex-direction: column; align-items: center; gap: 4px; font-family: 'Cinzel', serif; }
+.ykc-c-qr img, .ykc-c-qr .ykc-qr-empty { width: 84px; height: 84px; background: #fff; padding: 5px; border: 1px solid rgba(201, 151, 63, .6); }
+.ykc-c-qr .ykc-qr-cap { font-size: 8.5px; font-weight: 700; letter-spacing: .14em; color: #725C44; margin-top: 2px; }
+.ykc-c-qr .ykc-qr-code { font-size: 8.5px; font-weight: 600; letter-spacing: .06em; color: #2B2018; }
+.ykc-c-seal { position: absolute; left: 50%; bottom: 50px; width: 130px; margin-left: -65px; height: auto; }
+.ykc-c-sig { position: absolute; bottom: 108px; width: 250px; text-align: center; }
+.ykc-c-sig.l { left: 140px; } .ykc-c-sig.r { right: 140px; }
+.ykc-c-sig .who { font-size: 20px; font-weight: 600; min-height: 26px; }
+.ykc-c-sig .ln { height: 1px; background: #2B2018; opacity: .75; margin-top: 4px; }
+.ykc-c-sig .role { font-family: 'Cinzel', serif; font-size: 11px; font-weight: 600; letter-spacing: .24em; color: #725C44; margin-top: 8px; }
+.ykc-c-meta { position: absolute; bottom: 62px; left: 140px; width: 250px; text-align: center; white-space: nowrap; font-family: 'Cinzel', serif; font-size: 10.5px; font-weight: 600; letter-spacing: .16em; color: #725C44; }
+.ykc-c-meta b { color: #2B2018; font-weight: 700; margin-left: 6px; }
+
+/* Scaled on-screen preview wrapper */
+.ykc-scaled { position: relative; width: 100%; }
+.ykc-scaled > .ykc-scaled-inner { position: absolute; left: 0; top: 0; transform-origin: 0 0; box-shadow: 0 14px 40px rgba(40, 25, 10, .22); }

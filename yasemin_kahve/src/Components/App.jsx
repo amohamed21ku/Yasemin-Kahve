@@ -10,6 +10,7 @@ import CourseDetailPage from '../Pages/CourseDetail/CourseDetail'
 import AdminPanel from '../Pages/Admin/AdminPanel'
 import Auth from '../Pages/Auth/Auth'
 import UserProfile from '../Pages/UserProfile/UserProfile'
+import CertificateVerify from '../Pages/CertificateVerify/CertificateVerify'
 
 import { AuthProvider } from '../AuthContext'
 import { LanguageProvider } from '../LanguageContext'
@@ -475,6 +476,8 @@ function App() {
               <Route path="/profile" element={<UserProfileWrapper />} />
               <Route path="/admin" element={<AdminPanelWrapper />} />
               <Route path="/contact" element={<ContactPage />} />
+              <Route path="/verify" element={<CertificateVerify />} />
+              <Route path="/verify/:code" element={<CertificateVerify />} />
               <Route path="*" element={<Navigate to="/" replace />} />
             </Routes>
           </div>
