@@ -79,6 +79,40 @@ const getFontEmbedCss = () => {
   return fontCssPromise;
 };
 
+const loadImage = (src) => new Promise((res, rej) => {
+  const img = new Image();
+  img.decoding = 'sync';
+  img.onload = () => res(img);
+  img.onerror = () => rej(new Error(`Could not load ${src}`));
+  img.src = src;
+});
+
+// Draws every <img> of the certificate onto the canvas at its on-page position (mirrored corners included)
+const paintImages = async (canvas, root, scale) => {
+  const ctx = canvas.getContext('2d');
+  const base = root.getBoundingClientRect();
+  const imgs = [...root.querySelectorAll('img')].filter((i) => i.getAttribute('src'));
+  const loaded = await Promise.all(imgs.map((i) => loadImage(i.currentSrc || i.src).catch(() => null)));
+  imgs.forEach((node, idx) => {
+    const pic = loaded[idx];
+    if (!pic) return;
+    const r = node.getBoundingClientRect();
+    const cs = getComputedStyle(node);
+    const m = cs.transform && cs.transform !== 'none' ? new DOMMatrixReadOnly(cs.transform) : null;
+    const sx = m && m.a < 0 ? -1 : 1;
+    const sy = m && m.d < 0 ? -1 : 1;
+    const w = r.width * scale;
+    const h = r.height * scale;
+    const cx = (r.left - base.left) * scale + w / 2;
+    const cy = (r.top - base.top) * scale + h / 2;
+    ctx.save();
+    ctx.translate(cx, cy);
+    ctx.scale(sx, sy);
+    ctx.drawImage(pic, -w / 2, -h / 2, w, h);
+    ctx.restore();
+  });
+};
+
 // Renders one certificate off-screen and returns a high-resolution canvas.
 // html-to-image draws through the browser's own layout engine, so text sits exactly as on screen.
 export const renderCertificateCanvas = async (cert, scale = 3) => {
@@ -106,9 +140,14 @@ export const renderCertificateCanvas = async (cert, scale = 3) => {
       style: { opacity: '1' },
       fontEmbedCSS,
     };
-    // The first pass warms the font and image cache (a known Safari quirk); the second is the real one.
+    // Pictures (logo, QR code, icons, seal) are painted straight onto the canvas afterwards.
+    // Inside html-to-image's SVG snapshot some browsers, Safari in particular, drop <img> content.
+    el.classList.add('ykc-exporting');
+    // The first pass warms the font cache (another Safari quirk); the second is the real one.
     await toCanvas(el, { ...opts, pixelRatio: 0.2 }).catch(() => null);
-    return await toCanvas(el, opts);
+    const canvas = await toCanvas(el, opts);
+    await paintImages(canvas, el, scale);
+    return canvas;
   } finally {
     root.unmount();
     host.remove();

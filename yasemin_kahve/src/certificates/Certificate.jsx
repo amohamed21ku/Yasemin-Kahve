@@ -24,7 +24,9 @@ const useFitText = (ref, text, max, min, width) => {
 
 const QrBlock = ({ qrDataUrl, code, className }) => (
   <div className={className}>
-    {qrDataUrl ? <img src={qrDataUrl} alt="Verification QR code" /> : <div className="ykc-qr-empty" />}
+    <div className={`ykc-qr-box ${qrDataUrl ? '' : 'ykc-qr-empty'}`}>
+      {qrDataUrl ? <img src={qrDataUrl} alt="Verification QR code" /> : null}
+    </div>
     <span className="ykc-qr-cap">Scan to verify</span>
     {code ? <span className="ykc-qr-code">{formatVerificationCode(code)}</span> : null}
   </div>
